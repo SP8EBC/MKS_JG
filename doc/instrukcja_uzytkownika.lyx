@@ -1,0 +1,1742 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass book
+\use_default_options true
+\maintain_unincluded_children false
+\language polish
+\language_package default
+\inputencoding utf8
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement H
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize a4paper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language polish
+\papercolumns 1
+\papersides 2
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+LARGE{
+\backslash
+bf {
+\end_layout
+
+\end_inset
+
+MKS_JG - Instrukcja użytkownika
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Author
+Autor: Mateusz Lubecki SP8EBC
+\end_layout
+
+\begin_layout Date
+Bielsko-Biała
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+break
+\end_layout
+
+\end_inset
+
+ Marzec 2018
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+mbox{}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+vfill
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\shape italic
+Oprogramowanie MKS_JG dedykuje trenerowi Przemkowi Pochłódowi jako wyraz
+ mej wdzięczności za poświecany mi czas, jak i ogrom pracy wkładany przez
+ Niego w rozwoj sportowy dzieciaków ze Szkoly Mistrzostwa Sportowego w Karpaczu.
+ Składam przy tym slowa uznania dla Tomka Koćmierowskiego, Marty Pochłód,
+ Moniki Pawlak i pozostalych nieznanych mi zapewne z imienia i nazwiska
+ trenerów pracujących w SMS Karpacz, Międzyszkolnym Klubie Sportowym Jelenia
+ Góra i KS Śnieżka Karpacz.
+\end_layout
+
+\begin_layout Standard
+
+\shape italic
+Autor
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Przedmowa
+\end_layout
+
+\begin_layout Standard
+Pomysł na stworzenie oprogramowania takiego jak MKS_JG zrodził się u mnie
+ początkiem marca 2018 roku, kiedy przyglądałem się Międzywojewódzkim Mistrzostw
+om Młodzików zorganizowanym na torze sankowym w Karpaczu przy ulicy Świętokrzysk
+iej, który został na tę okoliczność wylodzony na odcinku około stu metrów.
+ Zwróciłem uwagę na fakt, że używane przez klub urządzenia do pomiaru czasu
+ ślizgu wydają się posiadać możliwość współpracy z komputerem przez obecny
+ w 'centralce pomiarowej' port szeregowy w typowym standardzie RS232.
+ Stworzenie wpółpracującego z nimi, szytego na miarę oprogramowania znacznie
+ ułatwiało by przeprowadzanie zawodów oraz treningów, jak również odciążało
+ by organizatorów od nie ma co ukrywać żmudnego i narażonego na omyłki wpisywani
+a odczytanych ręcznie czasów do arkusza kalkulacyjnego.
+ Dedykowane oprogramowanie daje zawsze możliwość w zasadzie dowolego rozbudowywa
+nia funkcjonalności, dlatego i tutaj bardzo szybko pojawiły się pomysły
+ na kolejne typowo 
+\begin_inset Quotes pld
+\end_inset
+
+sankowe
+\begin_inset Quotes prd
+\end_inset
+
+ opcje.
+ Zaczynając od generowania raportów podobnych do tych, które tworzą systemy
+ pomiaru na torach klasy olimpijskiej (Koenigsee, Innsbruck-Iglis, Sigulda
+ itp) idąc przez prowadzenie 'długofalowych' statystyk z większej ilości
+ treningów i zawodów, a kończąc na obsłudzę sztafety sankowej.
+\end_layout
+
+\begin_layout Standard
+Dla mnie jako autora MKS_JG jest to z jednej strony pewien swoisty wkład
+ w rozwój MKS Sporty Zimowe Jelenia Góra, z drugiej strony forma odwdzięczenia
+ się trenerowi Przemkowi Pochłódowi za czas który mi poświęca i wiedzę którą
+ mi przekazuję.
+ Z trzeciej zaś strony jest to trening umiejętności programowania w technologii
+ Java, który być
+\begin_inset space ~
+\end_inset
+
+może kiedyś ułatwi zdobycie nowej pracy tak samo jak w 2017 roku uczyniły
+ to moje stacje pogodowe, rozsiane po całej południowej Polsce.
+\end_layout
+
+\begin_layout Standard
+Niniejsza instrukcja obsługi jest przeznaczona dla użytkownika końcowego
+ i ma na celu przedstawienie oraz wyjaśnienie obsługi programu MKS_JG w
+ możliwie jak najprostszy sposób.
+ Aby ułatwić przekaz złamana została jedna z podstawowych zasad pisania
+ dokumentacji technicznej zakazująca pisania tekstu w pierwszej osobie,
+ co w tym dokumencie będzie miało miejsce.
+ Gdzieniegdzie będę się starał wplatać w tekst pewne szczeguły techniczne,
+ które choć nie niezbędne do sprawnego posługiwania się oprogramowaniem,
+ rzucą nieco światła na kulisy jego działania oraz powstawania, mogą też
+ być dla niektórych po prostu ciekawe.
+\end_layout
+
+\begin_layout Standard
+Jako odskocznię od przydługawego i niezbyt pasjonującego tekstu technicznego
+ będę się starał zamieszczać nieco drętwego humoru paralotniowego i programistyc
+znego w formie krótkich 
+\begin_inset Quotes pld
+\end_inset
+
+sucharów
+\begin_inset Quotes prd
+\end_inset
+
+, czy też różnego rodzaju przypowieści i innych mądrości ludowych.
+ Jeżeli szanowny czytelniku nie będziesz ich rozumiał, bądź będą Ci się
+ wydawały kompletnie nieśmieszne to nie ma powodu do jakichkolwiek obaw.
+ W sumie to nawet dobrze, bo ani programiści ani paralotniarze to nie są
+ do końca normalni ludzie...
+\end_layout
+
+\begin_layout Chapter
+Postanowienia licencyjne
+\end_layout
+
+\begin_layout Standard
+Oprogramowanie MKS_JG powstaje niejako w czynie społecznym dlatego naturalnym
+ jest, że będzie dostępne dla użytkownika końcowego za darmo na czas nieoznaczon
+y.
+ MKS_JG jak sama nazwa wskazuje powstaje głównie z myślą o Międzyszkolnym
+ Klubie Sportowym Jelenia Góra, oraz jednocześnie Szkole Mistrzostwa Sportowego
+ z Karpacza, jeżeli jednak zajdzie taka potrzeba może być wykorzystywany
+ również przez dowolny inny klub sanokowy jak np.
+ UKS Nowiny Wielkie, KS Śnieżka Karpacz itp.
+ Aplikacja jest silnie zorientowana na saneczkarstwo i bez gruntownych zmian
+ w kodzie źródłowym raczej nie znajdzie zastosowania poza tym sportem.
+ 
+\end_layout
+
+\begin_layout Standard
+Z formalnego punktu widzenia aplikacja w formie binarnej, oraz jej kod źródłowy
+ o ile nie zostało to w jawny sposób zadeklarowane inaczej jest dystrybuowana
+ na licencji 
+\series bold
+GNU General Public License version 3
+\series default
+ przedstawionej przez Free Software Foundation.
+ W ogólności użycie tejże licencji (zwanej dalej jako 
+\begin_inset Quotes pld
+\end_inset
+
+GPL
+\begin_inset Quotes prd
+\end_inset
+
+) niesie ze sobą konsekwencję takie jak:
+\end_layout
+
+\begin_layout Itemize
+Aplikacja może być dowolnie dystrybuowana i użytkowana do celów niekomercyjnych
+ oraz komercyjnych, zarówno w formie kodów źródłowych jak i skompilowanej
+ (tj.
+ gotowej do uruchomienia) wersji binarnej.
+\end_layout
+
+\begin_layout Itemize
+Kod źródłowy aplikacji może być dowolnie modyfikowany przez użytkownika
+ 
+\series bold
+pod warunkiem, że wprowadzone do kodu modyfikację zostaną upublicznione.
+\end_layout
+
+\begin_layout Itemize
+Użycie licencjonowanego na zasadach GPL kodu aplikacji MKS_JG w innym oprogramow
+aniu automatycznie podowuje, że oprogramowanie to również musi być licencjonowan
+e na zasadach GPL.
+ 
+\end_layout
+
+\begin_layout Standard
+Użycie GPL jako metody licencjonowania było jednym z filarów dużego sukcesu
+ i rozwoju systemu Linux, gdyż deweloperzy (programiści) tworzący np.
+ kernel czyli jądro systemu operacyjnego mogli mieć pewność, że ich charytatywna
+ praca nie będzie zawłaszczona bez żadnego wkładu w projekt przez firmy
+ tworzące komeryjne oprogramowanie.
+ Dzięki temu mamy obecnie np.
+ Android, który jest de facto jedną z wielu dystrybucji systemu Linux, oraz
+ Internet jako taki który w swoich kulisach bazuje głównie na sprzęcie i
+ oprogramowaniu serwerowym wykorzystującym/działającym pod kontrolą różnych
+ dystrybucji systemu Linux.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Na chwilę obecną wyjątkiem od licencjonowania GPL jest komponent odpowiedzialny
+ za obsługę komunikacji z systemem pomiaru czasu firmy Sectro z Jeleniej
+ Góry, czyli klasy SectroGateTimeData oraz SectroParser znajdujące się w
+ paczce pl.jeleniagora.mks.chrono
+\series default
+ .
+ Protokół komunikacyjny firmy Sectro stanowi jej tajemnicę przemysłową i
+ bez uprzedniej zgody nie będzie publikowany.
+\end_layout
+
+\begin_layout Chapter
+Wymagania funkcjonalne
+\end_layout
+
+\begin_layout Standard
+
+\shape italic
+“Walking on water and developing software from a specification are easy
+ if both are frozen.”
+\shape default
+ W
+\begin_inset space \thinspace{}
+\end_inset
+
+tłumaczeniu 
+\shape italic
+
+\begin_inset Quotes pld
+\end_inset
+
+Chodzenie po wodzie i tworzenie oprogramowania na podstawie wymagań jest
+ łatwe jeżeli obydwie rzeczy są zamrożone
+\begin_inset Quotes prd
+\end_inset
+
+
+\shape default
+, cytat z Essays on object-oriented software engineering autor Edward V.
+ Berard
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Rozdział ten nie stanowi de facto instrukcji obsługi a jedynie spis funkcjonalno
+ści (fachowo nazywa się to Functional Requirements Document - FRD), które
+ MKS_JG powinien posiadać wraz z priorytetem ich wdrożenia.
+ Jeżeli szukasz konkretnych informacji i wskazówek na temat użytkowania
+ MKS_JG przeskocz do kolejnych rozdziałów.
+\end_layout
+
+\begin_layout Standard
+W każdym projekcie programistycznym podstawą do jakiejkolwiek pracy są wymagania
+, spisane nawet w najbardziej ogólnej formie na podstawie konkretnych wymagań
+ klienckich.
+ W dużych projektach jest to niemalże obowiązkowy punkt od którego wszystko
+ się zaczyna.
+ Istnieją nawet specjalne, bardzo duże programy służące tylko i wyłącznie
+ do zarządzania oraz katalogowania tychże wymagań.
+ Jednym z nich jest np.
+ serdecznie znienawidzone przeze mnie IBM Rational DOORS (Dynamic Object
+ Oriented Requiremenets System).
+ MKS_JG jest oczywiście dość skromnym projektem zarządzanym, rozwijanym
+ i testowanym jednosobowo przezeze mnie, aczkolwiek nawet tutaj w pewnym
+ momencie wymagania funkcjonalne muszą zostać jasno określone.
+ 
+\end_layout
+
+\begin_layout Standard
+Jako, że program rozwijam w wolnym czasie muszę ustalić
+\begin_inset space ~
+\end_inset
+
+sam sobie priorytety i wskazać która funkcjonalność musi zostać wdrożona
+ i przetestowana w pierwszej kolejności.
+ Dodatkowo jasne wyartykułowanie pozwalana na zapobieżenie sytuacji w której
+ wymagania będą naginane do twardej rzeczywistości, w której nieubłaganie
+ będzie pojawiało się mnóstwo problemów technicznych, bugów, awarii itp
+ ;) Wspomniane priorytety zostały podzielone na cztery kategorie:
+\end_layout
+
+\begin_layout Description
+HP Najwyższy priorytet okreslający funkcjonalności, które stanowią podstawę
+ działania programu przez co muszą być implementowane w pierwszej kolejności
+ i przy tym solidnie przetestowane.
+\end_layout
+
+\begin_layout Description
+MP Średni priorytet określa równie ważne funkcjonalności jednak wdrażane
+ za tymi oznaczonymi jako HP, głównie ze względu na wzajemną interakcję
+ między modułami (MP wykorzystuje HP).
+ Na MP poświęca się mniejszy nakład pracy na implementację i testy.
+\end_layout
+
+\begin_layout Description
+LP Funkcjonalności najniższego priorytetu.
+ Stanowiące istotny element oprogramowania ale jednak nie na tyle aby utraciło
+ ono bez nich swoją podstawową rolę.
+ Są zaplanowane do implementacji i testów do pierwszej wersji stabilnej,
+ ale w przypadku poślizgów czasowych mogą zostać wyrzucone całkowicie z
+ projektu bądź przeniesione na kolejną wersję stabilną
+\end_layout
+
+\begin_layout Description
+FR Są to elementy architektury programu, które zostały z góry przeniesione
+ na kolejne wydania wersji stabilnej (FR - Further Releases).
+ Są
+\begin_inset space ~
+\end_inset
+
+to funkcjonalności nie tyle nieistotne ale stanowiące albo rozwinięcie tego
+ co jest implementowane w ramach pozostałych priorytetów, albo będące znacznym
+ elementem wymagającym bardzo dużego nakładu pracy, nie stanowiąc jednocześnie
+ istoty działania programu.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Jako deadline, czyli datę wypuszczenia pierwszej w pełni gotowej do pracy
+ wersji MKS_JG przyjąłem 15 (a w zasadzie 14) września 2018, czyli termin
+ sankorolkowego Memoriału im.
+ Mariusza Warzyboka w Karpaczu.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+\shape slanted
+Pierwszym podstawowym wymaganiem funkcjonalnym oprogramowania MKS_JG jest
+ kompleksowa obsługa klubu sankowego zarówno pod kątem organizacji zawodów
+ z rejestracją czasu ślizgu, tworzeniem list rankingowych, raportów itp,
+ jak również prowadzenia długofalowych statystyk dla każdego zawodnika.
+\end_layout
+
+\begin_layout Standard
+Dalsze wymagania funkcjonalne przedstawiłem na poniższych listach i wypunktowani
+ach.
+ Kolejność jest w zasadzie dowolna, choć jest pogrupowana pod względem 
+\begin_inset Quotes pld
+\end_inset
+
+ramowych funkcjonalności
+\begin_inset Quotes prd
+\end_inset
+
+ typu interfejs użytkownika, format zapisu pliku itp.
+\end_layout
+
+\begin_layout Enumerate
+Interfejs użytkownika
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+HP Oprogramowanie MKS_JG powinno posiadać graficzny interfejs użytkownika
+ (GUI) obsługiwany zarówno przy pomocy klawiatury i myszy.
+\end_layout
+
+\begin_layout Enumerate
+HP Interfejs graficzny użytkownika powinien być zaprojektowany w sposób
+ który umożliwia obsługę jedynie przy pomocy klawiatury bez używania myszy,
+ oraz tylko przy pomocy myszy przy założeniu używania klawiatury ekranowej.
+ 
+\end_layout
+
+\begin_layout Enumerate
+LP Interfejs powinien umożliwiać zmianę języka, przy czym dostępne powinny
+ być conajmniej cztery:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Polski
+\end_layout
+
+\begin_layout Enumerate
+Dialekt / gwara Górnośląska
+\end_layout
+
+\begin_layout Enumerate
+Czeski
+\end_layout
+
+\begin_layout Enumerate
+Angielski
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+HP Interfejs użytkownika powinien zostać podzielony na kilka dużych bloków
+ (modułów) funkcjonalnych mających postać osobnych okien roboczych wyświetlający
+ch interfejs każdego modułu z osobna.
+ Dostępne mają być conajmniej takie jak:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+EKRAN GŁÓWNY - Możliwe jak najprostszy, służący do wyboru moduły funkcjonalnego
+\end_layout
+
+\begin_layout Enumerate
+MENADŻER ZAWODNIKÓW - Moduł służący do podglądu, edycji, dodawania oraz
+ usuwania zawodników i ich danych takich jak Imię, Nazwisko, email, przynależnoś
+ć klubowa.
+ Moduł musi posiadać również możliwość przeglądu statystyk sankowych dla
+ każdego zawodnika z osobna, oraz umożliwiać eksport tych statystych w formie
+ raportu.
+\end_layout
+
+\begin_layout Enumerate
+OBSŁUGA ZAWODÓW/TRENINGÓW - Moduł służący do kompleksowej obsługi zawodów
+ i treningów saneczkowych w oparciu o ręcznie wprowadzane czasy ślizgów,
+ jak i te otrzymane automatycznie z chronometru.
+ Więcej wymagań funkcjonalnych w punkcie...
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+HP Interfejs użytkownika musi być maksymalnie uproszczony.
+ W oknach intefejsu powinna znajdować się minimalna potrzebna ilość opcji
+ tak aby użytkownik nie odniósł wrażenia, że program jest przeładowany funkcjona
+lnością i jednocześnie trudny w obsłudzę.
+ Zasada ta odnosi się w szczególności do modułu 
+\begin_inset Quotes pld
+\end_inset
+
+Obsługa zawodów / treningów
+\begin_inset Quotes prd
+\end_inset
+
+, która będzie używana 
+\begin_inset Quotes pld
+\end_inset
+
+na gorąco
+\begin_inset Quotes prd
+\end_inset
+
+ podczas imprez sportowych.
+ Wszelkie opcje konfiguracyjne i inne nie potrzebne do bierzącego użycia
+ powinny zostać umieszczone w menu.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Statystyki obliczane dla zawodnika
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+HP Aplikacja powinna obliczać statystyki dla każdego saneczkarza z osobna,
+ zarówno w odniesieniu do konkretnych zawodów, treningu jak również globalnie
+ z uwzględnieniem wyników we wszystkich eventach w których brał on udział,
+ która to statystyka ma być nazwana statystyką kariery.
+ 
+\end_layout
+
+\begin_layout Enumerate
+HP Część parametrów statystycznych ma być
+\begin_inset space ~
+\end_inset
+
+dostępna tylko w statystykach per zawody (trening), część w statystykach
+ ogólnych (statystykach kariery) a część zarówno w jednych jak i w drugich.
+\end_layout
+
+\begin_layout Enumerate
+HP Jeżeli dany zawodnik startuje w jedynkach oraz jednocześnie w dwójce,
+ to statystyki winny być obliczane osobno dla dwójki jako całość a osobno
+ dla startu 
+\begin_inset Quotes pld
+\end_inset
+
+pojedycznego
+\begin_inset Quotes prd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+HP Program winien wyszukiwać najsłabszy, najlepszy i średni czas ślizgu
+ dla każdego zawodnika (dwójki) per konkurencja
+\end_layout
+
+\begin_layout Enumerate
+HP Program powinien wyliczać średnią prędkość ślizgu na podstawie czasu
+ śligu, oraz 
+\begin_inset Quotes pld
+\end_inset
+
+Track Tune
+\begin_inset Quotes prd
+\end_inset
+
+ czyli parametrów toru zawierącego m.in.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Obsługiwane konkurencje saneczkowe i ich specyficzne wymagania
+\end_layout
+
+\begin_layout Enumerate
+Parametry toru (Track Tunes)
+\end_layout
+
+\begin_layout Enumerate
+Funkcjonalności Ekranu Głównego
+\end_layout
+
+\begin_layout Enumerate
+Funkcjonalności modułu 
+\begin_inset Quotes pld
+\end_inset
+
+Menadżer Zawodników
+\begin_inset Quotes prd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Funkcjonalności modułu 
+\begin_inset Quotes pld
+\end_inset
+
+Obsługa Zawodów / Treningów
+\begin_inset Quotes prd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Format zapisu danych
+\end_layout
+
+\begin_layout Enumerate
+Zabezpieczenia przed utratą danych
+\end_layout
+
+\begin_layout Chapter
+Terminarz (Timing Plan)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Quotes pld
+\end_inset
+
+Kto sieje ASAP ten zbiera FUCKUP
+\begin_inset Quotes prd
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Quotes pld
+\end_inset
+
+Yyyyyy....
+ Actually...
+ yyyyy...
+ No progress
+\begin_inset Quotes prd
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Quotes pld
+\end_inset
+
+Do some magic
+\begin_inset Quotes prd
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Quotes pld
+\end_inset
+
+Poland one step back
+\begin_inset Quotes prd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Typowe rozmowy programistów kiedy do terminu wydania pozostało kilka dni,
+ nic nie działa i nikt nie wie dlaczego.
+\end_layout
+
+\begin_layout Chapter
+Ekran Startowy
+\end_layout
+
+\begin_layout Standard
+Niniejszy rozdział jest pierwszym, który tak naprawdę traktuje o samej obsłudzie
+ programu MKS_JG.
+ W każdy rozdziale zostanie szczegółowo omówiony ekran, którego rozdział
+ dotyczy.
+ Opisane zostaną funkcję poszczególnych przycisków, list rozwijanych, checkboxów
+, menu itp itd.
+ Zamieszczę też przykładowe scenariusze opisujące krok po kroku jak wykonać
+ konkretną akcję.
+ Na początek przyjrzyjmy się ekranowi startowemu.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename screen_start_mks_opisy.jpg
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Ekran startowy z naniesionymi etykietami
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+Służy on przede wszystkim do uruchamiania podstawowych modułów funkcjonalnych
+ aplikacji MKS_JG, oraz ustawienia podstawowych opcji konfiguracyjnych,
+ które muszą być określone jeszcze przed uruchomieniem jakichkolwiek modułów.
+ Wynika to z faktu, że moduły te są inicjalizowane w konkretny sposób w
+ zależności od ich (tj.
+ tych ustawień) nastawienia.
+\end_layout
+
+\begin_layout Section
+Dostępne opcje
+\end_layout
+
+\begin_layout Standard
+Ekran startowy ma w swoich założeniach być prostym elementem służącym do
+ uruchamiania poszczególnych modułów funkcjonalnych.
+ Znajdują się na nim nazwa programu oraz numer wersji wraz z datą kompilacji.
+ Jest też podany mój nr telefonu komórkowy, co ma umożliwić użytkownikowi
+ bardzo szybkie uzyskanie pomocy w sprawie używania MKS_JG.
+ Pozostałe opcje oznaczone etykietami to:
+\end_layout
+
+\begin_layout Enumerate
+Pasek menu.
+ Warto pamiętać, że będzie on obecny w tym miejscu tylko na systemach Windows
+ i Linux.
+ Na komputerach Apple z systemem operacyjnym MacOS X pasek menu będzie widoczny
+ tam gdzie zawsze, czyli na belce górnej poza samym oknem aplikacji.
+ Dokładne omówienie pozycji menu zamieszcze w kolejnych sekcjach.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Quotes pld
+\end_inset
+
+MENADŻER ZAWODNIKÓW
+\begin_inset Quotes prd
+\end_inset
+
+.
+ Przycisk uruchamiający Menadżera Zawodników.
+ Jest to moduł służący do zarządzania zawodnikami.
+ Oprócz typowych opcji dodawania, usuwania oraz modyfikacji ich danych są
+ (będą) w nim dostępne obszerne statystyki obliczane na podstawie wszystkich
+ zawodów i treningów zapisanych w plikach danych.
+ Więcej informacji na temat obsługi Menadżera Zawodników znajduje się
+\begin_inset space ~
+\end_inset
+
+w stosownym mu rozdziale
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Quotes pld
+\end_inset
+
+OBSŁUGA ZAWODÓW I TRENINGÓW
+\begin_inset Quotes prd
+\end_inset
+
+.
+ Przycisk uruchamiający moduł służący do obsługi zawodów i treningów.
+ Jest on głównym elementem MKS_JG umożliwiającym definiowanie różnego typu
+ konkurencji rozgrywanych w ramach zawodów czy treningów.
+ Posiada funkcjonalność rejestracji czasu ślizgu dla każdego saneczkarza
+ czy to przez ręczne wprowadzanie, czy to przez współprace z zewnętrznym
+ chronometrem.
+ Generuje raporty zarówno w formacie CSV dla eksportu do arkusza kalkulacyjnego
+ jak i 
+\begin_inset Quotes pld
+\end_inset
+
+oficjalne
+\begin_inset Quotes prd
+\end_inset
+
+ w formacie PDF, które mogą być z powodzeniem publikowane.
+\end_layout
+
+\begin_layout Enumerate
+Pasek statusów.
+ Wyświetla obecnie ustawiony język interfejsu oraz tryb pracy aplikacji.
+\end_layout
+
+\begin_layout Standard
+Ekran startowy jest to główny element MKS_JG, który jest tworzony przez
+ metodę 
+\shape italic
+static void main();
+\shape default
+ będącą punktem wejścia do apikacji.
+ Przekładając to na język zrozumiały dla każdego oznacza to, że 
+\series bold
+\shape italic
+zamknięcie Ekranu Startowego spowoduje wyłączenie całej aplikacji MKS_JG
+\end_layout
+
+\begin_layout Section
+Tryby pracy aplikacji
+\end_layout
+
+\begin_layout Standard
+MKS_JG posiada dwa główne tryby pracy odnoszące się
+\begin_inset space ~
+\end_inset
+
+do sposobów w jaki przechowywane są wszystkie dane na których pracuja ta
+ aplikacja.
+ Chodzi tutaj o dane saneczkarzy, konfigurację poszczególnych treningów
+ i zawodów, oraz przeprowadzanych w nich konkurencji.
+ Dostępne są dwa:
+\end_layout
+
+\begin_layout Itemize
+Zapis wszystkich danych w bazie danych SQL
+\end_layout
+
+\begin_layout Itemize
+Zapis wszystkich danych w plikach XML (jeden dla zawodników + n dla zawodów/tren
+ingów)
+\end_layout
+
+\begin_layout Standard
+Każdy z tych trybów ma swoje wady i zalety.
+ Choć dane są dostępne w obydwu przypadkach w taki sam sposób i poza pewnymi
+ szczegółami użytkownik nie widzi absolutnie żadnych różnic w obsłudze MKS_JG,
+ to są to zupełnie różne i odmienne koncepcje.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Baza danych SQL
+\series default
+ - Dane zawodników, statystyki, treningi itp itd.
+ są zapisywane w relacyjnej bazie danych SQL.
+ Nie zaciemniając tutaj nadmiarem informacji technicznych wystarczy powiedzieć,
+ że baza danych SQL jest to dedykowana aplikacja służąca do przechowywania
+ danych numerycznych, tekstowych czy nawet graficznych albo binarnych w
+ zorganizowanych strukturach danych nazywanych tabelami.
+ Relacyjność polega na tym, że dane zapisane w tabelach można ze sobą skojarzyć,
+ tj.
+ połączyć relacją.
+ Jeżeli w jednej tabeli znajdują się dane saneczkarzy (Imię, Nazwisko itp)
+ to w tabeli konkurencji znajduje się tylko referencja na konkretnych zawodników
+ w niej startujących.
+ Przy 
+\begin_inset Quotes pld
+\end_inset
+
+wyciąganiu
+\begin_inset Quotes prd
+\end_inset
+
+ danych z bazy zapytanie kojarzy dane z kilku różnych tabel i tworzy jeden
+ spójny wynik.
+ Dzięki temu przy np.
+ konieczności aktualizacji informacji zmianę dokonuję
+\begin_inset space ~
+\end_inset
+
+się w jednym a nie np w pięciu różnych miejscach, bo pozwala zachować spójność.
+ 
+\shape italic
+W praktycznym ujęciu zaletą bazy SQL jest możliwość pracy na tych samych
+ danych na różnych komputerach, również w tym samym czasie.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Pliki XML
+\series default
+ - Wszystkie dane programu są zapisywane w plikach tekstowych XML (Extensible
+ Markup Language).
+ Plik XML przypomina bardzo HTML czyli język opisu stron internetowych,
+ jednakże może on zawierać dowolne dane.
+ W przypadku MKS_JG używane jest nie jeden ale wiele plików XML (conajmniej
+ dwa).
+ Jeden plik XML jest używany do przechowywania danych zawodników i ich statystyk.
+ Kolejne pliki XML są używane do przechowywania informacji na temat zawodów
+ / treningów i rozgrywanych w ich ramach konkurencji.
+ Obowiązuje tu zasada, że jeden trening lub zawody to jeden plik XML.
+ Między plikami istnieją pewne relacje, np.
+ plik zawodników przechowywuje wprawdzie łączną liczbę ślizgów saneczkarza
+ podzieloną na poszczególne tory i bramki startowe, ale nie przechowuje
+ szczegółów dotyczących poszczególnych treningów i zawodów.
+ Wskazuje jedynie w pliku o jakiej nazwie i wewnętrznym identyfikatorze
+ znajdują się potrzebne wyniki.
+ 
+\end_layout
+
+\begin_layout Section
+Wady i zalety użycia bazy danych SQL
+\end_layout
+
+\begin_layout Standard
+Zalety:
+\end_layout
+
+\begin_layout Itemize
+Ponieważ baza danych jest osobną aplikacją udostępniająca przechowywane
+ przez siebie dane przez specjalny interfejs wykorzystujący TCP/IP, umożliwia
+ ona prace kilku instancji MKS_JG na kilku różnych komputerach w tym samym
+ czasie.
+\end_layout
+
+\begin_layout Itemize
+Baza danych może być zlokalizowana na dowolnym, odległym serwerze, niekoniecznie
+ na tym samym komputerze na którym używa się MKS_JG.
+\end_layout
+
+\begin_layout Itemize
+Baza danych umożliwia uniknięcie problemu przenoszenia danych pomiędzy komputera
+mi i problemów z zachowaniem ich spójności oraz wspólnej wersji na wszystkich
+ maszynach.
+\end_layout
+
+\begin_layout Itemize
+Dane przechowywane w bazie danych są lepiej zabezpieczone przed uszkodzeniem
+ niż pliki XML.
+\end_layout
+
+\begin_layout Standard
+Wady:
+\end_layout
+
+\begin_layout Itemize
+Baza danych SQL dowolnego typu (MySQL, PostgreSQL itp) jest osobną aplikacją,
+ którą trzeba gdzieś zainstalować.
+ Albo na tym samym komputerze, który będzie używany do pracy z MKS_JG albo
+ na osobnym serwerze.
+ 
+\end_layout
+
+\begin_layout Itemize
+Jeżeli baza danych będzie zainstalowana na odległym serwerze do którego
+ aplikacja będzie łączyła się przez Internet, to podczas całej pracy MKS_JG
+ komputer będzie musiał posiadać stałe połączenie z Internetem.
+ Zerwanie połączenia wprawdzie nie uszkodzi już zapisanych danych ale uniemożliw
+i dalszą pracę MKS_JG.
+\end_layout
+
+\begin_layout Itemize
+Wprawdzie baza danych SQL używana w MKS_JG nie powinna przechowywać bardzo
+ dużej ilości danych, to jednak sam silnik bazodanowy będzie zapewnie używał
+ większej ilości zasobów (głównie pamięć operacyjna), niż MKS_JG ładujący
+ wszystkie dane z plików XML do pamięci.
+\end_layout
+
+\begin_layout Itemize
+Serwer bazy danych SQL jest z natury aplikacją, która działa non stop.
+ Będzie się więc standardowo uruchamiał automatycznie wraz z systemem operacyjny
+m nawet jeżeli MKS_JG nie będzie używany.
+ Ręczne zatrzymywanie i uruchamianie serwera bazy danych może być nieco
+ uporczywe.
+ 
+\end_layout
+
+\begin_layout Section
+Wady i zalety użycia plików XML
+\end_layout
+
+\begin_layout Standard
+Zalety:
+\end_layout
+
+\begin_layout Itemize
+Pliki XML naturalnie nie wymagają instalacji żadnego zewnętrznego oprogramowania.
+\end_layout
+
+\begin_layout Itemize
+Pliki XML można w łatwy sposób archiwizować i tworzyć ich kopie zapasowe.
+ Wystarczy użyć np.
+ archiwizera WinZIP albo WinRAR.
+ Odtworzenie kopii zapasowej wymaga po prostu podmienienia odpowiednich
+ plików.
+\end_layout
+
+\begin_layout Itemize
+W tej konfiguracji MKS_JG może być 
+\begin_inset Quotes pld
+\end_inset
+
+trzymany
+\begin_inset Quotes prd
+\end_inset
+
+ na pendrive razem z plikami XML.
+ Umożliwia to łatwe przenoszenie pomiędzy różnymi komputerami.
+ UWAGA! Ze względu na względnie dużą awaryjność pamięci USB (i możliwość
+ ich zgubienia) zaleca się oczywiście wykonywanie kopii zapasowych na innym
+ nośniku.
+ 
+\end_layout
+
+\begin_layout Itemize
+Ponieważ MKS_JG nie będzie ładował wszystkich danych z wszystkich plików
+ XML do pamięci zużycie zasobów będzie mniejsze niż dla bazy danych.
+\end_layout
+
+\begin_layout Standard
+Wady:
+\end_layout
+
+\begin_layout Itemize
+Praca na kilku komputerach na raz jest niemożliwa, nawet jeżeli pliki XML
+ będą umieszczone na współdzielonym zasobie.
+ Próba siłowej pracy kilku instancji MKS_JG na tych samych plikach może
+ szybko doprowadzić do uszkodzenia danych.
+\end_layout
+
+\begin_layout Itemize
+Pomimo tego, że plik XML ma poniekąd postać zrozumiałą człowieka (w odróżnieniu
+ od nieczytelnych plików biarnych bazy danych) to nie wolno go ręcznie edytować,
+ jeżeli nie ma się absolutnie pewności co się robi.
+ Ręczne modyfikację plików XML mogą spowodowac ich uszodzenie.
+\end_layout
+
+\begin_layout Itemize
+Pliki XML wymuszają większą samodyscyplinę użytkownika przy przenoszeniu
+ danych pomiędzy komputerami.
+ Pojawia się bowiem oczywisty problem wersjonowania tychże plików, który
+ bez właściwej troski może doprowadzić do powstania kilku różnych plików
+ XML z różnymi danymi.
+ Ich połączenie w jeden aktualny zbiór może być bardzo utrudnione, a na
+ pewno będze wymagało ręcznych modyfikacji.
+\end_layout
+
+\begin_layout Itemize
+Ponieważ całość danych podzielona jest na kilka plików XML to wszystkie
+ one muszą być trzymane w całości w jednym miejscem.
+ Zgubienie np.
+ jednego z plików z wynikami treningów spowoduje utratę części danych w
+ statystykach saneczkarzy.
+\end_layout
+
+\begin_layout Chapter
+Menadżer Zawodników
+\end_layout
+
+\begin_layout Standard
+// TODO
+\end_layout
+
+\begin_layout Chapter
+Obsługa Treningów i Zawodów
+\end_layout
+
+\begin_layout Standard
+
+\shape italic
+\begin_inset Quotes pld
+\end_inset
+
+Paralotniarze dzielą się na tych którzy lądowali na drzewie i na tych, którzy
+ dopiero będą
+\begin_inset Quotes prd
+\end_inset
+
+
+\shape default
+ - popularne powiedzenie paralotniowe.
+ Aby rzucić
+\begin_inset space ~
+\end_inset
+
+nieco światła na sens tego porzekadła należy wyjaśnić, że paralotniarze
+ są dość oryginalną kategorią lotnictwa.
+ O ile w przypadku szybowców, samolotów a nawet lotni zakończenie lotu w
+ koronach drzew uznawane jest conajmniej za poważny incydent jeżeli nie
+ jako wypadek lotniczy, to u paralotniarzy jest to po prostu 
+\begin_inset Quotes pld
+\end_inset
+
+inna technika lądowania
+\begin_inset Quotes prd
+\end_inset
+
+.
+ Oczywiście nie jest to nic porządanego i lądowanie na drzewie nigdy nie
+ jest traktowane jako norma.
+ Z drugiej jednak strony często drzewa okazują się bezcennym ratunkiem dla
+ paralotniarza, chroniąc przed zderzeniem z ziemią po masywnym podwinięciu
+ paralotni na małej wysokości.
+\end_layout
+
+\begin_layout Standard
+Obsługa Treningów i Zawodów to w zasadzie główny moduł aplikacji MKS_JG,
+ który będzie zapewnie wykorzystywany w największym stopniu.
+ Wygląd jego okna głównego przedstawia się na rysunku 7.1 7.2 i 7.3
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename screen1_mks_opisy.jpg
+	scale 44
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Widok ekrany głównego Obsługi treningów i zawodów
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename screen1_mks_opisy_bok.jpg
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Zbliżenie na przyciski po prawej stronie okna
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename screen1_mks_opisy_dol.jpg
+	scale 55
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Zbliżenie na panel w dolnej części okna
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Dostępne opcje
+\end_layout
+
+\begin_layout Standard
+Wygląd i dostępne opcję w oknie obsługi zawodów i treningów w programie
+ MKS_JG zależą nieco od konkretnych opcji konfiguracji które wybierze użytkownik
+, oraz rodzaju rozgrywanej konkurencji (dwójki / jedynki).
+ Widoki znajdujące się na rysunkach 7.1 7.2 i 7.3 przedstawiają najbardziej
+ ogólny zarys interfejsu.
+ Różnice, które mogą się pojawić będę opisywał w stosownych punktach z wyjaśnien
+iem kiedy może zajść takowa różnica.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Menu wyboru konkurencji
+\series default
+ - Jeżeli na zawodach albo na treningu rozgrywa się więcej niż jedną konkurencję
+ (np.
+ dwójki, juniorzy, juniorki itp), to wspomniane pole rozwijane służy do
+ przełączania się pomiędzy nimi.
+ Wybór którejkolwiek pozycji z listy automatycznie przeładowywuje główną
+ liste wyników, powodując wczytanie odpowiedniej (ówcześnie wprowadzonej)
+ listy startowej.
+ Kursor w tabeli oraz informacja 
+\begin_inset Quotes pld
+\end_inset
+
+Aktualnie na Torze
+\begin_inset Quotes prd
+\end_inset
+
+ jest ustawiana na pierwszego saneczkarza który nie ma zarejestrowanego
+ czasu ślizgu (na pierwszego który jeszcze nie wystartował)
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Widok z międzyczasami
+\series default
+ - Opcja ta przełącza widok listy startowej / wyników na wariant z międzyczasami.
+ Po jej zaznaczeniu na liście nie pojawiają się czasy wszystkich ślizgów
+ punktowanych i niepunktowanych ale jedynie dane o ślizgu wybranym z pola
+ rozwijanego oznaczonego numerem 3.
+ Za kolumną 
+\begin_inset Quotes pld
+\end_inset
+
+klub
+\begin_inset Quotes prd
+\end_inset
+
+ pojawiają się kolejne międzyczasy, których ilość jest zależna od ustawień
+ chronometru (maksymalnie 3 punkty pomiaru oprócz czasu na mecie).
+ Przedostanią kolumną jest łączny czas ślizgu zmierzony na linii mety.
+ Ostatnią kolumną jest zawsze albo prędkość średnia albo prędkość chwilowa,
+ rozumiana jako prędkość obliczona pomiędzy dwoma punktami międzyczasu.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Ślizg
+\series default
+ - Menu służy do przełączania się pomiędzy wieloma zdefiniowanymi ślizgami.
+ W przypadku widoku z międzyczasami przeładowywuje cały widok listy wyników.
+ Bez użycia tej opcji ustawia kursor automatycznie na pierwszego zawodnika
+ w wybranym z listy ślizgu (pierwszego wg listy startowej, lub pierwszego
+ który jeszcze nie startował i nie ma zanotowanego czasu).
+ Analogicznie używanie przycisków strzałek na klawiaturze, albo klikanie
+ myszą na kolumny odpowiadające kolejnym ślizgom zmienia wartość wyświetlaną
+ w tym polu rozwijanym - kliknięcie jakiegokolwiek czasu w kolumnie 
+\begin_inset Quotes pld
+\end_inset
+
+Treningowy 2
+\begin_inset Quotes prd
+\end_inset
+
+ powoduje ustawienie tego pola rozwijanego na 
+\begin_inset Quotes pld
+\end_inset
+
+Treningowy 2
+\begin_inset Quotes prd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Główna lista z wynikami
+\series default
+ - Główny element interfejsu Obsługi zawodów i treningów, w którym wyświetlane
+ są tabelaryczne informację na temat tego, co dzieje się
+\begin_inset space ~
+\end_inset
+
+aktualnie na torze sankowym.
+ Oprócz imienia i nazwiska oraz przynależności klubowej pojawiaja się tam
+ oczywiście wyniki pomiaru czasu.
+ W zależności od zaznaczenia lub nie opcji 
+\begin_inset Quotes pld
+\end_inset
+
+Widok z Międzyczasami
+\begin_inset Quotes prd
+\end_inset
+
+ pojawią się tam albo czasy mety dla wszystkich ślizgów treningowych i punktowan
+ych, albo poszczególne czasy pośrednie (start, pierwszy, drugi, meta) dla
+ ślizgu ustawionego z menu 
+\begin_inset Quotes pld
+\end_inset
+
+Ślizg
+\begin_inset Quotes prd
+\end_inset
+
+ (patrz pkt 3).
+ 
+\series bold
+\shape italic
+Lista jest w pełni sortowalna po dowolnie wybranej kolumne.
+ Domyślnie prezentowane dane są pozostowane wg numerów startowych rosnąco,
+ aczkolwiek użytkownik może ten aspekt dowolnie zmieniać.
+
+\series default
+\shape default
+ Wystarczy kliknąć na nagłówek wybranej kolumny aby przełączać się między
+ kolejnością rosnącą a malejąca.
+ Zasada ta tyczy się zarówno kolumn przechowywujących dane numeryczne (czas
+ ślizgu dla saneczkarza), jak również dane tekstowe (imię, nazwisko itp).
+ Informacje są oczywiście traktowane jako jedna całość, dlatego kliknięcie
+ na dowolny nagłówek powoduje posortowanie wszystkich danych.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Czas wybranego ślizgu 
+\series default
+- Zestaw trzech pól służących do edycji i zapisywania wybranego czasu ślizgu,
+ osobno dla minut, sekund oraz milisekund.
+ Działa ono w dwojaki sposób w zależności od tego czy MKS_JG jest skonfigurowany
+ do używania chronometru, czy też nie.
+ Jeżeli praca z chronometrem jest wyłączona to w polach tych będzie ukazywał
+ się po prostu czas wybranego z listy 4 ślizgu.
+ Tzn.
+ jeżeli użytkownik kliknie w tableli na przykład czas pierwszego ślizgu
+ treningowego dla zawodnika Adam Kowalski, to zostanie on w tym miejscu
+ wyświetlony i będzie mógł być z niego edytowany.
+ Jeżeli obsługa pomiaru czasu zostanie włączona to oprócz wymienionej już
+ funkcjonalności, czyli edycji wskazanego w tabeli czasu będą tam pojawiały
+ się automatycznie czasy obliczone na podstawie czasu z chronometru.
+ 
+\series bold
+W momencie gdy saneczkarz przetnie linie mety i chronometr wyśle o tym inormację
+ do aplikacji MKS_JG, kursor w tabeli 4 zostanie automatycznie przestawiony
+ na ślizg i zawodnika który właśnie ukończył bieg.
+ Pola 
+\begin_inset Quotes pld
+\end_inset
+
+Czas wybranego ślizgu
+\begin_inset Quotes prd
+\end_inset
+
+ zostaną
+\begin_inset space ~
+\end_inset
+
+zaktualizowane automatycznie o dane obliczone na podstawie chronometru.
+
+\series default
+ Czas zostanie zapisany na liście i w danych programu po akceptacji przez
+ użytkownika, lub automatycznie po 5 sekundach jeżeli zaznaczona jest opcja
+ 17 
+\begin_inset Quotes pld
+\end_inset
+
+Autozapis czasu ślizgu
+\begin_inset Quotes prd
+\end_inset
+
+.
+ Jeżeli w tabeli 4 zostaną wybrane dane nienumeryczne, tj.
+ np.
+ Imię bądź Nazwisko saneczkarza to pole te zostaną wyczyszczone.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Zapisz czas zawodnika
+\series default
+ - Kliknięcie tej opcji potwierdza zapis do tabeli aktualnie modyfikowanego
+ czasu ślizgu.
+ Warto nadmienić, że kliknięcie podczas edycji na jakikolwiek inny czas
+ lub otrzymanie danych z chronometru powoduje automatyczne odrzucenie edytowanyc
+h zmian i albo przełączenie na wskazany kursorem czas ślizgu, albo przełączenie
+ na ślizg i zawodnika który włąsnie ukończył swój start.
+ W drugim przypadku kliknięcie przycisku służy do potwierdzenia, że otrzymany
+ z chronometru czas przejazdu jest poprawny i może zostać temu saeczkarzowi
+ zapisany.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Nie ukończył (DNF)
+\series default
+ - Powoduje zapisanie aktualnie wybranemu z tabeli 4 zawodnikowi DNF jako
+ wynik ślizgu.
+ Warto pamiętać, że użycie DNF 
+\series bold
+nie
+\series default
+ wymaga potwierdzenia przy użyciu 
+\begin_inset Quotes pld
+\end_inset
+
+Zapisz czas zawodnika
+\begin_inset Quotes prd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Dyskwalifikacja (DSQ)
+\series default
+ - Powoduje zdyskwalifikowanie zawodnika z konkurencji i zawodów.
+ Po użyciu tej opcji zawodnik będzie pomijany na liście startowej a wszystkie
+ jego ślizgi zostaną oznaczone jako DSQ.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Nie wystartował (DNS)
+\series default
+ - Analogicznie jak w punkcie 7 ale powoduje zapisanie DNS dla ślizgu.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Przedślizgacz 1
+\series default
+ - Przycisk służący do ustawienia pierwszego przedślizgacza jako aktualnego,
+ lub następnego startującego.
+ Po przypisaniu osób do pełnienia roli pierwszego i drugiego przedślizgacza
+ opis przycisku zostanie zaktualizowany do formy: 
+\shape italic
+
+\begin_inset Quotes pld
+\end_inset
+
+Przedślizgacz Imię Nazwisko
+\begin_inset Quotes prd
+\end_inset
+
+
+\shape default
+.
+ Jeżeli program otrzymał z chronometru informację o przecięciu startu przez
+ zawodnika (tor jest zajęty) to przedślizgacz zostanie ustawiony jako następny
+ startujący (
+\begin_inset Quotes pld
+\end_inset
+
+Natępnie
+\begin_inset Quotes prd
+\end_inset
+
+).
+ W przeciwnym razie, tj.
+ gdy tor jest wolny lub MKS_JG ma wyłączoną obsługę chronometru przedślizgacz
+ zostanie ustawiony jako 
+\begin_inset Quotes pld
+\end_inset
+
+Aktualnie na Torze
+\begin_inset Quotes prd
+\end_inset
+
+.
+ 
+\series bold
+Przedślizgacz jako osoba nie startująca w konkurencji nie widnieje na liście
+ i nie jest uwzględniany w głównym raporcie wyników, jednakże MKS_JG normalnie
+ rejestruje jego czas ślizgu.
+ Czas ten jest doliczany do statystyk saneczkarza istnieje też możliwość
+ wygenerowania pomocniczego raportu z wynikami obudwy przedślizgaczy.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Przedślizgacz 2
+\series default
+ - Analogicznie jak dla pierwszego przedślizgacza.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Omiń aktualnego i przejdź do następnego z listy (startowej)
+\series default
+ - Użycie opcji powoduje przeskoczenie do kolejnego saneczkarza na liście
+ startowej.
+ Jeżeli MKS_JG ma włączoną obsługę chronometru, to naciśnięcie tego przycisku
+ zresetuje wewnętrzną maszynę stanu pomiaru czasu.
+ Oznacza to, że jeżeli aktualnie na torze jedzie jakiś zawodnik, to MKS_JG
+ przechodząc do kolejnego z nich całkowicie zignoruje fakt przecięcia linii
+ mety.
+ Jeżeli użycie opcji nastąpiło omyłkowo, czas może zostać dopisany ręcznie
+ przez kliknięcie na ślizgu ominiętego zawodnika, wprowadzenie czasu (minuty,
+ sekundy, milisekundy) i kliknięcie 
+\begin_inset Quotes pld
+\end_inset
+
+Zapisz czas dla zawodnika
+\begin_inset Quotes prd
+\end_inset
+
+.
+ Jeżeli przy wielokrotnym użyciu tej funkcji kursor dojdzie do ostatniego
+ zawodnika w danym ślizgu, to kolejne jego naciśnięcie wróci do najniższego
+ numerem startowym, który nie ma zapisanego czasu ślizgu.
+ Funkcja z definicji będzie omijała saneczkarzy, którzy mają zapisany czas.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Powróć do kolejności wg numerów startowych oraz podświetl w tabeli aktualnego
+ saneczkarza 
+\series default
+- Naciśnięcie tego przycisku skutkuje powrotem MKS_JG do kolejnego zawodnika
+ wg.
+ listy startowej, czyli najniższego numerem startowym saneczkarza który
+ w danym ślizgu nie ma zapisanego czasu.
+ Obowiązuje tu podobna zasada przełączania co w przpadku przedślizgaczy,
+ tj.
+ jeżeli MKS_JG pracuje z chronometrem i otrzyma od niego informację o starcie
+ to 
+\begin_inset Quotes pld
+\end_inset
+
+zawodnik powrotny
+\begin_inset Quotes prd
+\end_inset
+
+ będzie ustawiony jako następny.
+ W przeciwnym razie zostanie zamieniony z 
+\begin_inset Quotes pld
+\end_inset
+
+Aktualnie na Torze
+\begin_inset Quotes prd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Ustaw zaznaczonego saneczkarza jako następnego
+\series default
+ - Funkcja pozwala na modyfikowanie 
+\begin_inset Quotes pld
+\end_inset
+
+ad-hoc
+\begin_inset Quotes prd
+\end_inset
+
+ kolejności startowej zawodników jeżeli wymaga to aktualna sytuacja.
+ Jej wybranie powoduje ustawienie aktualnie podświetlonego w tabeli wyników
+ zawodnika jako następnego w kolejce startowej.
+ Należy pamiętać, że kliknięty w tabeli saneczkarz jest ZAWSZE ustawiany
+ jako następny bez względu na to czy program współpracuje z chronometrem
+ i czy tor jest wolny albo zajęty.
+ Jeżeli sprzętowy pomiar czasu nie jest sprzęgnięty z MKS_JG, to po naciśnięciu
+ tego przycisku należy ewentualnie użyć opcji 12 (Omiń aktualnego i przejdź...),
+ która w tym konkretnym przypadku nie przejdzie do następnego saneczkarza
+ wg.
+ numerów startowych ale do osoby wskazanej przez aktualnie omawianą funkcję.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Aktualnie na Torze
+\series default
+ - Imię i Nazwisko saneczkarza który w tym momencie znajduje się na starcie
+ (przed linią startu) albo aktualnie jedzie.
+ W przypadku konkurencji dwójkowych pojawiają się tu jedynie nazwiska w
+ kolejności góra - dół.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Następnie
+\series default
+ - Analogicznie jak punkt 15.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Autozapis Czasu Ślizgu 
+\series default
+- Włącza automatyczny zapis czasów do tabeli.
+ 
+\end_layout
+
+\end_body
+\end_document
