@@ -1747,7 +1747,78 @@ Informcje kontaktowe
 \end_layout
 
 \begin_layout Standard
-// TODO
+W sprawach dotyczących oprogramowania MKS_JG można komunikować się ze mną
+ telefonicznie, mailowo, osobiście, bądź na pasmach amatorskich.
+ Dzwonić można próbować w zasadzie całodobowo, telefon sam wycisza dźwięki
+ na noc także w najgorszym wypadku po prostu się nie dodzwonisz ;) Nawet
+ jeżeli jednak uda się mnie obudzić (czasami siedzę do późna i tak samo
+ do późna śpie) to nie jestem typem człowieka który się obraża że został
+ wyrwany nagle ze snu ;)
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace smallskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\align center
+Mateusz Paweł Lubecki
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+telefon: +48 660 43 44 46
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+Adres:
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+ul.
+ Tuwima 5b/9
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+Osiedle Złote Łany
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+43-300 Bielsko-Biała
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Chapter
@@ -1756,392 +1827,6 @@ Posłowie
 
 \begin_layout Standard
 //TODO
-\end_layout
-
-\begin_layout Section
-Inżynieria Oprogramowania jako metoda dorobku dla Saneczkarza
-\end_layout
-
-\begin_layout Standard
-Na sam koniec instrukcji obsługi chciałbym przybliżyć nieco arkana pracy
- jako Inżynier Oprogramowania (Programista) i opisać jak ten zawód może
- pomóc zabezpieczyć finansowo karierę sportową typowego saneczkarza.
- Do tegoż wywodu skłoniły mnie liczne wywiady i konferencję prasowe, na
- których w zasadzie w każdym przypadku członkowie kadry seniorskiej wspominali
- o mniejszych bądź większych problemach finansowych, jak również oczywistej
- wątpliwości: 
-\begin_inset Quotes pld
-\end_inset
-
-Co dalej po sankach?
-\begin_inset Quotes prd
-\end_inset
-
-.
- Nie mam żadnej większej wiedzy o saneczkarstwie i o tym jak wygladają kulisy
- funkcjonowania i finansowania kadry, wydaje mi się jednak że przy pewnych
- założeniach nauka programowania może się typowemu zawodnikowi bardzo przydać.
- 
-\end_layout
-
-\begin_layout Standard
-Na początek opiszę po krótce jak to wyglądało w moim przypadku.
- Z racji tego, że mój śp.
- Ojciec był z zawodu elektrykiem i w zasadzie zawsze pracował w okolicach
- tej branży, to od dziecka miałem już wyrobione przekonanie o tym co chcę
- robić w swoim życiu.
- Miałem pewność, że musi to być cokolwiek związanego albo z prądem elektrycznym
- w dowolnej postaci albo konkretnie z komputerami.
- Po liceum ogólnokształcącym (klasa mat-fiz) poszedłem oczywiście na studia,
- dokładnie na Politechnikę Rzeszowską.
- Po pierwszym stopniu jestem inżynierem elektrykiem.
- Po drugiem stopniu magistrem inżynierem elektroniki i telekomunikacji.
- Brzmi strasznie ale nie było tak źle jak to się może wydawać.
- 
-\shape italic
-Najważniejsze jest jednak to, że podczas studiów de facto nie byłem uczony
- stricto programowania.
- Oznacza to, że brak studiów Informatycznych nie przekreśla szansy na zostanie
- programistą.
-
-\shape default
- Jedyną styczność z tworzeniem oprogramowania miałem podczas zajęć z Informatyki
- na pierwszym roku, oraz z techniki mikroprocesorowej na trzecim.
- Po tych dwóch przedmiotach byłem już prawie pewien, że chcę zostać programistą.
- Żeby jednak rozwiać wątpliwości.
- 
-\shape italic
-Ja nigdy nie byłem specjalnym orłem z przedmiotów ścisłych.
-
-\shape default
- W liceum na matematyce jechałem na trójach, a gdy moja nauczycielka tego
- przedmiotu (i jednocześnie wychowawczyni) usłyszała że chcę zdawać podstawową
- maturę z matematyki (byłem ostatnim rocznikiem dla którego ten przedmiot
- nie był obowiązkowy) to wprost wyrażała obawy, że ja tego egzaminu nie
- zdam.
- A nawet jeżeli zdam i dostanę się na politechnikę to na pewno sobie nie
- dam rady.
- 
-\shape italic
-Piszę to aby pokazać, że nie trzeba być niewiaomo kim aby zostać programistą.
- 
-\end_layout
-
-\begin_layout Standard
-Jak więc nie-programista i z formalnego punktu widzenia nie-informatyk może
- się przekwalifikować do nowego zawodu? Po pierwsze należy określić sobie
- ogólne cele i rozpoznać lokalny rynek pracy, co zaważy na technologiach
- i jezykach, których powinno się uczyć.
- Potencjalny programista-saneczkarz z Dolnego Śląska jest we względnie komfortow
-ej sytuacji.
- W samej Jeleniej Górze jest w zasadzie jedna jedyna firma programistyczna.
- Nazywa się CodeTwo i zajmuje się tworzeniem oprogramowania dla Microsoft
- Office 365 i Microsoft Exchange (oprogramowanie serwera pocztowego).
- Naturalnie więc używa języka C# i ogólnie technologii oraz bibliotek firmy
- Microsoft.
- Sugerowało by to, że jeżeli ktoś chciałby zdecydowanie pozostać w JG, to
- powinien docelowo przejść w stronę MS aby móc doprowadzić się do poziomu
- w którym realne stanie się dostanie pracy jako Junior.
-\end_layout
-
-\begin_layout Standard
-Stolicą branży programistycznej na Dolnym Śląsku jest jednak Wrocław.
- We Wrocławiu firm jest 
-\begin_inset Quotes pld
-\end_inset
-
-do wyboru do koloru
-\begin_inset Quotes prd
-\end_inset
-
- w każdej używanej obecnie technologii, zaczynając od ogólnych 
-\begin_inset Quotes pld
-\end_inset
-
-technologii webowych
-\begin_inset Quotes prd
-\end_inset
-
- czyli PHP, JavaScript, nodeJS idąc przez C++/Java/C# a kończąc na sterownikach
- mikroprocesorowych i generalnie branży zachaczającej znacznie o elektronikę.
- Są to zarówno potężne korporacje takie jak Nokia Networks, Ericsson czy
- Hewlett-Packard Enterprise, jak również małe tzw.
- 
-\begin_inset Quotes pld
-\end_inset
-
-software hourse
-\begin_inset Quotes prd
-\end_inset
-
-, czyli firmy zatrudniające do kilkunastu pracowników i obsługujące zdecydowanie
- mniejsze zlecenia.
- 
-\end_layout
-
-\begin_layout Standard
-Jednak jak wygladają konkrety? 
-\series bold
-\shape italic
-Co ma dać saneczkarzowi zostanie programistą i przede wszystkim czy i jak
- da się to pogodzić z karierą sportową?
-\series default
-\shape default
- Jak wspomniałem nie znam szczegółów życia i pracy zawodowego saneczkarza,
- aby określić konkrety musiałbym porozmawiać z zainteresowanym.
- 
-\series bold
-\shape italic
-Jednakże generalnie uważam, że pogodzenie tych dwóch rzeczy jest jak najbardziej
- możliwe.
-
-\series default
-\shape default
- Zalety tej branży sa następujące:
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Pieniądze
-\series default
- - Nie ma co ukrywać, że obecnie w Polsce, Europie i na Świecie branża IT
- jest jedną z najlepiej opłacanych.
- W samej branży IT najlepiej zarabiają właścnie programiści.
- Na przykładzie własnego życia mogę potwierdzić, że zmiana pracy, przeprowadzka
- do Bielska-Białej i generalnie wejście typowo w rolę Inżyniera Oprogramowania
- otworzyło przede mną możliwości, których wcześniej nie miałem.
- Pracując w Rzeszowie w roli wdrożeniowca już sam przyjazd samochodem w
- Karkonosze był sporym wypadkiem (530km w jedną stronę).
- 
-\series bold
-Zaznaczam jednak aby nie ulegać 
-\begin_inset Quotes pld
-\end_inset
-
-wykopowym
-\begin_inset Quotes prd
-\end_inset
-
- opowieściom o mitycznych 10 000 złotych miesięcznie na rękę, które mają
- zarabiać młodzi programiści bez żadnego wysiłku.
- To nie jest prawda a wierutne kłamstwo!
-\series default
- Mi samemu brakuje do tej kwoty bardzo dużo i już samo znalezienie się w
- miejscu w którym jestem teraz kosztowało dużo pracy.
- Jeżeli zaś chodzi o same zarobki to zależą one od miasta i doświadczenia.
- We Wrocławiu, Katowicach, Krakowie, Warszawie gdzie koszta życia są dużo
- większe zarobki również będą naturalnie większe.
- Poza dużymi miastami są nieco mniejsze.
- Podobnież jak w sporcie tu również są pewne 
-\begin_inset Quotes pld
-\end_inset
-
-stopnie
-\begin_inset Quotes prd
-\end_inset
-
-.
- 
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Zaczyna się często od stażysty czyli takiego młodzika.
- Stażysta to osoba, która ma bardzo małą wiedzę i którą w zasadzie trzeba
- cały czas uczyć i poświęcać dużo czasu.
- Stażysta z definicji przychodzi do firmy na dość krótki czas, często robi
- za darmo albo za dość małe kwoty 1000~1300pln netto miesięcznie.
- 
-\end_layout
-
-\begin_layout Itemize
-Kolejnym etapem rozwoju jest Junior.
- Junior to osoba, która zna teoretycznie język i technologię którą się posługuje.
- Ma jakieś bardzo małe doświadczenie we własnych, małych projektach tworzonych
- często tylko w celach ćwiczebnych (czyli projekty, które nigdy nie weszły
- do produkcyjnego użycia) ale albo nie ma w ogóle doświadczenia zaowodowego,
- albo do doświadcze jest bardzo małe np.
- mniej niż rok.
- W pracy wykazuje się już dość dużą samodzielnością ale cały czas wymaga
- nadzoru kogoś drugiego, kto będzie w stanie wychwytywać ewentualne błędy
- i będzie mu pomagać gdy nie będzie czegoś wiedział albo potrafił.
- Junior w zależności od technologii i miasta zarabia około 2000~3500 netto
- miesięcznie, choć w niektórych technologiach (Java) zdarzają się pojedyncze
- oferty na sumy nawet 5000 netto w Krakowie czy Wrocławiu.
-\end_layout
-
-\begin_layout Itemize
-Po około roku, półtorej (rzadko więcej) roku pracy na stanowisku Juniora
- przeskakuje się na poziom tzw.
- 
-\begin_inset Quotes pld
-\end_inset
-
-Regulara
-\begin_inset Quotes prd
-\end_inset
-
- albo 
-\begin_inset Quotes pld
-\end_inset
-
-Middle
-\begin_inset Quotes prd
-\end_inset
-
-.
- Regular jest osobą, która jest już w pełni samodziela w swojej pracy.
- Zna bardzo dobrze język i technologię ale przede wszystkim, co jest jeszcze
- ważniejsze wie jak odnajdywać rozwiązania problemów z którymi się zmaga.
- Wie gdzie i jak szukać dokumentacji technicznej i wsparcia technicznego.
- Ma dużą wiedze na temat projektu nad którym pracuje i może bez problemu
- nawiązać współpracę z innymi ludźmi i zespołami nad nim pracującymi.
- Zarobi regulara zaczynają
-\begin_inset space ~
-\end_inset
-
-się od kwoty 3500pln netto dla małych miast (Rzeszów) a kończą się gdzieś
- w okolicach właśnie tych mitycznych 10 000pln netto miesięcznie.
- 
-\end_layout
-
-\begin_layout Itemize
-Ostatnim etapem w karierze programisty jest Senior.
- Senior jest osobą, która ma lata (najcześciej 4 i więcej) doświadczenia
- w technologii którą używa.
- Wiedza i doświadczenie seniora jest tak duże, że może w zasadzie pełnić
- rolę kierownika projektu albo kierownika zespołu.
- W drobnych szczegółach zna projekt nad którym pracuje i jest ostatnią deską
- ratunku innych gdy 
-\begin_inset Quotes pld
-\end_inset
-
-nic nie działa i nikt nie wie dlaczego
-\begin_inset Quotes prd
-\end_inset
-
-.
- W niektórych technologiach zarobki Seniorów dochodzą do 15 000 złotych
- netto.
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-Elastyczny czas pracy
-\series default
- - Jest to benefit pozapłacowy, który jest pożądany przez pracowników w
- największym stopniu.
- Siedziby dużych firm IT najczęściej są ochraniane na miejscu przez ochroniarzy,
- oraz wyposażone są w zamki otwierane kartami zbliżeniowymi.
- Ten system jest często sprzęgnięty z pomiarem czasu pracy.
- Elastyczny czas pracy polega na narzuceniu jedynie ilości godzin, które
- pracownik musi przepracować w ustalonym okresie (najczęściej miesiąc).
- Ile godzin pracownik będzie pracował dziennie to już sprawa jego i ewentualnie
- kierownika zespołu.
- Znam też częste przypadki w odniesieniu do zawodników w sporcie paralotniowym,
- gdy umowa dżentelmeńska z kierownikiem umożliwiała pracę po 12 godzin w
- tygodniu, aby potem odebrać nadmiarowe godziny jako ekstra dni wolne nie
- zabierające urlopu wypoczynkowego (którego często już po prostu nie było
- ze względu na wyjazdy na zawody).
- Przenosząc do na realia sankowe -> Przy odpowiednim układzie z kierownikiem
- można by we wrześniu / październiku pracować dużo więcej w niektóre dni,
- aby potem mieć możliwość wyjazdów na treningi i Puchar Świata czy inne
- zawody mając tylko 26 dni robocze urlopu do dyspozycji.
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Praca zdalna
-\series default
- - Praca zdalna polega na pracy nie w siedzibie pracodawcy ale zdalnie,
- w dowolnie obranym miejscu.
- Dla jednych programistów jest to jedyny wyznacznik przy szukaniu zatrudnienia,
- inni nigdy by się jej nie podjęli.
- Dla pracodawcy zaletą są przede wszystkim niskie koszta własne.
- Pracownikowi nie trzeba wynajnować biura, co oczywiście kosztuje dość znaczna
-\begin_inset space ~
-\end_inset
-
-sumę pieniędzy.
- Często pracownik pracuje na własnym sprzęcie co też zmniejsza koszta pracodawcy.
- Zdalny programista jest oczywiscie z definicji mniej wydajny, bo ma utrudniony
- kontakt z resztą zespołu ale jak to pewna osoba mawia 
-\begin_inset Quotes pld
-\end_inset
-
-korporacja to przewidziała
-\begin_inset Quotes prd
-\end_inset
-
-.
- Jak to przenieść
-\begin_inset space ~
-\end_inset
-
-na realia sankowe? W dość oczywisty sposób.
- Pracować można tak samo z Jeleniej Góry jak z Altenbergu, Oberhofu, Koenigsee,
- Iglis, czy dowolnego innego miejsca na świecie.
- Oczywiście są pewne ograniczenia zarówno ze strony programistycznej, jak
- i pewnie sankowej (skupienie na starcie itp itd) ale nie jest to niemożliwe.
-\end_layout
-
-\begin_layout Standard
-
-\series bold
-Teraz nieco o tym czy jest trudno :)
-\series default
- Z programowaniem jest podobnie jak np.
- z paralotniarstwem i zapewne tak jak z sankami - aby osiagnąć sukces trzeba
- dużo pracować.
- Każdy zaczyna od podstaw, a potem z biegiem czasu nabiera doświadczenia
- i wiedzy, które pozwalają mu coraz więcej uzyskać.
- Pewne cechy saneczkarza mogą się
-\begin_inset space ~
-\end_inset
-
-wbrew pozorom okazać przydatne w karierze programisty i sprawić, że nie
- będzie to takie trudne jak może się
-\begin_inset space ~
-\end_inset
-
-wydawać ;).
- 
-\end_layout
-
-\begin_layout Standard
-Wprawdzie Góra Parkowa w Krynicy to nie start męski w Siguldzie ale domyślam
- się (bo wiedzy w temacie nie mam), że przy prędkości przelotowej 70 węzłów
- nie ma zbytnio czasu na dogłębne przemyślenia 
-\begin_inset Quotes pld
-\end_inset
-
-czy ja na ten wiraż wjadę bardziej środek-lewa czy środek-prawa
-\begin_inset Quotes prd
-\end_inset
-
-.
- Wydaje się (mi), że w tym sporcie kluczem jest daleko posunięta wyobraźnia
- przestrzenna i zdolność abstrakcyjnego myślenia pozwalającego wyborazić
- sobie linię przejazdu przez wszystkie wiraże i wstępne przeprocesowanie
- tego co trzeba zrobić podczas jazdy.
- 
-\series bold
-Tak się składa, że te same cechy czynią dobrego programistę :)
-\series default
- Kod programu zapisany w dowolnym jezyku programowanie jest jedynie jakimś
- suchym i abstrakcyjnym zapisem algorytmu wg.
- którego program ma działać.
- Programista musi umieć wyobrazić sobie jak ten kod programu będzie przekładał
- się na działającą aplikację, co dane operacje znaczą, co robią funkcję
- i np.
- dlaczego mają takie a nie inne argumenty.
- Ta sama zasadzia działą w drugą stronę, programista musi umieć wyobrazić
- sobie jak należy opakować w algorytmu i struktury danych wizję swoją albo
- klienta.
 \end_layout
 
 \end_body

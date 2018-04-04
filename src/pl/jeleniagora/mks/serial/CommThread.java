@@ -201,6 +201,7 @@ public class CommThread  {
 										 */
 										this.numberOfBytesRxed = 0;
 
+										break;
 									}
 									else {
 										/*

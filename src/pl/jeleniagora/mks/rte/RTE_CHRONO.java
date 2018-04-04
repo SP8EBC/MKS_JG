@@ -16,7 +16,15 @@ public class RTE_CHRONO {
 	RTE_CHRONO() {
 		this.timeMeasSemaphore = new Semaphore(1);
 		this.failToParseData = false;
+		this.timeMeasState = ChronoStateMachine.IDLE;
+		this.syncState = new Object();
+		this.syncRuntime = new Object();
+		this.syncError = new Object();
 	}
+	
+	public Object syncState;
+	public Object syncRuntime;
+	public Object syncError;
 	
 	public LocalTime runTime;
 	

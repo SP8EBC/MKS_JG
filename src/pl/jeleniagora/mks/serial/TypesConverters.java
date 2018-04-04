@@ -17,6 +17,9 @@ import org.apache.commons.lang3.ArrayUtils;
  */
 public class TypesConverters {
 
+	public static int nanoToMilisecScaling = 1000000;
+
+	
 	/**
 	 * Konwertuje tablice prymitywnych typów byte na wektor Short
 	 * @param in
@@ -90,7 +93,7 @@ public class TypesConverters {
 			return null;
 		
 		//char out[] = new char[arrayLn];
-		Vector<Character> out = new Vector<Character>();
+		Vector<Character> out = new Vector<Character>(arrayLn);
 		
 		for (int i = 0; i < arrayLn; i++) {
 			char c = (char)(in[i] & 0xFF);

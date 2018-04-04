@@ -29,7 +29,7 @@ public class Main {
 			
 			RTE_COM rte_com = ctx.getBean(RTE_COM.class);
 			
-			com = new CommThread("/dev/ttyS0", ctx);
+			com = new CommThread("/dev/ttyUSB0", ctx);
 			System.out.println("done");
 			
 			//Chrono chrono = new Chrono(ctx);

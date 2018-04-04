@@ -3,10 +3,13 @@ package pl.jeleniagora.mks.chrono;
 import java.time.LocalTime;
 import java.util.Vector;
 
+import static java.time.temporal.ChronoUnit.NANOS;
+
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import pl.jeleniagora.mks.rte.RTE_CHRONO;
 import pl.jeleniagora.mks.rte.RTE_COM;
+import pl.jeleniagora.mks.serial.RxCommType;
 import pl.jeleniagora.mks.settings.ChronometerS;
 import pl.jeleniagora.mks.settings.ChronometerType;
 import pl.jeleniagora.mks.types.Reserve;
@@ -62,6 +65,7 @@ public class Chrono implements Runnable {
 			 * Sprawdzanie czy z portu szeregowego przyszły jakieś nowe dane
 			 */
 			if (rte_com.rxDataAvaliable) {
+//				System.out.println("-- rx data avaliable");
 				
 				GateTimeData td;
 				
@@ -76,6 +80,10 @@ public class Chrono implements Runnable {
 				if (rte_com.rxBuffer == null) {
 					rte_com.rxDataAvaliable = false;
 					rte_com.rxBufferSemaphore.release();
+					
+					rte_com.activateRx = true;
+					rte_com.rxCommType = RxCommType.END_OF_LINE;
+					
 					continue;
 				}
 				Vector<Character> rxData_rc = new Vector<Character>(rte_com.rxBuffer);
@@ -95,6 +103,15 @@ public class Chrono implements Runnable {
 				} catch (Reserve e) {
 					e.printStackTrace();
 					rte_chrono.failToParseData = true;
+//					System.out.println("-- failed to parse data");
+					
+					rte_com.activateRx = true;
+					rte_com.rxCommType = RxCommType.END_OF_LINE;
+	
+					synchronized(rte_chrono.syncError) {
+						rte_chrono.syncError.notifyAll();
+					}
+					
 					continue;
 				}
 				
@@ -112,6 +129,7 @@ public class Chrono implements Runnable {
 					if (ChronometerS.gateCount == 2) {
 						timeMeasurementState = ChronoStateMachine.V1_ROTATE; 
 						v1Timestamp = td;		// zapisywanie timestampu przejśćia w stane V1_ROTATE czyli czasu startu
+//						System.out.println("-- swtiched to V1_ROTATE state with timestamp " + td.getTime().toString());
 					}
 					else;
 					break;
@@ -121,13 +139,16 @@ public class Chrono implements Runnable {
 					if (ChronometerS.gateCount == 2) {
 						timeMeasurementState = ChronoStateMachine.LANDED; 
 						landedTimestamp = td;
+//						System.out.println("-- swtiched to LANDED state with timestamp " + td.getTime().toString());
 					}
 					break;
 				}
 				case AIRBORNE: 			break;
 				case EN_ROUTE:			break;
 				case ON_FINAL:			break;
-				case LANDED:			break;
+				case LANDED: {
+					break;
+				}
 
 				default:				break;
 				}
@@ -139,6 +160,10 @@ public class Chrono implements Runnable {
 				}
 				rte_chrono.timeMeasState = timeMeasurementState;
 				rte_chrono.timeMeasSemaphore.release();
+
+				synchronized (rte_chrono.syncState) {
+					rte_chrono.syncState.notifyAll();
+				}
 				
 				/*
 				 * Obliczanie czasów
@@ -149,10 +174,21 @@ public class Chrono implements Runnable {
 					LocalTime endTime = landedTimestamp.getTime();
 					
 					if (startTime != null && endTime != null) {
-						runTime = endTime.minusNanos(startTime.getNano());
+						long diff = startTime.until(endTime, NANOS);
+						runTime = LocalTime.ofNanoOfDay(diff);
 						rte_chrono.runTime = runTime;
+
+						
+						synchronized(rte_chrono.syncRuntime) {
+							rte_chrono.syncRuntime.notifyAll();
+						}
+						
+//						System.out.println("-- runtime " + runTime.toString());
 					}
+					timeMeasurementState = ChronoStateMachine.IDLE; 
 				}
+				rte_com.activateRx = true;
+				rte_com.rxCommType = RxCommType.END_OF_LINE;
 				
 			}
 			else {
