@@ -777,6 +777,17 @@ This is not my fault!!! This is not my fault!!!! THIS IS NOT MY FAULT!!!!!!!!
 \end_layout
 
 \begin_layout Standard
+\begin_inset Quotes pld
+\end_inset
+
+Nie jestem nerwowy kurwa mać!!!!
+\begin_inset Quotes prd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 Typowe rozmowy programistów kiedy do terminu wydania pozostało kilka dni,
  nic nie działa i nikt nie wie dlaczego.
 \end_layout
@@ -798,7 +809,7 @@ rozminął się z planami
 \begin_layout Standard
 Członkowie zespołu deweloperskiego już dawno przestali liczyć nadgodziny
  a jego kierownik przeprowadza trening mentalny próbując wyobrazić sobie
- w jaki sposób będzie mówił 
+ w jaki sposób będzie mówił o tym 
 \begin_inset Quotes pld
 \end_inset
 
@@ -806,9 +817,7 @@ górze
 \begin_inset Quotes prd
 \end_inset
 
- (a być może także klientowi zewnętrznemu), że na działające oprogramowanie
- trzeba będzie zaczekać conajmniej dwa miesiące ekstra.
- 
+, a być może także klientowi zewnętrznemu.
 \end_layout
 
 \begin_layout Standard
@@ -914,7 +923,7 @@ Obsługi treningów i zawodów
 (majówka w Karkonoszach)
 \series default
 \shape default
- - Dopracowana i gruntownie dopracowana obsługa portu szeregowego, komunikacji
+ - Dopracowana i gruntownie przetestowana obsługa portu szeregowego, komunikacji
  z chronometrem itp.
  Dodana aktualizacja czasów ślizgów na liście w oknie 
 \begin_inset Quotes pld
@@ -981,7 +990,16 @@ Obsługi...
 \end_inset
 
  na docelowych strukturach danych, lecz dopuszcza się obsługę tylko jednego
- ślizgu.
+ ślizgu wpisanego 
+\begin_inset Quotes pld
+\end_inset
+
+na sztywno wraz zawodnikami
+\begin_inset Quotes prd
+\end_inset
+
+, tj.
+ bez odczytywania czegokolwiek z plików XML a już tym bardziej z bazy danych.
  Program musi być gotowy do pierwszej publicznej prezentacji i testów z
  realnym chronometrem Sectro, być może nawet podczas zjazdów.
  Nie wymaga się działania trybu automatycznego.
@@ -992,7 +1010,7 @@ Obsługi...
 
 \series bold
 \shape italic
-10 czerwiec 2018
+15 czerwiec 2018
 \series default
 \shape default
  - Funkcję bezpieczeństwa danych, eksport do 
@@ -1023,17 +1041,76 @@ Menadżera zawodników
 
 \series bold
 \shape italic
-1 lipiec 2018 
+15 lipiec 2018 
 \series default
 \shape default
 - Zapis danych zawodników i zawodów do plików XML.
+ Obliczanie podstawowych statystyk zawodników (zliczanie ślizgów per tor
+ i per bramka startowa).
+ Wstępne generowanie raportów do plików PDF/JPG...
+ 
+\shape italic
+Publiczna prezentacja raportów w celu dopracowania grafiki i układu danych.
 \end_layout
 
 \begin_layout Enumerate
 
 \series bold
 \shape italic
-14 września 2018 - FINAL DEADLINE.
+15 lipiec 2018
+\series default
+\shape default
+ - Pierwsza działajaca wersją programu obsługi wyświetlacza podająca jakiekolwie
+k dane (nawet datę / godzinę) i reagująca w jakikolwiek sposób na komendy
+ wysyłane z MKS_JG prez WebSerwis
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+\shape italic
+15 sierpnia 2018
+\series default
+\shape default
+ - Program obsługi wyświetlaczy potrafi pokazywać: 
+\begin_inset Quotes pld
+\end_inset
+
+aktualnie na torze + lokalnie odmierzany czas ślizgu
+\begin_inset Quotes prd
+\end_inset
+
+, 
+\begin_inset Quotes pld
+\end_inset
+
+aktualnie na torze + nastepny
+\begin_inset Quotes prd
+\end_inset
+
+ oraz listę startową /wyników dla bierzącej konkurencji.
+ Program MKS_JG powinien współpracować z max 4 niezależnymi wyświetlaczami
+ z czego każdy powinien mieć możliwość wyświetlania innych informacji.
+ Domykanie wszystkich nieukończonych do tej pory funkcjonalności.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+\shape italic
+1 września 2018
+\series default
+\shape default
+ - Zamrożenie wersji.
+ Brak dodawania żadnej nowej funkcjonalności, jedynie testy już napisanego
+ kodu.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+\shape italic
+14 września 2018 (Memoriał Mariusza Warzyboka) - FINAL DEADLINE.
 
 \series default
 \shape default
@@ -1053,6 +1130,23 @@ go zapisu.
 \shape default
  - Poprawienie wszystkich błędów zgłoszonych i zauważonych podczas używania
  na memoriale Mariusza Warzyboka w Karpaczu.
+ Dodanie funkcjonalności wysyłania na bierząco aktualnych wyników na zdalny
+ serwer do prezentacji on-line na stronie WWW.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+\shape italic
+styczeń-luty 2019 (Sigulda??? Lillehammer?? OOM???)
+\series default
+\shape default
+ - Stworzenie strony WWW (Java Server Pages) umożliwiającej wyświetlane
+ kibicom aktualnych wyników wszystkich ślizgów.
+ Preferowana wersja dynamiczna, która nie będzie wymagała używania funkcji
+ odśwież w przeglądarce.
+ Strona powinna być responsywna, czyli powinna poprawnie działać zarówno
+ na komputerach jak i na telefonach komórkowych.
  
 \end_layout
 
@@ -2095,13 +2189,195 @@ Zawody
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Menu zawody służy do zmiany opcji 
+\begin_inset Quotes pld
+\end_inset
+
+Per zawody
+\begin_inset Quotes prd
+\end_inset
+
+, przy czym część z nich powinna zostać ustawiona jeszcze przed rozpoczęciem
+ jazdy (przed wylosowaniem numerów startowych), podczas gdy część może być
+ dowolnie zmieniana w dalszym cigu.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\shape italic
+Nazwa i data
+\series default
+\shape default
+ - Nazwa zawodów oraz data ich rozgrywania.
+ Informacja potrzebna jedynie do generowania raportów.
+ W przyszłości, w momencie kiedy będzie działała strona WWW do wyników on-line
+ (początek 2019 roku) po podanej nazwie serwer będzie kojarzył dane przychodzące
+ z MKS_JG.
+ W takich okolicznościach zmiana nazwy w trakcie trwania zawodów może uniemożliw
+ić poprawną pracę 
+\begin_inset Quotes pld
+\end_inset
+
+wyników online
+\begin_inset Quotes prd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\shape italic
+Wybierz Tor
+\series default
+\shape default
+ - Ważna funkcja służąca do wyboru toru na którym odbywa się trening / zawody.
+ Ponieważ torów sankowych na świecie jest skończona i dość mała liczba,
+ to wszystkie one zostały zapisane w programie MKS_JG na sztywno.
+ Lista obejmuje wszystkie obiekty sztucznie mrożone, jak również Górę Parkową
+ w Krynicy, Karpacz, Smrzovke, Zwickau (tor plastikowy?).
+ Wybranie konkretnego toru powoduje załadowanie tzw.
+ 
+\begin_inset Quotes pld
+\end_inset
+
+track tunes
+\begin_inset Quotes prd
+\end_inset
+
+ do pamięci.
+ Track Tunes jest to zestaw informacji opisujących to, jak dany tor wygląda,
+ jaką długość i ilość wiraży ma do przejechania saneczkarz z poszczególnych
+ bramek startowych, w których miejscach znajdują się fotocele odmierzające
+ czas itp itd.
+ Na podstawie tych danych MKS_JG oblicza m.in.
+ prędkości ślizgu, oraz waliduje go zgodnie z tym co opisałem w sekcji (rozdzial
+e) 7.8..
+ Ponieważ na Górze Parkowej, jak również w Krynicy bramki i pomiar czasu
+ ustawia się w zależności od konkretnej konkurencji i długości wylodzonego
+ odcinka program ma możliwość ustawienia trzech 
+\begin_inset Quotes pld
+\end_inset
+
+wirtualnych bramek startowych
+\begin_inset Quotes prd
+\end_inset
+
+.
+ W przypadku każdej z nich podaje się długość odcinka do jazdy - odległość
+\begin_inset space ~
+\end_inset
+
+w metrach od startu na której znajduje się fotocela mety i fotocela pomiaru
+ pośredniego.
+ Raz wybrane ustawienia toru nie powinny już być zmieniane!.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\shape italic
+Kolejność Startowa
+\series default
+\shape default
+ - Pozwala wybrać w jakiej kolejności program ma ustawiać kolejnych saneczkarzy
+ do startu.
+ Po wybraniu 
+\begin_inset Quotes pld
+\end_inset
+
+zawsze wg.
+ numerów startowych
+\begin_inset Quotes prd
+\end_inset
+
+ każdy kolejny ślizg będzie odbywał się wg wylosowanych numerów startowych.
+ Tj.
+ po najwyższym numerze startowym w pierwszym ślizgu treningowym, pojedze
+ pierwszy numer startowy w drugim treningowych.
+ Analogiczna zasada obowiązuje w ślizgach punktowanych.
+ 
+\series bold
+\shape italic
+Po wybraniu zgodności z FIL
+\series default
+\shape default
+ pierwszy ślizg treningowy i puntowany odbywa się
+\begin_inset space ~
+\end_inset
+
+zgodnie z listą punktowaną.
+ Kolejne ślizgi odbywa się w kolejności odwrotnej od najwolniejszego do
+ najszybszego saneczkarza z poprzedniego.
+ 
+\shape italic
+Uwaga! Program zatrzaskiwuje wartość wybieraną w tym menu przed rozpocząciem
+ każdego kolejnego ślizgu.
+ Oznacza to, ze zmiana tej pozycji menu będzie miała efekt dopiero w kolejnym
+ ślizgu.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\shape italic
+Osoba konkurencja drużynowa
+\series default
+\shape default
+ - Opcja dostępna do zmainy jedynie przed wylosowaniem numerów startowych.
+ Pozostawienie jej odznaczonej spowoduje obliczanie wyników drużyn na podstawie
+ ślizgów ich (tj.
+ tych drużych) członków w odpowiednich dla siebie konkurencjach.
+ 
+\end_layout
+
+\begin_layout Itemize
+S
+\series bold
+\shape italic
+ędziowie 
+\series default
+\shape default
+- Opcja umożliwiająca podanie Imion i Nazwisk sędziów.
+ Ma funkcję jedynie informacyjną, używaną przy generowaniu raportów.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\shape italic
+Trening / Punktowane Zawody
+\series default
+\shape default
+ - Rolą tej opcji jest tak naprawdę włączanie bądź wyłączanie silnika obliczając
+ego punktację zgodnie z wymaganiami FIL / PZSSan, określanie klas sportowych
+ i innych tego typu prametrów.
+ Po wybraniu treningu funkcjonalność ta będzie kompletnie wyłączona i program
+ będzie jedynie rejestrował czasy przejazdu i okreslał na tej podstawie
+ ranking.
+ Dla drugiej opcji obliczenia będą przeprowadzane po każdej zakończonej
+ konkurencji
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\shape italic
+Przelicz punktację
+\series default
+\shape default
+ - Opcja powodująca wymuszenie przeliczenia punktacji dla danego ślizgu.
+ Używana jeżeli zaszła konieczność ręcznej korekty zapisanych już czasów.
 \end_layout
 
 \begin_layout Section
@@ -2642,6 +2918,33 @@ Przedślizgacz może być wypuszczany w dowolnym momencie konkurencji, dowolną
  ilość razy.
 \end_layout
 
+\begin_layout Section
+Walidacja danych z chronometru
+\end_layout
+
+\begin_layout Standard
+Chronometr Sector wysyła dane do komputera PC bez obecności jakiejkolwiek
+ sumy kontrolnej co oznacza, że wykrycie ewentualnych błędów komunikacji
+ jest mocno utrudnione.
+ Aby uniknąć wyświetlania niepoprawnych wartości program MKS_JG przeprowadza
+ wstepna walidację tych danych.
+ Najpierw sprawdzane jest czy czasy przecięcia poszczególnych fotoceli mają
+ logiczny sens, tj.
+ czy minuty zawierają się w przedziale 0-59, analogiczne sekundy i milisekundy.
+ Jeżeli którakolwiek wartość nie ma sensu fizycznego, to cała ramka jest
+ odrzucana.
+ Po przecięciu linii mety lub fotoceli międzyczasu na podstawie wybranego
+ toru i jego track tune obliczana jest prędkość średnia ślizgu w danym odcinku.
+ Jeżeli jest ona zbyt mała lub zbyt duża (np.
+ 130km/h na torze w Karpaczu albo 30km/h w Siguldzie ze startu męskiego)
+ MKS_JG uzna to za awarię chronometru, fotoceli lub po prostu błąd transmisji
+ danych.
+ W takim przypadku wyświetlone zostanie stosowne okno ostrzegawcze, choć
+ użytkownik wciąż będzie miał możliwość zapisania takiego nieporawnego czasu
+ zawodnikowi.
+ 
+\end_layout
+
 \begin_layout Chapter
 Informcje kontaktowe
 \end_layout
@@ -2651,9 +2954,9 @@ W sprawach dotyczących oprogramowania MKS_JG można komunikować się ze mną
  telefonicznie, mailowo, osobiście, bądź na pasmach amatorskich.
  Dzwonić można próbować w zasadzie całodobowo, telefon sam wycisza dźwięki
  na noc także w najgorszym wypadku po prostu się nie dodzwonisz ;) Nawet
- jeżeli jednak uda się mnie obudzić (czasami siedzę do późna i tak samo
- do późna śpie) to nie jestem typem człowieka który się obraża że został
- wyrwany nagle ze snu ;)
+ jeżeli jednak uda się mnie obudzić (czasami pracuję do późna przy komputerze
+ i tak samo do późna śpie) to nie jestem typem człowieka który się obraża
+ że został wyrwany nagle ze snu ;)
 \end_layout
 
 \begin_layout Standard
