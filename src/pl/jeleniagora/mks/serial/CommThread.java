@@ -3,6 +3,8 @@ package pl.jeleniagora.mks.serial;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.time.Duration;
+import java.time.LocalTime;
 import java.util.Vector;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -30,6 +32,9 @@ public class CommThread  {
 	private byte[] rxBuffer;
 	
 	private AnnotationConfigApplicationContext ctx;
+	
+	private LocalTime rxTransferStart;
+	private boolean rxStartDebounce;
 	
 	/**
 	 * Wektor do trzymania danych przychodzących z portu szeregowego;
@@ -132,6 +137,12 @@ public class CommThread  {
 					 * Sprawdzanie zmiennej RTE określającej czy odbiór danych w ogóle został włączony czy nie
 					 */
 					if(rte_com.activateRx) {
+						if (!rxStartDebounce && !SerialCommS.isDetectTimeoutAfterFirstByte()) {
+							System.out.println("-- Serial timeout debounce");
+							rxTransferStart = LocalTime.now();
+							rxStartDebounce = true;
+						}
+						
 						/*
 						 * Przełączanie po różnych konfiguracjach odbioru portu szeregowego. Każda z nich wymaga nieco specyficznego
 						 * podejścia do obsługi
@@ -151,6 +162,12 @@ public class CommThread  {
 									 * dojechano do końca bufora odbiorczego
 									 */
 									char c = (char)(rxData[this.numberOfBytesRxed] & 0xFF);
+									
+									if (!rxStartDebounce && SerialCommS.isDetectTimeoutAfterFirstByte()) {
+										System.out.println("-- Serial timeout debounce");
+										rxTransferStart = LocalTime.now();
+										rxStartDebounce = true;
+									}
 									
 									if (c == '\n' || c == '\r' || this.numberOfBytesRxed >= SerialCommS.getSerialBufferLn() + 1) {
 
@@ -181,6 +198,9 @@ public class CommThread  {
 										 */
 										rte_com.activateRx = false;
 										
+										rxStartDebounce = false;
+										rxTransferStart = null;
+										
 										/*
 										 * A to ustaw na true aby zasygnalizoać że dane są dostępne
 										 */
@@ -200,7 +220,7 @@ public class CommThread  {
 										 * Kasowanie liczby odebranych bajtów bo ta jest już przechowywana jako długość wektora
 										 */
 										this.numberOfBytesRxed = 0;
-
+										
 										break;
 									}
 									else {
@@ -224,11 +244,193 @@ public class CommThread  {
 								else {
 									/*
 									 * Jeżeli funkcja zwróciła -1 albo 0 to oznacza że po opływie timeoutu nic nie odebrano. Po prostu
-									 * trzeba czekać dalej na przychodzące dane
+									 * trzeba czekać dalej na przychodzące dane. Sprawdź globalny timeout
 									 */
-									;
+									LocalTime actualTime = LocalTime.now();
+									long diffMilis = 0;
+									if (rxTransferStart != null) {
+										Duration diff = Duration.between(actualTime, rxTransferStart);
+										diffMilis = Math.abs(diff.toMillis());
+									}
+									
+									if (diffMilis > SerialCommS.getMaxRxTimeoutMsec()) {
+										System.out.println("-- Serial Timeout - rxed: " + this.numberOfBytesRxed + " - to be rxed: " + rte_com.numberOfBytesToRx);
+
+										/*
+										 * 
+										 */
+										try {
+											rte_com.rxBufferSemaphore.acquire();	// uwaga! funkcja jest blokująca w nieskończoność
+										} catch (InterruptedException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+										
+										rte_com.rxBuffer = null;
+										
+										rte_com.rxCommTypeForVector = rte_com.rxCommType;
+										
+										rxData = new byte[SerialCommS.getSerialBufferLn()];
+
+										this.numberOfBytesRxed = 0;
+
+										/*
+										 * W tym przypadku ta flaga nie zostanie ustawiona, czyli zewnętrzny proces oczekujący tych danych
+										 * nie zareaguje
+										 */
+										rte_com.rxDataAvaliable = false;
+										/*
+										 * Zwalniania semafora
+										 */
+										rte_com.rxBufferSemaphore.release();
+										
+										if (SerialCommS.isAutoRestartAfterTimeout()) {
+											rte_com.activateRx = true;
+											rte_com.rxCommType = RxCommType.END_OF_LINE;
+											rxStartDebounce = false;
+											rxTransferStart = null;
+
+										}
+										else {
+											rte_com.activateRx = false;
+											rte_com.rxCommTypeForVector = RxCommType.END_OF_LINE;
+										}
+										
+									}
 								}
 								break;	// koniec case
+							}
+							case NUM_OF_BYTES: {
+								int previousNum = this.numberOfBytesRxed;
+
+								int readReturn = str.read(rxData, previousNum, 1);
+
+								if(readReturn == 1) {
+									/*
+									 * Jeżeli funkcja odebrała jakieś dane, zwiększ licznik odbioru
+									 *
+									 */
+									this.numberOfBytesRxed++;
+
+									if (!rxStartDebounce && SerialCommS.isDetectTimeoutAfterFirstByte()) {
+										System.out.println("-- Serial timeout debounce");
+										rxTransferStart = LocalTime.now();
+										rxStartDebounce = true;
+									}
+									
+									/*
+									 * I sprawdź czy nie przekroczono już liczby bajtów do odbioru
+									 * 
+									 */
+									if (this.numberOfBytesRxed >= rte_com.numberOfBytesToRx) {
+										System.out.println("-- Serial transfer done");
+										/*
+										 * Jeżeli przekroczono
+										 */
+										try {
+											rte_com.rxBufferSemaphore.acquire();	// uwaga! funkcja jest blokująca w nieskończoność
+										} catch (InterruptedException e) {
+											e.printStackTrace();
+										}
+																	
+										rte_com.rxBuffer = TypesConverters.convertByteArrayToCharVector(rxData);
+										
+										/*
+										 * Przepis zawartość rxCommType do drugiej zmiennej "sparowanej" z buforem
+										 */
+										rte_com.rxCommTypeForVector = rte_com.rxCommType;
+										
+										/*
+										 * Ustaw flagę odbioru na false aby zasygnalizować że transfer się zakończył
+										 */
+										rte_com.activateRx = false;
+										
+										rxStartDebounce = false;
+										rxTransferStart = null;
+										
+										/*
+										 * A to ustaw na true aby zasygnalizoać że dane są dostępne
+										 */
+										rte_com.rxDataAvaliable = true;
+										
+										/*
+										 * Zwalniania semafora
+										 */
+										rte_com.rxBufferSemaphore.release();
+
+										/*
+										 * Przeicjalizuj bufor na nowo. Stara zawartość zostanie usunięta przez Garbage Collectora
+										 */
+										rxData = new byte[SerialCommS.getSerialBufferLn()];
+										
+										/*
+										 * Kasowanie liczby odebranych bajtów bo ta jest już przechowywana jako długość wektora
+										 */
+										this.numberOfBytesRxed = 0;
+										
+										break;
+									}
+									else {
+										; // odbieraj dalej
+									}
+									
+								}
+								else {
+									/*
+									 * Sprawdź globalny timeout
+									 */
+									LocalTime actualTime = LocalTime.now();
+									long diffMilis = 0;
+									if (rxTransferStart != null) {
+										Duration diff = Duration.between(actualTime, rxTransferStart);
+										diffMilis = Math.abs(diff.toMillis());
+									}
+									
+									if (actualTime != null && diffMilis > SerialCommS.getMaxRxTimeoutMsec()) {
+										System.out.println("-- Serial Timeout - rxed: " + this.numberOfBytesRxed + " - to be rxed: " + rte_com.numberOfBytesToRx);
+										/*
+										 * 
+										 */
+										try {
+											rte_com.rxBufferSemaphore.acquire();	// uwaga! funkcja jest blokująca w nieskończoność
+										} catch (InterruptedException e) {
+											e.printStackTrace();
+										}
+										
+										rte_com.rxBuffer = null;
+										
+										rte_com.rxCommTypeForVector = rte_com.rxCommType;
+										
+										rxData = new byte[SerialCommS.getSerialBufferLn()];
+
+										this.numberOfBytesRxed = 0;
+
+										/*
+										 * W tym przypadku ta flaga nie zostanie ustawiona, czyli zewnętrzny proces oczekujący tych danych
+										 * nie zareaguje
+										 */
+										rte_com.rxDataAvaliable = false;
+										/*
+										 * Zwalniania semafora
+										 */
+										rte_com.rxBufferSemaphore.release();
+										
+										if (SerialCommS.isAutoRestartAfterTimeout()) {
+											rte_com.activateRx = true;
+											rte_com.rxCommType = RxCommType.NUM_OF_BYTES;
+											rxStartDebounce = false;
+											rxTransferStart = null;
+
+										}
+										else {
+											rte_com.activateRx = false;
+											rte_com.rxCommTypeForVector = RxCommType.NUM_OF_BYTES;
+										}
+										
+									}
+								}
+								
+								break;
 							}
 							default: break;
 						}
@@ -240,13 +442,11 @@ public class CommThread  {
 						try {
 							Thread.sleep(1);
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
 				}
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			finally {
@@ -261,7 +461,6 @@ public class CommThread  {
 
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
 			
 		}
 		

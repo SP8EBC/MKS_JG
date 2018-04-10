@@ -64,4 +64,11 @@ public class RTE_COM {
 	 * zasygnalizować CommThread że dane są już nieistotne i mogą być nadpisane.
 	 */
 	public Boolean rxDataAvaliable = false;
+	
+	public int numberOfBytesToRx;
+	
+	/**
+	 * Pole ustawiane na true jeżeli wystąpił timeout przy odbiorze danych. Musi być ręcznie kasowany przez użytkownika
+	 */
+	public boolean timeoutHappened = false;
 }

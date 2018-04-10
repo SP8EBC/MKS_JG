@@ -65,7 +65,7 @@ public class Chrono implements Runnable {
 			 * Sprawdzanie czy z portu szeregowego przyszły jakieś nowe dane
 			 */
 			if (rte_com.rxDataAvaliable) {
-//				System.out.println("-- rx data avaliable");
+				System.out.println("-- rx data avaliable");
 				
 				GateTimeData td;
 				
@@ -81,8 +81,10 @@ public class Chrono implements Runnable {
 					rte_com.rxDataAvaliable = false;
 					rte_com.rxBufferSemaphore.release();
 					
+					rte_com.rxCommType = RxCommType.NUM_OF_BYTES;
+					rte_com.numberOfBytesToRx = 13;
 					rte_com.activateRx = true;
-					rte_com.rxCommType = RxCommType.END_OF_LINE;
+
 					
 					continue;
 				}
@@ -103,10 +105,11 @@ public class Chrono implements Runnable {
 				} catch (Reserve e) {
 					e.printStackTrace();
 					rte_chrono.failToParseData = true;
-//					System.out.println("-- failed to parse data");
+					System.out.println("-- failed to parse data");
 					
 					rte_com.activateRx = true;
-					rte_com.rxCommType = RxCommType.END_OF_LINE;
+					rte_com.rxCommType = RxCommType.NUM_OF_BYTES;
+					rte_com.numberOfBytesToRx = 13;
 	
 					synchronized(rte_chrono.syncError) {
 						rte_chrono.syncError.notifyAll();
@@ -129,7 +132,7 @@ public class Chrono implements Runnable {
 					if (ChronometerS.gateCount == 2) {
 						timeMeasurementState = ChronoStateMachine.V1_ROTATE; 
 						v1Timestamp = td;		// zapisywanie timestampu przejśćia w stane V1_ROTATE czyli czasu startu
-//						System.out.println("-- swtiched to V1_ROTATE state with timestamp " + td.getTime().toString());
+						System.out.println("-- swtiched to V1_ROTATE state with timestamp " + td.getTime().toString());
 					}
 					else;
 					break;
@@ -139,7 +142,7 @@ public class Chrono implements Runnable {
 					if (ChronometerS.gateCount == 2) {
 						timeMeasurementState = ChronoStateMachine.LANDED; 
 						landedTimestamp = td;
-//						System.out.println("-- swtiched to LANDED state with timestamp " + td.getTime().toString());
+						System.out.println("-- swtiched to LANDED state with timestamp " + td.getTime().toString());
 					}
 					break;
 				}
@@ -183,13 +186,14 @@ public class Chrono implements Runnable {
 							rte_chrono.syncRuntime.notifyAll();
 						}
 						
-//						System.out.println("-- runtime " + runTime.toString());
+						System.out.println("-- runtime " + runTime.toString());
 					}
 					timeMeasurementState = ChronoStateMachine.IDLE; 
 				}
+				rte_com.rxCommType = RxCommType.NUM_OF_BYTES;
+				rte_com.numberOfBytesToRx = 13;
 				rte_com.activateRx = true;
-				rte_com.rxCommType = RxCommType.END_OF_LINE;
-				
+			
 			}
 			else {
 
