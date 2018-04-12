@@ -46,6 +46,9 @@ import javax.swing.JCheckBoxMenuItem;
 
 public class CompManager extends JFrame {
 
+	static AnnotationConfigApplicationContext ctx;
+
+	
 	private JPanel contentPane;
 	private JTable table;
 	
@@ -70,16 +73,19 @@ public class CompManager extends JFrame {
 	 */
 	private boolean isDoubleRun;
 	private JTextField textField_m;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField textField_s;
+	private JTextField textField_msec;
 
+	public static void utMain(AnnotationConfigApplicationContext context) {
+		ctx = context;
+		CompManager.main(null);
+	}
+	
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		
-		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(SpringS.class);
-		
+				
 		RTE_GUI rte_gui = ctx.getBean(RTE_GUI.class);
 		
 		EventQueue.invokeLater(new Runnable() {
@@ -133,6 +139,8 @@ public class CompManager extends JFrame {
 	public CompManager() {
 		// lokalny iterator do pętli
 		int i = 0;
+				
+		RTE_GUI rte_gui = ctx.getBean(RTE_GUI.class);
 		
 		// inicjalizacja tablicy pod nazwy kolumn
 		this.columnNamesForTable = new String[9];
@@ -424,17 +432,23 @@ public class CompManager extends JFrame {
 		contentPane.add(textField_m);
 		textField_m.setColumns(10);
 		
-		textField = new JTextField();
-		textField.setFont(new Font("Dialog", Font.PLAIN, 30));
-		textField.setColumns(10);
-		textField.setBounds(1103, 53, 55, 44);
-		contentPane.add(textField);
+		textField_s = new JTextField();
+		textField_s.setFont(new Font("Dialog", Font.PLAIN, 30));
+		textField_s.setColumns(10);
+		textField_s.setBounds(1103, 53, 55, 44);
+		contentPane.add(textField_s);
 		
-		textField_1 = new JTextField();
-		textField_1.setFont(new Font("Dialog", Font.PLAIN, 30));
-		textField_1.setColumns(10);
-		textField_1.setBounds(1170, 53, 71, 44);
-		contentPane.add(textField_1);
+		textField_msec = new JTextField();
+		textField_msec.setFont(new Font("Dialog", Font.PLAIN, 30));
+		textField_msec.setColumns(10);
+		textField_msec.setBounds(1170, 53, 71, 44);
+		contentPane.add(textField_msec);
+		
+		System.out.println("CompManager Constructor");
+		
+		rte_gui.min = textField_m;
+		rte_gui.sec = textField_s;
+		rte_gui.msec = textField_msec;
 		
 		JLabel lblNewLabel = new JLabel("Czas dla wybranego ślizgu");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);

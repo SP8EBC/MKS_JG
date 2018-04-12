@@ -1,5 +1,7 @@
 package pl.jeleniagora.mks.rte;
 
+import javax.swing.JTextField;
+
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -21,11 +23,15 @@ import pl.jeleniagora.mks.gui.CompManagerScoreTableModel;
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class RTE_GUI {
-	public static CompManager compManager;
+	public CompManager compManager;
 	
 	/* 
 	 * Model używany do rysowania listy wników w obsłudze zawodów i treningów. Jest tu potrzebna gdyż w tej klasie siedzi metoda aktualizująca
 	 * liczbę i typ kolumn oraz dane w tabeli 
 	 */
 	public CompManagerScoreTableModel compManagerScoreModel;
+	
+	public JTextField min;
+	public JTextField sec;
+	public JTextField msec;
 }
