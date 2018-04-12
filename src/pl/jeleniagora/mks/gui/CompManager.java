@@ -86,6 +86,10 @@ public class CompManager extends JFrame {
 	 */
 	public static void main(String[] args) {
 				
+		if (ctx == null) {
+			ctx = new AnnotationConfigApplicationContext(SpringS.class);
+		}
+		
 		RTE_GUI rte_gui = ctx.getBean(RTE_GUI.class);
 		
 		EventQueue.invokeLater(new Runnable() {
@@ -99,9 +103,9 @@ public class CompManager extends JFrame {
 					CompManager frame = new CompManager();
 					frame.setVisible(true);
 					
-					c.setCompetitionType(CompetitionTypes.TRAINING);
-					c.setNumberOfAllRuns(3);
-					c.setNumberOfTrainingRuns(1);
+					c.competitionType = CompetitionTypes.TRAINING;
+					c.numberOfAllRuns = 3;
+					c.numberOfTrainingRuns = 1;
 					
 //					CompManager.updateTableHeading(frame.columnNamesForTable, c);
 					
@@ -409,8 +413,8 @@ public class CompManager extends JFrame {
 		table = new JTable(new CompManagerScoreTableModel());
 		table.setFillsViewportHeight(true);
 		table.setAutoCreateRowSorter(true);
-		table.getSelectionModel().addListSelectionListener(new CompManagerScoreTableSelectListener(table));
-		table.getColumnModel().getSelectionModel().addListSelectionListener(new CompManagerScoreTableSelectListener(table));
+		table.getSelectionModel().addListSelectionListener(new CompManagerScoreTableSelectListener(table, ctx));
+		table.getColumnModel().getSelectionModel().addListSelectionListener(new CompManagerScoreTableSelectListener(table, ctx));
 //		table.getSelectionModel().addSelectionInterval(1, 1);
 		
 		/* 

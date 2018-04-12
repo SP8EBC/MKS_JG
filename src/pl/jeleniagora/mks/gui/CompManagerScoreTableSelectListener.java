@@ -5,6 +5,8 @@ import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 /**
  * Listener wyzwalany w momencie kliknięcia przez użytkonika na jakąś komórkę głównej tabeli z wynikami ślizgów
  * @author mateusz
@@ -12,13 +14,17 @@ import javax.swing.event.ListSelectionListener;
  */
 public class CompManagerScoreTableSelectListener implements ListSelectionListener {
 
+	AnnotationConfigApplicationContext ctx;
+
+	
 	/**
 	 * Referencja do obiektu JTable z główną tabeli wyników. Ustawiana przez konstruktora
 	 */
 	private JTable t;
 	
-	public CompManagerScoreTableSelectListener(JTable table) {
+	public CompManagerScoreTableSelectListener(JTable table, AnnotationConfigApplicationContext context) {
 		t = table;
+		ctx = context;
 	}
 	
 	@Override

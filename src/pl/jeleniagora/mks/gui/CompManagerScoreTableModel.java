@@ -68,7 +68,7 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 	@Override
 	public int getColumnCount() {
 		// TODO Auto-generated method stub
-		return (comp.getNumberOfAllRuns() + 5);
+		return (comp.numberOfAllRuns + 5);
 	}
 
 	@Override
@@ -111,8 +111,8 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 	public void updateTableHeading(Competition competition) throws Reserve {
 		boolean isDouble = false;
 		
-		int allRuns = competition.getNumberOfAllRuns();
-		int trainingRuns = competition.getNumberOfTrainingRuns();
+		int allRuns = competition.numberOfAllRuns;
+		int trainingRuns = competition.numberOfTrainingRuns;
 		
 		this.columnNames = new String[allRuns + 5];
 		this.types = new Class[allRuns + 5];
@@ -126,10 +126,10 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 		int i = 0, t = 0;
 		
 		/* Sprawdzanie czy ta konkurencja to konkurencja dwójkowa*/
-		if (competition.getCompetitionType().equals(CompetitionTypes.DOUBLE) ||
-				competition.getCompetitionType().equals(CompetitionTypes.DOUBLE_MEN_ONLY) ||
-				competition.getCompetitionType().equals(CompetitionTypes.DOUBLE_MIXED) ||
-				competition.getCompetitionType().equals(CompetitionTypes.DOUBLE_WOMAN_ONLY))
+		if (competition.competitionType.equals(CompetitionTypes.DOUBLE) ||
+				competition.competitionType.equals(CompetitionTypes.DOUBLE_MEN_ONLY) ||
+				competition.competitionType.equals(CompetitionTypes.DOUBLE_MIXED) ||
+				competition.competitionType.equals(CompetitionTypes.DOUBLE_WOMAN_ONLY))
 		{
 			isDouble = true;
 		}
