@@ -110,7 +110,7 @@ public class CompManager extends JFrame {
 //					CompManager.updateTableHeading(frame.columnNamesForTable, c);
 					
 					CompManagerScoreTableModel mdl = (CompManagerScoreTableModel)frame.getScoreTableModel();
-					mdl.updateTableHeading(c);
+					mdl.updateTableHeading(c, false);
 					mdl.fillWithTestData();
 					
 					/*

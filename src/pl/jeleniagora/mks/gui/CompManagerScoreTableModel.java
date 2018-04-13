@@ -103,12 +103,16 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 		return false;
 	}
 	
+	public void updateTableData(Competition competition) {
+		;
+	}
+	
 	/**
 	 *  Publiczna metoda służaca do aktualizacji nazw kolumn w głównej tabeli z czasami. Ponieważ dla CompManagera
 	 *  wszystkie akcje są obsługiwane przez zewnętrzne klasy jest to wykonywane 
 	 * @throws Reserve 
 	 */
-	public void updateTableHeading(Competition competition) throws Reserve {
+	public void updateTableHeading(Competition competition, boolean intermediateTiming) throws Reserve {
 		boolean isDouble = false;
 		
 		int allRuns = competition.numberOfAllRuns;

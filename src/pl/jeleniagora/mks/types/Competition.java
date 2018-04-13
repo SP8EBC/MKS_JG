@@ -34,7 +34,7 @@ public class Competition {
 	/**
 	 * Mapa łącząca saneczkarzy z miejscami (lokatami) które uzyskali.
 	 */
-	Map<Luger, Short> scores;
+	Map<Luger, Short> ranks;
 	
 	public Competition() {
 		this.competitionType = CompetitionTypes.UNINITIALIZED_COMP;
