@@ -1,6 +1,9 @@
 package pl.jeleniagora.mks.types;
 
+import java.time.LocalTime;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
 
 /**
  * Klasa przechowywująca wszystkie informację o pojedycznej konkurencji. Jej rodzaj (jedynki M, jedynki K, dwójki, sztafeta), jak
@@ -29,17 +32,86 @@ public class Competition {
 	/**
 	 * Mapa łącząca saneczkarzy z numerami startowymi.
 	 */
-	Map<Luger, Short> startList;
+	Map<LugerCompetitor, Short> startList;
 	
 	/**
 	 * Mapa łącząca saneczkarzy z miejscami (lokatami) które uzyskali.
 	 */
-	Map<Luger, Short> ranks;
+	Map<LugerCompetitor, Short> ranks;
+	
+	/**
+	 * Wektor zawierający czasy w poszczególnych ślizgach, jeden element klasy Run odpowiada jednemu ślizgowi i zawiera
+	 * mapę saneczkarzy startujących w tym ślizgu na ich czasy przejazdu. Początkowo czasy są inicjowane zerami. 
+	 */
+	Vector<Run> runsTimes;
+	
+	/**
+	 * Metoda wykonująca wszystkie czynności potrzebne to dodania jedynki do już zdefiniowanej konkurencji. Metoda
+	 * będzie przeciążana osobno dla jedynki, dwójki, drużyny, sztafety itp.
+	 * @param comptr
+	 */
+	public void addToCompetition(LugerSingle comptr) {
+		// Dodawanie do listy startowej bez numeru startowego
+		startList.put(comptr, new Short((short)0));
+		
+		// Dodawanie do mapy (listy) wyników -> wiadomo że zero bo nie dodaje się po konkurencji
+		startList.put(comptr, new Short((short)0));
+		
+		
+		for (int i = 0; i < (numberOfAllRuns + numberOfTrainingRuns); i++ ) {
+			Run runFromVct = runsTimes.get(i);
+			Map<LugerCompetitor, LocalTime> m = runFromVct.run;
+			
+			m.put(comptr, LocalTime.of(0, 0, 0, 0));
+		}
+	}
 	
 	public Competition() {
 		this.competitionType = CompetitionTypes.UNINITIALIZED_COMP;
 		this.numberOfAllRuns = 0;
 		this.numberOfTrainingRuns = 0;
+	}
+	
+	/**
+	 * Konstruktor przyjmujący na wejście wektor klas implementujących interfejs 'LugerCompetitor'. Warto zapamiętać że tutaj 
+	 * operuje się cały czas na ogólnym typie a w zasadzie na tym interfejsie. Interfejsu nie można zintancjalizować, czyli
+	 * stworzyć obiektu jego klasy (bo nie jest klasą). Do tych wszystkich wektorów, map itp. będzie można ciepać jedynie
+	 * klasy go implementujące.
+	 * @param in
+	 * @param allRuns
+	 * @param trainingRuns
+	 */
+	public Competition(Vector<LugerCompetitor> in, int allRuns, int trainingRuns) {
+		
+		this.numberOfAllRuns = allRuns;
+		this.numberOfTrainingRuns = trainingRuns;
+		
+		/*
+		 * W tym momencie saneczkarze nie mają przypisanych numerów startowych, dlatego konstruktor
+		 * dociepuje jedynie elementy do HashMapy z zerami
+		 */
+		startList = new HashMap<LugerCompetitor, Short>();
+		
+		int lugersAtInputLn = in.size();
+		
+		for (int i = 0; i < lugersAtInputLn; i++) {
+			startList.put(in.get(i), new Short((short)0));
+		}
+		
+		/*
+		 * tak samo nie mają oczywiście jeszcze żadnych wyników
+		 */
+		ranks = new HashMap<LugerCompetitor, Short>();
+		for (int i = 0; i < lugersAtInputLn; i++) {
+			ranks.put(in.get(i), new Short((short)0));
+		}		
+		
+		runsTimes = new Vector<Run>();
+		
+		for (int i = 0; i < (allRuns + trainingRuns); i++ ) {
+			runsTimes.add(new Run(in));
+		}
+		
 	}
 	
 	/* Tu ma być reszta rzeczy typu lista startowa itp.	 */

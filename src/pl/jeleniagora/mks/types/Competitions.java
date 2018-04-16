@@ -35,4 +35,8 @@ public class Competitions {
 	 * Mapowanie konkurencji do bramki startowej
 	 */
 	public Map<Competition, StartGate> competitionToStartGateMapping;
+	
+	public Competitions(String name, LocalDate date) {
+		
+	}
 }
