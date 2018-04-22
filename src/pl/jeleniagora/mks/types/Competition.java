@@ -32,18 +32,25 @@ public class Competition {
 	/**
 	 * Mapa łącząca saneczkarzy z numerami startowymi.
 	 */
-	Map<LugerCompetitor, Short> startList;
+	public Map<LugerCompetitor, Short> startList;
 	
 	/**
 	 * Mapa łącząca saneczkarzy z miejscami (lokatami) które uzyskali.
 	 */
-	Map<LugerCompetitor, Short> ranks;
+	public Map<LugerCompetitor, Short> ranks;
 	
 	/**
 	 * Wektor zawierający czasy w poszczególnych ślizgach, jeden element klasy Run odpowiada jednemu ślizgowi i zawiera
 	 * mapę saneczkarzy startujących w tym ślizgu na ich czasy przejazdu. Początkowo czasy są inicjowane zerami. 
 	 */
-	Vector<Run> runsTimes;
+	public Vector<Run> runsTimes;
+	
+	public int getLugersCnt() {
+		if (startList != null)
+			return startList.values().size();
+		
+		return 0;
+	}
 	
 	/**
 	 * Metoda wykonująca wszystkie czynności potrzebne to dodania jedynki do już zdefiniowanej konkurencji. Metoda

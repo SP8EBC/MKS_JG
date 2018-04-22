@@ -6,12 +6,27 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Vector;
 
+import pl.jeleniagora.mks.serial.TypesConverters;
+
 /**
  * Klasa używana do przechowywania wyników dla poszczególnych ślizgów. 
  * @author mateusz
  *
  */
 public class Run {
+	
+	/**
+	 * Mapa łącząca zawodników z ich wynikami końcowymi dla konkretnego ślizgu w konkurencji
+	 */
+	Map<LugerCompetitor, LocalTime> run;
+	
+	/**
+	 * Pomocnicza mapa łącząca zawodników z wektorem ich czasów pośrednich. Ostatni element wektora jest to czas ma mecie
+	 * czyli łączny czas ślizgu. Zostało to wydzielone do osobnego pola klasy Run aby nieco uprościć konstrukcję metod
+	 * aktualizujących główną tabelę wyników w CompManager. Generalnie to nie będą aż tak duże obiekty dlatego zużycie RAM
+	 * nie będzie aż tak dramatyczne żeby to był jakiś problem
+	 */
+	Map<LugerCompetitor, Vector<LocalTime>> intermediateRunTimes;
 	
 	@SuppressWarnings("unused")
 	private Run() {
@@ -46,9 +61,22 @@ public class Run {
 			run.put(key, zeroTime);
 		}
 	}
-	 
+	
 	/**
-	 * Mapa łącząca zawodników z ich wynikami dla konkretnej konkurencji
+	 * Metoda zwraca końcowy czas ślizgu dla konkretnego zawodnika w konkretnym śligu
+	 * @param comptr
+	 * @param run
+	 * @return
 	 */
-	Map<LugerCompetitor, LocalTime> run;
+	public Short getRunTimeForCompetitor(LugerCompetitor comptr) {
+		LocalTime t = run.get(comptr);
+		
+		int nanoTime = t.getNano();
+		
+		int hndrsMicroTime = nanoTime / (TypesConverters.nanoToMilisecScaling / 10);
+		
+		return new Short((short) hndrsMicroTime);
+	}
+	 
+
 }

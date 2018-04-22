@@ -7,7 +7,7 @@ package pl.jeleniagora.mks.types;
  */
 public class LugerSingle implements LugerCompetitor {
 
-	Luger single;
+	public Luger single;
 	
 	CompetitionTypes type;
 	

@@ -1,10 +1,18 @@
 package pl.jeleniagora.mks.gui;
 
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.Vector;
+
 import javax.swing.table.AbstractTableModel;
 
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.CompetitionTypes;
+import pl.jeleniagora.mks.types.LugerCompetitor;
+import pl.jeleniagora.mks.types.LugerSingle;
 import pl.jeleniagora.mks.types.Reserve;
+import pl.jeleniagora.mks.types.UninitializedCompEx;
 
 /**
  * Model używany do rysowania tabeli wyników typu JTable
@@ -40,7 +48,7 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 	 * Liczba saneczkarzy w tej konkurencji/treningu. A najciekawsze jest to, że saneczkarz po angielsku nazywa się
 	 * jednak tak samo jak dość popularny pistolet :) 
 	 */
-	private short numberOfLugers;
+	private int numberOfLugers;
 	
 	/**
 	 * Domyślny konstruktor który inicjalizuje niektóre pola do domyślnych wartości, żeby JTable w ogóle
@@ -103,8 +111,101 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 		return false;
 	}
 	
-	public void updateTableData(Competition competition) {
-		;
+	/**
+	 * Metoda do aktualizacji głównej tabeli z wynikami. Przepisuje po prostu dane z wejściowej klasy i wszystkich
+	 * "podklas" to tabeli Object[][] która jest już bezpośrednim źródłem danych dla JTable
+	 * @param competition
+	 * @param intermediateTiming
+	 * @throws UninitializedCompEx 
+	 */
+	public void updateTableData(Competition competition, boolean intermediateTiming) throws UninitializedCompEx {
+		// !! Ważne !! aktualnie metoda obsługuje tylko konkurencje jedynkowe
+		
+		if (!intermediateTiming) {
+			int allRuns = competition.numberOfAllRuns;
+			int trainingRuns = competition.numberOfTrainingRuns;
+			
+			int lugersCnt = competition.getLugersCnt();
+			
+			this.tableData = new Object[lugersCnt][];
+			this.numberOfLugers = lugersCnt;
+			
+			/*
+			 * Entry set wyciągnięty z listy startowej aby można było na nim zastosować iterator
+			 */
+			Set<Entry<LugerCompetitor, Short>> lugersEntrySet = competition.startList.entrySet();
+
+			/*
+			 * Iterator do poruszania się po elementach przechowywanych w mapie
+			 */
+			Iterator<Entry<LugerCompetitor, Short>> lugersIt = lugersEntrySet.iterator();
+
+			/**
+			 * Regenerowanie tabeli obiektów zawierjącej wyświetlane dane
+			 */
+			this.tableData = new Object[this.numberOfLugers][];
+			
+			while (lugersIt.hasNext()) {
+				int j = 0;
+				/*
+				 * Przeciepywanie danych z klas do tablicy Object[][]
+				 */
+				Object[] l = new Object[5 + allRuns];
+
+				Entry<LugerCompetitor, Short> currLuger = lugersIt.next();
+
+				LugerCompetitor luger = currLuger.getKey();
+				CompetitionTypes lugerType = luger.getCompetitorType();
+				
+				switch (lugerType) {
+					case DOUBLE:
+						break;
+					case DOUBLE_MEN_ONLY:
+						break;
+					case DOUBLE_MIXED:
+						break;
+					case DOUBLE_WOMAN_ONLY:
+						break;
+					case TEAM_RELAY:
+						break;
+					case TRAINING:
+						break;
+					case UNINITIALIZED_COMP:
+						throw new UninitializedCompEx();
+					case MEN_SINGLE:
+					case WOMAN_SINGLE:
+						LugerSingle s = (LugerSingle) luger;
+						String name = s.single.name;
+						String surname = s.single.surname;
+						String lugeClub = s.single.club;
+						int startNum = currLuger.getValue();
+						
+						l[0] = startNum;
+						l[1] = 0; // miejsce
+						l[2] = name;
+						l[3] = surname;
+						l[4] = lugeClub;
+						
+						j = 5;
+					default:
+						break;
+				}
+				
+				/*
+				 * Czasy ślizgów
+				 */
+				Vector<Short> times = new Vector<Short>();
+				for (int i = 0; i < allRuns; i++) {
+					competition.runsTimes.get(i).getRunTimeForCompetitor(luger);
+				}
+				
+				/*
+				 * Tworzenie tablicy objektów odpowiadającej jednemu saneczkarzowi
+				 */
+//				Object[] l = new Object[] {new Short((short)73), new Short((short)4), "Naz", "Am", "kl", new Integer(123010), new Integer(9100), new Integer(670450)};
+			}
+		}
+		else return;
 	}
 	
 	/**
