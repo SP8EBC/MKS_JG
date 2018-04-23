@@ -17,4 +17,15 @@ public class RunsFactory {
 		
 		return runs;
 	}
+	
+	public static Vector<Run> createNewRunsFromLugersVct(Vector<LugerCompetitor> in, int allRuns, int trainingRuns, boolean rand) {
+		
+		Vector<Run> runs = new Vector<Run>();
+		
+		for (int i = 0; i < (allRuns); i++ ) {
+			runs.add(new Run(in, true));
+		}
+		
+		return runs;
+	}
  }

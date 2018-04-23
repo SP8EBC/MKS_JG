@@ -206,7 +206,7 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 				 */
 				Vector<Short> times = new Vector<Short>();
 				for (int i = 0; i < allRuns; i++) {
-					Short t = competition.runsTimes.get(i).getRunTimeForCompetitor(luger);
+					Integer t = competition.runsTimes.get(i).getRunTimeForCompetitor(luger);
 					l[j + i] = t;
 				}
 				
@@ -215,9 +215,10 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 				 */
 				
 				int runsTimesSize = competition.runsTimes.size();
+
+				this.tableData[lugerProcessCounter] = new Object[j + runsTimesSize];
 				
 				for (int i = 0; i < j + runsTimesSize; i++) {
-					this.tableData[lugerProcessCounter] = new Object[j + runsTimesSize];
 					this.tableData[lugerProcessCounter][i] = l[i];
 				}
 				
@@ -325,7 +326,7 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 		/*
 		 * Tworzy pusty wektor czasów przejazdu
 		 */
-		testCompetition = new Competition(vctTst, 4, 1);
+		testCompetition = new Competition(vctTst, 4, 1, true);
 		testCompetition.competitionType = CompetitionTypes.MEN_SINGLE;
 		
 		/*

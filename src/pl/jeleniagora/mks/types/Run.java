@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.Vector;
 
 import pl.jeleniagora.mks.serial.TypesConverters;
@@ -70,20 +71,40 @@ public class Run {
 		}
 	}
 	
+	public Run(Vector<LugerCompetitor> lugers, boolean randmize) {
+		
+		run = new HashMap<LugerCompetitor, LocalTime>();
+		
+		Iterator<LugerCompetitor> it = lugers.iterator();
+		
+		while (it.hasNext()) {
+			LugerCompetitor key = it.next();
+			
+			int m = ThreadLocalRandom.current().nextInt(45, 60);
+			int msec = ThreadLocalRandom.current().nextInt(2, 40) * TypesConverters.nanoToMilisecScaling;
+			
+			LocalTime zeroTime = LocalTime.of(0, 0, m, msec);
+			
+			run.put(key, zeroTime);
+		}
+	}
+	
 	/**
 	 * Metoda zwraca końcowy czas ślizgu dla konkretnego zawodnika w konkretnym śligu
 	 * @param comptr
 	 * @param run
 	 * @return
 	 */
-	public Short getRunTimeForCompetitor(LugerCompetitor comptr) {
+	public Integer getRunTimeForCompetitor(LugerCompetitor comptr) {
 		LocalTime t = run.get(comptr);
 		
 		int nanoTime = t.getNano();
 		
 		int hndrsMicroTime = nanoTime / (TypesConverters.nanoToMilisecScaling / 10);
 		
-		return new Short((short) hndrsMicroTime);
+		hndrsMicroTime += t.getSecond()*10000;
+		
+		return new Integer(hndrsMicroTime);
 	}
 	 
 

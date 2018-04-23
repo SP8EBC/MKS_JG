@@ -95,7 +95,7 @@ public class Competition {
 	 * @param allRuns
 	 * @param trainingRuns
 	 */
-	public Competition(Vector<LugerCompetitor> in, int allRuns, int trainingRuns) {
+	public Competition(Vector<LugerCompetitor> in, int allRuns, int trainingRuns, boolean simul) {
 		
 		this.numberOfAllRuns = allRuns;
 		this.numberOfTrainingRuns = trainingRuns;
@@ -122,7 +122,11 @@ public class Competition {
 			ranks.put(in.get(i), new Short((short)0));
 		}		
 		
-		runsTimes = RunsFactory.createNewRunsFromLugersVct(in, allRuns, trainingRuns);
+		if (!simul)
+			runsTimes = RunsFactory.createNewRunsFromLugersVct(in, allRuns, trainingRuns);
+		else 
+			runsTimes = RunsFactory.createNewRunsFromLugersVct(in, allRuns, trainingRuns, true);
+			
 		
 	}
 	
