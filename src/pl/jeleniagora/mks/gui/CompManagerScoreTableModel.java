@@ -1,5 +1,6 @@
 package pl.jeleniagora.mks.gui;
 
+import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -7,11 +8,15 @@ import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
 
+import pl.jeleniagora.mks.factories.ClubsFactory;
+import pl.jeleniagora.mks.factories.LugersFactory;
+import pl.jeleniagora.mks.factories.StartListFactory;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.CompetitionTypes;
 import pl.jeleniagora.mks.types.LugerCompetitor;
 import pl.jeleniagora.mks.types.LugerSingle;
 import pl.jeleniagora.mks.types.Reserve;
+import pl.jeleniagora.mks.types.Run;
 import pl.jeleniagora.mks.types.UninitializedCompEx;
 
 /**
@@ -121,6 +126,11 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 	public void updateTableData(Competition competition, boolean intermediateTiming) throws UninitializedCompEx {
 		// !! Ważne !! aktualnie metoda obsługuje tylko konkurencje jedynkowe
 		
+		/*
+		 * Numer aktualnie przetwarzanego saneczkarza
+		 */
+		int lugerProcessCounter = 0;
+		
 		if (!intermediateTiming) {
 			int allRuns = competition.numberOfAllRuns;
 			int trainingRuns = competition.numberOfTrainingRuns;
@@ -177,10 +187,10 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 						LugerSingle s = (LugerSingle) luger;
 						String name = s.single.name;
 						String surname = s.single.surname;
-						String lugeClub = s.single.club;
-						int startNum = currLuger.getValue();
+						String lugeClub = s.single.club.name;
+						int startNum = currLuger.getValue();	// numer startowy
 						
-						l[0] = startNum;
+						l[0] = startNum;	// numer startowy
 						l[1] = 0; // miejsce
 						l[2] = name;
 						l[3] = surname;
@@ -196,13 +206,22 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 				 */
 				Vector<Short> times = new Vector<Short>();
 				for (int i = 0; i < allRuns; i++) {
-					competition.runsTimes.get(i).getRunTimeForCompetitor(luger);
+					Short t = competition.runsTimes.get(i).getRunTimeForCompetitor(luger);
+					l[j + i] = t;
 				}
 				
 				/*
-				 * Tworzenie tablicy objektów odpowiadającej jednemu saneczkarzowi
+				 * Przepisywanaie danych z pośredniej tablicy l to docelowej tablicy
 				 */
-//				Object[] l = new Object[] {new Short((short)73), new Short((short)4), "Naz", "Am", "kl", new Integer(123010), new Integer(9100), new Integer(670450)};
+				
+				int runsTimesSize = competition.runsTimes.size();
+				
+				for (int i = 0; i < j + runsTimesSize; i++) {
+					this.tableData[lugerProcessCounter] = new Object[j + runsTimesSize];
+					this.tableData[lugerProcessCounter][i] = l[i];
+				}
+				
+				lugerProcessCounter++;
 			}
 		}
 		else return;
@@ -282,7 +301,54 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 		
 	}
 	
-	public void fillWithTestData() {
+	public Competition fillWithTestData() {
+		
+		Competition testCompetition;
+
+		LugerCompetitor l1, l2, l3, l4, l5;
+		
+		LocalDate b = LocalDate.of(1990, 9, 12);
+		
+		l1 = LugersFactory.createNewLugerSingleFromName("Im", "Naz", false, b, ClubsFactory.createNewFromName("MKS Karkonosze Sporty Zimowe"));
+		l2 = LugersFactory.createNewLugerSingleFromName("Imi", "Nąz", false, b, ClubsFactory.createNewFromName("MKS Karkonosze Sporty Zimowe"));
+		l3 = LugersFactory.createNewLugerSingleFromName("Aąćż", "N", false, b, ClubsFactory.createNewFromName("MKS Karkonosze Sporty Zimowe"));
+		l4 = LugersFactory.createNewLugerSingleFromName("ěřžšá", "Nazw", false, b, ClubsFactory.createNewFromName("MKS Karkonosze Sporty Zimowe"));
+		l5 = LugersFactory.createNewLugerSingleFromName("Cazw", "Naz", false, b, ClubsFactory.createNewFromName("MKS Karkonosze Sporty Zimowe"));
+		
+		Vector<LugerCompetitor> vctTst = new Vector<LugerCompetitor>();
+		vctTst.add(l5);
+		vctTst.add(l4);
+		vctTst.add(l3);
+		vctTst.add(l2);
+		vctTst.add(l1);
+		
+		/*
+		 * Tworzy pusty wektor czasów przejazdu
+		 */
+		testCompetition = new Competition(vctTst, 4, 1);
+		testCompetition.competitionType = CompetitionTypes.MEN_SINGLE;
+		
+		/*
+		 * Dodawanie numerów startowych
+		 */
+		StartListFactory.generateStartList(testCompetition);
+		
+		try {
+			updateTableHeading(testCompetition, false);
+		} catch (Reserve e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try {
+			updateTableData(testCompetition, false);
+		} catch (UninitializedCompEx e) {
+			e.printStackTrace();
+		}
+		
+		return testCompetition;
+		
+		/*
 		this.numberOfLugers = 4;
 		this.tableData = new Object[this.numberOfLugers][];
 		
@@ -290,7 +356,7 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 		this.tableData[1] = new Object[] {new Short((short)9), new Short((short)5), "Nąz", "Imi", "kl", new Integer(124010), new Integer(9220), new Integer(710350)};
 		this.tableData[2] = new Object[] {new Short((short)70), new Short((short)8), "Aąćż", "Cm", "kl", new Integer(121010), new Integer(9500), new Integer(690050)};
 		this.tableData[3] = new Object[] {new Short((short)61), new Short((short)7), "Cazw", "Im", "kl", new Integer(120010), new Integer(9600), new Integer(780150)};
-
+		 */
 	}
 
 }

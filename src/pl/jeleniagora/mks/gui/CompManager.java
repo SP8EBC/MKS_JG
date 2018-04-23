@@ -94,7 +94,7 @@ public class CompManager extends JFrame {
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				Competition c = new Competition();
+//				Competition c = new Competition();
 				try {
 					DisplayS.setShowAllTimeDigits(true);
 					
@@ -103,14 +103,14 @@ public class CompManager extends JFrame {
 					CompManager frame = new CompManager();
 					frame.setVisible(true);
 					
-					c.competitionType = CompetitionTypes.TRAINING;
-					c.numberOfAllRuns = 3;
-					c.numberOfTrainingRuns = 1;
+//					c.competitionType = CompetitionTypes.TRAINING;
+//					c.numberOfAllRuns = 3;
+//					c.numberOfTrainingRuns = 1;
 					
 //					CompManager.updateTableHeading(frame.columnNamesForTable, c);
 					
 					CompManagerScoreTableModel mdl = (CompManagerScoreTableModel)frame.getScoreTableModel();
-					mdl.updateTableHeading(c, false);
+					//mdl.updateTableHeading(c, false);
 					mdl.fillWithTestData();
 					
 					/*
@@ -129,10 +129,7 @@ public class CompManager extends JFrame {
 //				catch (Reserve r) {
 //					r.printStackTrace();
 //				}
-				catch (Reserve e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+
 			}
 		});
 	}

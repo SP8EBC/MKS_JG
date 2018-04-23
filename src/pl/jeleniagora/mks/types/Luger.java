@@ -22,7 +22,7 @@ public class Luger {
 	
 	public LocalDate birthDate;
 	
-	public String club;
+	public Club club;
 
 	/**
 	 * Mapa zawierająca liczniki ślizgów dla każdego toru i bramki startowej z osobna.

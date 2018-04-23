@@ -10,11 +10,18 @@ public class LugerSingle implements LugerCompetitor {
 	public Luger single;
 	
 	CompetitionTypes type;
+		
+	public LugerSingle(boolean isFemale) {
+		if (isFemale)
+			type = CompetitionTypes.WOMAN_SINGLE;
+		else
+			type = CompetitionTypes.MEN_SINGLE;
+	}
 	
 	@Override
 	public CompetitionTypes getCompetitorType() {
 		// TODO Auto-generated method stub
-		return null;
+		return type;
 	}
 
 }

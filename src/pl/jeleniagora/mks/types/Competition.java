@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import pl.jeleniagora.mks.factories.RunsFactory;
+
 /**
  * Klasa przechowywująca wszystkie informację o pojedycznej konkurencji. Jej rodzaj (jedynki M, jedynki K, dwójki, sztafeta), jak
  * również referencje do listy startowej, liczbę ślizgów oraz mapy spinające każdego zawodnika 
@@ -44,6 +46,11 @@ public class Competition {
 	 * mapę saneczkarzy startujących w tym ślizgu na ich czasy przejazdu. Początkowo czasy są inicjowane zerami. 
 	 */
 	public Vector<Run> runsTimes;
+	
+	/**
+	 * Liczba saneczkarzy/dwójek/drużyn biorących udział w tej konkurencji
+	 */
+	public int competitorsCount;
 	
 	public int getLugersCnt() {
 		if (startList != null)
@@ -93,6 +100,8 @@ public class Competition {
 		this.numberOfAllRuns = allRuns;
 		this.numberOfTrainingRuns = trainingRuns;
 		
+		this.competitorsCount = in.size();
+		
 		/*
 		 * W tym momencie saneczkarze nie mają przypisanych numerów startowych, dlatego konstruktor
 		 * dociepuje jedynie elementy do HashMapy z zerami
@@ -113,11 +122,7 @@ public class Competition {
 			ranks.put(in.get(i), new Short((short)0));
 		}		
 		
-		runsTimes = new Vector<Run>();
-		
-		for (int i = 0; i < (allRuns + trainingRuns); i++ ) {
-			runsTimes.add(new Run(in));
-		}
+		runsTimes = RunsFactory.createNewRunsFromLugersVct(in, allRuns, trainingRuns);
 		
 	}
 	

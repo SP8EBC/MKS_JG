@@ -1,6 +1,7 @@
 package pl.jeleniagora.mks.types;
 
 import java.time.LocalTime;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -10,6 +11,9 @@ import pl.jeleniagora.mks.serial.TypesConverters;
 
 /**
  * Klasa używana do przechowywania wyników dla poszczególnych ślizgów. 
+ * 
+ * TODO: Dopisać pole z jego obsługą ustwiające trening/punktowany ślizg
+ * 
  * @author mateusz
  *
  */
@@ -18,7 +22,7 @@ public class Run {
 	/**
 	 * Mapa łącząca zawodników z ich wynikami końcowymi dla konkretnego ślizgu w konkurencji
 	 */
-	Map<LugerCompetitor, LocalTime> run;
+	public Map<LugerCompetitor, LocalTime> run;
 	
 	/**
 	 * Pomocnicza mapa łącząca zawodników z wektorem ich czasów pośrednich. Ostatni element wektora jest to czas ma mecie
@@ -26,7 +30,7 @@ public class Run {
 	 * aktualizujących główną tabelę wyników w CompManager. Generalnie to nie będą aż tak duże obiekty dlatego zużycie RAM
 	 * nie będzie aż tak dramatyczne żeby to był jakiś problem
 	 */
-	Map<LugerCompetitor, Vector<LocalTime>> intermediateRunTimes;
+	public Map<LugerCompetitor, Vector<LocalTime>> intermediateRunTimes;
 	
 	@SuppressWarnings("unused")
 	private Run() {
@@ -34,6 +38,8 @@ public class Run {
 	}
 	
 	public Run(Map<LugerCompetitor, Short> startList) {
+		
+		run = new HashMap<LugerCompetitor, LocalTime>();
 
 		Iterator<Entry<LugerCompetitor, Short>> it = startList.entrySet().iterator();
 
@@ -50,6 +56,8 @@ public class Run {
 	}
 	
 	public Run(Vector<LugerCompetitor> lugers) {
+		
+		run = new HashMap<LugerCompetitor, LocalTime>();
 		
 		Iterator<LugerCompetitor> it = lugers.iterator();
 		
