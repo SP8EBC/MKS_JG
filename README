@@ -1,5 +1,6 @@
 The MKS_JG is a piece of software which I'm developing for the Interschool Sport Club in Jelenia Góra - Luge Division.
 Jelenia Góra is a city in south-west Poland in Lower Silesian Voivodeships, very close to the Karkonosze Mountains (aka Krkonoše aka Riesengebirge)
+and Poland-Czech border
 
 The MKS_JG app will serve as a complex solution for timekeeping during competitions & training which we/they will organize. Timekeeping is understood
 as many different features like:
@@ -13,8 +14,8 @@ as many different features like:
 
 The software is highly oriented on the sport of luge and IMHO it will be rather unusuable in any other sport discipline, or it will require
 very high level of "abstraction" to map luge specific functions to what is needed for instance in running. Software is written in JavaSE 8
-using Swing as GUI library and Swing as things like IoC/DI, ORM etc..
+using Swing as GUI library and Spring as things like IoC/DI, ORM etc..
 
-Code is well commented by all commentary and also JavaDoc is written in Polish to help any other software developer which maybe will do any
-work on this SW (of course this will be rather somebody from PL). All classes, variables, fields etc are named in English so with knowledge
+Code is well commented but all commentary and also JavaDoc is written in Polish, to help any other software developer which maybe will do any
+work on this SW in future (I think he/she  will be rather from PL). All classes, variables, fields etc are named in English, so with knowledge
 about Java/Swing/Spring and basic fan-knowledge about luge it will be possible to understood what is going on in the code.
