@@ -1,5 +1,6 @@
 package pl.jeleniagora.mks.rte;
 
+import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import pl.jeleniagora.mks.gui.CompManager;
 import pl.jeleniagora.mks.gui.CompManagerScoreTableModel;
+import pl.jeleniagora.mks.types.Competition;
 
 /**
  * Klasa będąca odpowiednikiem AUTOSARowego Rutime Environment, w tym przypadku przechowuje statyczne referencje do obiektów obsługujących
@@ -24,6 +26,8 @@ import pl.jeleniagora.mks.gui.CompManagerScoreTableModel;
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class RTE_GUI {
 	public CompManager compManager;
+	
+	public JComboBox<Competition> compManagerCSelector;
 	
 	/* 
 	 * Model używany do rysowania listy wników w obsłudze zawodów i treningów. Jest tu potrzebna gdyż w tej klasie siedzi metoda aktualizująca

@@ -16,6 +16,11 @@ import pl.jeleniagora.mks.factories.RunsFactory;
  */
 
 public class Competition {
+	
+	public int id;
+	
+	public String name;
+	
 	/**
 	 *  Egzemplarz enuma określający typ tej konkurencji 
 	 *  */
@@ -128,6 +133,19 @@ public class Competition {
 			runsTimes = RunsFactory.createNewRunsFromLugersVct(in, allRuns, trainingRuns, true);
 			
 		
+	}
+	
+	/**
+	 * Metoda wymagana przez JComboBox<Competition> to uzyskiwania stringa, który ma się pojawiać się jako
+	 * pozycja na liście rozwijanej
+	 */
+	public String toString() {
+		if (name == null || name.equals(new String(""))) {
+			return competitionType.toString();
+		}
+		else {
+			return name;
+		}
 	}
 	
 	/* Tu ma być reszta rzeczy typu lista startowa itp.	 */

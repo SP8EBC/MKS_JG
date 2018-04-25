@@ -43,6 +43,8 @@ import javax.swing.JCheckBox;
 import java.awt.Color;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JCheckBoxMenuItem;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class CompManager extends JFrame {
 
@@ -94,7 +96,7 @@ public class CompManager extends JFrame {
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-//				Competition c = new Competition();
+				CompManagerCSelectorUpdater selectorUpdater = new CompManagerCSelectorUpdater(ctx);
 				try {
 					DisplayS.setShowAllTimeDigits(true);
 					
@@ -103,15 +105,14 @@ public class CompManager extends JFrame {
 					CompManager frame = new CompManager();
 					frame.setVisible(true);
 					
-//					c.competitionType = CompetitionTypes.TRAINING;
-//					c.numberOfAllRuns = 3;
-//					c.numberOfTrainingRuns = 1;
-					
-//					CompManager.updateTableHeading(frame.columnNamesForTable, c);
-					
 					CompManagerScoreTableModel mdl = (CompManagerScoreTableModel)frame.getScoreTableModel();
 					//mdl.updateTableHeading(c, false);
-					mdl.fillWithTestData();
+					Vector<Competition> cmps = mdl.fillWithTestData();
+					
+					//Vector<Competition> cmps = new Vector<Competition>();
+					//cmps.addElement(c);
+					
+					selectorUpdater.updateSelectorContent(cmps);
 					
 					/*
 					 * Przerysowywanie całej JTable od nowa z uwzględnieniem zmiany struktury i danych
@@ -148,7 +149,7 @@ public class CompManager extends JFrame {
 		
 		// początek automatycznie generowanego kodu
 		setTitle("MKS_JG - Obsługa treningów i zawodów");
-		setAlwaysOnTop(true);
+		setAlwaysOnTop(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1259, 658);
 		
@@ -399,10 +400,6 @@ public class CompManager extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(111, 6, 300, 24);
-		contentPane.add(comboBox);
-		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(5, 34, 1019, 510);
 		
@@ -565,6 +562,13 @@ public class CompManager extends JFrame {
 		JCheckBox chckbxAutozapisCzasulizgu = new JCheckBox("Autozapis czasu ślizgu");
 		chckbxAutozapisCzasulizgu.setBounds(1036, 354, 205, 23);
 		contentPane.add(chckbxAutozapisCzasulizgu);
+		
+		JComboBox<Competition> competitionSelector = new JComboBox<Competition>();
+		competitionSelector.addActionListener(new CompManagerCSelectorActionListener((CompManagerScoreTableModel)this.getScoreTableModel()));
+		competitionSelector.setBounds(111, 6, 300, 24);
+		contentPane.add(competitionSelector);
+		
+		rte_gui.compManagerCSelector = competitionSelector;	// dodawanaie referencji do RTE
 	}
 	
 	public TableModel getScoreTableModel() {

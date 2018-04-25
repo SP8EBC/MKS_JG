@@ -302,11 +302,12 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 		
 	}
 	
-	public Competition fillWithTestData() {
+	public Vector<Competition> fillWithTestData() {
 		
-		Competition testCompetition;
+		Competition testCompetition, testCompetition2;
+		Vector<Competition> out = new Vector<Competition>();
 
-		LugerCompetitor l1, l2, l3, l4, l5;
+		LugerCompetitor l1, l2, l3, l4, l5, l6, l7;
 		
 		LocalDate b = LocalDate.of(1990, 9, 12);
 		
@@ -315,6 +316,9 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 		l3 = LugersFactory.createNewLugerSingleFromName("Aąćż", "N", false, b, ClubsFactory.createNewFromName("MKS Karkonosze Sporty Zimowe"));
 		l4 = LugersFactory.createNewLugerSingleFromName("ěřžšá", "Nazw", false, b, ClubsFactory.createNewFromName("MKS Karkonosze Sporty Zimowe"));
 		l5 = LugersFactory.createNewLugerSingleFromName("Cazw", "Naz", false, b, ClubsFactory.createNewFromName("MKS Karkonosze Sporty Zimowe"));
+		l6 = LugersFactory.createNewLugerSingleFromName("baa", "Nk", true, b, ClubsFactory.createNewFromName("MKS Karkonosze Sporty Zimowe"));
+		l7 = LugersFactory.createNewLugerSingleFromName("daa", "kz", true, b, ClubsFactory.createNewFromName("MKS Karkonosze Sporty Zimowe"));
+
 		
 		Vector<LugerCompetitor> vctTst = new Vector<LugerCompetitor>();
 		vctTst.add(l5);
@@ -322,6 +326,10 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 		vctTst.add(l3);
 		vctTst.add(l2);
 		vctTst.add(l1);
+
+		Vector<LugerCompetitor> vctTst2 = new Vector<LugerCompetitor>();
+		vctTst2.add(l6);
+		vctTst2.add(l7);		
 		
 		/*
 		 * Tworzy pusty wektor czasów przejazdu
@@ -329,10 +337,8 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 		testCompetition = new Competition(vctTst, 4, 1, true);
 		testCompetition.competitionType = CompetitionTypes.MEN_SINGLE;
 		
-		/*
-		 * Dodawanie numerów startowych
-		 */
-		StartListFactory.generateStartList(testCompetition);
+		testCompetition2 = new Competition(vctTst2, 4, 1, true);
+		testCompetition2.competitionType = CompetitionTypes.WOMAN_SINGLE;
 		
 		try {
 			updateTableHeading(testCompetition, false);
@@ -347,7 +353,16 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 			e.printStackTrace();
 		}
 		
-		return testCompetition;
+		out.add(testCompetition2);
+		out.add(testCompetition);
+
+		/*
+		 * Dodawanie numerów startowych
+		 */
+		StartListFactory.generateStartList(testCompetition);
+		StartListFactory.generateStartList(testCompetition2);
+		
+		return out;
 		
 		/*
 		this.numberOfLugers = 4;
