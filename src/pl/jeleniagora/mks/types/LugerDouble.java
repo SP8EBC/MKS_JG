@@ -22,5 +22,13 @@ public class LugerDouble implements LugerCompetitor {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public String toString() {
+		String out;
+		
+		out = upper.surname + " / " + lower.surname;
+		
+		return out;
+	}
 
 }

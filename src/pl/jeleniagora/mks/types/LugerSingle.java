@@ -23,5 +23,10 @@ public class LugerSingle implements LugerCompetitor {
 		// TODO Auto-generated method stub
 		return type;
 	}
+	
+	public String toString() {
+		String out = single.name + " " + single.surname;
+		return out;
+	}
 
 }

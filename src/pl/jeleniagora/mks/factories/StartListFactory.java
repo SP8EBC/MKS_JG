@@ -29,6 +29,7 @@ public class StartListFactory {
 		int generatedStartNumbers = 0;
 		
 		forCompetition.startList = new HashMap<LugerCompetitor, Short>();
+		forCompetition.invertedStartList = new HashMap<Short, LugerCompetitor>();
 		
 		/*
 		 * wyciąganie pierwszego ślizgu z konkurencji. jest potrzebny aby mieć listę
@@ -66,6 +67,8 @@ public class StartListFactory {
 			 * to do licznika trzeba dodać jedynkę.
 			 */
 			forCompetition.startList.put(lugerToAssignNum, (short)(generatedStartNumbers+1));
+			
+			forCompetition.invertedStartList.put((short)(generatedStartNumbers+1), lugerToAssignNum);
 			
 			generatedStartNumbers++;
 		} while (generatedStartNumbers < competitorsCnt);

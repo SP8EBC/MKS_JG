@@ -20,4 +20,6 @@ public interface LugerCompetitor {
 	 * @return
 	 */
 	public CompetitionTypes getCompetitorType();
+	
+	public String toString();
 }

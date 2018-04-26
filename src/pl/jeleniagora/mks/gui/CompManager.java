@@ -12,11 +12,13 @@ import javax.swing.table.TableModel;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import pl.jeleniagora.mks.events.AfterStartListGeneration;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.settings.DisplayS;
 import pl.jeleniagora.mks.settings.SpringS;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.CompetitionTypes;
+import pl.jeleniagora.mks.types.Competitions;
 import pl.jeleniagora.mks.types.Reserve;
 
 import javax.swing.JMenuBar;
@@ -44,6 +46,7 @@ import java.awt.Color;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JCheckBoxMenuItem;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.awt.event.ActionEvent;
 
 public class CompManager extends JFrame {
@@ -97,22 +100,24 @@ public class CompManager extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				CompManagerCSelectorUpdater selectorUpdater = new CompManagerCSelectorUpdater(ctx);
+				AfterStartListGeneration afterStartListGen = new AfterStartListGeneration(ctx);
 				try {
 					DisplayS.setShowAllTimeDigits(true);
 					
 					Object value = null;
 					
+					Competitions competitions = new Competitions("test", LocalDate.now());
+					
 					CompManager frame = new CompManager();
 					frame.setVisible(true);
+
 					
 					CompManagerScoreTableModel mdl = (CompManagerScoreTableModel)frame.getScoreTableModel();
-					//mdl.updateTableHeading(c, false);
-					Vector<Competition> cmps = mdl.fillWithTestData();
-					
-					//Vector<Competition> cmps = new Vector<Competition>();
-					//cmps.addElement(c);
+					Vector<Competition> cmps = mdl.fillWithTestData(competitions);
+					afterStartListGen.process(competitions);
 					
 					selectorUpdater.updateSelectorContent(cmps);
+					
 					
 					/*
 					 * Przerysowywanie całej JTable od nowa z uwzględnieniem zmiany struktury i danych

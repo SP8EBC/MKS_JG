@@ -42,6 +42,11 @@ public class Competition {
 	public Map<LugerCompetitor, Short> startList;
 	
 	/**
+	 * Odwrócona mapa która łączy numery startowe z saneczkarzami.
+	 */
+	public Map<Short, LugerCompetitor> invertedStartList;
+	
+	/**
 	 * Mapa łącząca saneczkarzy z miejscami (lokatami) które uzyskali.
 	 */
 	public Map<LugerCompetitor, Short> ranks;

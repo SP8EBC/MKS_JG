@@ -13,6 +13,7 @@ import pl.jeleniagora.mks.factories.LugersFactory;
 import pl.jeleniagora.mks.factories.StartListFactory;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.CompetitionTypes;
+import pl.jeleniagora.mks.types.Competitions;
 import pl.jeleniagora.mks.types.LugerCompetitor;
 import pl.jeleniagora.mks.types.LugerSingle;
 import pl.jeleniagora.mks.types.Reserve;
@@ -302,11 +303,17 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 		
 	}
 	
-	public Vector<Competition> fillWithTestData() {
+	public Vector<Competition> fillWithTestData(Competitions cmps) {
 		
 		Competition testCompetition, testCompetition2;
 		Vector<Competition> out = new Vector<Competition>();
 
+		/*
+		 * Takie przypisanie może być zrobione w tym miejscu znim wektor out będzie miał w sobie jakiekolwiek obiekty, bo w Javie
+		 * wszystko jest referencją. Dlatego tu się nie kopiuje całej zawartości wektora tylko kopiuje się referencje.
+		 */
+		cmps.competitions = out;
+		
 		LugerCompetitor l1, l2, l3, l4, l5, l6, l7;
 		
 		LocalDate b = LocalDate.of(1990, 9, 12);
