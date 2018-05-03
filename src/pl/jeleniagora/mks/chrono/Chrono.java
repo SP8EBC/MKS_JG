@@ -82,7 +82,7 @@ public class Chrono implements Runnable {
 					rte_com.rxBufferSemaphore.release();
 					
 					rte_com.rxCommType = RxCommType.NUM_OF_BYTES;
-					rte_com.numberOfBytesToRx = 13;
+					rte_com.numberOfBytesToRx = 14;
 					rte_com.activateRx = true;
 
 					
@@ -109,7 +109,7 @@ public class Chrono implements Runnable {
 					
 					rte_com.activateRx = true;
 					rte_com.rxCommType = RxCommType.NUM_OF_BYTES;
-					rte_com.numberOfBytesToRx = 13;
+					rte_com.numberOfBytesToRx = 14;
 	
 					synchronized(rte_chrono.syncError) {
 						rte_chrono.syncError.notifyAll();
@@ -191,7 +191,7 @@ public class Chrono implements Runnable {
 					timeMeasurementState = ChronoStateMachine.IDLE; 
 				}
 				rte_com.rxCommType = RxCommType.NUM_OF_BYTES;
-				rte_com.numberOfBytesToRx = 13;
+				rte_com.numberOfBytesToRx = 14;
 				rte_com.activateRx = true;
 			
 			}

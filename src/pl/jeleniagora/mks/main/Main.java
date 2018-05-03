@@ -38,8 +38,8 @@ public class Main {
 			Runtime.getRuntime().addShutdownHook(new Thread(new CommThreadTermHook(ctx)));
 			
 			SerialCommS.setMaxRxTimeoutMsec(2000);
-			rte_com.rxCommType = RxCommType.END_OF_LINE;
-			rte_com.numberOfBytesToRx = 13;
+			rte_com.rxCommType = RxCommType.NUM_OF_BYTES;
+			rte_com.numberOfBytesToRx = 14;
 			rte_com.activateRx = true;
 			
 			com.startThreads();
