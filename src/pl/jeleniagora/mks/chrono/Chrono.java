@@ -129,7 +129,7 @@ public class Chrono implements Runnable {
 				switch(timeMeasurementState) {
 				case IDLE: 			timeMeasurementState = ChronoStateMachine.LINE_UP;	// brak break jest tutaj zamierzony
 				case LINE_UP: {
-					if (ChronometerS.gateCount == 2) {
+					if (ChronometerS.gateCount == 2 && td.getGateId() == 1) {
 						timeMeasurementState = ChronoStateMachine.V1_ROTATE; 
 						v1Timestamp = td;		// zapisywanie timestampu przejśćia w stane V1_ROTATE czyli czasu startu
 						System.out.println("-- swtiched to V1_ROTATE state with timestamp " + td.getTime().toString());
@@ -139,7 +139,7 @@ public class Chrono implements Runnable {
 				}
 				case CLEAR_FOR_TAKEOFF: break;
 				case V1_ROTATE: {
-					if (ChronometerS.gateCount == 2) {
+					if (ChronometerS.gateCount == 2 && td.getGateId() == 3) {
 						timeMeasurementState = ChronoStateMachine.LANDED; 
 						landedTimestamp = td;
 						System.out.println("-- swtiched to LANDED state with timestamp " + td.getTime().toString());
