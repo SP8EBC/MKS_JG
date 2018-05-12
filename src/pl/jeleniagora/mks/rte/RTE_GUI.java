@@ -1,6 +1,7 @@
 package pl.jeleniagora.mks.rte;
 
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -38,4 +39,9 @@ public class RTE_GUI {
 	public JTextField min;
 	public JTextField sec;
 	public JTextField msec;
+	
+	public JLabel actuallyOnTrack;
+	public JLabel nextOnTrack;
+	
+	public Object syncCompManagerRdy;
 }

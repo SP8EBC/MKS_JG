@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.LugerCompetitor;
+import pl.jeleniagora.mks.types.Run;
 
 /**
  * 
@@ -26,6 +27,8 @@ public class RTE_ST {
 	 * Zawody aktualnie wybrane w menadżerze zawodów i wyświetlane w jego głównej tabeli.
 	 */
 	public Competition currentCompetition;
+	
+	public Run currentRun;
 
 	/**
 	 * Wektor przechowywujący referencję do już rozegranych konkurencji

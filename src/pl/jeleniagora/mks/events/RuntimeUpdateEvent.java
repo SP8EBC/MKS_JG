@@ -1,4 +1,4 @@
-package pl.jeleniagora.mks.chrono;
+package pl.jeleniagora.mks.events;
 
 import java.time.LocalTime;
 
@@ -28,22 +28,8 @@ public class RuntimeUpdateEvent {
 	 * @param runTime
 	 */
 	public void processingChain(LocalTime runTime) {
-		this.updateTextFieldsInCM(runTime);
+//		this.updateTextFieldsInCM(runTime);
 	}
 	
-	public void updateTextFieldsInCM(LocalTime runTime) {
-		
-		System.out.println("RuntimeUpdateEvent");
-		
-		RTE_GUI rte_gui = ctx.getBean(RTE_GUI.class);
-		Integer min, sec, msec;
-		
-		min = runTime.getMinute();
-		sec = runTime.getSecond();
-		msec = runTime.getNano() / TypesConverters.nanoToMilisecScaling;
-		
-		rte_gui.min.setText(min.toString());
-		rte_gui.sec.setText(sec.toString());
-		rte_gui.msec.setText(msec.toString());
-	}
+
 }

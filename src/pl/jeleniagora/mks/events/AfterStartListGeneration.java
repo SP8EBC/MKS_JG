@@ -1,32 +1,34 @@
 package pl.jeleniagora.mks.events;
 
-import java.util.Map;
-
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.types.Competitions;
-import pl.jeleniagora.mks.types.LugerCompetitor;
 
 /**
  * Klasa obsługująca zdarzenie po wygenerowaniu listy startowej - numerów startowych
  */
 public class AfterStartListGeneration {
 	
-	AnnotationConfigApplicationContext ctx;
+	static AnnotationConfigApplicationContext ctx;
 	
-	public AfterStartListGeneration(AnnotationConfigApplicationContext context) {
+	private AfterStartListGeneration(AnnotationConfigApplicationContext context) {
+		ctx = context;
+	}
+	
+	public static void setAppCtx(AnnotationConfigApplicationContext context) {
 		ctx = context;
 	}
 
-	public void process(Competitions competitions) {
+	public static void process(Competitions competitions) {
 		
-		this.setCurrentCompetition(competitions);
-		this.setCurrentAndNextLuger(competitions);
+		AfterStartListGeneration.setCurrentCompetition(competitions);
+		AfterStartListGeneration.setCurrentAndNextLuger(competitions);
 
 	}
 	
-	void setCurrentCompetition(Competitions competitions) {
+	static void setCurrentCompetition(Competitions competitions) {
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 
 		if (rte_st.competitionsDone == null || rte_st.competitionsDone.isEmpty()) {
@@ -36,15 +38,23 @@ public class AfterStartListGeneration {
 			 * zostanie ustawiona ta pierwsza (przechowywana z indeksem zero 
 			 */
 			rte_st.currentCompetition = competitions.competitions.firstElement();
+			
+			/*
+			 * Ustawianie aktualnego ślizgu jako pierwszego ślizgu w pierwszej konkurencji
+			 */
+			rte_st.currentRun = competitions.competitions.firstElement().runsTimes.get(0);
 
 		}
 	}
 	
-	void setCurrentAndNextLuger(Competitions competitions) {
+	static void setCurrentAndNextLuger(Competitions competitions) {
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
+		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
 
 		rte_st.actuallyOnTrack = competitions.competitions.firstElement().invertedStartList.get((short)1);
 		rte_st.nextOnTrack = competitions.competitions.firstElement().invertedStartList.get((short)2);
+		
+		
 
 	}
 	

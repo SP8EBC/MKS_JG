@@ -96,11 +96,12 @@ public class CompManager extends JFrame {
 		}
 		
 		RTE_GUI rte_gui = ctx.getBean(RTE_GUI.class);
+		rte_gui.syncCompManagerRdy = new Object();
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				CompManagerCSelectorUpdater selectorUpdater = new CompManagerCSelectorUpdater(ctx);
-				AfterStartListGeneration afterStartListGen = new AfterStartListGeneration(ctx);
+				AfterStartListGeneration.setAppCtx(ctx);
 				try {
 					DisplayS.setShowAllTimeDigits(true);
 					
@@ -114,8 +115,11 @@ public class CompManager extends JFrame {
 					
 					CompManagerScoreTableModel mdl = (CompManagerScoreTableModel)frame.getScoreTableModel();
 					Vector<Competition> cmps = mdl.fillWithTestData(competitions);
-					afterStartListGen.process(competitions);
+					AfterStartListGeneration.process(competitions);
 					
+					/*
+					 * Aktualizuje zawartość listy wyboru konkurencji
+					 */
 					selectorUpdater.updateSelectorContent(cmps);
 					
 					
@@ -129,6 +133,10 @@ public class CompManager extends JFrame {
 					
 					rte_gui.compManager = frame;
 					rte_gui.compManagerScoreModel = mdl;
+					
+					synchronized(rte_gui.syncCompManagerRdy) {
+						rte_gui.syncCompManagerRdy.notifyAll();
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -449,10 +457,6 @@ public class CompManager extends JFrame {
 		
 		System.out.println("CompManager Constructor");
 		
-		rte_gui.min = textField_m;
-		rte_gui.sec = textField_s;
-		rte_gui.msec = textField_msec;
-		
 		JLabel lblNewLabel = new JLabel("Czas dla wybranego ślizgu");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(1036, 35, 205, 15);
@@ -573,7 +577,13 @@ public class CompManager extends JFrame {
 		competitionSelector.setBounds(111, 6, 300, 24);
 		contentPane.add(competitionSelector);
 		
+		rte_gui.min = textField_m;
+		rte_gui.sec = textField_s;
+		rte_gui.msec = textField_msec;
+		
 		rte_gui.compManagerCSelector = competitionSelector;	// dodawanaie referencji do RTE
+		rte_gui.actuallyOnTrack = lblActuallyOnTrack;
+		rte_gui.nextOnTrack = lblNextOnTrack;
 	}
 	
 	public TableModel getScoreTableModel() {

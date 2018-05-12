@@ -11,12 +11,14 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import pl.jeleniagora.mks.chrono.Chrono;
 import pl.jeleniagora.mks.chrono.ChronoStateMachine;
-import pl.jeleniagora.mks.chrono.RuntimeUpdateEvent;
+import pl.jeleniagora.mks.events.LandedStateReached;
+import pl.jeleniagora.mks.events.RuntimeUpdateEvent;
 import pl.jeleniagora.mks.gui.CompManager;
 import pl.jeleniagora.mks.rte.RTE_CHRONO;
 import pl.jeleniagora.mks.rte.RTE_COM;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.serial.TypesConverters;
+import pl.jeleniagora.mks.settings.ChronometerS;
 import pl.jeleniagora.mks.settings.SpringS;
 
 class RuntimeUpdateEventTest {
@@ -33,8 +35,11 @@ class RuntimeUpdateEventTest {
 		ChronoStateMachine act;
 		LocalTime tim;
 		
-		Vector<Character> two_sec_1 = TypesConverters.convertStringToCharacterVector("CZIa0908045a1");
-		Vector<Character> two_sec_2 = TypesConverters.convertStringToCharacterVector("CZIa0908065a1");
+		ChronometerS.gateCount = 2;
+		LandedStateReached.setAppCtx(ctx);
+		
+		Vector<Character> two_sec_1 = TypesConverters.convertStringToCharacterVector("CZI10908045a1");
+		Vector<Character> two_sec_2 = TypesConverters.convertStringToCharacterVector("CZI30908065a1");
 		
 		/*
 		 * Uruchamianie menadżera zawodów
@@ -43,6 +48,16 @@ class RuntimeUpdateEventTest {
 
 		new Thread(new Chrono(ctx)).start();
 
+		System.out.println("Waiting for the CompManager to became fully operational.. ");
+		
+		synchronized(rte_gui.syncCompManagerRdy) {
+			try {
+				rte_gui.syncCompManagerRdy.wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		/*
 		 * Symulacja komunikacji z chronometru i obliczanie czasu ślizgu
 		 */
@@ -100,8 +115,8 @@ class RuntimeUpdateEventTest {
 		 *
 		 */
 		
-		RuntimeUpdateEvent updateEv = new RuntimeUpdateEvent(ctx);
-		updateEv.processingChain(tim);
+//		RuntimeUpdateEvent updateEv = new RuntimeUpdateEvent(ctx);
+//		updateEv.processingChain(tim);
 		
 		/*
 		 * Sleep żeby można było optycznie sprawdzić czy pola się zaktualizowały
