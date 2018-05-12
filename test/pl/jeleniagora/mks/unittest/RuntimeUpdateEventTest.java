@@ -12,7 +12,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import pl.jeleniagora.mks.chrono.Chrono;
 import pl.jeleniagora.mks.chrono.ChronoStateMachine;
 import pl.jeleniagora.mks.events.LandedStateReached;
-import pl.jeleniagora.mks.events.RuntimeUpdateEvent;
+import pl.jeleniagora.mks.events.UpdateCurrentAndNextLuger;
 import pl.jeleniagora.mks.gui.CompManager;
 import pl.jeleniagora.mks.rte.RTE_CHRONO;
 import pl.jeleniagora.mks.rte.RTE_COM;
@@ -37,6 +37,7 @@ class RuntimeUpdateEventTest {
 		
 		ChronometerS.gateCount = 2;
 		LandedStateReached.setAppCtx(ctx);
+		UpdateCurrentAndNextLuger.setAppCtx(ctx);
 		
 		Vector<Character> two_sec_1 = TypesConverters.convertStringToCharacterVector("CZI10908045a1");
 		Vector<Character> two_sec_2 = TypesConverters.convertStringToCharacterVector("CZI30908065a1");

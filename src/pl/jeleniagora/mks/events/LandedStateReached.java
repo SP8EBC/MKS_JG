@@ -12,8 +12,9 @@ import pl.jeleniagora.mks.types.AppContextUninitializedEx;
 import pl.jeleniagora.mks.types.EndOfCompetitionEx;
 import pl.jeleniagora.mks.types.LugerCompetitor;
 import pl.jeleniagora.mks.types.Run;
+import pl.jeleniagora.mks.types.UninitializedCompEx;
 
-/*
+/**
  * Klasa używana w momencie kiedy saneczkarz dojedzie do mety, czyli maszyna stanu pomiaru czasu
  * przeskocy w stan LANDED
  */
@@ -21,6 +22,11 @@ public class LandedStateReached {
 	
 	static AnnotationConfigApplicationContext ctx;
 
+	/**
+	 * Statyczna metoda ustawiająca referencję na kontekst aplikacji. Kontekst jest jedynym stanem przechowywanym
+	 * wewnątrz klasy. Nie zmienia to jednak faktu, że klasa i jej metody ma dość dużo side-effect
+	 * @param context
+	 */
 	public static void setAppCtx(AnnotationConfigApplicationContext context) {
 		ctx = context;
 	}
@@ -34,7 +40,7 @@ public class LandedStateReached {
 		
 		LandedStateReached.saveRunTimeForLuger(runtime);
 		try {
-			LandedStateReached.setActuallyAndNextOnTrack();
+			UpdateCurrentAndNextLuger.moveForwardNormally();
 		} catch (EndOfCompetitionEx e) {
 			e.printStackTrace();
 		}
@@ -43,6 +49,10 @@ public class LandedStateReached {
 	
 	}
 	
+	/**
+	 * Prywatna metoda ustawiająca wartości pól tekstowych czasu ślizgu
+	 * @param runTime
+	 */
 	static void updateTextFieldsInCM(LocalTime runTime) {
 				
 		RTE_GUI rte_gui = ctx.getBean(RTE_GUI.class);
@@ -61,7 +71,8 @@ public class LandedStateReached {
 	
 	static void saveRunTimeForLuger(LocalTime runTime) {
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
-
+		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
+		
 		/*
 		 * Referencja do zawodnika który aktualnie ukonczył ślizg
 		 */
@@ -69,13 +80,27 @@ public class LandedStateReached {
 		
 		
 		Run current = rte_st.currentRun;
-		LocalTime runtimeToUpdate = current.run.get(currentToSaveRuntime);
+		LocalTime runtimeToUpdate = current.run.get(currentToSaveRuntime);	// metoda get zwraca kopię tego co jest zapisane w mapie
 		runtimeToUpdate = runTime;
 		
-	}
-	
-	static void setActuallyAndNextOnTrack() throws EndOfCompetitionEx {
-
+		/*
+		 * Zapisywanie nowego czasu ślizgu na powrót w mapie
+		 */
+		current.run.put(currentToSaveRuntime, runtimeToUpdate);
+		
+		try {
+			/*
+			 * Aktualizacja modelu (bezpośredniego źródła danych) dla głównej tabeli w CompManagerze
+			 */
+			rte_gui.compManagerScoreModel.updateTableData(rte_st.currentCompetition, false);
+		} catch (UninitializedCompEx e) {
+			// w zasadzie w tym miejscu ten wyjątek nigdy nie zostanie rzucony
+			e.printStackTrace();
+		}
+		
+		rte_gui.compManagerScoreModel.fireTableDataChanged();
+		
+		
 	}
 	
 }

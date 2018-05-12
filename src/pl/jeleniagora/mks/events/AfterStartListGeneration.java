@@ -7,7 +7,9 @@ import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.types.Competitions;
 
 /**
- * Klasa obsługująca zdarzenie po wygenerowaniu listy startowej - numerów startowych
+ * Klasa obsługująca zdarzenie po wygenerowaniu listy startowej - numerów startowych. Inicjalizuje cały system
+ * obsługi zawodow / treningów ustawiając wartości początkowe. Ustawia pierwszą konkurencję jako aktualną, 
+ * ustawia aktualny ślizg, saneczkarza itp.
  */
 public class AfterStartListGeneration {
 	
@@ -54,6 +56,8 @@ public class AfterStartListGeneration {
 		rte_st.actuallyOnTrack = competitions.competitions.firstElement().invertedStartList.get((short)1);
 		rte_st.nextOnTrack = competitions.competitions.firstElement().invertedStartList.get((short)2);
 		
+		rte_gui.actuallyOnTrack.setText(rte_st.actuallyOnTrack.toString());
+		rte_gui.nextOnTrack.setText(rte_st.nextOnTrack.toString());
 		
 
 	}

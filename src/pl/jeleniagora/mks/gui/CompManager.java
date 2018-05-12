@@ -68,7 +68,7 @@ public class CompManager extends JFrame {
 	private Competition competition;
 	
 	/**
-	 * Wektor przechowywujący referencję do wszystkich konkurencji w ramach zawodów / sesji treningowej
+	 * Referencja do wektora przechowywującego referencję do wszystkich konkurencji w ramach zawodów / sesji treningowej
 	 */
 	private Vector<Competition> allCompetitions;
 	
@@ -84,6 +84,20 @@ public class CompManager extends JFrame {
 	public static void utMain(AnnotationConfigApplicationContext context) {
 		ctx = context;
 		CompManager.main(null);
+	}
+	
+	/**
+	 * Metoda ustawia kursor w tabeli wyników na konkretnego zawodnika i konkretny ślizg
+	 * @param startNumber
+	 * @param runIndex
+	 */
+	public void markConreteRun(int startNumber, int runIndex) {
+		/*
+		 * numery startowe saneczkarzy idą zawsze od jedynki w górę. Dlatego pierwszy indeks tabeli modelu to zawsze 
+		 * pierwszy saneczkarz itp. Tutaj ma miejsce konwersja saneczkarza o wskazanym numerze startowym na jego 
+		 * id w widoku
+		 */
+		int rowToSelect = table.convertRowIndexToView(startNumber);
 	}
 	
 	/**
