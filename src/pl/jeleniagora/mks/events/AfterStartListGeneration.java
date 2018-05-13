@@ -45,6 +45,8 @@ public class AfterStartListGeneration {
 			 * Ustawianie aktualnego ślizgu jako pierwszego ślizgu w pierwszej konkurencji
 			 */
 			rte_st.currentRun = competitions.competitions.firstElement().runsTimes.get(0);
+			
+			rte_st.currentRunCnt = 0;
 
 		}
 	}

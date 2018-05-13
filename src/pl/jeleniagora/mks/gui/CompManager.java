@@ -98,6 +98,14 @@ public class CompManager extends JFrame {
 		 * id w widoku
 		 */
 		int rowToSelect = table.convertRowIndexToView(startNumber);
+		
+		/*
+		 * Pięć pierwszych kolumn zawiera dane o zawodniku takie jak imie nazwisko, etc. dopiero szósta kolumna
+		 * to pierwsza kolumna z czasami
+		 */
+		int columnToSelect = runIndex + 5;
+		
+		table.changeSelection(rowToSelect, columnToSelect, false, false);
 	}
 	
 	/**

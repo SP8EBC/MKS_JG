@@ -9,7 +9,7 @@ import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.serial.TypesConverters;
 import pl.jeleniagora.mks.types.AppContextUninitializedEx;
-import pl.jeleniagora.mks.types.EndOfCompetitionEx;
+import pl.jeleniagora.mks.types.EndOfRunEx;
 import pl.jeleniagora.mks.types.LugerCompetitor;
 import pl.jeleniagora.mks.types.Run;
 import pl.jeleniagora.mks.types.UninitializedCompEx;
@@ -41,7 +41,7 @@ public class LandedStateReached {
 		LandedStateReached.saveRunTimeForLuger(runtime);
 		try {
 			UpdateCurrentAndNextLuger.moveForwardNormally();
-		} catch (EndOfCompetitionEx e) {
+		} catch (EndOfRunEx e) {
 			e.printStackTrace();
 		}
 		
@@ -99,6 +99,7 @@ public class LandedStateReached {
 		}
 		
 		rte_gui.compManagerScoreModel.fireTableDataChanged();
+		
 		
 		
 	}

@@ -1,6 +1,6 @@
 package pl.jeleniagora.mks.types;
 
-public class EndOfCompetitionEx extends Throwable {
+public class EndOfRunEx extends Throwable {
 
 	/**
 	 * 

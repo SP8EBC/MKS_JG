@@ -5,7 +5,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.types.AppContextUninitializedEx;
-import pl.jeleniagora.mks.types.EndOfCompetitionEx;
+import pl.jeleniagora.mks.types.EndOfRunEx;
 import pl.jeleniagora.mks.types.LugerCompetitor;
 
 /**
@@ -36,10 +36,10 @@ public class UpdateCurrentAndNextLuger {
 	
 	/**
 	 * Klasa  
-	 * @throws EndOfCompetitionEx Rzucany po ślizgu ostatniego saneczkarza, co oznacza zakończenie konkurencji
+	 * @throws EndOfRunEx Rzucany po ślizgu ostatniego saneczkarza, co oznacza zakończenie konkurencji
 	 * @throws AppContextUninitializedEx Rzucany jeżeli nie ustawiono wczesniej kontekstu aplikacji
 	 */
-	public static void moveForwardNormally() throws EndOfCompetitionEx, AppContextUninitializedEx {
+	public static void moveForwardNormally() throws EndOfRunEx, AppContextUninitializedEx {
 		if (ctx == null) 
 			throw new AppContextUninitializedEx();
 		
@@ -52,6 +52,8 @@ public class UpdateCurrentAndNextLuger {
 		 * Numery startowe sa liczone nie po programistycznemu czyli od jedynki a nie od zera!!!
 		 */
 		Short actualStartNumber = rte_st.currentCompetition.startList.get(actual);
+
+		Short actualRun = rte_st.currentRunCnt;
 		
 		/*
 		 * Sprawdzanie czy nie doszło się do końca aktualnej konkurencji. Tj czy aktualny na torze nie jest
@@ -74,8 +76,13 @@ public class UpdateCurrentAndNextLuger {
 			/*
 			 * Jeżeli ten był ostatni to trzeba zakończyć konkurencje
 			 */
-			throw new EndOfCompetitionEx();
+			throw new EndOfRunEx();
 		}
+		
+		/*
+		 * Podświetlanie zawodnika w menadżerze zawodów
+		 */
+		rte_gui.compManager.markConreteRun(actualStartNumber, actualRun);
 		
 		rte_gui.actuallyOnTrack.setText(rte_st.actuallyOnTrack.toString());
 		try {

@@ -29,6 +29,12 @@ public class RTE_ST {
 	public Competition currentCompetition;
 	
 	public Run currentRun;
+	
+	/**
+	 * Pole przechowuje numer kolejny ślizgu w danej konkurencji. Ślizgi są liczone normalnie po programistycznemu,
+	 * czyli od zera a nie od jedynki.
+	 */
+	public short currentRunCnt;
 
 	/**
 	 * Wektor przechowywujący referencję do już rozegranych konkurencji
