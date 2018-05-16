@@ -10,6 +10,8 @@ public class LugerSingle implements LugerCompetitor {
 	public Luger single;
 	
 	CompetitionTypes type;
+	
+	short startNum;
 		
 	public LugerSingle(boolean isFemale) {
 		if (isFemale)
@@ -27,6 +29,16 @@ public class LugerSingle implements LugerCompetitor {
 	public String toString() {
 		String out = single.name + " " + single.surname;
 		return out;
+	}
+
+	@Override
+	public short getStartNumber() {
+		return this.startNum;
+	}
+
+	@Override
+	public void setStartNumber(short num) {
+		this.startNum = num;
 	}
 
 }

@@ -21,5 +21,8 @@ public interface LugerCompetitor {
 	 */
 	public CompetitionTypes getCompetitorType();
 	
+	public void setStartNumber(short num);
+	public short getStartNumber();
+	
 	public String toString();
 }

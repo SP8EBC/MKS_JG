@@ -2,6 +2,7 @@ package pl.jeleniagora.mks.events;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
 
 /**
@@ -22,12 +23,47 @@ public class EndOfRun {
 		ctx = context;
 	}
 	
+	/**
+	 * Prywatny konstruktor który ma uniemożliwić stworzenie egzemplarza tej klasy
+	 */
 	private EndOfRun() {
 		
 	}
 	
-	public static void switchToNextRun() {
+	public static void switchToNextRun() throws InterruptedException {
 		
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
+		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
+		int numberOfRuns = rte_st.currentCompetition.numberOfAllRuns;
+		
+		if (rte_st.currentRunCnt < numberOfRuns) {
+			/*
+			 * Jeżeli w tej konkurencji jest jeszcze jakiś ślizg
+			 */
+			
+			rte_st.currentRunCnt++;
+			
+			rte_st.currentRun = rte_st.currentCompetition.runsTimes.elementAt(rte_st.currentRunCnt);
+			
+			/*
+			 * 
+			 */
+			UpdateCurrentAndNextLuger.rewindToBegin();
+			/*
+			 * 
+			 */
+			rte_gui.compManagerCSelector.setSelectedIndex(rte_st.currentRunCnt);
+			rte_gui.compManagerScoreModel.fireTableStructureChanged();
+			
+			Thread.sleep(6000);
+
+		}
+		else {
+			/*
+			 * Jeżeli nie to znaczy że to koniec konkurencji
+			 */
+		}
+		
+		
 	}
 }

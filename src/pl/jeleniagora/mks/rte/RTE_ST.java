@@ -42,6 +42,11 @@ public class RTE_ST {
 	public Vector<Competition> competitionsDone;
 	
 	/**
+	 * Referencja na saneczkarza z którego nastąpiło przeskoczenie poza kolejke
+	 */
+	public LugerCompetitor returnComptr;
+	
+	/**
 	 * Referencja do "zawodnika aktualnie na torze"
 	 */
 	public LugerCompetitor actuallyOnTrack;

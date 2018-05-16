@@ -33,6 +33,8 @@ public class CompManagerCSelectorUpdater {
 		for (int i = 0; i < in.size(); i++) {
 			selector.addItem(in.get(i));
 		}
+		selector.setSelectedItem(in.get(0));
+		
 	}
 
 	

@@ -61,6 +61,8 @@ public class StartListFactory {
 			if (forCompetition.startList.containsKey(lugerToAssignNum))
 				continue;	// przerwanie tego obiegu pętli i rozpoczęcie następnego
 			
+			lugerToAssignNum.setStartNumber((short)(generatedStartNumbers+1));
+			
 			/*
 			 * Dodawanie tego saneczkarza do listy startowej. Numery startowe idą po kolei w górę a tak naprawdę losowany jest
 			 * saneczkarz, który będzie to każdego z nich przyporządkowany. Ponieważ numer jest cyfrą dodatnią i większą od zera

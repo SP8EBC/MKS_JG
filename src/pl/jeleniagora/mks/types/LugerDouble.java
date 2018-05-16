@@ -17,6 +17,8 @@ public class LugerDouble implements LugerCompetitor {
 	 */
 	Luger lower;
 	
+	short startNum;
+	
 	@Override
 	public CompetitionTypes getCompetitorType() {
 		// TODO Auto-generated method stub
@@ -29,6 +31,17 @@ public class LugerDouble implements LugerCompetitor {
 		out = upper.surname + " / " + lower.surname;
 		
 		return out;
+	}
+
+	@Override
+	public short getStartNumber() {
+		return this.startNum;
+	}
+
+	@Override
+	public void setStartNumber(short num) {
+		this.startNum = num;
+		
 	}
 
 }

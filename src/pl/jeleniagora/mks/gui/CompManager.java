@@ -52,7 +52,7 @@ import java.awt.event.ActionEvent;
 public class CompManager extends JFrame {
 
 	static AnnotationConfigApplicationContext ctx;
-
+	static CompManager frame;
 	
 	private JPanel contentPane;
 	private JTable table;
@@ -131,7 +131,7 @@ public class CompManager extends JFrame {
 					
 					Competitions competitions = new Competitions("test", LocalDate.now());
 					
-					CompManager frame = new CompManager();
+					frame = new CompManager();
 					frame.setVisible(true);
 
 					
