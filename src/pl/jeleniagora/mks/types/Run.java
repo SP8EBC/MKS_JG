@@ -21,6 +21,11 @@ import pl.jeleniagora.mks.serial.TypesConverters;
 public class Run {
 	
 	/**
+	 * Ustawienie na true powoduje traktowanie tego ślizgu jako ślizgu punktowanego a nie treningowego.
+	 */
+	public boolean trainingOrScored;
+	
+	/**
 	 * Mapa łącząca zawodników z ich wynikami końcowymi dla konkretnego ślizgu w konkurencji
 	 */
 	public Map<LugerCompetitor, LocalTime> run;
@@ -38,12 +43,17 @@ public class Run {
 		;
 	}
 	
-	public Run(Map<LugerCompetitor, Short> startList) {
+	public Run(Map<LugerCompetitor, Short> startList, byte trainingOrScored) {
 		
 		run = new HashMap<LugerCompetitor, LocalTime>();
 
 		Iterator<Entry<LugerCompetitor, Short>> it = startList.entrySet().iterator();
-
+		
+		if (trainingOrScored == 1)
+			this.trainingOrScored = true;
+		else
+			this.trainingOrScored = false;
+		
 		while (it.hasNext()) {
 			Entry<LugerCompetitor, Short> entryFromMap = it.next();
 			
@@ -56,11 +66,16 @@ public class Run {
 
 	}
 	
-	public Run(Vector<LugerCompetitor> lugers) {
+	public Run(Vector<LugerCompetitor> lugers, byte trainingOrScored) {
 		
 		run = new HashMap<LugerCompetitor, LocalTime>();
 		
 		Iterator<LugerCompetitor> it = lugers.iterator();
+		
+		if (trainingOrScored == 1)
+			this.trainingOrScored = true;
+		else
+			this.trainingOrScored = false;
 		
 		while (it.hasNext()) {
 			LugerCompetitor key = it.next();
@@ -71,11 +86,16 @@ public class Run {
 		}
 	}
 	
-	public Run(Vector<LugerCompetitor> lugers, boolean randmize) {
+	public Run(Vector<LugerCompetitor> lugers,  boolean randmize, byte trainingOrScored) {
 		
 		run = new HashMap<LugerCompetitor, LocalTime>();
 		
 		Iterator<LugerCompetitor> it = lugers.iterator();
+		
+		if (trainingOrScored == 1)
+			this.trainingOrScored = true;
+		else
+			this.trainingOrScored = false;
 		
 		while (it.hasNext()) {
 			LugerCompetitor key = it.next();

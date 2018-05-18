@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import pl.jeleniagora.mks.types.Competition;
+import pl.jeleniagora.mks.types.Competitions;
 import pl.jeleniagora.mks.types.LugerCompetitor;
 import pl.jeleniagora.mks.types.Run;
 
@@ -22,6 +23,11 @@ public class RTE_ST {
 	public RTE_ST() {
 		competitionsDone = new Vector<Competition>();
 	}
+	
+	/**
+	 * Referencja na obiekt "Competitions" który jest głównym i nadrzędnym elementem struktury danych w programie
+	 */
+	public Competitions competitions;
 	
 	/**
 	 * Zawody aktualnie wybrane w menadżerze zawodów i wyświetlane w jego głównej tabeli.

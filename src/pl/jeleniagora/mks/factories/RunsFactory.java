@@ -11,8 +11,14 @@ public class RunsFactory {
 		
 		Vector<Run> runs = new Vector<Run>();
 		
-		for (int i = 0; i < (allRuns); i++ ) {
-			runs.add(new Run(in));
+		short scored = (short) (allRuns - trainingRuns);
+		
+		for (int i = 0; i < (trainingRuns); i++ ) {
+			runs.add(new Run(in, (byte)0));
+		}
+		
+		for (int i = 0; i < (scored); i++ ) {
+			runs.add(new Run(in, (byte)1));
 		}
 		
 		return runs;
@@ -22,8 +28,14 @@ public class RunsFactory {
 		
 		Vector<Run> runs = new Vector<Run>();
 		
-		for (int i = 0; i < (allRuns); i++ ) {
-			runs.add(new Run(in, true));
+		short scored = (short) (allRuns - trainingRuns);
+		
+		for (int i = 0; i < (trainingRuns); i++ ) {
+			runs.add(new Run(in, true, (byte)0));
+		}
+		
+		for (int i = 0; i < (scored); i++ ) {
+			runs.add(new Run(in, (byte)1));
 		}
 		
 		return runs;

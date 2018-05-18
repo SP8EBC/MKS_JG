@@ -14,6 +14,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import pl.jeleniagora.mks.events.AfterStartListGeneration;
 import pl.jeleniagora.mks.rte.RTE_GUI;
+import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.settings.DisplayS;
 import pl.jeleniagora.mks.settings.SpringS;
 import pl.jeleniagora.mks.types.Competition;
@@ -118,6 +119,8 @@ public class CompManager extends JFrame {
 		}
 		
 		RTE_GUI rte_gui = ctx.getBean(RTE_GUI.class);
+		RTE_ST rte_st = ctx.getBean(RTE_ST.class);
+
 		rte_gui.syncCompManagerRdy = new Object();
 		
 		EventQueue.invokeLater(new Runnable() {
@@ -130,6 +133,7 @@ public class CompManager extends JFrame {
 					Object value = null;
 					
 					Competitions competitions = new Competitions("test", LocalDate.now());
+					rte_st.competitions = competitions;
 					
 					frame = new CompManager();
 					frame.setVisible(true);

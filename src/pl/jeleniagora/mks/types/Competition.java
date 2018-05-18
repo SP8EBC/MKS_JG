@@ -37,6 +37,16 @@ public class Competition {
 	public int numberOfTrainingRuns;
 	
 	/**
+	 * Wektor zawiera identyfikatory (pierwszy drugi itp) ukończonych w całości ślizgów punktowanych
+	 */
+	public Vector<Integer> scoredRunsDone;
+	
+	/**
+	 * Wektor zawiera identyfikatory (pierwszy drugi itp) zakończonych w całości ślizgów treningowych
+	 */
+	public Vector<Integer> trainingRunsDone;
+	
+	/**
 	 * Mapa łącząca saneczkarzy z numerami startowymi.
 	 */
 	public Map<LugerCompetitor, Short> startList;

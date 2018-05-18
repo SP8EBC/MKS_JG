@@ -129,11 +129,23 @@ class UpdateCurrentAndNextLugerTest {
 		UpdateCurrentAndNextLuger.rewindToBegin();
 		
 		try {
+			Thread.sleep(4000);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+		
+		try {
 			UpdateCurrentAndNextLuger.moveForwardNormally();
 		} catch (EndOfRunEx | AppContextUninitializedEx e) {
 			fail("Exception has been thrown");
 		}
 
+		try {
+			Thread.sleep(4000);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+		
 		Assert.assertEquals(rte_st.actuallyOnTrack, rte_st.currentCompetition.invertedStartList.get((short)2));
 		Assert.assertEquals(rte_st.nextOnTrack, null);
 		
@@ -145,6 +157,15 @@ class UpdateCurrentAndNextLugerTest {
 
 		}
 		
-		Assert.assertEquals(true, runEnd);	}
+		Assert.assertEquals(true, runEnd);	
+		
+		try {
+			Thread.sleep(6000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
 }
