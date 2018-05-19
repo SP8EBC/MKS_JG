@@ -35,7 +35,7 @@ public class RunsFactory {
 		}
 		
 		for (int i = 0; i < (scored); i++ ) {
-			runs.add(new Run(in, (byte)1));
+			runs.add(new Run(in, true, (byte)1));
 		}
 		
 		return runs;
