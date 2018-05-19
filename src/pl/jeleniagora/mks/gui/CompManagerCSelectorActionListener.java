@@ -5,6 +5,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JComboBox;
 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.CompetitionEncapsulationForSelector;
 import pl.jeleniagora.mks.types.UninitializedCompEx;
@@ -18,7 +21,12 @@ public class CompManagerCSelectorActionListener implements ActionListener {
 
 	CompManagerScoreTableModel mdl;
 	
-	CompManagerCSelectorActionListener(CompManagerScoreTableModel model) {mdl = model;}
+	AnnotationConfigApplicationContext ctx;
+	
+	CompManagerCSelectorActionListener(CompManagerScoreTableModel model, AnnotationConfigApplicationContext context) {
+		mdl = model;
+		ctx = context;
+		}
 	
 	/**
 	 * Metoa wywoływana po akcji na polu rozwijanym do wyboru konkurencji, w zasadzie tutaj jedyną akcją
@@ -29,6 +37,8 @@ public class CompManagerCSelectorActionListener implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
 		Object selectorObj = arg0.getSource();
+		
+		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
 		
 		if (selectorObj instanceof JComboBox<?>) {
 			/*
@@ -46,7 +56,8 @@ public class CompManagerCSelectorActionListener implements ActionListener {
 				
 				Competition selected = ((CompetitionEncapsulationForSelector)selector.getSelectedItem()).getCompetition();
 
-				
+				rte_gui.competitionBeingShown = selected;
+								
 				// TODO: Umożliwić wykorzystanie czasów pośrednich
 				try {
 					mdl.updateTableData(selected, false);

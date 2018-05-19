@@ -13,6 +13,8 @@ import javax.swing.table.TableModel;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import pl.jeleniagora.mks.events.AfterStartListGeneration;
+import pl.jeleniagora.mks.events.ChangeCompetition;
+import pl.jeleniagora.mks.events.UpdateCurrentAndNextLuger;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.settings.DisplayS;
@@ -99,13 +101,17 @@ public class CompManager extends JFrame {
 		 * pierwszy saneczkarz itp. Tutaj ma miejsce konwersja saneczkarza o wskazanym numerze startowym na jego 
 		 * id w widoku
 		 */
-		int rowToSelect = table.convertRowIndexToView(startNumber);
+		int rowToSelect = ((CompManagerScoreTableModel)frame.getScoreTableModel()).getModelIndexFromStartNumber(startNumber);
+		
+		rowToSelect = table.convertRowIndexToView(rowToSelect);
 		
 		/*
 		 * Pięć pierwszych kolumn zawiera dane o zawodniku takie jak imie nazwisko, etc. dopiero szósta kolumna
 		 * to pierwsza kolumna z czasami
 		 */
 		int columnToSelect = runIndex + 5;
+		
+		System.out.println("markConcreteRun - rts " + rowToSelect + " - cts " + columnToSelect + " - startnum" + startNumber);
 		
 		table.changeSelection(rowToSelect, columnToSelect, false, false);
 	}
@@ -128,6 +134,9 @@ public class CompManager extends JFrame {
 			public void run() {
 				CompManagerCSelectorUpdater selectorUpdater = new CompManagerCSelectorUpdater(ctx);
 				AfterStartListGeneration.setAppCtx(ctx);
+				ChangeCompetition.setAppCtx(ctx);
+				UpdateCurrentAndNextLuger.setAppCtx(ctx);
+				
 				try {
 					DisplayS.setShowAllTimeDigits(true);
 					
@@ -141,7 +150,7 @@ public class CompManager extends JFrame {
 
 					
 					CompManagerScoreTableModel mdl = (CompManagerScoreTableModel)frame.getScoreTableModel();
-					Vector<Competition> cmps = mdl.fillWithTestData(competitions, true);
+					Vector<Competition> cmps = mdl.fillWithTestData(competitions, false);
 					AfterStartListGeneration.process(competitions);
 					
 					/*
@@ -459,7 +468,7 @@ public class CompManager extends JFrame {
 		scrollPane.setViewportView(table);
 		contentPane.add(scrollPane);
 		
-		JLabel lblKonkurencja = new JLabel("Konkurencja:");
+		JLabel lblKonkurencja = new JLabel("Podgląd:");
 		lblKonkurencja.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblKonkurencja.setBounds(5, 11, 105, 15);
 		contentPane.add(lblKonkurencja);
@@ -528,20 +537,13 @@ public class CompManager extends JFrame {
 		btnPrzedlizgacz2.setBounds(1036, 444, 205, 44);
 		contentPane.add(btnPrzedlizgacz2);
 		
-		JCheckBox chckbxWidokZMidzyczasami = new JCheckBox("Widok z międzyczasami");
-		chckbxWidokZMidzyczasami.setBounds(425, 7, 197, 23);
-		contentPane.add(chckbxWidokZMidzyczasami);
-		
-		JLabel lbllizg = new JLabel("Ślizg:");
-		lbllizg.setBounds(626, 11, 70, 15);
+		JLabel lbllizg = new JLabel("Aktualnie rozgrywana:");
+		lbllizg.setBounds(626, 11, 172, 15);
 		contentPane.add(lbllizg);
-		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(666, 6, 153, 24);
-		contentPane.add(comboBox_1);
 		
 		JButton btnNextSlider = new JButton("<html><p align=\"center\">Omiń aktualnego i przejdź do nast. z listy</p></html>");
 		btnNextSlider.setBounds(1036, 500, 205, 44);
+		btnNextSlider.addActionListener(new CompManagerNextLugerBtnActionListener(ctx));
 		contentPane.add(btnNextSlider);
 		
 		JLabel lblAktualnieNaTorze = new JLabel("AKTUALNIE NA TORZE:");
@@ -600,7 +602,7 @@ public class CompManager extends JFrame {
 		contentPane.add(chckbxAutozapisCzasulizgu);
 		
 		JComboBox<CompetitionEncapsulationForSelector> competitionSelector = new JComboBox<CompetitionEncapsulationForSelector>();
-		competitionSelector.addActionListener(new CompManagerCSelectorActionListener((CompManagerScoreTableModel)this.getScoreTableModel()));
+		competitionSelector.addActionListener(new CompManagerCSelectorActionListener((CompManagerScoreTableModel)this.getScoreTableModel(), ctx));
 		competitionSelector.setBounds(111, 6, 300, 24);
 		contentPane.add(competitionSelector);
 		
@@ -611,6 +613,20 @@ public class CompManager extends JFrame {
 		rte_gui.compManagerCSelector = competitionSelector;	// dodawanaie referencji do RTE
 		rte_gui.actuallyOnTrack = lblActuallyOnTrack;
 		rte_gui.nextOnTrack = lblNextOnTrack;
+		
+		JButton btnZmieKonkurencje = new JButton("Zmień konkurencje");
+		btnZmieKonkurencje.setBounds(423, 6, 185, 25);
+		btnZmieKonkurencje.addActionListener(new CompManagerChgCompBtnActionListener(ctx));
+		contentPane.add(btnZmieKonkurencje);
+		
+		JLabel lblCurrentComp = new JLabel("---");
+		lblCurrentComp.setFont(new Font("Dialog", Font.BOLD, 14));
+		lblCurrentComp.setForeground(Color.BLACK);
+		lblCurrentComp.setBounds(801, 11, 223, 15);
+		contentPane.add(lblCurrentComp);
+		
+		rte_gui.currentCompetition = lblCurrentComp;
+
 	}
 	
 	public TableModel getScoreTableModel() {

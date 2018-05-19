@@ -43,6 +43,9 @@ public class RTE_GUI {
 	
 	public JLabel actuallyOnTrack;
 	public JLabel nextOnTrack;
+	public JLabel currentCompetition;
 	
 	public Object syncCompManagerRdy;
+	
+	public Competition competitionBeingShown;
 }

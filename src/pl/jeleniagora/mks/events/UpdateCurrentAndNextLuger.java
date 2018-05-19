@@ -102,6 +102,8 @@ public class UpdateCurrentAndNextLuger {
 		rte_st.actuallyOnTrack = rte_st.currentCompetition.invertedStartList.get((short)startNumber);
 		rte_gui.actuallyOnTrack.setText(rte_st.actuallyOnTrack.toString());
 		
+		rte_gui.compManager.markConreteRun(rte_st.actuallyOnTrack.getStartNumber(), rte_st.currentRunCnt);
+		
 		Vector<LocalTime> vctRunTimes = rte_st.currentRun.getVectorWithRuntimes(rte_st.currentCompetition.invertedStartList);
 		
 		for (int i = 0; i < vctRunTimes.size(); i++) {
@@ -233,7 +235,7 @@ public class UpdateCurrentAndNextLuger {
 		/*
 		 * Podświetlanie zawodnika w menadżerze zawodów
 		 */
-		rte_gui.compManager.markConreteRun(actualStartNumber, actualRun);
+		rte_gui.compManager.markConreteRun(rte_st.actuallyOnTrack.getStartNumber(), actualRun);
 		
 		rte_gui.actuallyOnTrack.setText(rte_st.actuallyOnTrack.toString());
 		try {

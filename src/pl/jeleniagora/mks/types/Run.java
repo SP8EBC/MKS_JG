@@ -26,6 +26,11 @@ public class Run {
 	public short number;
 	
 	/**
+	 * 
+	 */
+	public short numberInScoredOrTrainingRuns;
+	
+	/**
 	 * Ustawianie na true jeżeli ślizg się zakończył w 100%
 	 */
 	public boolean done;

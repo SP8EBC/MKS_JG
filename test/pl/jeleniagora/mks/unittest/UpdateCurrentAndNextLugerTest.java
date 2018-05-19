@@ -129,13 +129,6 @@ class UpdateCurrentAndNextLugerTest {
 		
 		Assert.assertEquals(rte_st.actuallyOnTrack.getStartNumber(), 1);
 		Assert.assertEquals(rte_st.nextOnTrack.getStartNumber(), 4);
-		
-		try {
-			Thread.sleep(6000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 	}
 
@@ -215,13 +208,6 @@ class UpdateCurrentAndNextLugerTest {
 		}
 		
 		Assert.assertEquals(true, runEnd);	
-		
-		try {
-			Thread.sleep(6000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 	}
 

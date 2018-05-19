@@ -118,6 +118,27 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 	}
 	
 	/**
+	 * Metoda służy do wyszukiwania indeksu w modelu danych odpowidającemu zadanemu numerowi startowemu zawodnika. Należy mieć pozor, że
+	 * co do zasdy zawodnicy są najpierw dodawani do tabeli modelu danych bez numerów startowych (inicjalzacja zerami). Z tego powodu indeksy
+	 * w modelu danych nie odpowiadają numerom startowym
+	 * a potem te numery są dolosowywane
+	 * @param startNumber
+	 * @return
+	 */
+	public int getModelIndexFromStartNumber(int startNumber) {
+		
+		for (int i = 0; i < this.numberOfLugers; i++) {
+			int startNumToChk = (int)(this.tableData[i][0]);
+			if (startNumToChk == startNumber) {
+				return i;
+			}
+			else;
+		}
+		
+		return -1;
+	}
+	
+	/**
 	 * Metoda do aktualizacji głównej tabeli z wynikami. Przepisuje po prostu dane z wejściowej klasy i wszystkich
 	 * "podklas" to tabeli Object[][] która jest już bezpośrednim źródłem danych dla JTable
 	 * @param competition

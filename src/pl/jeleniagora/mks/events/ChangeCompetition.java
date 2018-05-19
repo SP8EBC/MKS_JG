@@ -24,7 +24,8 @@ public class ChangeCompetition {
 	}
 	
 	/**
-	 * 
+	 * Metoda służy o zmainy aktualnie przeprowadzanej konkurencji, jej użycie powoduje ustawienie również aktualnego ślizgu na 
+	 * pierwszy niezakończony ślizg z całej konkurencji
 	 * @param toThis
 	 * @param updateGui Ustawienie na true powoduje że metoda zmieni również konkurencję pokazywaną w CompManagerze
 	 * @throws AppContextUninitializedEx 

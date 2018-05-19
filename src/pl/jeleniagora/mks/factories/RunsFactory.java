@@ -41,14 +41,16 @@ public class RunsFactory {
 			runs.add(r);
 			
 			r.number = (i);	// ustawianie numeru kolejnego ślizgu w konkurencji, styl programistyczny zaczynając od treningowych
+			r.numberInScoredOrTrainingRuns = i;
 		}
 		
-		for (int i = 0; i < (scored); i++ ) {
+		for (short i = 0; i < (scored); i++ ) {
 			
 			Run r = new Run(in, true, (byte)1);
 			runs.add(r);
 			
 			r.number = (short) (i + trainingRuns);
+			r.numberInScoredOrTrainingRuns = i;
 		}
 		
 		return runs;

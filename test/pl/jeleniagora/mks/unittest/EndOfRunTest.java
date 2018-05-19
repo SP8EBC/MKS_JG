@@ -25,6 +25,7 @@ import pl.jeleniagora.mks.settings.SpringS;
 import pl.jeleniagora.mks.types.AppContextUninitializedEx;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.Competitions;
+import pl.jeleniagora.mks.types.EndOfCompEx;
 import pl.jeleniagora.mks.types.EndOfRunEx;
 
 class EndOfRunTest {
@@ -74,7 +75,7 @@ class EndOfRunTest {
 	}
 
 	@Test
-	void testSwitchToNextRun() throws InterruptedException {
+	void testSwitchToNextRun() throws InterruptedException, EndOfCompEx {
 		
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 		

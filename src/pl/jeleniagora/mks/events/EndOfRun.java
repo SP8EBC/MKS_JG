@@ -4,6 +4,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
+import pl.jeleniagora.mks.types.EndOfCompEx;
 
 /**
  * Klasa zawierąca metody wywoływane po ostatim saneczkarzu w ślizgu
@@ -30,7 +31,7 @@ public class EndOfRun {
 		
 	}
 	
-	public static void switchToNextRun() throws InterruptedException {
+	public static void switchToNextRun() throws EndOfCompEx {
 		
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
@@ -57,7 +58,6 @@ public class EndOfRun {
 			rte_gui.compManagerCSelector.setSelectedIndex(rte_st.currentRunCnt);
 			rte_gui.compManagerScoreModel.fireTableStructureChanged();
 			
-		//	Thread.sleep(6000);
 
 		}
 		else {
@@ -65,6 +65,7 @@ public class EndOfRun {
 			 * Jeżeli nie to znaczy że to koniec konkurencji
 			 */
 			rte_st.returnComptr = null;
+			throw new EndOfCompEx();
 		}
 		
 		

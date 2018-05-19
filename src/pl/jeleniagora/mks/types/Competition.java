@@ -150,6 +150,21 @@ public class Competition {
 		
 	}
 	
+	public Vector<LugerCompetitor> getStartListAsVector() {
+		Vector<LugerCompetitor> out = new Vector<LugerCompetitor>();
+		
+		if (invertedStartList.size() == 0) {
+			return null;
+		}
+		
+		for (short i = 0; i < invertedStartList.size(); i++) {
+			LugerCompetitor cmptr = invertedStartList.get((short)(i + 1));
+			out.add(cmptr);
+		}
+		
+		return out;
+	}
+	
 	/**
 	 * Metoda wymagana przez JComboBox<Competition> to uzyskiwania stringa, który ma się pojawiać się jako
 	 * pozycja na liście rozwijanej
