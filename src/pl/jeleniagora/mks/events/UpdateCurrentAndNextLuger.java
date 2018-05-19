@@ -2,7 +2,6 @@ package pl.jeleniagora.mks.events;
 
 import java.time.LocalTime;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -51,7 +50,7 @@ public class UpdateCurrentAndNextLuger {
 		
 		LocalTime zero = LocalTime.of(0, 0, 0, 0);
 		
-		LugerCompetitor returnVal = null;
+		LugerCompetitor returnVal = null; 
 		
 		/*
 		 * Wyciąganie entrySet i wynajdywanie pierwszego saneczkarza bez przypisanego uzyskanego
@@ -60,6 +59,7 @@ public class UpdateCurrentAndNextLuger {
 		for (Entry<LugerCompetitor, LocalTime> e : current.run.entrySet()) {
 			if (e.getValue() == null || e.getValue().equals(zero)) {
 				returnVal = e.getKey();
+				break;
 			}
 		}
 
@@ -75,6 +75,60 @@ public class UpdateCurrentAndNextLuger {
 	}
 	
 	/**
+	 * Metoda ustawia dowolnie wskazanego saneczkarza jako następnego a następnie wyszukuje i ustawia pierwszego
+	 * kolejnego bez czasu przejazdu jako "następnie". Metoda przeznaczona do użycia w zasadzie tylko przy przełączaniu
+	 * konkurencji
+	 * @param startNumber
+	 */
+	public static void setActualFromStartNumberAndNext(short startNumber) {
+		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
+		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
+		
+		LocalTime zero = LocalTime.of(0, 0, 0, 0);
+		
+		/*
+		 * Referencja jest kasowana bo ta metoda będzie używana tylko przy zmianie konkurencji kiedy 
+		 */
+		rte_st.returnComptr = null;
+		
+		/*
+		 * Ustawianie aktualnie na torze
+		 */
+		rte_st.actuallyOnTrack = rte_st.currentCompetition.invertedStartList.get((short)startNumber);
+		rte_gui.actuallyOnTrack.setText(rte_st.actuallyOnTrack.toString());
+		
+		for (Entry<LugerCompetitor, LocalTime> e : rte_st.currentRun.run.entrySet()) {
+			if (e.getValue() == null || e.getValue().equals(zero)) {
+				if (e.getKey().getStartNumber() > startNumber) {
+					/*
+					 * W domyśle saneczkarz którego numer startowy został przekazany do metody jeszcze nie jechał
+					 * dlatego trzeba odnaleźdź pierwszego za nim
+					 */
+					
+					rte_st.nextOnTrack = rte_st.currentCompetition.invertedStartList.get((short)e.getKey().getStartNumber());
+					rte_gui.nextOnTrack.setText(rte_st.nextOnTrack.toString());
+					
+					break;
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Metoda pozwalająca ustrawić dowolnie wskazanego saneczkarza jako aktualnego
+	 * @param startNumber
+	 */
+	public static void setActualFromStartNumber(short startNumber) {
+		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
+		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
+		
+		rte_st.returnComptr = rte_st.actuallyOnTrack;
+		
+		rte_st.actuallyOnTrack = rte_st.currentCompetition.invertedStartList.get((short)startNumber);
+		rte_gui.actuallyOnTrack.setText(rte_st.actuallyOnTrack.toString());
+	}
+	
+	/**
 	 * Metoda pozwalająca ustrawić dowolnie wskazanego saneczkarza jako nastepnego
 	 * @param startNumber
 	 */
@@ -82,7 +136,7 @@ public class UpdateCurrentAndNextLuger {
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
 		
-		rte_st.returnComptr = rte_st.actuallyOnTrack;
+		rte_st.returnComptr = rte_st.nextOnTrack;
 		
 		rte_st.nextOnTrack = rte_st.currentCompetition.invertedStartList.get((short)startNumber);
 		rte_gui.nextOnTrack.setText(rte_st.actuallyOnTrack.toString());

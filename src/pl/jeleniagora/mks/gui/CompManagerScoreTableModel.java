@@ -303,7 +303,7 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 		
 	}
 	
-	public Vector<Competition> fillWithTestData(Competitions cmps) {
+	public Vector<Competition> fillWithTestData(Competitions cmps, boolean randomize) {
 		
 		Competition testCompetition, testCompetition2;
 		Vector<Competition> out = new Vector<Competition>();
@@ -341,10 +341,10 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 		/*
 		 * Tworzy pusty wektor czasów przejazdu
 		 */
-		testCompetition = new Competition(vctTst, 4, 1, true);
+		testCompetition = new Competition(vctTst, 4, 1, randomize);
 		testCompetition.competitionType = CompetitionTypes.MEN_SINGLE;
 		
-		testCompetition2 = new Competition(vctTst2, 4, 1, true);
+		testCompetition2 = new Competition(vctTst2, 4, 1, randomize);
 		testCompetition2.competitionType = CompetitionTypes.WOMAN_SINGLE;
 		
 		try {

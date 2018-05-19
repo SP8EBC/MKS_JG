@@ -18,6 +18,7 @@ import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.settings.DisplayS;
 import pl.jeleniagora.mks.settings.SpringS;
 import pl.jeleniagora.mks.types.Competition;
+import pl.jeleniagora.mks.types.CompetitionEncapsulationForSelector;
 import pl.jeleniagora.mks.types.CompetitionTypes;
 import pl.jeleniagora.mks.types.Competitions;
 import pl.jeleniagora.mks.types.Reserve;
@@ -140,7 +141,7 @@ public class CompManager extends JFrame {
 
 					
 					CompManagerScoreTableModel mdl = (CompManagerScoreTableModel)frame.getScoreTableModel();
-					Vector<Competition> cmps = mdl.fillWithTestData(competitions);
+					Vector<Competition> cmps = mdl.fillWithTestData(competitions, true);
 					AfterStartListGeneration.process(competitions);
 					
 					/*
@@ -598,7 +599,7 @@ public class CompManager extends JFrame {
 		chckbxAutozapisCzasulizgu.setBounds(1036, 354, 205, 23);
 		contentPane.add(chckbxAutozapisCzasulizgu);
 		
-		JComboBox<Competition> competitionSelector = new JComboBox<Competition>();
+		JComboBox<CompetitionEncapsulationForSelector> competitionSelector = new JComboBox<CompetitionEncapsulationForSelector>();
 		competitionSelector.addActionListener(new CompManagerCSelectorActionListener((CompManagerScoreTableModel)this.getScoreTableModel()));
 		competitionSelector.setBounds(111, 6, 300, 24);
 		contentPane.add(competitionSelector);

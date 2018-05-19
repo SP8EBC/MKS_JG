@@ -64,7 +64,7 @@ class EndOfRunTest {
 			CompManagerScoreTableModel mdl = (CompManagerScoreTableModel)frame.getScoreTableModel();
 			
 			competitions = new Competitions("test", LocalDate.now());
-			Vector<Competition> cmps = mdl.fillWithTestData(competitions);
+			Vector<Competition> cmps = mdl.fillWithTestData(competitions, true);
 			AfterStartListGeneration.process(competitions);
 		
 	}

@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
 
 import pl.jeleniagora.mks.types.Competition;
+import pl.jeleniagora.mks.types.CompetitionEncapsulationForSelector;
 import pl.jeleniagora.mks.types.UninitializedCompEx;
 
 /**
@@ -35,21 +36,26 @@ public class CompManagerCSelectorActionListener implements ActionListener {
 			 * generic class.
 			 */
 			@SuppressWarnings("unchecked")
-			JComboBox<Competition> selector = (JComboBox<Competition>) selectorObj;
+			JComboBox<CompetitionEncapsulationForSelector> selector = (JComboBox<CompetitionEncapsulationForSelector>) selectorObj;
 			
 			/*
 			 * Wyciąganie wskazanego elementu
 			 */
-			Competition selected = (Competition)selector.getSelectedItem();
 						
-			// TODO: Umożliwić wykorzystanie czasów pośrednich
-			try {
-				mdl.updateTableData(selected, false);
-			} catch (UninitializedCompEx e) {
-				e.printStackTrace();
+			if (selector.getSelectedItem() != null) {
+				
+				Competition selected = ((CompetitionEncapsulationForSelector)selector.getSelectedItem()).getCompetition();
+
+				
+				// TODO: Umożliwić wykorzystanie czasów pośrednich
+				try {
+					mdl.updateTableData(selected, false);
+				} catch (UninitializedCompEx e) {
+					e.printStackTrace();
+				}
+				
+				mdl.fireTableStructureChanged();
 			}
-			
-			mdl.fireTableStructureChanged();
 			
 			return;
 		}

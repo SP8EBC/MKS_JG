@@ -21,6 +21,11 @@ import pl.jeleniagora.mks.serial.TypesConverters;
 public class Run {
 	
 	/**
+	 * Ustawianie na true jeżeli ślizg się zakończył w 100%
+	 */
+	public boolean done;
+	
+	/**
 	 * Ustawienie na true powoduje traktowanie tego ślizgu jako ślizgu punktowanego a nie treningowego.
 	 */
 	public boolean trainingOrScored;

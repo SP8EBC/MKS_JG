@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import pl.jeleniagora.mks.gui.CompManager;
 import pl.jeleniagora.mks.gui.CompManagerScoreTableModel;
 import pl.jeleniagora.mks.types.Competition;
+import pl.jeleniagora.mks.types.CompetitionEncapsulationForSelector;
 
 /**
  * Klasa będąca odpowiednikiem AUTOSARowego Rutime Environment, w tym przypadku przechowuje statyczne referencje do obiektów obsługujących
@@ -28,7 +29,7 @@ import pl.jeleniagora.mks.types.Competition;
 public class RTE_GUI {
 	public CompManager compManager;
 	
-	public JComboBox<Competition> compManagerCSelector;
+	public JComboBox<CompetitionEncapsulationForSelector> compManagerCSelector;
 	
 	/* 
 	 * Model używany do rysowania listy wników w obsłudze zawodów i treningów. Jest tu potrzebna gdyż w tej klasie siedzi metoda aktualizująca

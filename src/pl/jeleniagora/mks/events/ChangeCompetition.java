@@ -8,6 +8,7 @@ import pl.jeleniagora.mks.types.AppContextUninitializedEx;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.LugerCompetitor;
 import pl.jeleniagora.mks.types.MissingCompetitionEx;
+import pl.jeleniagora.mks.types.Run;
 
 public class ChangeCompetition {
 
@@ -36,6 +37,7 @@ public class ChangeCompetition {
 		}
 		
 		boolean exist = false;
+		Run firstNotCompleted = null;
 		
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
@@ -59,9 +61,32 @@ public class ChangeCompetition {
 		rte_st.currentCompetition = toThis;
 		
 		/*
-		 * Wyszukiwanie pierwszej 
+		 * Wyszukiwanie pierwszego nie zakończonego ślizgu
+		 */
+		
+		for (Run r : rte_st.currentCompetition.runsTimes) {
+			if (r.done) 
+				continue;
+			else {
+				firstNotCompleted = r;
+				break;
+			}
+		}
+		
+		if (firstNotCompleted != null) {
+			;
+		}
+		else {
+			/*
+			 * Jeżeli użytkownik chce się przełączyć na konkurencję która jest już zakończona
+			 */
+		}
+		
+		/*
+		 * Wyszukiwanie pierwszego saneczkarza który jeszcze nie jechał i ustawianie go jako następnego
 		 */
 		LugerCompetitor current = UpdateCurrentAndNextLuger.findFirstWithoutTime();
+		UpdateCurrentAndNextLuger.setNextFromStartNumber(current.getStartNumber());
 		
 		
 	}

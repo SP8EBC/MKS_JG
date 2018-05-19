@@ -36,6 +36,8 @@ public class EndOfRun {
 		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
 		int numberOfRuns = rte_st.currentCompetition.numberOfAllRuns;
 		
+		rte_st.currentRun.done = true;
+		
 		if (rte_st.currentRunCnt < numberOfRuns) {
 			/*
 			 * Jeżeli w tej konkurencji jest jeszcze jakiś ślizg
@@ -55,13 +57,14 @@ public class EndOfRun {
 			rte_gui.compManagerCSelector.setSelectedIndex(rte_st.currentRunCnt);
 			rte_gui.compManagerScoreModel.fireTableStructureChanged();
 			
-			Thread.sleep(6000);
+		//	Thread.sleep(6000);
 
 		}
 		else {
 			/*
 			 * Jeżeli nie to znaczy że to koniec konkurencji
 			 */
+			rte_st.returnComptr = null;
 		}
 		
 		
