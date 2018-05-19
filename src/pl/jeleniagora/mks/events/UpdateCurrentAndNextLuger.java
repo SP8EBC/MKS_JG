@@ -2,6 +2,7 @@ package pl.jeleniagora.mks.events;
 
 import java.time.LocalTime;
 import java.util.Map.Entry;
+import java.util.Vector;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -56,9 +57,13 @@ public class UpdateCurrentAndNextLuger {
 		 * Wyciąganie entrySet i wynajdywanie pierwszego saneczkarza bez przypisanego uzyskanego
 		 * czasu ślizgu
 		 */
-		for (Entry<LugerCompetitor, LocalTime> e : current.run.entrySet()) {
-			if (e.getValue() == null || e.getValue().equals(zero)) {
-				returnVal = e.getKey();
+		
+		Vector<LocalTime> vctRunTimes = rte_st.currentRun.getVectorWithRuntimes(rte_st.currentCompetition.invertedStartList);
+		
+		for (int i = 0; i < vctRunTimes.size(); i++) {
+			LocalTime e = vctRunTimes.get(i);
+			if (e.equals(zero)) {
+				returnVal = rte_st.currentCompetition.invertedStartList.get((short)(i+1));
 				break;
 			}
 		}
@@ -97,15 +102,18 @@ public class UpdateCurrentAndNextLuger {
 		rte_st.actuallyOnTrack = rte_st.currentCompetition.invertedStartList.get((short)startNumber);
 		rte_gui.actuallyOnTrack.setText(rte_st.actuallyOnTrack.toString());
 		
-		for (Entry<LugerCompetitor, LocalTime> e : rte_st.currentRun.run.entrySet()) {
-			if (e.getValue() == null || e.getValue().equals(zero)) {
-				if (e.getKey().getStartNumber() > startNumber) {
+		Vector<LocalTime> vctRunTimes = rte_st.currentRun.getVectorWithRuntimes(rte_st.currentCompetition.invertedStartList);
+		
+		for (int i = 0; i < vctRunTimes.size(); i++) {
+			LocalTime e = vctRunTimes.get(i);
+			if (e.equals(zero)) {
+				if (i + 1 > startNumber) {
 					/*
 					 * W domyśle saneczkarz którego numer startowy został przekazany do metody jeszcze nie jechał
 					 * dlatego trzeba odnaleźdź pierwszego za nim
 					 */
 					
-					rte_st.nextOnTrack = rte_st.currentCompetition.invertedStartList.get((short)e.getKey().getStartNumber());
+					rte_st.nextOnTrack = rte_st.currentCompetition.invertedStartList.get((short)(i + 1));
 					rte_gui.nextOnTrack.setText(rte_st.nextOnTrack.toString());
 					
 					break;

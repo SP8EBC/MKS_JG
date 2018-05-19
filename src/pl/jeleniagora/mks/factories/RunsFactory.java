@@ -14,11 +14,17 @@ public class RunsFactory {
 		short scored = (short) (allRuns - trainingRuns);
 		
 		for (int i = 0; i < (trainingRuns); i++ ) {
-			runs.add(new Run(in, (byte)0));
-		}
+				Run r = new Run(in, (byte)0);
+				runs.add(r);
+				
+				r.number = (short) (i + trainingRuns);
+			}
 		
 		for (int i = 0; i < (scored); i++ ) {
-			runs.add(new Run(in, (byte)1));
+			Run r = new Run(in, (byte)1);
+			runs.add(r);
+			
+			r.number = (short) (i + trainingRuns);
 		}
 		
 		return runs;
@@ -30,12 +36,19 @@ public class RunsFactory {
 		
 		short scored = (short) (allRuns - trainingRuns);
 		
-		for (int i = 0; i < (trainingRuns); i++ ) {
-			runs.add(new Run(in, true, (byte)0));
+		for (short i = 0; i < (trainingRuns); i++ ) {
+			Run r = new Run(in, true, (byte)0);
+			runs.add(r);
+			
+			r.number = (i);	// ustawianie numeru kolejnego ślizgu w konkurencji, styl programistyczny zaczynając od treningowych
 		}
 		
 		for (int i = 0; i < (scored); i++ ) {
-			runs.add(new Run(in, true, (byte)1));
+			
+			Run r = new Run(in, true, (byte)1);
+			runs.add(r);
+			
+			r.number = (short) (i + trainingRuns);
 		}
 		
 		return runs;

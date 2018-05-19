@@ -74,7 +74,8 @@ public class ChangeCompetition {
 		}
 		
 		if (firstNotCompleted != null) {
-			;
+			rte_st.currentRun = firstNotCompleted;
+			rte_st.currentRunCnt = firstNotCompleted.number;
 		}
 		else {
 			/*
@@ -85,8 +86,8 @@ public class ChangeCompetition {
 		/*
 		 * Wyszukiwanie pierwszego saneczkarza który jeszcze nie jechał i ustawianie go jako następnego
 		 */
-		LugerCompetitor current = UpdateCurrentAndNextLuger.findFirstWithoutTime();
-		UpdateCurrentAndNextLuger.setNextFromStartNumber(current.getStartNumber());
+//		LugerCompetitor current = UpdateCurrentAndNextLuger.findFirstWithoutTime();
+//		UpdateCurrentAndNextLuger.setNextFromStartNumber(current.getStartNumber());
 		
 		
 	}

@@ -21,6 +21,11 @@ import pl.jeleniagora.mks.serial.TypesConverters;
 public class Run {
 	
 	/**
+	 * Numer kolejny ślizgu w konkurencji
+	 */
+	public short number;
+	
+	/**
 	 * Ustawianie na true jeżeli ślizg się zakończył w 100%
 	 */
 	public boolean done;
@@ -130,6 +135,37 @@ public class Run {
 		hndrsMicroTime += t.getSecond()*10000;
 		
 		return new Integer(hndrsMicroTime);
+	}
+	
+	/**
+	 * Metoda dokonuje konwersji hashmapy przechowywujących wyniki saneczkarzy na wektor posortowany względem numerów startowych.
+	 * @return
+	 */
+	public Vector<LocalTime> getVectorWithRuntimes(Map<Short, LugerCompetitor> list) {
+		
+		if (list == null)
+			return null;
+		
+		Vector<LocalTime> out = new Vector<LocalTime>();
+		
+		/*
+		 *	Tu należy pamiętać że numery startowe idą nie po programistycznemu!!!! 
+		 */
+		int numberOfCmptrs = run.size();
+		
+		LocalTime zero = LocalTime.of(0, 0, 0, 0);
+		
+		for (int i = 1; i <= numberOfCmptrs; i++ ) {
+			LocalTime time = this.run.get(list.get((short)i));
+			if (time == null) {
+				out.add(zero);
+			}
+			else {
+				out.add(time);
+			}
+		}
+		
+		return out;
 	}
 	 
 
