@@ -7,6 +7,9 @@ import javax.swing.event.ListSelectionListener;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import pl.jeleniagora.mks.rte.RTE_GUI;
+import pl.jeleniagora.mks.rte.RTE_ST;
+
 /**
  * Listener wyzwalany w momencie kliknięcia przez użytkonika na jakąś komórkę głównej tabeli z wynikami ślizgów
  * @author mateusz
@@ -31,7 +34,10 @@ public class CompManagerScoreTableSelectListener implements ListSelectionListene
 	public void valueChanged(ListSelectionEvent arg0) {
 		
 		@SuppressWarnings("unused")
-		Integer modelRow, modelColumn;
+		Integer modelRow = 0, modelColumn = 0;
+		
+		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
+		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 		
 		/* 
 		 * Wyciąganie numeru wiersza i kolumny, którą kliknął użytkownik. Nalezy pamiętać
@@ -56,10 +62,41 @@ public class CompManagerScoreTableSelectListener implements ListSelectionListene
 			modelColumn = t.convertColumnIndexToModel(c);
 		}
 		
+		int startNum = (Integer)rte_gui.model.getValueAt(modelRow, 0);
+		rte_gui.competitorClickedInTable = rte_gui.competitionBeingShown.invertedStartList.get((short)startNum);
+		
+		System.out.println("Clicked start number: " + startNum + " from: " + rte_gui.competitionBeingShown.toString());
+		
+		if (modelColumn > 4) {
+			/*
+			 * Jeżeli kliknięto kolumne z czasem
+			 */
+			
+			boolean isTrainingClicked = false;
+			int trainingRunsNum = rte_gui.competitionBeingShown.numberOfTrainingRuns;
+			int scoredRunsNum = rte_gui.competitionBeingShown.numberOfAllRuns - trainingRunsNum;
+			
+			if (modelColumn > 4 && modelColumn < 4 + trainingRunsNum) {
+				/*
+				 * Kliknięto jakiś ślizg treningowy
+				 */
+				rte_gui.runClickedInTable = rte_gui.competitionBeingShown.runsTimes.get(modelColumn - 5);
+
+				
+			}
+			else {
+				/*
+				 * Kliknięto jakiś ślizg punktowany
+				 */
+				rte_gui.runClickedInTable = rte_gui.competitionBeingShown.runsTimes.get(modelColumn - 5);
+			}
+			System.out.println("Clicked run: " + rte_gui.runClickedInTable.toString());
+			
+		}
+		
 		@SuppressWarnings("unused")
 		DefaultListSelectionModel eventSource = (DefaultListSelectionModel)arg0.getSource();
 		return;
-		// TODO Auto-generated method stub
 		
 	}
 

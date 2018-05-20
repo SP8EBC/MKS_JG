@@ -53,6 +53,15 @@ public class Run {
 	 */
 	public Map<LugerCompetitor, Vector<LocalTime>> intermediateRunTimes;
 	
+	@Override
+	public String toString() {
+		if (trainingOrScored) {
+			return "Ślizg punktowny numer " + (numberInScoredOrTrainingRuns + 1);
+		}
+		else
+			return "Ślizg treningowy numer " + (numberInScoredOrTrainingRuns + 1);
+	}
+	
 	@SuppressWarnings("unused")
 	private Run() {
 		;

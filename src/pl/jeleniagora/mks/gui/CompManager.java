@@ -14,6 +14,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import pl.jeleniagora.mks.events.AfterStartListGeneration;
 import pl.jeleniagora.mks.events.ChangeCompetition;
+import pl.jeleniagora.mks.events.SaveRuntime;
 import pl.jeleniagora.mks.events.UpdateCurrentAndNextLuger;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
@@ -136,6 +137,7 @@ public class CompManager extends JFrame {
 				AfterStartListGeneration.setAppCtx(ctx);
 				ChangeCompetition.setAppCtx(ctx);
 				UpdateCurrentAndNextLuger.setAppCtx(ctx);
+				SaveRuntime.setAppCtx(ctx);
 				
 				try {
 					DisplayS.setShowAllTimeDigits(true);
@@ -152,6 +154,8 @@ public class CompManager extends JFrame {
 					CompManagerScoreTableModel mdl = (CompManagerScoreTableModel)frame.getScoreTableModel();
 					Vector<Competition> cmps = mdl.fillWithTestData(competitions, false);
 					AfterStartListGeneration.process(competitions);
+					
+					rte_gui.model = mdl;
 					
 					/*
 					 * Aktualizuje zawartość listy wyboru konkurencji
@@ -499,6 +503,7 @@ public class CompManager extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		JButton btnSaveTime = new JButton("Zapisz Czas Zawodnika");
+		btnSaveTime.addActionListener(new CompManagerStoreRuntimeBtnActionListener(ctx));
 		btnSaveTime.setBounds(1036, 130, 205, 44);
 		contentPane.add(btnSaveTime);
 		

@@ -17,14 +17,18 @@ public class RunsFactory {
 				Run r = new Run(in, (byte)0);
 				runs.add(r);
 				
+				r.trainingOrScored = false;
 				r.number = (short) (i + trainingRuns);
+				r.numberInScoredOrTrainingRuns = (short) i;
 			}
 		
 		for (int i = 0; i < (scored); i++ ) {
 			Run r = new Run(in, (byte)1);
 			runs.add(r);
 			
+			r.trainingOrScored = true;
 			r.number = (short) (i + trainingRuns);
+			r.numberInScoredOrTrainingRuns = (short) i;
 		}
 		
 		return runs;
@@ -40,6 +44,7 @@ public class RunsFactory {
 			Run r = new Run(in, true, (byte)0);
 			runs.add(r);
 			
+			r.trainingOrScored = false;
 			r.number = (i);	// ustawianie numeru kolejnego ślizgu w konkurencji, styl programistyczny zaczynając od treningowych
 			r.numberInScoredOrTrainingRuns = i;
 		}
@@ -49,6 +54,7 @@ public class RunsFactory {
 			Run r = new Run(in, true, (byte)1);
 			runs.add(r);
 			
+			r.trainingOrScored = true;
 			r.number = (short) (i + trainingRuns);
 			r.numberInScoredOrTrainingRuns = i;
 		}

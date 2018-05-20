@@ -30,7 +30,7 @@ public class CompManagerChgCompBtnActionListener implements ActionListener {
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 		
 		int answer = JOptionPane.YES_NO_OPTION;
-		JOptionPane.showConfirmDialog(null, "Czy na pewno chcesz zmienić aktualną konkurencję?", "Pozor!", answer);
+		answer = JOptionPane.showConfirmDialog(null, "Czy na pewno chcesz zmienić aktualną konkurencję?", "Pozor!", answer);
 		
 		if (answer == JOptionPane.YES_OPTION) {
 			

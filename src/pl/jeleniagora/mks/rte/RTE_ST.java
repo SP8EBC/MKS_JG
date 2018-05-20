@@ -61,8 +61,4 @@ public class RTE_ST {
 	 */
 	public LugerCompetitor nextOnTrack;
 	
-	/**
-	 * Referencja do pozycji wskazanej w CompManager
-	 */
-	public LugerCompetitor selectedInCompManager;
 }

@@ -12,6 +12,8 @@ import pl.jeleniagora.mks.gui.CompManager;
 import pl.jeleniagora.mks.gui.CompManagerScoreTableModel;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.CompetitionEncapsulationForSelector;
+import pl.jeleniagora.mks.types.LugerCompetitor;
+import pl.jeleniagora.mks.types.Run;
 
 /**
  * Klasa będąca odpowiednikiem AUTOSARowego Rutime Environment, w tym przypadku przechowuje statyczne referencje do obiektów obsługujących
@@ -48,4 +50,10 @@ public class RTE_GUI {
 	public Object syncCompManagerRdy;
 	
 	public Competition competitionBeingShown;
+	
+	public LugerCompetitor competitorClickedInTable;
+	
+	public Run runClickedInTable;
+	
+	public CompManagerScoreTableModel model;
 }
