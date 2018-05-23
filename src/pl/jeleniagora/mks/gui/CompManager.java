@@ -14,6 +14,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import pl.jeleniagora.mks.events.AfterStartListGeneration;
 import pl.jeleniagora.mks.events.ChangeCompetition;
+import pl.jeleniagora.mks.events.DidNotFinished;
 import pl.jeleniagora.mks.events.SaveRuntime;
 import pl.jeleniagora.mks.events.UpdateCurrentAndNextLuger;
 import pl.jeleniagora.mks.rte.RTE_GUI;
@@ -138,6 +139,7 @@ public class CompManager extends JFrame {
 				ChangeCompetition.setAppCtx(ctx);
 				UpdateCurrentAndNextLuger.setAppCtx(ctx);
 				SaveRuntime.setAppCtx(ctx);
+				DidNotFinished.setAppCtx(ctx);
 				
 				try {
 					DisplayS.setShowAllTimeDigits(true);
@@ -523,6 +525,7 @@ public class CompManager extends JFrame {
 		contentPane.add(lblMiliseconds);
 		
 		JButton btnDNF = new JButton("Nie ukończył (DNF)");
+		btnDNF.addActionListener(new CompManagerDnfBtnActionListener(ctx));
 		btnDNF.setBounds(1036, 186, 205, 44);
 		contentPane.add(btnDNF);
 		

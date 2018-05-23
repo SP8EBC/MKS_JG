@@ -2,6 +2,7 @@ package pl.jeleniagora.mks.gui;
 
 import java.awt.Component;
 import java.time.Duration;
+import java.time.LocalTime;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -9,7 +10,11 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
+import pl.jeleniagora.mks.chrono.ConvertMicrotime;
 import pl.jeleniagora.mks.settings.DisplayS;
+import pl.jeleniagora.mks.types.DNF;
+import pl.jeleniagora.mks.types.DNS;
+import pl.jeleniagora.mks.types.DSQ;
 
 /**
  * Klasa używana do renderowania czasu na liście z wynikami. Ponieważ czas ślizgu jest zapisywany jako wielokrotność 
@@ -44,6 +49,22 @@ public class CompManagerScoreTableTimeRenderer extends DefaultTableCellRenderer 
 	public static String prepareString(Integer value, boolean digits) {
 		
 		String timeString = " ";
+		
+		LocalTime lt = ConvertMicrotime.toLocalTime(value);
+		
+		System.out.println(lt.toString());
+		
+		if (lt.equals(DNF.getValue())) {
+			return new String("DNF");
+		}
+		
+		if (lt.equals(DNS.getValue())) {
+			return new String("DNS");
+		}
+		
+		if (lt.equals(DSQ.getValue())) {
+			return new String("DSQ");
+		}
 		
 		/* W tabeli wyników czas jest wyświetlany tylko z rozdzielczością 1 milisekundy*/
 		Integer timeInMilis = value / 10;

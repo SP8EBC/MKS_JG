@@ -142,13 +142,16 @@ public class Run {
 	public Integer getRunTimeForCompetitor(LugerCompetitor comptr) {
 		LocalTime t = run.get(comptr);
 		
-		int nanoTime = t.getNano();
+		long nanoTime = t.getNano();			/// error here
 		
-		int hndrsMicroTime = nanoTime / (TypesConverters.nanoToMilisecScaling / 10);
+		long hndrsMicroTime = nanoTime / (TypesConverters.nanoToMilisecScaling / 10);
 		
 		hndrsMicroTime += t.getSecond()*10000;
+		hndrsMicroTime += t.getMinute()*600000;
+		hndrsMicroTime += t.getHour()*36000000;
+
 		
-		return new Integer(hndrsMicroTime);
+		return new Integer((int) hndrsMicroTime);
 	}
 	
 	/**
