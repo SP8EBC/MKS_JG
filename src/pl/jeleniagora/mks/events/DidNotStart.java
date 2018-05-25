@@ -3,12 +3,17 @@ package pl.jeleniagora.mks.events;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import pl.jeleniagora.mks.rte.RTE_ST;
-import pl.jeleniagora.mks.types.DNF;
+import pl.jeleniagora.mks.types.DNS;
 import pl.jeleniagora.mks.types.LugerCompetitor;
 import pl.jeleniagora.mks.types.Run;
 
-public class DidNotFinished {
-
+/**
+ * Klasa zapisuje "nie wystartował" saneczkarzowi. 
+ * @author mateusz
+ *
+ */
+public class DidNotStart {
+	
 	static AnnotationConfigApplicationContext ctx;
 
 	/**
@@ -20,29 +25,24 @@ public class DidNotFinished {
 		ctx = context;
 	}
 	
-	/**
-	 * Wywiłanie metody powoduje ustawienie DNF dla zawodnika aktualnie na torze (bo nic innego nie miało by tu
-	 * sensu - tj nie da się zapisać DNF dla kogoś kto już dojechał albo jeszcze nie jechał)
-	 */
-	public static void setNotFinishedForCurrentLuger() {
-	
+	public static void setNotStartForCurrentLuger() {
+
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 		LugerCompetitor l = rte_st.actuallyOnTrack;
 		
 		if (rte_st.currentRun.trainingOrScored) {
 			/*
-			 * W ślizgu punktowanym nie dojechanie do mety przez zawodnika dyskwalifikuje go całkowicie 
-			 * z dalszej części zawodów
+			 * W ślizbu puntkowanym na zawodach nie wystartowanie dyskwalifikuje z dalszej cześci zawodów
 			 */
 			for (Run r: rte_st.currentCompetition.runsTimes) {
-				r.run.put(l, DNF.getValue());
+				r.run.put(l, DNS.getValue());
 			}
 		}
 		else {
 			/*
-			 * Podczas treningu nie ukończenie ślizgu nie ma wpływu na możliwość dalszych startów
+			 * Podczas treningu nie wystartowanie w jednym ślizgu w dalszym ciągu umożliwia następne zjazdy/ślizgi
 			 */
-			rte_st.currentRun.run.put(l, DNF.getValue());
+			rte_st.currentRun.run.put(l, DNS.getValue());
 
 		}
 	}

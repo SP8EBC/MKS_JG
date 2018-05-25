@@ -51,9 +51,7 @@ public class CompManagerScoreTableTimeRenderer extends DefaultTableCellRenderer 
 		String timeString = " ";
 		
 		LocalTime lt = ConvertMicrotime.toLocalTime(value);
-		
-		System.out.println(lt.toString());
-		
+				
 		if (lt.equals(DNF.getValue())) {
 			return new String("DNF");
 		}

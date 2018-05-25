@@ -39,6 +39,7 @@ class RuntimeUpdateEventTest {
 		LandedStateReached.setAppCtx(ctx);
 		UpdateCurrentAndNextLuger.setAppCtx(ctx);
 		
+		
 		Vector<Character> two_sec_1 = TypesConverters.convertStringToCharacterVector("CZI10908045a1");
 		Vector<Character> two_sec_2 = TypesConverters.convertStringToCharacterVector("CZI30908065a1");
 		
@@ -46,6 +47,8 @@ class RuntimeUpdateEventTest {
 		 * Uruchamianie menadżera zawodów
 		 */
 		CompManager.utMain(ctx);
+		ChronometerS.autosave = true;
+
 
 		new Thread(new Chrono(ctx)).start();
 

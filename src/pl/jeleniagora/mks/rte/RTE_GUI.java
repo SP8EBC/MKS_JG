@@ -39,6 +39,13 @@ public class RTE_GUI {
 	 */
 	public CompManagerScoreTableModel compManagerScoreModel;
 	
+	/**
+	 * Ustawienie na true oznacza, że maszyna stanów obliczyła czas ślizgu i wartoci wyświetlane w oknach min/sec/msec to właśnie ten czas.
+	 * Pole jest używane zwłaszcza przy autozapisie aby wyłączyć go jeżeli w międzyczasie użytkownik kliknie na jakikolwiek inny czas. Dodatkowo
+	 * wartość true powoduje, że kliknięcie "zapisz czas zawodnika" przesuwa aktualnie/kolejnego do przodu
+	 */
+	public boolean runtimeFromChrono;
+	
 	public JTextField min;
 	public JTextField sec;
 	public JTextField msec;
@@ -56,4 +63,5 @@ public class RTE_GUI {
 	public Run runClickedInTable;
 	
 	public CompManagerScoreTableModel model;
+
 }

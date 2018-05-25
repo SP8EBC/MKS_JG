@@ -8,15 +8,16 @@ import javax.swing.JOptionPane;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import pl.jeleniagora.mks.events.DidNotFinished;
+import pl.jeleniagora.mks.events.DidNotStart;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.types.UninitializedCompEx;
 
-public class CompManagerDnfBtnActionListener implements ActionListener {
-	
+public class CompManagerDnsBtnActionListener implements ActionListener {
+
 	AnnotationConfigApplicationContext ctx;
 	
-	CompManagerDnfBtnActionListener(AnnotationConfigApplicationContext context) {
+	CompManagerDnsBtnActionListener(AnnotationConfigApplicationContext context) {
 		ctx = context;
 	}
 
@@ -27,10 +28,10 @@ public class CompManagerDnfBtnActionListener implements ActionListener {
 		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
 		
 		int answer = JOptionPane.YES_NO_OPTION;
-		answer = JOptionPane.showConfirmDialog(null, "Czy na pewno chcesz zapisać DNF dla zawodnika aktualnie na torze?", "Pozor!", answer);
+		answer = JOptionPane.showConfirmDialog(null, "Czy na pewno chcesz zapisać DNS dla zawodnika aktualnie na torze?", "Pozor!", answer);
 		
 		if (answer == JOptionPane.YES_OPTION) {
-			DidNotFinished.setNotFinishedForCurrentLuger();
+			DidNotStart.setNotStartForCurrentLuger();
 			
 			try {
 				rte_gui.compManagerScoreModel.updateTableData(rte_st.currentCompetition, false);
@@ -42,7 +43,7 @@ public class CompManagerDnfBtnActionListener implements ActionListener {
 		else {
 			
 		}
-		
 	}
-
+	
+	
 }

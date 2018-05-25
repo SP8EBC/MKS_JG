@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import pl.jeleniagora.mks.events.DidNotFinished;
+import pl.jeleniagora.mks.events.Disqualification;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.types.UninitializedCompEx;
@@ -42,7 +43,7 @@ public class CompManagerDsqBtnActionListener implements ActionListener {
 		
 		if (answer == JOptionPane.YES_OPTION) {
 			
-			DidNotFinished.setNotFinishedForLuger();
+			Disqualification.disqCurrentLuger();
 			
 			try {
 				rte_gui.compManagerScoreModel.updateTableData(rte_st.currentCompetition, false);

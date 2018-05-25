@@ -44,4 +44,24 @@ public class SaveRuntime {
 		}
 		rte_gui.model.fireTableDataChanged();
 	}
+	
+	/**
+	 * Metoda służy do zapisywania czasu w bierzącym ślizgu dla zawodnika aktualnie na torze, 
+	 * czyli tego który właśnie dojechał do mety
+	 * @param runTime
+	 */
+	public static void saveRuntimeForCurrentCmptr(LocalTime runTime) {
+
+		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
+		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
+		
+		rte_st.currentRun.run.put(rte_st.actuallyOnTrack, runTime);
+		
+		try {
+			rte_gui.model.updateTableData(rte_gui.competitionBeingShown, false);
+		} catch (UninitializedCompEx e) {
+
+		}
+		rte_gui.model.fireTableDataChanged();
+	}
 }

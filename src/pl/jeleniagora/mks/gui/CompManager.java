@@ -15,6 +15,8 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import pl.jeleniagora.mks.events.AfterStartListGeneration;
 import pl.jeleniagora.mks.events.ChangeCompetition;
 import pl.jeleniagora.mks.events.DidNotFinished;
+import pl.jeleniagora.mks.events.DidNotStart;
+import pl.jeleniagora.mks.events.Disqualification;
 import pl.jeleniagora.mks.events.SaveRuntime;
 import pl.jeleniagora.mks.events.UpdateCurrentAndNextLuger;
 import pl.jeleniagora.mks.rte.RTE_GUI;
@@ -140,6 +142,8 @@ public class CompManager extends JFrame {
 				UpdateCurrentAndNextLuger.setAppCtx(ctx);
 				SaveRuntime.setAppCtx(ctx);
 				DidNotFinished.setAppCtx(ctx);
+				DidNotStart.setAppCtx(ctx);
+				Disqualification.setAppCtx(ctx);
 				
 				try {
 					DisplayS.setShowAllTimeDigits(true);
@@ -535,6 +539,7 @@ public class CompManager extends JFrame {
 		contentPane.add(btnDSQ);
 		
 		JButton btnDNS = new JButton("Nie wystartował (DNS)");
+		btnDNS.addActionListener(new CompManagerDnsBtnActionListener(ctx));
 		btnDNS.setBounds(1036, 298, 205, 44);
 		contentPane.add(btnDNS);
 		
@@ -607,6 +612,8 @@ public class CompManager extends JFrame {
 		contentPane.add(lblredniaPrdko);
 		
 		JCheckBox chckbxAutozapisCzasulizgu = new JCheckBox("Autozapis czasu ślizgu");
+		chckbxAutozapisCzasulizgu.setSelected(false);
+		chckbxAutozapisCzasulizgu.addItemListener(new CompManagerAsaveChbxItemListener());
 		chckbxAutozapisCzasulizgu.setBounds(1036, 354, 205, 23);
 		contentPane.add(chckbxAutozapisCzasulizgu);
 		

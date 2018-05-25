@@ -8,6 +8,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.serial.TypesConverters;
+import pl.jeleniagora.mks.settings.ChronometerS;
 import pl.jeleniagora.mks.types.AppContextUninitializedEx;
 import pl.jeleniagora.mks.types.EndOfRunEx;
 import pl.jeleniagora.mks.types.LugerCompetitor;
@@ -36,14 +37,21 @@ public class LandedStateReached {
 		if (ctx == null) 
 			throw new AppContextUninitializedEx();
 		
+		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
+		
+		rte_gui.runtimeFromChrono = true;
+		
 		LandedStateReached.updateTextFieldsInCM(runtime);
 		
-		LandedStateReached.saveRunTimeForLuger(runtime);
-		try {
-			UpdateCurrentAndNextLuger.moveForwardNormally();
-		} catch (EndOfRunEx e) {
-			e.printStackTrace();
+		if (ChronometerS.autosave) {
+			
+			new Thread(new SaveRuntimeDelayThread(ctx, runtime)).start();;
+
 		}
+		else {
+			;
+		}
+
 		
 		
 	
@@ -69,6 +77,7 @@ public class LandedStateReached {
 		rte_gui.msec.setText(msec.toString());
 	}
 	
+	@Deprecated
 	static void saveRunTimeForLuger(LocalTime runTime) {
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");

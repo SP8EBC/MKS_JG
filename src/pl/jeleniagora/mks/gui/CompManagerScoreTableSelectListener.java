@@ -35,9 +35,11 @@ public class CompManagerScoreTableSelectListener implements ListSelectionListene
 		
 		@SuppressWarnings("unused")
 		Integer modelRow = 0, modelColumn = 0;
-		
+				
 		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
+		
+		rte_gui.runtimeFromChrono = false;
 		
 		/* 
 		 * Wyciąganie numeru wiersza i kolumny, którą kliknął użytkownik. Nalezy pamiętać
