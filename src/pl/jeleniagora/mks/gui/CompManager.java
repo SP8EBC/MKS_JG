@@ -530,6 +530,7 @@ public class CompManager extends JFrame {
 		contentPane.add(btnDNF);
 		
 		JButton btnDSQ = new JButton("Dyskwalifikacja (DSQ)");
+		btnDSQ.addActionListener(new CompManagerDsqBtnActionListener(ctx));
 		btnDSQ.setBounds(1036, 242, 205, 44);
 		contentPane.add(btnDSQ);
 		

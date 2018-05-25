@@ -365,7 +365,7 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 		testCompetition = new Competition(vctTst, 4, 1, randomize);
 		testCompetition.competitionType = CompetitionTypes.MEN_SINGLE;
 		
-		testCompetition2 = new Competition(vctTst2, 4, 1, randomize);
+		testCompetition2 = new Competition(vctTst2, 4, 0, randomize);
 		testCompetition2.competitionType = CompetitionTypes.WOMAN_SINGLE;
 		
 		try {

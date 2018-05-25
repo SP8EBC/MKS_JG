@@ -10,6 +10,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.CompetitionEncapsulationForSelector;
+import pl.jeleniagora.mks.types.Reserve;
 import pl.jeleniagora.mks.types.UninitializedCompEx;
 
 /**
@@ -62,6 +63,13 @@ public class CompManagerCSelectorActionListener implements ActionListener {
 				try {
 					mdl.updateTableData(selected, false);
 				} catch (UninitializedCompEx e) {
+					e.printStackTrace();
+				}
+				
+				try {
+					mdl.updateTableHeading(selected, false);
+				} catch (Reserve e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
