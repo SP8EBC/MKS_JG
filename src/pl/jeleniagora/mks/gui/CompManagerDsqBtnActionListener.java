@@ -43,7 +43,7 @@ public class CompManagerDsqBtnActionListener implements ActionListener {
 		
 		if (answer == JOptionPane.YES_OPTION) {
 			
-			Disqualification.disqCurrentLuger();
+			Disqualification.process();
 			
 			try {
 				rte_gui.compManagerScoreModel.updateTableData(rte_st.currentCompetition, false);

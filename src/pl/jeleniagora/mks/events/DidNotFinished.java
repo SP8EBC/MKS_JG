@@ -20,11 +20,15 @@ public class DidNotFinished {
 		ctx = context;
 	}
 	
+	public static void process() {
+		setNotFinishedForCurrentLuger();
+	}
+	
 	/**
 	 * Wywiłanie metody powoduje ustawienie DNF dla zawodnika aktualnie na torze (bo nic innego nie miało by tu
 	 * sensu - tj nie da się zapisać DNF dla kogoś kto już dojechał albo jeszcze nie jechał)
 	 */
-	public static void setNotFinishedForCurrentLuger() {
+	static void setNotFinishedForCurrentLuger() {
 	
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 		LugerCompetitor l = rte_st.actuallyOnTrack;

@@ -30,7 +30,7 @@ public class CompManagerDnfBtnActionListener implements ActionListener {
 		answer = JOptionPane.showConfirmDialog(null, "Czy na pewno chcesz zapisać DNF dla zawodnika aktualnie na torze?", "Pozor!", answer);
 		
 		if (answer == JOptionPane.YES_OPTION) {
-			DidNotFinished.setNotFinishedForCurrentLuger();
+			DidNotFinished.process();
 			
 			try {
 				rte_gui.compManagerScoreModel.updateTableData(rte_st.currentCompetition, false);

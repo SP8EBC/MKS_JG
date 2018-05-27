@@ -7,8 +7,11 @@ import java.time.LocalTime;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import pl.jeleniagora.mks.events.SaveRuntime;
+import pl.jeleniagora.mks.events.UpdateCurrentAndNextLuger;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
+import pl.jeleniagora.mks.types.AppContextUninitializedEx;
+import pl.jeleniagora.mks.types.EndOfRunEx;
 import pl.jeleniagora.mks.types.UninitializedCompEx;
 
 public class CompManagerStoreRuntimeBtnActionListener implements ActionListener {
@@ -52,8 +55,20 @@ public class CompManagerStoreRuntimeBtnActionListener implements ActionListener 
 		
 		LocalTime runTime = LocalTime.of(0, minutes, seconds, nanos);
 		
-		SaveRuntime.saveRuntimeForMarkedCmptr(runTime);
+		boolean ret = SaveRuntime.saveRuntimeForMarkedCmptr(runTime);
 		
+		if (ret) {
+			try {
+				UpdateCurrentAndNextLuger.moveForwardNormally();
+			} catch (EndOfRunEx e) {
+				e.printStackTrace();
+			} catch (AppContextUninitializedEx e) {
+				e.printStackTrace();
+			}
+		}
+		else {
+			;
+		}
 
 	}
 

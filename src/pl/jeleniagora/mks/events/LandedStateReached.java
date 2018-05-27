@@ -38,14 +38,17 @@ public class LandedStateReached {
 			throw new AppContextUninitializedEx();
 		
 		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
-		
-		rte_gui.runtimeFromChrono = true;
+		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
+				
+		rte_gui.compManager.markConreteRun(rte_st.actuallyOnTrack.getStartNumber(), rte_st.currentRunCnt);
 		
 		LandedStateReached.updateTextFieldsInCM(runtime);
 		
 		if (ChronometerS.autosave) {
 			
-			new Thread(new SaveRuntimeDelayThread(ctx, runtime)).start();;
+			rte_gui.runtimeFromChrono = true;
+			
+			new Thread(new SaveRuntimeDelayThread(ctx, runtime)).start();
 
 		}
 		else {

@@ -113,7 +113,7 @@ public class CompManager extends JFrame {
 		 * Pięć pierwszych kolumn zawiera dane o zawodniku takie jak imie nazwisko, etc. dopiero szósta kolumna
 		 * to pierwsza kolumna z czasami
 		 */
-		int columnToSelect = runIndex + 5;
+		int columnToSelect = runIndex + 4;
 		
 		System.out.println("markConcreteRun - rts " + rowToSelect + " - cts " + columnToSelect + " - startnum" + startNumber);
 		

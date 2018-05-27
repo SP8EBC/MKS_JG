@@ -59,8 +59,10 @@ public class RTE_GUI {
 	public Competition competitionBeingShown;
 	
 	public LugerCompetitor competitorClickedInTable;
+	public LugerCompetitor competitorPreviouslyClicked;
 	
 	public Run runClickedInTable;
+	public Run runPreviouslyClicked;
 	
 	public CompManagerScoreTableModel model;
 

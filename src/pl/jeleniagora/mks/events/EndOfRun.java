@@ -31,7 +31,11 @@ public class EndOfRun {
 		
 	}
 	
-	public static void switchToNextRun() throws EndOfCompEx {
+	public static void process() throws EndOfCompEx {
+		switchToNextRun();
+	}
+	
+	static void switchToNextRun() throws EndOfCompEx {
 		
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");

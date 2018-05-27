@@ -25,7 +25,11 @@ public class DidNotStart {
 		ctx = context;
 	}
 	
-	public static void setNotStartForCurrentLuger() {
+	public static void process() {
+		setNotStartForCurrentLuger();
+	}
+	
+	static void setNotStartForCurrentLuger() {
 
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 		LugerCompetitor l = rte_st.actuallyOnTrack;

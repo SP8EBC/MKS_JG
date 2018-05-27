@@ -42,7 +42,7 @@ public class SaveRuntimeDelayThread implements Runnable {
 		 * Czekanie 5 sekund
 		 */
 		try {
-			Thread.sleep(5000, 0);
+			Thread.sleep(3000, 0);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

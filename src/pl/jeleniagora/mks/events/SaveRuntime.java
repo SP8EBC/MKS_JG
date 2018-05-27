@@ -29,11 +29,18 @@ public class SaveRuntime {
 	/**
 	 * Metoda służy do zapisywania czasu ślizgu dla zawodnika i ślizgu klikniętego w tabeli wyników w CompManager.
 	 * @param runTime
+	 * 
 	 */
-	public static void saveRuntimeForMarkedCmptr(LocalTime runTime) {
+	public static boolean saveRuntimeForMarkedCmptr(LocalTime runTime) {
 		
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
+		
+		boolean returnVal = false;
+		
+		if (rte_gui.competitorClickedInTable == rte_st.actuallyOnTrack) {
+			returnVal = true;
+		}
 		
 		rte_gui.runClickedInTable.run.put(rte_gui.competitorClickedInTable, runTime);
 		
@@ -43,6 +50,8 @@ public class SaveRuntime {
 
 		}
 		rte_gui.model.fireTableDataChanged();
+		
+		return returnVal;
 	}
 	
 	/**
@@ -52,6 +61,8 @@ public class SaveRuntime {
 	 */
 	public static void saveRuntimeForCurrentCmptr(LocalTime runTime) {
 
+		System.out.println("saveRuntmeForCurrentCmptr");
+		
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
 		

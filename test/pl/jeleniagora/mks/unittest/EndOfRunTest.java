@@ -100,7 +100,7 @@ class EndOfRunTest {
 		}
 		
 		if (runEnd) {
-			EndOfRun.switchToNextRun();
+			EndOfRun.process();
 		}
 		else {
 			fail("failed");

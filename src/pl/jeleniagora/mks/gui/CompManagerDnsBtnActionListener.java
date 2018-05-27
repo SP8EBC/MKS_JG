@@ -31,7 +31,7 @@ public class CompManagerDnsBtnActionListener implements ActionListener {
 		answer = JOptionPane.showConfirmDialog(null, "Czy na pewno chcesz zapisać DNS dla zawodnika aktualnie na torze?", "Pozor!", answer);
 		
 		if (answer == JOptionPane.YES_OPTION) {
-			DidNotStart.setNotStartForCurrentLuger();
+			DidNotStart.process();
 			
 			try {
 				rte_gui.compManagerScoreModel.updateTableData(rte_st.currentCompetition, false);

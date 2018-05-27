@@ -26,7 +26,11 @@ public class Disqualification {
 		ctx = context;
 	}
 	
-	public static void disqCurrentLuger() {
+	public static void process() {
+		disqCurrentLuger();
+	}
+	
+	static void disqCurrentLuger() {
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 		LugerCompetitor l = rte_st.actuallyOnTrack;
 		
