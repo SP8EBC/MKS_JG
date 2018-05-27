@@ -1,5 +1,6 @@
 package pl.jeleniagora.mks.gui;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.time.Duration;
 import java.time.LocalTime;
@@ -97,6 +98,18 @@ public class CompManagerScoreTableTimeRenderer extends DefaultTableCellRenderer 
 		
 		return timeString;
 	}
+	
+	 public Component getTableCellRendererComponent(JTable table, Object value,
+			    boolean isSelected, boolean hasFocus, int row, int column)  {
+		 
+		  Component rendererComp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus,
+				     row, column);
+
+
+				   rendererComp .setBackground(Color.getHSBColor(215, 0.02f, 0.83f));
+
+				   return rendererComp ;
+	 }
 	
 	@Override
 	public void setValue(Object value) {
