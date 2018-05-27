@@ -46,9 +46,7 @@ public class UpdateCurrentAndNextLuger {
 	 */
 	public static LugerCompetitor findFirstWithoutTime() {
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
-		
-		Run current = rte_st.currentRun;
-		
+				
 		LocalTime zero = LocalTime.of(0, 0, 0, 0);
 		
 		LugerCompetitor returnVal = null; 
@@ -81,7 +79,7 @@ public class UpdateCurrentAndNextLuger {
 	public static LugerCompetitor findFirstWithoutTime(short startNum) {
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 		
-		Run current = rte_st.currentRun;
+//		Run current = rte_st.currentRun;
 		
 		LocalTime zero = LocalTime.of(0, 0, 0, 0);
 		
@@ -116,8 +114,10 @@ public class UpdateCurrentAndNextLuger {
 		/*
 		 * Ustawianie jako nastepnego na torze zawodnika przechowywanego w "returnCmptr" 
 		 */
-		if (rte_st.returnComptr != null)
+		if (rte_st.returnComptr != null) {
 			rte_st.nextOnTrack = rte_st.returnComptr;
+			rte_gui.nextOnTrack.setText(rte_st.nextOnTrack.toString());
+		}
 	}
 	
 	/**
@@ -191,7 +191,7 @@ public class UpdateCurrentAndNextLuger {
 		rte_st.returnComptr = rte_st.nextOnTrack;
 		
 		rte_st.nextOnTrack = rte_st.currentCompetition.invertedStartList.get((short)startNumber);
-		rte_gui.nextOnTrack.setText(rte_st.actuallyOnTrack.toString());
+		rte_gui.nextOnTrack.setText(rte_st.nextOnTrack.toString());
 
 
 	}
@@ -297,9 +297,8 @@ public class UpdateCurrentAndNextLuger {
 					 */
 					next = findFirstWithoutTime(); 
 					if (next != null) {
-						rte_st.nextOnTrack = next;
-//						rte_gui.nextOnTrack.setText("----");
-//						throw new EndOfRunEx();
+						rte_st.nextOnTrack = null;
+
 					}
 					else {
 						rte_gui.nextOnTrack.setText("----");

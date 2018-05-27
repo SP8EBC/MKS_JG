@@ -585,12 +585,14 @@ public class CompManager extends JFrame {
 		
 		JButton btnWybierzZaznaczonegoW = new JButton("Wybierz zaznaczonego w tabeli saneczkarza jako następnego");
 		btnWybierzZaznaczonegoW.setBounds(523, 546, 225, 59);
+		btnWybierzZaznaczonegoW.addActionListener(new CompManagerSetMrkAsNextBtnActionListener(ctx));
 		btnWybierzZaznaczonegoW.setText("<html><p align=\"center\">Ustaw zaznaczonego " + "<br>" + " w tabeli saneczkarza jako " + "<br>" + " następnego</p></html>");
 		contentPane.add(btnWybierzZaznaczonegoW);
 		
 		JButton btnPowrDoKolejnoci = new JButton("Powróć do kolejności saneczkarzy wg listy startowej");
 		btnPowrDoKolejnoci.setMargin(new Insets(2, 7, 2, 7));
 		btnPowrDoKolejnoci.setBounds(760, 546, 264, 59);
+		btnPowrDoKolejnoci.addActionListener(new CompManagerRetNormalBtnActionListener());
 		btnPowrDoKolejnoci.setText("<html><p align=\"center\">Powróć do kolejności wg numerów<br>startowych oraz podświetl w<br> tabeli aktualnego\n saneczkarza</p></html>");
 		contentPane.add(btnPowrDoKolejnoci);
 		

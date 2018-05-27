@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalTime;
 
+import javax.swing.JOptionPane;
+
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import pl.jeleniagora.mks.events.SaveRuntime;
@@ -29,6 +31,7 @@ public class CompManagerStoreRuntimeBtnActionListener implements ActionListener 
 		Integer minutes = 0, seconds = 0, milis = 0;
 		
 		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
+		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 		
 		try {
 			minutes = new Integer(rte_gui.min.getText());
@@ -61,7 +64,10 @@ public class CompManagerStoreRuntimeBtnActionListener implements ActionListener 
 			try {
 				UpdateCurrentAndNextLuger.moveForwardNormally();
 			} catch (EndOfRunEx e) {
-				e.printStackTrace();
+				/*
+				 * Jeżeli zapisano czas ślizgu dla ostatniego w konkurencji 
+				 */
+				JOptionPane.showMessageDialog(null, "Zakończył się " + rte_st.currentRun.toString());
 			} catch (AppContextUninitializedEx e) {
 				e.printStackTrace();
 			}

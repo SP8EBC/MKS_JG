@@ -2,10 +2,14 @@ package pl.jeleniagora.mks.events;
 
 import java.time.LocalTime;
 
+import javax.swing.JOptionPane;
+
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import pl.jeleniagora.mks.rte.RTE_GUI;
+import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.types.AppContextUninitializedEx;
+import pl.jeleniagora.mks.types.EndOfCompEx;
 import pl.jeleniagora.mks.types.EndOfRunEx;
 
 /**
@@ -35,8 +39,11 @@ public class SaveRuntimeDelayThread implements Runnable {
 	 */
 	public void run() {
 		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
+		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 		
 		System.out.println("SaveRuntimeDelayThread started");
+		
+		boolean compHasToBeChanged = false;
 		
 		/*
 		 * Czekanie 5 sekund
@@ -55,7 +62,17 @@ public class SaveRuntimeDelayThread implements Runnable {
 			
 			try {
 				UpdateCurrentAndNextLuger.moveForwardNormally();
-			} catch (EndOfRunEx | AppContextUninitializedEx e) {
+			} catch (EndOfRunEx e) {
+				
+				JOptionPane.showMessageDialog(null, "Zakończył się " + rte_st.currentRun.toString());
+
+				try {
+					EndOfRun.process();
+				} catch (EndOfCompEx e1) {
+					compHasToBeChanged = true;
+				}
+				
+			} catch (AppContextUninitializedEx e) {
 				e.printStackTrace();
 			}
 		}
