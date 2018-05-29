@@ -11,7 +11,11 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 import pl.jeleniagora.mks.chrono.ConvertMicrotime;
+import pl.jeleniagora.mks.rte.RTE_GUI;
+import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.settings.DisplayS;
 import pl.jeleniagora.mks.types.DNF;
 import pl.jeleniagora.mks.types.DNS;
@@ -30,13 +34,17 @@ public class CompManagerScoreTableTimeRenderer extends DefaultTableCellRenderer 
 	 */
 	private static final long serialVersionUID = -4997477878004315506L;
 	
+	private AnnotationConfigApplicationContext ctx;
+
+	
 	/**
 	 * Stała używana o konwersji pomiędzy nanosekundami a milisekundami
 	 */
 	public static int nanoToMilisecScaling = 1000000;
 	
-	CompManagerScoreTableTimeRenderer() {
+	CompManagerScoreTableTimeRenderer(AnnotationConfigApplicationContext context) {
 		super();
+		ctx = context;
 	}
 	
 	/**
@@ -99,17 +107,42 @@ public class CompManagerScoreTableTimeRenderer extends DefaultTableCellRenderer 
 		return timeString;
 	}
 	
-	 public Component getTableCellRendererComponent(JTable table, Object value,
-			    boolean isSelected, boolean hasFocus, int row, int column)  {
+	@Override
+	public Component getTableCellRendererComponent(JTable table, Object value,
+			    boolean isSelected, boolean hasFocus, int row, int column)  
+	{
 		 
-		  Component rendererComp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus,
-				     row, column);
+		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
+		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
+		
+		Component rendererComp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus,
+			     row, column);
+		
+		if (rte_st.currentCompetition == rte_gui.competitionBeingShown) {
+			/*
+			 * Jeżeli aktualnie w tabeli jest wyświetlana aktualnie rozgrywana konkurencja
+			 */
 
+			int columnWithCurrentRun = rte_st.currentRun.number + 5;
+			
+			if(columnWithCurrentRun == column) {
+				rendererComp .setBackground(Color.getHSBColor(215, 0.02f, 0.83f));
+				
+			}
+			else if (!isSelected) {
+				rendererComp.setBackground(Color.WHITE);
+			}
+			else;
+		}
+		else {
+			/*
+			 * Jeżeli nie to wszystko ma być na pewno z białym tłem
+			 */
+			rendererComp.setBackground(Color.WHITE);
+		}
 
-				   rendererComp .setBackground(Color.getHSBColor(215, 0.02f, 0.83f));
-
-				   return rendererComp ;
-	 }
+		return rendererComp ;
+	}
 	
 	@Override
 	public void setValue(Object value) {

@@ -474,7 +474,7 @@ public class CompManager extends JFrame {
 		 * Ustawianie domyślnego renderera dla typu Integer na klasę która przerobi tego Intigera
 		 * zawierającego czas ślizgu wyrażany jako wielokrotność setek mikrosekund na czas
 		 * */
-		table.setDefaultRenderer(Integer.class, new CompManagerScoreTableTimeRenderer());
+		table.setDefaultRenderer(Integer.class, new CompManagerScoreTableTimeRenderer(ctx));
 		scrollPane.setViewportView(table);
 		contentPane.add(scrollPane);
 		
