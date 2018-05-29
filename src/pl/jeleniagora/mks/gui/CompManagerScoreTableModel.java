@@ -8,6 +8,7 @@ import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
 
+import pl.jeleniagora.mks.exceptions.UninitializedCompEx;
 import pl.jeleniagora.mks.factories.ClubsFactory;
 import pl.jeleniagora.mks.factories.LugersFactory;
 import pl.jeleniagora.mks.factories.StartListFactory;
@@ -18,7 +19,6 @@ import pl.jeleniagora.mks.types.LugerCompetitor;
 import pl.jeleniagora.mks.types.LugerSingle;
 import pl.jeleniagora.mks.types.Reserve;
 import pl.jeleniagora.mks.types.Run;
-import pl.jeleniagora.mks.types.UninitializedCompEx;
 
 /**
  * Model używany do rysowania tabeli wyników typu JTable
@@ -146,7 +146,7 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 	 * @throws UninitializedCompEx 
 	 */
 	public void updateTableData(Competition competition, boolean intermediateTiming) throws UninitializedCompEx {
-		// !! Ważne !! aktualnie metoda obsługuje tylko konkurencje jedynkowe
+		// TODO:!! Ważne !! aktualnie metoda obsługuje tylko konkurencje jedynkowe
 		
 		/*
 		 * Numer aktualnie przetwarzanego saneczkarza
@@ -387,8 +387,10 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 		/*
 		 * Dodawanie numerów startowych
 		 */
-		StartListFactory.generateStartList(testCompetition);
-		StartListFactory.generateStartList(testCompetition2);
+		//StartListFactory.generateStartList(testCompetition);
+		//StartListFactory.generateStartList(testCompetition2);
+		StartListFactory.generateFixedStartList(testCompetition);
+		StartListFactory.generateFixedStartList(testCompetition2);
 		
 		return out;
 		

@@ -1,4 +1,4 @@
-package pl.jeleniagora.mks.types;
+package pl.jeleniagora.mks.exceptions;
 
 /**
  * Wyjątek rzucany na po ostatnum zawodniku w ostatnim ślizgu konkurencji

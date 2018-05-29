@@ -8,12 +8,12 @@ import static java.time.temporal.ChronoUnit.NANOS;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import pl.jeleniagora.mks.events.LandedStateReached;
+import pl.jeleniagora.mks.exceptions.AppContextUninitializedEx;
 import pl.jeleniagora.mks.rte.RTE_CHRONO;
 import pl.jeleniagora.mks.rte.RTE_COM;
 import pl.jeleniagora.mks.serial.RxCommType;
 import pl.jeleniagora.mks.settings.ChronometerS;
 import pl.jeleniagora.mks.settings.ChronometerType;
-import pl.jeleniagora.mks.types.AppContextUninitializedEx;
 import pl.jeleniagora.mks.types.Reserve;
 
 /**

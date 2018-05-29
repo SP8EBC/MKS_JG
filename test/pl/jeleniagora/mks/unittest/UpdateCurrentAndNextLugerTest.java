@@ -20,6 +20,9 @@ import pl.jeleniagora.mks.events.AfterStartListGeneration;
 import pl.jeleniagora.mks.events.ChangeCompetition;
 import pl.jeleniagora.mks.events.LandedStateReached;
 import pl.jeleniagora.mks.events.UpdateCurrentAndNextLuger;
+import pl.jeleniagora.mks.exceptions.AppContextUninitializedEx;
+import pl.jeleniagora.mks.exceptions.EndOfRunEx;
+import pl.jeleniagora.mks.exceptions.MissingCompetitionEx;
 import pl.jeleniagora.mks.gui.CompManager;
 import pl.jeleniagora.mks.gui.CompManagerCSelectorUpdater;
 import pl.jeleniagora.mks.gui.CompManagerScoreTableModel;
@@ -27,12 +30,9 @@ import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.settings.ChronometerS;
 import pl.jeleniagora.mks.settings.SpringS;
-import pl.jeleniagora.mks.types.AppContextUninitializedEx;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.Competitions;
-import pl.jeleniagora.mks.types.EndOfRunEx;
 import pl.jeleniagora.mks.types.LugerCompetitor;
-import pl.jeleniagora.mks.types.MissingCompetitionEx;
 import pl.jeleniagora.mks.types.Run;
 
 class UpdateCurrentAndNextLugerTest {
@@ -133,24 +133,61 @@ class UpdateCurrentAndNextLugerTest {
 	}
 
 	@Test
-	void testFindFirstWithoutTime() {
+	void testFindFirstWithoutTime() throws AppContextUninitializedEx, MissingCompetitionEx {
 		RTE_ST rte_st = ctx.getBean(RTE_ST.class);
 		
 		LocalTime zero = LocalTime.of(0, 0, 0, 0);
 
+		CompManagerScoreTableModel mdl = (CompManagerScoreTableModel)frame.getScoreTableModel();
+		CompManagerCSelectorUpdater selectorUpdater = new CompManagerCSelectorUpdater(ctx);
+
+		
+		/* 
+		 * W tym teście lista startowa musi być zainicjalizowana zerami za wyjątkiem kilku przypadków w których będzie
+		 * jakiś czas
+		 */
+		Vector<Competition> cmps = mdl.fillWithTestData(rte_st.competitions, false);
+		AfterStartListGeneration.process(rte_st.competitions);
+		((CompManagerScoreTableModel)frame.getScoreTableModel()).fireTableDataChanged();
+				
+		rte_st.competitions.competitions = cmps;
+		
+		ChangeCompetition.changeActualCompetition(cmps.get(1), true);
+		
+		Vector<Run> runsFrom1stCmp = cmps.get(1).runsTimes;	// wszystkie ślizgi z drugiej konkurencji - "duża"
+			
+		Map<Short, LugerCompetitor> startList = cmps.get(1).invertedStartList;	// odwrócon lista startowa
+		
+		Run stTraining = runsFrom1stCmp.get(0);	// czasy pierwszego ślizgu w drugiej konkurencji
+				
+		for (short i = 0; i < stTraining.run.size(); i++) {
+			if (i > 0 && i < 4) {
+				
+				LocalTime time = LocalTime.of(0, 0, 55);
+				LugerCompetitor cmpr = startList.get(i);
+				
+				stTraining.run.put(cmpr, time);	// dociepywanie losowego czsu do niektórych zawodników
+				
+			}
+		}
+		selectorUpdater.updateSelectorContent(cmps);
+
+		((CompManagerScoreTableModel)frame.getScoreTableModel()).fireTableDataChanged();
+		
+		
 		/*
 		 * Ustawianie drugiemu saneczkarzowi czasu jako zero
 		 */
-		rte_st.currentRun.run.replaceAll(				
-				(LugerCompetitor k, LocalTime v) -> {
-					if (k.getStartNumber() == 2)
-						return zero;
-					else return v;
-				}
-		);
+//		rte_st.currentRun.run.replaceAll(				
+//				(LugerCompetitor k, LocalTime v) -> {
+//					if (k.getStartNumber() == 2)
+//						return zero;
+//					else return v;
+//				}
+//		);
 		
 		LugerCompetitor r = UpdateCurrentAndNextLuger.findFirstWithoutTime();
-		LugerCompetitor s = rte_st.currentCompetition.invertedStartList.get((Short)(short)2);
+		LugerCompetitor s = rte_st.currentCompetition.invertedStartList.get((Short)(short)4);
 		
 		Assert.assertEquals(r, s);
 		
@@ -182,6 +219,19 @@ class UpdateCurrentAndNextLugerTest {
 		
 		RTE_ST rte_st = ctx.getBean(RTE_ST.class);
 		boolean runEnd = false;
+		
+		CompManagerScoreTableModel mdl = (CompManagerScoreTableModel)frame.getScoreTableModel();
+		
+		Vector<Competition> cmps = mdl.fillWithTestData(rte_st.competitions, false);
+		AfterStartListGeneration.process(rte_st.competitions);
+		
+		try {
+			ChangeCompetition.changeActualCompetition(cmps.get(1), true);
+		} catch (AppContextUninitializedEx | MissingCompetitionEx e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		
 		/*
 		 * Przewijanie do początku konkurencji

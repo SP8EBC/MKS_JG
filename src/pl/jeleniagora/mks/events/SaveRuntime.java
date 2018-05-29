@@ -4,9 +4,9 @@ import java.time.LocalTime;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import pl.jeleniagora.mks.exceptions.UninitializedCompEx;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
-import pl.jeleniagora.mks.types.UninitializedCompEx;
 
 public class SaveRuntime {
 

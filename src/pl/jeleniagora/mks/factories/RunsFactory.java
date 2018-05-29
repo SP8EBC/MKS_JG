@@ -18,7 +18,7 @@ public class RunsFactory {
 				runs.add(r);
 				
 				r.trainingOrScored = false;
-				r.number = (short) (i + trainingRuns);
+				r.number = (short) (i);
 				r.numberInScoredOrTrainingRuns = (short) i;
 			}
 		

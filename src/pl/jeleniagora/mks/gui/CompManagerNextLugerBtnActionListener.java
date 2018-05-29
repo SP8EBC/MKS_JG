@@ -7,8 +7,8 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import pl.jeleniagora.mks.events.EndOfRun;
 import pl.jeleniagora.mks.events.UpdateCurrentAndNextLuger;
-import pl.jeleniagora.mks.types.AppContextUninitializedEx;
-import pl.jeleniagora.mks.types.EndOfRunEx;
+import pl.jeleniagora.mks.exceptions.AppContextUninitializedEx;
+import pl.jeleniagora.mks.exceptions.EndOfRunEx;
 import pl.jeleniagora.mks.types.LugerCompetitor;
 
 /**

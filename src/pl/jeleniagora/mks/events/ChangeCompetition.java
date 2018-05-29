@@ -2,12 +2,13 @@ package pl.jeleniagora.mks.events;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import pl.jeleniagora.mks.exceptions.AppContextUninitializedEx;
+import pl.jeleniagora.mks.exceptions.MissingCompetitionEx;
+import pl.jeleniagora.mks.exceptions.NoMoreCompetitionsEx;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
-import pl.jeleniagora.mks.types.AppContextUninitializedEx;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.LugerCompetitor;
-import pl.jeleniagora.mks.types.MissingCompetitionEx;
 import pl.jeleniagora.mks.types.Run;
 
 public class ChangeCompetition {
@@ -89,6 +90,50 @@ public class ChangeCompetition {
 		 */
 //		LugerCompetitor current = UpdateCurrentAndNextLuger.findFirstWithoutTime();
 //		UpdateCurrentAndNextLuger.setNextFromStartNumber(current.getStartNumber());
+		
+		
+	}
+	
+	public static void moveToNextCompetition() throws AppContextUninitializedEx, NoMoreCompetitionsEx {
+		if (ctx == null) {
+			throw new AppContextUninitializedEx();
+		}
+		
+		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
+
+		/*
+		 * Indeks pod którym w wektorze występuje aktualnie zakończone konkurencja
+		 */
+		int currentCompRef = rte_st.competitions.competitions.lastIndexOf(rte_st.currentCompetition);
+		int numberOfComps = rte_st.competitions.competitions.size();
+		
+		Run firstNotCompleted = null;
+		
+		rte_st.competitionsDone.add(rte_st.currentCompetition);
+		
+		if (currentCompRef + 1 < numberOfComps) {
+			/*
+			 * Jeżeli są jeszcze jakieś konkurencje do rozegrania
+			 */
+			rte_st.currentCompetition = rte_st.competitions.competitions.get(currentCompRef + 1);
+			
+			for (Run r : rte_st.currentCompetition.runsTimes) {
+				if (r.done) 
+					continue;
+				else {
+					firstNotCompleted = r;
+					break;
+				}
+
+			}
+			
+		}
+		else {
+			/*
+			 * Jeżeli nie ma już żadanych konkurencji do rozegrania to
+			 */
+			throw new NoMoreCompetitionsEx();
+		}
 		
 		
 	}

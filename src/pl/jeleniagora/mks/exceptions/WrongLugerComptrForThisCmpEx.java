@@ -1,4 +1,4 @@
-package pl.jeleniagora.mks.types;
+package pl.jeleniagora.mks.exceptions;
 
 /**
  * Wyjątek rzucany gdy np do konkurencji dwójkowej próbuje się dodać jedynkarza.

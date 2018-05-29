@@ -16,17 +16,17 @@ import pl.jeleniagora.mks.events.AfterStartListGeneration;
 import pl.jeleniagora.mks.events.EndOfRun;
 import pl.jeleniagora.mks.events.LandedStateReached;
 import pl.jeleniagora.mks.events.UpdateCurrentAndNextLuger;
+import pl.jeleniagora.mks.exceptions.AppContextUninitializedEx;
+import pl.jeleniagora.mks.exceptions.EndOfCompEx;
+import pl.jeleniagora.mks.exceptions.EndOfRunEx;
 import pl.jeleniagora.mks.gui.CompManager;
 import pl.jeleniagora.mks.gui.CompManagerScoreTableModel;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.settings.ChronometerS;
 import pl.jeleniagora.mks.settings.SpringS;
-import pl.jeleniagora.mks.types.AppContextUninitializedEx;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.Competitions;
-import pl.jeleniagora.mks.types.EndOfCompEx;
-import pl.jeleniagora.mks.types.EndOfRunEx;
 
 class EndOfRunTest {
 	

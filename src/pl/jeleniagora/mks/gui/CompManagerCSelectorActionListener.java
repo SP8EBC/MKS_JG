@@ -7,11 +7,11 @@ import javax.swing.JComboBox;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import pl.jeleniagora.mks.exceptions.UninitializedCompEx;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.CompetitionEncapsulationForSelector;
 import pl.jeleniagora.mks.types.Reserve;
-import pl.jeleniagora.mks.types.UninitializedCompEx;
 
 /**
  * Klasa obsługująca akcję od listy rozwijanej z wszystkimi konkurencjami w oknie "Obsługa Zawodów i Treningów"

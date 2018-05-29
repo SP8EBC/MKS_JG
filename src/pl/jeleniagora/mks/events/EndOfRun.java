@@ -2,9 +2,9 @@ package pl.jeleniagora.mks.events;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import pl.jeleniagora.mks.exceptions.EndOfCompEx;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
-import pl.jeleniagora.mks.types.EndOfCompEx;
 
 /**
  * Klasa zawierąca metody wywoływane po ostatim saneczkarzu w ślizgu

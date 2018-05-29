@@ -5,13 +5,13 @@ import java.io.IOException;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import pl.jeleniagora.mks.chrono.Chrono;
+import pl.jeleniagora.mks.exceptions.FailedOpenSerialPortEx;
 import pl.jeleniagora.mks.rte.RTE_COM;
 import pl.jeleniagora.mks.serial.CommThread;
 import pl.jeleniagora.mks.serial.CommThreadTermHook;
 import pl.jeleniagora.mks.serial.RxCommType;
 import pl.jeleniagora.mks.settings.SerialCommS;
 import pl.jeleniagora.mks.settings.SpringS;
-import pl.jeleniagora.mks.types.FailedOpenSerialPortEx;
 
 /**
  * Główna klasa stanowiąca punkt wejścia do programu 

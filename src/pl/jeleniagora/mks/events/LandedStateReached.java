@@ -5,15 +5,15 @@ import java.util.Vector;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import pl.jeleniagora.mks.exceptions.AppContextUninitializedEx;
+import pl.jeleniagora.mks.exceptions.EndOfRunEx;
+import pl.jeleniagora.mks.exceptions.UninitializedCompEx;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.serial.TypesConverters;
 import pl.jeleniagora.mks.settings.ChronometerS;
-import pl.jeleniagora.mks.types.AppContextUninitializedEx;
-import pl.jeleniagora.mks.types.EndOfRunEx;
 import pl.jeleniagora.mks.types.LugerCompetitor;
 import pl.jeleniagora.mks.types.Run;
-import pl.jeleniagora.mks.types.UninitializedCompEx;
 
 /**
  * Klasa używana w momencie kiedy saneczkarz dojedzie do mety, czyli maszyna stanu pomiaru czasu

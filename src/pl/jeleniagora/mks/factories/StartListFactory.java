@@ -18,6 +18,7 @@ import pl.jeleniagora.mks.types.Run;
  */
 public class StartListFactory {
 
+
 	public static void generateStartList(Competition forCompetition) {
 		// TODO: Sprawdzenie czy argumenty nie są nullami
 		
@@ -75,5 +76,34 @@ public class StartListFactory {
 			generatedStartNumbers++;
 		} while (generatedStartNumbers < competitorsCnt);
 		
+	}
+	
+	
+	public static void generateFixedStartList(Competition forCompetition) {
+
+		forCompetition.startList = new HashMap<LugerCompetitor, Short>();
+		forCompetition.invertedStartList = new HashMap<Short, LugerCompetitor>();
+		
+		Run run = forCompetition.runsTimes.get(0);
+		
+		Set<LugerCompetitor> lugers = run.run.keySet();
+		
+		/*
+		 * Tworzenie wektora na podstawie wyciągniętego z mapy setu. Chodzi o zapewnienie
+		 * dostępu swobodnego (tutaj losowego) to elementów mapy
+		 */
+		Vector<LugerCompetitor> lugersVct = new Vector<LugerCompetitor>(lugers);
+		
+		for (int i = 0; i < lugersVct.size(); i++) {
+			LugerCompetitor lugerToAssignNum = lugersVct.get(i);
+			
+			lugerToAssignNum.setStartNumber((short)(i+1));
+
+			forCompetition.startList.put(lugerToAssignNum, (short)(i+1));
+			
+			forCompetition.invertedStartList.put((short)(i+1), lugerToAssignNum);
+
+		}
+
 	}
 }

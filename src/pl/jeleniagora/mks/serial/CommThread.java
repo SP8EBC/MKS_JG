@@ -11,10 +11,10 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import com.fazecast.jSerialComm.SerialPort;
 
+import pl.jeleniagora.mks.exceptions.FailedOpenSerialPortEx;
+import pl.jeleniagora.mks.exceptions.WrongInputStreamEx;
 import pl.jeleniagora.mks.rte.RTE_COM;
 import pl.jeleniagora.mks.settings.SerialCommS;
-import pl.jeleniagora.mks.types.FailedOpenSerialPortEx;
-import pl.jeleniagora.mks.types.WrongInputStreamEx;
 
 /**
  * 

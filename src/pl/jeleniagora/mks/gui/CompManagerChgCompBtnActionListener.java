@@ -9,11 +9,11 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import pl.jeleniagora.mks.events.ChangeCompetition;
 import pl.jeleniagora.mks.events.UpdateCurrentAndNextLuger;
+import pl.jeleniagora.mks.exceptions.AppContextUninitializedEx;
+import pl.jeleniagora.mks.exceptions.MissingCompetitionEx;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
-import pl.jeleniagora.mks.types.AppContextUninitializedEx;
 import pl.jeleniagora.mks.types.LugerCompetitor;
-import pl.jeleniagora.mks.types.MissingCompetitionEx;
 
 public class CompManagerChgCompBtnActionListener implements ActionListener {
 

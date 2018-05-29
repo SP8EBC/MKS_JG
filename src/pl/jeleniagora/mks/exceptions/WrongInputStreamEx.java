@@ -1,4 +1,4 @@
-package pl.jeleniagora.mks.types;
+package pl.jeleniagora.mks.exceptions;
 
 public class WrongInputStreamEx extends Throwable {
 

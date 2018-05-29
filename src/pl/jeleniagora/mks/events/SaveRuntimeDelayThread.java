@@ -6,11 +6,12 @@ import javax.swing.JOptionPane;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import pl.jeleniagora.mks.exceptions.AppContextUninitializedEx;
+import pl.jeleniagora.mks.exceptions.EndOfCompEx;
+import pl.jeleniagora.mks.exceptions.EndOfRunEx;
+import pl.jeleniagora.mks.exceptions.NoMoreCompetitionsEx;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
-import pl.jeleniagora.mks.types.AppContextUninitializedEx;
-import pl.jeleniagora.mks.types.EndOfCompEx;
-import pl.jeleniagora.mks.types.EndOfRunEx;
 
 /**
  * Klasa służy do zapisu czasu ślizgu z poziomu dodatkowego wątku, który będzie opóźniał to o kilka sekund na potrzeby opcji 
@@ -74,6 +75,20 @@ public class SaveRuntimeDelayThread implements Runnable {
 				
 			} catch (AppContextUninitializedEx e) {
 				e.printStackTrace();
+			}
+			if (compHasToBeChanged) {
+				/*
+				 * Jeżeli dotarliśmy do końca aktualnej konkurencji i należy przeskoczyć na następną
+				 */
+				try {
+					ChangeCompetition.moveToNextCompetition();
+				} catch (AppContextUninitializedEx e) {
+					;
+				} catch (NoMoreCompetitionsEx e) {
+					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Nie ma już więcej konkurencji do rozegrania.");
+
+				}
 			}
 		}
 		else {
