@@ -66,6 +66,15 @@ public class CompManagerChgCompBtnActionListener implements ActionListener {
 			}
 			msgString += rte_st.currentRun.numberInScoredOrTrainingRuns + 1;
 			
+			/*
+			 * Podświetlanie aktualnie na torze
+			 */
+			Short actualRun = rte_st.currentRunCnt;
+			rte_gui.compManager.markConreteRun(rte_st.actuallyOnTrack.getStartNumber(), actualRun);
+			rte_gui.competitorClickedInTable = rte_st.actuallyOnTrack;
+			rte_gui.runClickedInTable = rte_st.currentRun;
+
+			
 			JOptionPane.showMessageDialog(null, "Konkurencja została pomyślnie zmieniona - aktualny ślizg: " + msgString);
 			
 			

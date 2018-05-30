@@ -198,7 +198,8 @@ public class UpdateCurrentAndNextLuger {
 	
 	/**
 	 * Metod ustawiająca jako aktualnie na torze pierwszego zawodnika w śligu (saneczkarz o nrze startowym jeden)
-	 * a jako następnego drugiego zawodnika (nr startowy dwa)
+	 * a jako następnego drugiego zawodnika (nr startowy dwa). Używana przy prełączaniu na następny ślizg bo zakończeniu
+	 * jednego
 	 */
 	public static void rewindToBegin() {
 		
@@ -210,6 +211,10 @@ public class UpdateCurrentAndNextLuger {
 		
 		rte_gui.actuallyOnTrack.setText(rte_st.actuallyOnTrack.toString());
 		rte_gui.nextOnTrack.setText(rte_st.nextOnTrack.toString());
+		
+		rte_gui.runClickedInTable = rte_st.currentRun;
+		rte_gui.competitorClickedInTable = rte_st.actuallyOnTrack;
+		rte_gui.compManager.markConreteRun(rte_st.actuallyOnTrack.getStartNumber(),	rte_st.currentRunCnt);
 		
 	}
 	
@@ -325,6 +330,8 @@ public class UpdateCurrentAndNextLuger {
 		/*
 		 * Podświetlanie zawodnika w menadżerze zawodów
 		 */
+		rte_gui.runClickedInTable = rte_st.currentRun;
+		rte_gui.competitorClickedInTable = rte_st.actuallyOnTrack;
 		rte_gui.compManager.markConreteRun(rte_st.actuallyOnTrack.getStartNumber(), actualRun);
 		
 		rte_gui.actuallyOnTrack.setText(rte_st.actuallyOnTrack.toString());

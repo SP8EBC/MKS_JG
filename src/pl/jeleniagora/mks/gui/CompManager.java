@@ -17,6 +17,7 @@ import pl.jeleniagora.mks.events.ChangeCompetition;
 import pl.jeleniagora.mks.events.DidNotFinished;
 import pl.jeleniagora.mks.events.DidNotStart;
 import pl.jeleniagora.mks.events.Disqualification;
+import pl.jeleniagora.mks.events.EndOfRun;
 import pl.jeleniagora.mks.events.SaveRuntime;
 import pl.jeleniagora.mks.events.UpdateCurrentAndNextLuger;
 import pl.jeleniagora.mks.rte.RTE_GUI;
@@ -144,6 +145,7 @@ public class CompManager extends JFrame {
 				DidNotFinished.setAppCtx(ctx);
 				DidNotStart.setAppCtx(ctx);
 				Disqualification.setAppCtx(ctx);
+				EndOfRun.setAppCtx(ctx);
 				
 				try {
 					DisplayS.setShowAllTimeDigits(true);

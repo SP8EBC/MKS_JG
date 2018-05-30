@@ -59,7 +59,6 @@ public class EndOfRun {
 			/*
 			 * 
 			 */
-			rte_gui.compManagerCSelector.setSelectedIndex(rte_st.currentRunCnt);
 			rte_gui.compManagerScoreModel.fireTableStructureChanged();
 			
 
