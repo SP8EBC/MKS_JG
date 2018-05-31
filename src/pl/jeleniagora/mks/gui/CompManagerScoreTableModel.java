@@ -43,6 +43,7 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 	/**
 	 * Tablica klas przechowywująca reprezentację typów danych poszczególnych kolumn w JTable
 	 */
+	@SuppressWarnings("rawtypes")
 	private Class[] types;
 	
 	/**
@@ -97,6 +98,7 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 		return tableData[arg0][arg1];
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public Class getColumnClass(int c) {
 		return types[c];
@@ -155,7 +157,7 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 		
 		if (!intermediateTiming) {
 			int allRuns = competition.numberOfAllRuns;
-			int trainingRuns = competition.numberOfTrainingRuns;
+//			int trainingRuns = competition.numberOfTrainingRuns;
 			
 			int lugersCnt = competition.getLugersCnt();
 			
@@ -226,7 +228,7 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 				/*
 				 * Czasy ślizgów
 				 */
-				Vector<Short> times = new Vector<Short>();
+//				Vector<Short> times = new Vector<Short>();
 				for (int i = 0; i < allRuns; i++) {
 					Integer t = competition.runsTimes.get(i).getRunTimeForCompetitor(luger);
 					l[j + i] = t;

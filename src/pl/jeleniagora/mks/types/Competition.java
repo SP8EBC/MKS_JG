@@ -22,6 +22,15 @@ public class Competition {
 	public String name;
 	
 	/**
+	 * Ustawienie na true powoduje, że ta konkurencja będzie traktowana jako konkurencja w zawodach - w przeciwnym raze
+	 * będzie to jedynie trening. Nastawienie false powoduje, że wszystkie dodane tutaj ślizgi będą z automatu traktowane jako
+	 * treningowe bez względu na nastawienie pola trainingOrScored w klasie Run (odpowiadającej pojedynczym ślizgom). Wartość
+	 * false zmieni też sposób działania modułu obliczającego lokaty, który będzie obliczał lokaty dla wszystkih ślizgów 
+	 * ( w odróżnieniu od nastwienia true gdzie obliczane będzie tylko dla ślizgów punktowanych)
+	 */
+	public boolean trainingOrContest;
+	
+	/**
 	 *  Egzemplarz enuma określający typ tej konkurencji 
 	 *  */
 	public CompetitionTypes competitionType;
