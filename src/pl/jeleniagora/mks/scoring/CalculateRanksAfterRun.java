@@ -72,7 +72,7 @@ public class CalculateRanksAfterRun {
 	
 	public Map<LugerCompetitor, Short> calculateRanksFromTotalRuntimes(Map<LugerCompetitor, LocalTime> rt) {
 		
-		short rank = 1;
+		short rank = 1, lastRank = 1;
 		short shift = 0;
 		
 		Map<LugerCompetitor, Short> out = new HashMap<LugerCompetitor, Short>();
@@ -96,11 +96,18 @@ public class CalculateRanksAfterRun {
 			if (previous != null) {
 				if (current.getValue().equals(previous.getValue())) {
 					LugerCompetitor l = current.getKey();	// jeżeli aktualny ma taki sam czas jak poprzedni 
-					out.put(l, (short)(rank));
+					out.put(l, (lastRank));
+					
+					/*
+					 * Zwiększ przesunięcie pozycji o jeden żeby wstawić dziurę pomiędzy ostatniego ex-aeqo a kolejnego za nim
+					 * 1szy, 2gi, 3ci, 3ci, 5ty, 6ty...
+					 */
+					shift++;
 				}
 				else {		// jeżeli ma różny
+					lastRank = (short) (++rank+shift);
 					LugerCompetitor l = current.getKey();
-					out.put(l, (short)(++rank));
+					out.put(l, lastRank);
 
 				}
 			}
@@ -108,6 +115,7 @@ public class CalculateRanksAfterRun {
 				/*
 				 * Wstawianie pierwszego
 				 */
+				lastRank = 1;
 				LugerCompetitor l = current.getKey();
 				out.put(l, (short)(1));
 			}

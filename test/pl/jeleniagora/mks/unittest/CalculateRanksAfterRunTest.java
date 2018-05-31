@@ -108,11 +108,13 @@ class CalculateRanksAfterRunTest {
 		Assert.assertEquals(out.get(l2), new Short((short) 4));
 		Assert.assertEquals(out.get(l7), new Short((short) 5));
 		Assert.assertEquals(out.get(l1), new Short((short) 6));
+		Assert.assertEquals(out.get(l5), new Short((short) 7));
+
 		
 	}
 
 	@Test
-	void testCalculateRanksFromTotalRuntimes_eq_end() {
+	void testCalculateRanksFromTotalRuntimes_eq_double() {
 		t1 = LocalTime.of(0, 0, 35);	// 5
 		t2 = LocalTime.of(0, 0, 33);	// 4
 		t3 = LocalTime.of(0, 0, 9);		// 1
@@ -137,7 +139,70 @@ class CalculateRanksAfterRunTest {
 		Assert.assertEquals(out.get(l6), new Short((short) 2));
 		Assert.assertEquals(out.get(l2), new Short((short) 4));
 		Assert.assertEquals(out.get(l7), new Short((short) 5));
+		Assert.assertEquals(out.get(l1), new Short((short) 5)); //4
+		Assert.assertEquals(out.get(l5), new Short((short) 7));
+		
+	}
+	
+	@Test
+	void testCalculateRanksFromTotalRuntimes_triple_eq() {
+		t1 = LocalTime.of(0, 0, 35);	// 5
+		t2 = LocalTime.of(0, 0, 11);	// 2
+		t3 = LocalTime.of(0, 0, 9);		// 1
+		t4 = LocalTime.of(0, 0, 11);	// 2
+		t5 = LocalTime.of(0, 0, 40);	// 7
+		t6 = LocalTime.of(0, 0, 11);	// 2
+		t7 = LocalTime.of(0, 0, 35);	// 5
+		
+		test.put(l7, t7);
+		test.put(l6, t6);
+		test.put(l5, t5);
+		test.put(l4, t4);
+		test.put(l3, t3);
+		test.put(l2, t2);
+		test.put(l1, t1);
+		
+		CalculateRanksAfterRun calc = new CalculateRanksAfterRun();
+		Map<LugerCompetitor, Short> out = calc.calculateRanksFromTotalRuntimes(test);
+		
+		Assert.assertEquals(out.get(l3), new Short((short) 1));
+		Assert.assertEquals(out.get(l4), new Short((short) 2));
+		Assert.assertEquals(out.get(l6), new Short((short) 2));
+		Assert.assertEquals(out.get(l2), new Short((short) 2));
+		Assert.assertEquals(out.get(l7), new Short((short) 5));
 		Assert.assertEquals(out.get(l1), new Short((short) 5));
+		Assert.assertEquals(out.get(l5), new Short((short) 7));
+		
+	}
+	
+	@Test
+	void testCalculateRanksFromTotalRuntimes_quad_eq() {
+		t1 = LocalTime.of(0, 0, 11);	// 2
+		t2 = LocalTime.of(0, 0, 11);	// 2
+		t3 = LocalTime.of(0, 0, 9);		// 1
+		t4 = LocalTime.of(0, 0, 11);	// 2
+		t5 = LocalTime.of(0, 0, 40);	// 7
+		t6 = LocalTime.of(0, 0, 11);	// 2
+		t7 = LocalTime.of(0, 0, 35);	// 6
+		
+		test.put(l7, t7);
+		test.put(l6, t6);
+		test.put(l5, t5);
+		test.put(l4, t4);
+		test.put(l3, t3);
+		test.put(l2, t2);
+		test.put(l1, t1);
+		
+		CalculateRanksAfterRun calc = new CalculateRanksAfterRun();
+		Map<LugerCompetitor, Short> out = calc.calculateRanksFromTotalRuntimes(test);
+		
+		Assert.assertEquals(out.get(l3), new Short((short) 1));
+		Assert.assertEquals(out.get(l4), new Short((short) 2));
+		Assert.assertEquals(out.get(l6), new Short((short) 2));
+		Assert.assertEquals(out.get(l2), new Short((short) 2));
+		Assert.assertEquals(out.get(l7), new Short((short) 6));
+		Assert.assertEquals(out.get(l1), new Short((short) 2));
+		Assert.assertEquals(out.get(l5), new Short((short) 7));
 		
 	}
 	
