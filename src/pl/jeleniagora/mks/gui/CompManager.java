@@ -108,7 +108,9 @@ public class CompManager extends JFrame {
 		 */
 		int rowToSelect = ((CompManagerScoreTableModel)frame.getScoreTableModel()).getModelIndexFromStartNumber(startNumber);
 		
-		rowToSelect = table.convertRowIndexToView(rowToSelect);
+		if (rowToSelect > 0)
+			rowToSelect = table.convertRowIndexToView(rowToSelect);
+		else return;
 		
 		/*
 		 * Pięć pierwszych kolumn zawiera dane o zawodniku takie jak imie nazwisko, etc. dopiero szósta kolumna
