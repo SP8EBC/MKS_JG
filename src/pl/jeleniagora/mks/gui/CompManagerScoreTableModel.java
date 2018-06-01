@@ -111,6 +111,19 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 		
 	}
 	
+	public String[] getColumnNames() {
+		return columnNames;
+	}
+
+	@SuppressWarnings("rawtypes")
+	public Class[] getTypes() {
+		return types;
+	}
+
+	public Object[][] getTableData() {
+		return tableData;
+	}
+
 	/**
 	 * Tablica wyników nie jest edytowalna bezpośrednio przez dwuklik na komórce
 	 */
@@ -130,7 +143,7 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 	public int getModelIndexFromStartNumber(int startNumber) {
 		
 		for (int i = 0; i < this.numberOfLugers; i++) {
-			int startNumToChk = (int)(this.tableData[i][0]);
+			short startNumToChk = (short)(this.tableData[i][0]);
 			if (startNumToChk == startNumber) {
 				return i;
 			}
@@ -214,8 +227,8 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 						String lugeClub = s.single.club.name;
 						int startNum = currLuger.getValue();	// numer startowy
 						
-						l[0] = startNum;	// numer startowy
-						l[1] = 0; // miejsce
+						l[0] = (short)startNum;	// numer startowy
+						l[1] = (short)competition.ranks.get(s); // miejsce
 						l[2] = name;
 						l[3] = surname;
 						l[4] = lugeClub;

@@ -1,6 +1,7 @@
 package pl.jeleniagora.mks.types;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Vector;
 
@@ -36,7 +37,25 @@ public class Competitions {
 	 */
 	public Map<Competition, StartGate> competitionToStartGateMapping;
 	
-	public Competitions(String name, LocalDate date) {
+	public String toString() {
+		DateTimeFormatter fmtr = DateTimeFormatter.ofPattern("YYYY-MM-dd");
+		String ds;
 		
+		if (date != null)
+			ds = date.format(fmtr);
+		else
+			ds = new String("");
+		
+		if (name != null) {
+			int nameLn = name.length();
+			if (nameLn > 8) nameLn = 8;
+			return name.substring(0, nameLn) + "_" + ds;
+		}
+		else return new String("");
+	}
+	
+	public Competitions(String _name, LocalDate _date) {
+		name = _name;
+		date = _date;
 	}
 }

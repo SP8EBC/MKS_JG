@@ -67,8 +67,8 @@ public class CompManagerScoreTableSelectListener implements ListSelectionListene
 			modelColumn = t.convertColumnIndexToModel(c);
 		}
 		
-		int startNum = (Integer)rte_gui.model.getValueAt(modelRow, 0);
-		rte_gui.competitorClickedInTable = rte_gui.competitionBeingShown.invertedStartList.get((short)startNum);
+		short startNum = (Short)rte_gui.model.getValueAt(modelRow, 0);
+		rte_gui.competitorClickedInTable = rte_gui.competitionBeingShown.invertedStartList.get(startNum);
 		
 //		System.out.println("Clicked start number: " + startNum + " from: " + rte_gui.competitionBeingShown.toString());
 		

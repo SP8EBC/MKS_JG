@@ -1,10 +1,18 @@
 package pl.jeleniagora.mks.events;
 
+import java.io.IOException;
+import java.time.LocalTime;
+import java.util.Map;
+
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import pl.jeleniagora.mks.exceptions.EndOfCompEx;
+import pl.jeleniagora.mks.exceptions.UninitializedCompEx;
+import pl.jeleniagora.mks.files.ScoreTableCsvSaver;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
+import pl.jeleniagora.mks.scoring.CalculateRanksAfterRun;
+import pl.jeleniagora.mks.types.LugerCompetitor;
 
 /**
  * Klasa zawierąca metody wywoływane po ostatim saneczkarzu w ślizgu
@@ -32,7 +40,42 @@ public class EndOfRun {
 	}
 	
 	public static void process() throws EndOfCompEx {
+		calculateRanks();
+		
+		saveTableToCsv();
+		
 		switchToNextRun();
+	}
+	
+	static void saveTableToCsv() {
+		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
+		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
+		
+		String fn = rte_st.competitions.toString() + "___" + rte_st.currentCompetition.toString().replaceAll(" ", "_");
+		fn += ("__po_zakoczeniu__" + rte_st.currentRun.toString().replaceAll(" ", "_") + ".csv");
+		
+		ScoreTableCsvSaver csv = new ScoreTableCsvSaver(fn);
+		try {
+			csv.saveTableToFile(rte_gui.model.getColumnNames(), rte_gui.model.getTableData(), rte_gui.model.getTypes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	static void calculateRanks() {
+		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
+		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
+		CalculateRanksAfterRun calc = new CalculateRanksAfterRun();
+		
+		Map<LugerCompetitor, LocalTime> totalTimes = calc.calculateTotalRuntime(rte_st.currentCompetition);
+		Map<LugerCompetitor, Short> ranks = calc.calculateRanksFromTotalRuntimes(totalTimes);
+		
+		rte_st.currentCompetition.ranks = ranks;
+		try {
+			rte_gui.compManagerScoreModel.updateTableData(rte_st.currentCompetition, false);
+		} catch (UninitializedCompEx e) {
+			e.printStackTrace();
+		}
 	}
 	
 	static void switchToNextRun() throws EndOfCompEx {
