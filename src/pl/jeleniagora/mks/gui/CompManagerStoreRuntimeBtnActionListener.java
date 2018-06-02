@@ -14,6 +14,7 @@ import pl.jeleniagora.mks.events.UpdateCurrentAndNextLuger;
 import pl.jeleniagora.mks.exceptions.AppContextUninitializedEx;
 import pl.jeleniagora.mks.exceptions.EndOfCompEx;
 import pl.jeleniagora.mks.exceptions.EndOfRunEx;
+import pl.jeleniagora.mks.exceptions.StartOrderNotChoosenEx;
 import pl.jeleniagora.mks.exceptions.UninitializedCompEx;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
@@ -92,6 +93,8 @@ public class CompManagerStoreRuntimeBtnActionListener implements ActionListener 
 				}
 				
 			} catch (AppContextUninitializedEx e) {
+				e.printStackTrace();
+			} catch (StartOrderNotChoosenEx e) {
 				e.printStackTrace();
 			}
 		}

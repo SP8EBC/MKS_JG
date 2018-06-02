@@ -11,6 +11,7 @@ import pl.jeleniagora.mks.events.ChangeCompetition;
 import pl.jeleniagora.mks.events.UpdateCurrentAndNextLuger;
 import pl.jeleniagora.mks.exceptions.AppContextUninitializedEx;
 import pl.jeleniagora.mks.exceptions.MissingCompetitionEx;
+import pl.jeleniagora.mks.exceptions.StartOrderNotChoosenEx;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.types.LugerCompetitor;
@@ -47,10 +48,19 @@ public class CompManagerChgCompBtnActionListener implements ActionListener {
 			rte_gui.currentCompetition.setText(rte_st.currentCompetition.toString());
 
 			
-			LugerCompetitor cmpr = UpdateCurrentAndNextLuger.findFirstWithoutTime();
+			LugerCompetitor cmpr = null;
+			try {
+				cmpr = UpdateCurrentAndNextLuger.findFirstWithoutTime();
+			} catch (StartOrderNotChoosenEx e) {
+				e.printStackTrace();
+			}
 			
 			if (cmpr != null) {
-				UpdateCurrentAndNextLuger.setActualFromStartNumberAndNext(cmpr.getStartNumber());
+				try {
+					UpdateCurrentAndNextLuger.setActualFromStartNumberAndNext(cmpr.getStartNumber());
+				} catch (StartOrderNotChoosenEx e) {
+					e.printStackTrace();
+				}
 				
 			}
 			else {

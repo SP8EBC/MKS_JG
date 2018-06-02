@@ -12,6 +12,7 @@ import pl.jeleniagora.mks.exceptions.UninitializedCompEx;
 import pl.jeleniagora.mks.factories.ClubsFactory;
 import pl.jeleniagora.mks.factories.LugersFactory;
 import pl.jeleniagora.mks.factories.StartListFactory;
+import pl.jeleniagora.mks.start.order.SimpleOrder;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.CompetitionTypes;
 import pl.jeleniagora.mks.types.Competitions;
@@ -379,9 +380,11 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 		 */
 		testCompetition = new Competition(vctTst, 4, 1, randomize);
 		testCompetition.competitionType = CompetitionTypes.MEN_SINGLE;
+		testCompetition.startOrder = new SimpleOrder();
 		
 		testCompetition2 = new Competition(vctTst2, 4, 0, randomize);
 		testCompetition2.competitionType = CompetitionTypes.WOMAN_SINGLE;
+		testCompetition2.startOrder = new SimpleOrder();
 		
 		try {
 			updateTableHeading(testCompetition, false);

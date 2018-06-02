@@ -23,6 +23,7 @@ import pl.jeleniagora.mks.events.UpdateCurrentAndNextLuger;
 import pl.jeleniagora.mks.exceptions.AppContextUninitializedEx;
 import pl.jeleniagora.mks.exceptions.EndOfRunEx;
 import pl.jeleniagora.mks.exceptions.MissingCompetitionEx;
+import pl.jeleniagora.mks.exceptions.StartOrderNotChoosenEx;
 import pl.jeleniagora.mks.gui.CompManager;
 import pl.jeleniagora.mks.gui.CompManagerCSelectorUpdater;
 import pl.jeleniagora.mks.gui.CompManagerScoreTableModel;
@@ -81,7 +82,7 @@ class UpdateCurrentAndNextLugerTest {
 	}
 	
 	@Test
-	void testSetActualFromStartNumberAndNext() throws AppContextUninitializedEx, MissingCompetitionEx {
+	void testSetActualFromStartNumberAndNext() throws AppContextUninitializedEx, MissingCompetitionEx, StartOrderNotChoosenEx {
 		RTE_ST rte_st = ctx.getBean(RTE_ST.class);
 		
 		CompManagerScoreTableModel mdl = (CompManagerScoreTableModel)frame.getScoreTableModel();
@@ -133,7 +134,7 @@ class UpdateCurrentAndNextLugerTest {
 	}
 
 	@Test
-	void testFindFirstWithoutTime() throws AppContextUninitializedEx, MissingCompetitionEx {
+	void testFindFirstWithoutTime() throws AppContextUninitializedEx, MissingCompetitionEx, StartOrderNotChoosenEx {
 		RTE_ST rte_st = ctx.getBean(RTE_ST.class);
 		
 		LocalTime zero = LocalTime.of(0, 0, 0, 0);
@@ -241,7 +242,7 @@ class UpdateCurrentAndNextLugerTest {
 		
 		try {
 			UpdateCurrentAndNextLuger.moveForwardNormally();
-		} catch (EndOfRunEx | AppContextUninitializedEx e) {
+		} catch (EndOfRunEx | AppContextUninitializedEx | StartOrderNotChoosenEx e) {
 			fail("Exception has been thrown");
 		}
 
@@ -252,7 +253,7 @@ class UpdateCurrentAndNextLugerTest {
 		
 		try {
 			UpdateCurrentAndNextLuger.moveForwardNormally();
-		} catch (EndOfRunEx | AppContextUninitializedEx e) {
+		} catch (EndOfRunEx | AppContextUninitializedEx | StartOrderNotChoosenEx e) {
 			// tutaj wyjątek powinien zostać rzucony bo przeszlo do ostatniej konkurencji
 			runEnd = true;
 

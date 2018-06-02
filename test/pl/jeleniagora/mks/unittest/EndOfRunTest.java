@@ -19,6 +19,7 @@ import pl.jeleniagora.mks.events.UpdateCurrentAndNextLuger;
 import pl.jeleniagora.mks.exceptions.AppContextUninitializedEx;
 import pl.jeleniagora.mks.exceptions.EndOfCompEx;
 import pl.jeleniagora.mks.exceptions.EndOfRunEx;
+import pl.jeleniagora.mks.exceptions.StartOrderNotChoosenEx;
 import pl.jeleniagora.mks.gui.CompManager;
 import pl.jeleniagora.mks.gui.CompManagerScoreTableModel;
 import pl.jeleniagora.mks.rte.RTE_GUI;
@@ -91,12 +92,16 @@ class EndOfRunTest {
 			
 		} catch (EndOfRunEx | AppContextUninitializedEx e) {
 			e.printStackTrace();
+		} catch (StartOrderNotChoosenEx e) {
+			e.printStackTrace();
 		}
 		
 		try {
 			UpdateCurrentAndNextLuger.moveForwardNormally();
 		} catch (EndOfRunEx | AppContextUninitializedEx e) {
 			runEnd = true;
+		} catch (StartOrderNotChoosenEx e) {
+			e.printStackTrace();
 		}
 		
 		if (runEnd) {

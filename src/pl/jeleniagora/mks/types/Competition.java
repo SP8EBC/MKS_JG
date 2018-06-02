@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Vector;
 
 import pl.jeleniagora.mks.factories.RunsFactory;
+import pl.jeleniagora.mks.start.order.StartOrderInterface;
 
 /**
  * Klasa przechowywująca wszystkie informację o pojedycznej konkurencji. Jej rodzaj (jedynki M, jedynki K, dwójki, sztafeta), jak
@@ -59,6 +60,11 @@ public class Competition {
 	 * Mapa łącząca saneczkarzy z numerami startowymi.
 	 */
 	public Map<LugerCompetitor, Short> startList;
+	
+	/**
+	 * Kolejność startowa
+	 */
+	public StartOrderInterface startOrder;
 	
 	/**
 	 * Odwrócona mapa która łączy numery startowe z saneczkarzami.

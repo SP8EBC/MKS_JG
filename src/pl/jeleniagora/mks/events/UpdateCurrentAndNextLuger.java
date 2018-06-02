@@ -1,15 +1,17 @@
 package pl.jeleniagora.mks.events;
 
 import java.time.LocalTime;
-import java.util.Map.Entry;
 import java.util.Vector;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import pl.jeleniagora.mks.exceptions.AppContextUninitializedEx;
 import pl.jeleniagora.mks.exceptions.EndOfRunEx;
+import pl.jeleniagora.mks.exceptions.StartOrderNotChoosenEx;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
+import pl.jeleniagora.mks.start.order.StartOrderInterface;
+import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.LugerCompetitor;
 import pl.jeleniagora.mks.types.Run;
 
@@ -43,19 +45,36 @@ public class UpdateCurrentAndNextLuger {
 	 * Prywatna metoda służąca do wyszukiwania pierwszego zawodnika który albo nie ma w ogóle czasu
 	 * przejazdu albo ma zapisane 0:00.000 - generalnie wyszukuje tego co jeszcze nie jechał
 	 * @return
+	 * @throws StartOrderNotChoosenEx 
 	 */
-	public static LugerCompetitor findFirstWithoutTime() {
+	public static LugerCompetitor findFirstWithoutTime() throws StartOrderNotChoosenEx {
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 				
 		LocalTime zero = LocalTime.of(0, 0, 0, 0);
 		
-		LugerCompetitor returnVal = null; 
+		LugerCompetitor returnVal = null;
+		int j = 0;
+		Short start_num = 0;
 		
+		StartOrderInterface order = rte_st.currentCompetition.startOrder;
+		if (order == null)
+			throw new StartOrderNotChoosenEx();
+		
+		do {
+			// pętla wykonuje się do momentu aż nie sprawdzi się wszystkich elementów w mapie
+			
+			start_num = order.nextStartNumber(start_num, rte_st.currentCompetition);	// numer startowy do sprawdzenia
+			LugerCompetitor k = rte_st.currentCompetition.invertedStartList.get(start_num);
+			LocalTime v = rte_st.currentRun.run.get(k);
+			
+			if (v.equals(zero)) {
+				returnVal = k;
+				break;
+			}
+			
+			j++;
+		} while (j < rte_st.currentRun.run.size());
 		/*
-		 * Wyciąganie entrySet i wynajdywanie pierwszego saneczkarza bez przypisanego uzyskanego
-		 * czasu ślizgu
-		 */
-		
 		Vector<LocalTime> vctRunTimes = rte_st.currentRun.getVectorWithRuntimes(rte_st.currentCompetition.invertedStartList);
 		
 		for (int i = 0; i < vctRunTimes.size(); i++) {
@@ -64,7 +83,7 @@ public class UpdateCurrentAndNextLuger {
 				returnVal = rte_st.currentCompetition.invertedStartList.get((short)(i+1));
 				break;
 			}
-		}
+		}*/
 
 		
 		return returnVal;
@@ -75,30 +94,39 @@ public class UpdateCurrentAndNextLuger {
 	 * niż ten wskazany jako argument
 	 * @param startNum 
 	 * @return jeżeli metoda zwróci null to znaczy że po wskazanym numerze startowym wszyscy już w tym ślizgu jechali
+	 * @throws StartOrderNotChoosenEx 
 	 */
-	public static LugerCompetitor findFirstWithoutTime(short startNum) {
+	public static LugerCompetitor findFirstWithoutTime(short startNum) throws StartOrderNotChoosenEx {
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 		
-//		Run current = rte_st.currentRun;
+		LocalTime zero = LocalTime.of(0, 0, 0, 0);		
 		
-		LocalTime zero = LocalTime.of(0, 0, 0, 0);
+		LugerCompetitor returnVal = null;
+		int j = 0;
+		Short start_num = startNum;
 		
-		LugerCompetitor returnVal = null; 
-		
+		StartOrderInterface order = rte_st.currentCompetition.startOrder;		
 		/*
 		 * Wyciąganie wektora i wynajdywanie pierwszego saneczkarza bez przypisanego uzyskanego
 		 * czasu ślizgu. 
 		 */
+		if (order == null)
+			throw new StartOrderNotChoosenEx();
 		
-		Vector<LocalTime> vctRunTimes = rte_st.currentRun.getVectorWithRuntimes(rte_st.currentCompetition.invertedStartList);
-		
-		for (int i = startNum; i < vctRunTimes.size(); i++) {
-			LocalTime e = vctRunTimes.get(i);
-			if (e.equals(zero)) {
-				returnVal = rte_st.currentCompetition.invertedStartList.get((short)(i+1));
+		do {
+			// pętla wykonuje się do momentu aż nie sprawdzi się wszystkich elementów w mapie
+			
+			start_num = order.nextStartNumber(start_num, rte_st.currentCompetition);	// numer startowy do sprawdzenia
+			LugerCompetitor k = rte_st.currentCompetition.invertedStartList.get(start_num);
+			LocalTime v = rte_st.currentRun.run.get(k);
+			
+			if (v.equals(zero)) {
+				returnVal = k;
 				break;
 			}
-		}
+			
+			j++;
+		} while (j < rte_st.currentRun.run.size());
 
 		
 		return returnVal;
@@ -126,8 +154,9 @@ public class UpdateCurrentAndNextLuger {
 	 * konkurencji i przez przycisk "Omiń aktualnego i przejdź do następnego (...)", przy czym w tym drugim przypadku jest
 	 * używana również z metodą {@link #UpdateCurrentAndNextLuger.findFirstWithoutTime() findFirstWithoutTime}
 	 * @param startNumber
+	 * @throws StartOrderNotChoosenEx 
 	 */
-	public static void setActualFromStartNumberAndNext(short startNumber) {
+	public static void setActualFromStartNumberAndNext(short startNumber) throws StartOrderNotChoosenEx {
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
 		
@@ -146,16 +175,19 @@ public class UpdateCurrentAndNextLuger {
 		
 		rte_gui.compManager.markConreteRun(rte_st.actuallyOnTrack.getStartNumber(), rte_st.currentRunCnt);
 		
+		rte_st.nextOnTrack = findFirstWithoutTime((short) (startNumber+1));		
+		rte_gui.nextOnTrack.setText(rte_st.nextOnTrack.toString());
+		/*
 		Vector<LocalTime> vctRunTimes = rte_st.currentRun.getVectorWithRuntimes(rte_st.currentCompetition.invertedStartList);
 		
 		for (int i = 0; i < vctRunTimes.size(); i++) {
 			LocalTime e = vctRunTimes.get(i);
 			if (e.equals(zero)) {
 				if (i + 1 > startNumber) {
-					/*
+					
 					 * W domyśle saneczkarz którego numer startowy został przekazany do metody jeszcze nie jechał
 					 * dlatego trzeba odnaleźdź pierwszego za nim
-					 */
+					 
 					
 					rte_st.nextOnTrack = rte_st.currentCompetition.invertedStartList.get((short)(i + 1));
 					rte_gui.nextOnTrack.setText(rte_st.nextOnTrack.toString());
@@ -163,7 +195,7 @@ public class UpdateCurrentAndNextLuger {
 					break;
 				}
 			}
-		}
+		}*/
 	}
 	
 	/**
@@ -206,9 +238,9 @@ public class UpdateCurrentAndNextLuger {
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
 		
-		rte_st.actuallyOnTrack = rte_st.currentCompetition.invertedStartList.get((short)1);
-		rte_st.nextOnTrack = rte_st.currentCompetition.invertedStartList.get((short)2);
-		
+		rte_st.actuallyOnTrack = rte_st.currentCompetition.startOrder.getFirst(rte_st.currentCompetition);
+		rte_st.nextOnTrack = rte_st.currentCompetition.startOrder.getSecond(rte_st.currentCompetition);
+
 		rte_gui.actuallyOnTrack.setText(rte_st.actuallyOnTrack.toString());
 		rte_gui.nextOnTrack.setText(rte_st.nextOnTrack.toString());
 		
@@ -222,14 +254,22 @@ public class UpdateCurrentAndNextLuger {
 	 * Metoda przesuwająca "aktualnie na torze" i "następnie" na kolejnego  
 	 * @throws EndOfRunEx Rzucany po ślizgu ostatniego saneczkarza, co oznacza zakończenie konkurencji
 	 * @throws AppContextUninitializedEx Rzucany jeżeli nie ustawiono wczesniej kontekstu aplikacji
+	 * @throws StartOrderNotChoosenEx 
 	 */
-	public static void moveForwardNormally() throws EndOfRunEx, AppContextUninitializedEx {
+	public static void moveForwardNormally() throws EndOfRunEx, AppContextUninitializedEx, StartOrderNotChoosenEx {
 		if (ctx == null) 
 			throw new AppContextUninitializedEx();
 		
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
+		
+		StartOrderInterface order = rte_st.currentCompetition.startOrder;
+		if (order == null)
+			throw new StartOrderNotChoosenEx();
 
+		Competition currentCompetition = rte_st.currentCompetition;
+		Run currentRun = rte_st.currentRun;
+		
 		LugerCompetitor actual = rte_st.actuallyOnTrack;
 		LugerCompetitor next = rte_st.nextOnTrack;
 		
@@ -264,7 +304,7 @@ public class UpdateCurrentAndNextLuger {
 		 * jednocześnie ostatnim. Srawdzenie via nasatępny takie jest wymagane ze względu na funkcjonalność "ustaw aktualnie
 		 * zaznaczonego jako nastepnego (...)
 		 */
-		if (nextStartNumber <= rte_st.currentCompetition.competitorsCount - 1)
+		if (!order.checkIfLastInRun(next, currentCompetition, currentRun))
 		{
 			/*
 			 * Numery startowe są liczone od jedynki, dlatego jeżeli następny będzie miał nr 9 a jest 10 wszystkich
@@ -277,7 +317,7 @@ public class UpdateCurrentAndNextLuger {
 			 * że po kilkukrotnym użyciu funkcji "Ustaw zaznaczonego w tabeli (...)" kolejność całkiem się przemiesza i np. co drugi już pojechał
 			 * a co drugi jeszcze nie.
 			 */
-			next = rte_st.currentCompetition.invertedStartList.get((short)(nextStartNumber + 1));
+			next = rte_st.currentCompetition.invertedStartList.get((short)(order.nextStartNumber(nextStartNumber, currentCompetition)));
 			Integer runtimeForNextCmptr = rte_st.currentRun.getRunTimeForCompetitor(next);
 			
 			if (runtimeForNextCmptr == 0) 
@@ -312,7 +352,7 @@ public class UpdateCurrentAndNextLuger {
 				}
 			}
 		}
-		else if(nextStartNumber == rte_st.currentCompetition.competitorsCount)
+		else if(order.checkIfLastInRun(next, currentCompetition, currentRun))
 		{
 			/*
 			 * Jeżeli nastepny będzie miał nr 10 a wszstkich też jest 10 to już nie ma nikogo za nim
