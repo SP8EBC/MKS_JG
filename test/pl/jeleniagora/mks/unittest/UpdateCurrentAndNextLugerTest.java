@@ -223,6 +223,7 @@ class UpdateCurrentAndNextLugerTest {
 		CompManagerScoreTableModel mdl = (CompManagerScoreTableModel)frame.getScoreTableModel();
 		
 		Vector<Competition> cmps = mdl.fillWithTestData(rte_st.competitions, false);
+		mdl.fireTableDataChanged();
 		AfterStartListGeneration.process(rte_st.competitions);
 		
 		try {
@@ -247,7 +248,7 @@ class UpdateCurrentAndNextLugerTest {
 
 		
 		Assert.assertEquals(rte_st.actuallyOnTrack, rte_st.currentCompetition.invertedStartList.get((short)2));
-		Assert.assertEquals(rte_st.nextOnTrack, null);
+		Assert.assertEquals(rte_st.nextOnTrack, rte_st.currentCompetition.invertedStartList.get((short)3));
 		
 		try {
 			UpdateCurrentAndNextLuger.moveForwardNormally();
@@ -256,8 +257,11 @@ class UpdateCurrentAndNextLugerTest {
 			runEnd = true;
 
 		}
+
+		Assert.assertEquals(rte_st.actuallyOnTrack, rte_st.currentCompetition.invertedStartList.get((short)3));
+		Assert.assertEquals(rte_st.nextOnTrack, rte_st.currentCompetition.invertedStartList.get((short)4));
 		
-		Assert.assertEquals(true, runEnd);	
+//		Assert.assertEquals(true, runEnd);	
 		
 	}
 
