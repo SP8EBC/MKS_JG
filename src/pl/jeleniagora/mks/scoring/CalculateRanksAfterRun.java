@@ -54,7 +54,8 @@ public class CalculateRanksAfterRun {
 					 */
 					if (totalTimes.containsKey(k)) {
 						LocalTime t = totalTimes.get(k);	// wyciąganie już zapisanego czasu ślizgu
-						LocalTime sum = t.plusNanos(v.toNanoOfDay());			// dodawanie czasu z tego ślizgu
+						long toAdd = v.toNanoOfDay();
+						LocalTime sum = t.plusNanos(toAdd);			// dodawanie czasu z tego ślizgu
 						
 						totalTimes.put(k, sum);		// zapisywanie na nowo w wyjściowej mapie
 					}

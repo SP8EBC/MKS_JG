@@ -6,16 +6,21 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.junit.Assert;
+
+import pl.jeleniagora.mks.chrono.ConvertMicrotime;
 import pl.jeleniagora.mks.factories.ClubsFactory;
 import pl.jeleniagora.mks.factories.LugersFactory;
 import pl.jeleniagora.mks.scoring.CalculateRanksAfterRun;
+import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.LugerCompetitor;
+import pl.jeleniagora.mks.types.Run;
 
 class CalculateRanksAfterRunTest {
 
@@ -48,6 +53,64 @@ class CalculateRanksAfterRunTest {
 	@Test
 	void testCalculateTotalRuntime() {
 //		fail("Not yet implemented");
+		CalculateRanksAfterRun calc = new CalculateRanksAfterRun();
+		
+		Vector<LugerCompetitor> cmptrs = new Vector<LugerCompetitor>();
+		cmptrs.add(l1);
+		cmptrs.add(l2);
+		cmptrs.add(l3);
+		cmptrs.add(l4);
+		cmptrs.add(l5);
+		cmptrs.add(l6);
+		cmptrs.add(l7);
+
+		
+		Competition competition = new Competition();
+		competition.runsTimes = new Vector<Run>();
+		
+		Run run1 = new Run(cmptrs, (byte)1);
+		Run run2 = new Run(cmptrs, (byte)1);
+		
+		competition.runsTimes.add(run1);
+		competition.runsTimes.add(run2);
+		
+		t1 = ConvertMicrotime.toLocalTime(1230);	// 123 milisekund
+		t2 = ConvertMicrotime.toLocalTime(12340);	// 1234 milisekundy -> 1 sekunda 234 milisekund
+		t3 = ConvertMicrotime.toLocalTime(10);	// 1 milisekunda
+		t4 = ConvertMicrotime.toLocalTime(2340);	// 234 milisekundy
+		t5 = ConvertMicrotime.toLocalTime(50000);	// 5k milisekund -> 5 sekund
+		t6 = ConvertMicrotime.toLocalTime(45330);   // 4533 milisekund -> 4 sekund 533 milisekund
+		t7 = ConvertMicrotime.toLocalTime(120000);	// 12 sekund
+		
+		run1.run.put(l1, t1);
+		run1.run.put(l2, t3);
+		run1.run.put(l3, t4);
+		run1.run.put(l4, t5);
+		run1.run.put(l5, t6);
+		run1.run.put(l6, t3);
+		run1.run.put(l7, t2);
+
+		run2.run.put(l1, t7);	// t1 + t7
+		run2.run.put(l2, t6);	// t3 + t6
+		run2.run.put(l3, t5);	// t4 + t5
+		run2.run.put(l4, t4);	// t5 + t4
+		run2.run.put(l5, t3);	// t6 + t3
+		run2.run.put(l6, t2);	// t2 + t3
+		run2.run.put(l7, t1);	// t1 + t2
+		
+		Map <LugerCompetitor, LocalTime> times = calc.calculateTotalRuntime(competition);
+		
+		LocalTime sl1 = times.get(l1);
+		Assert.assertEquals(ConvertMicrotime.toLocalTime(1230 + 120000), sl1);
+		Assert.assertEquals(ConvertMicrotime.toLocalTime(10 + 45330), times.get(l2));
+		Assert.assertEquals(ConvertMicrotime.toLocalTime(2340 + 50000), times.get(l3));
+		Assert.assertEquals(ConvertMicrotime.toLocalTime(2340 + 50000), times.get(l4));
+		Assert.assertEquals(ConvertMicrotime.toLocalTime(45330 + 10), times.get(l5));
+		Assert.assertEquals(ConvertMicrotime.toLocalTime(12340 + 10), times.get(l6));
+		Assert.assertEquals(ConvertMicrotime.toLocalTime(1230 + 12340), times.get(l7));
+
+
+		
 	}
 
 	@Test
