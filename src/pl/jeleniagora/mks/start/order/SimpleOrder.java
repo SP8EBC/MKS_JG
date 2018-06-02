@@ -36,7 +36,7 @@ public class SimpleOrder implements StartOrderInterface {
 		
 		if (currentSN < (short)startlistSize)
 			/* Jeżeli na liście startowej jest jeszcze jakis sankarz to po prostu zwróć kolejny numer startowy */
-			return currentSN++;
+			return ++currentSN;
 		else
 			/* W przeciwnym razie zwróc null */
 			return null;
@@ -77,8 +77,8 @@ public class SimpleOrder implements StartOrderInterface {
 		
 		boolean output = true;
 		
-		for (int i = startNumber + 1; i < numberOfComp; i++) {
-			// pętla zaczyna chodzić od numeru startowego kolejnego niż ten 
+		for (int i = startNumber; i < numberOfComp; i++) {
+			//  
 			LocalTime v = currentRun.run.get(in);	// wyciąganie czasów ślizgu dla każdego kolejnego za tym to sprawdzenia
 			
 			if (v.equals(zero)) {

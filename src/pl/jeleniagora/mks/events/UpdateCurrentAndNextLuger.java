@@ -175,7 +175,7 @@ public class UpdateCurrentAndNextLuger {
 		
 		rte_gui.compManager.markConreteRun(rte_st.actuallyOnTrack.getStartNumber(), rte_st.currentRunCnt);
 		
-		rte_st.nextOnTrack = findFirstWithoutTime((short) (startNumber+1));		
+		rte_st.nextOnTrack = findFirstWithoutTime((short) (startNumber));		
 		rte_gui.nextOnTrack.setText(rte_st.nextOnTrack.toString());
 		/*
 		Vector<LocalTime> vctRunTimes = rte_st.currentRun.getVectorWithRuntimes(rte_st.currentCompetition.invertedStartList);
