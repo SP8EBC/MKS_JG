@@ -1,17 +1,16 @@
 package pl.jeleniagora.mks.events;
 
 import java.time.LocalTime;
-import java.util.Vector;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import pl.jeleniagora.mks.exceptions.AppContextUninitializedEx;
-import pl.jeleniagora.mks.exceptions.EndOfRunEx;
 import pl.jeleniagora.mks.exceptions.UninitializedCompEx;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.serial.TypesConverters;
 import pl.jeleniagora.mks.settings.ChronometerS;
+import pl.jeleniagora.mks.settings.DisplayS;
 import pl.jeleniagora.mks.types.LugerCompetitor;
 import pl.jeleniagora.mks.types.Run;
 
@@ -46,9 +45,11 @@ public class LandedStateReached {
 		
 		if (ChronometerS.autosave) {
 			
+			boolean inhibit = DisplayS.isInhibitMessageAtEndOfRun();
+			
 			rte_gui.runtimeFromChrono = true;
 			
-			new Thread(new SaveRuntimeDelayThread(ctx, runtime)).start();
+			new Thread(new SaveRuntimeDelayThread(ctx, runtime, inhibit)).start();
 
 		}
 		else {

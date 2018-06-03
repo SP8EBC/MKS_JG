@@ -29,14 +29,14 @@ class ChronoTest {
 		RTE_COM rte_com = ctx.getBean(RTE_COM.class);
 		RTE_CHRONO rte_chrono = ctx.getBean(RTE_CHRONO.class);
 		
-		Vector<Character> two_sec_1 = TypesConverters.convertStringToCharacterVector("CZIa0908045a1");
-		Vector<Character> two_sec_2 = TypesConverters.convertStringToCharacterVector("CZIa0908065a1");
+		Vector<Character> two_sec_1 = TypesConverters.convertStringToCharacterVector("CZI10908045a1");
+		Vector<Character> two_sec_2 = TypesConverters.convertStringToCharacterVector("CZI30908065a1");
 		
-		Vector<Character> two_sec_200msec_1 = TypesConverters.convertStringToCharacterVector("CZIa090904461");
-		Vector<Character> two_sec_200msec_2 = TypesConverters.convertStringToCharacterVector("CZIa0909065a1");
+		Vector<Character> two_sec_200msec_1 = TypesConverters.convertStringToCharacterVector("CZI1090904461");
+		Vector<Character> two_sec_200msec_2 = TypesConverters.convertStringToCharacterVector("CZI30909065a1");
 
-		Vector<Character> two_sec_201msec_1 = TypesConverters.convertStringToCharacterVector("CZIa090904461");
-		Vector<Character> two_sec_201msec_2 = TypesConverters.convertStringToCharacterVector("CZIa0909065a2");
+		Vector<Character> two_sec_201msec_1 = TypesConverters.convertStringToCharacterVector("CZI1090904461");
+		Vector<Character> two_sec_201msec_2 = TypesConverters.convertStringToCharacterVector("CZI30909065a2");
 		
 		Vector<Character> corrupted1 = TypesConverters.convertStringToCharacterVector("CAIa0908045a1");
 

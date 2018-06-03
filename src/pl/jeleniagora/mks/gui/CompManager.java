@@ -12,6 +12,7 @@ import javax.swing.table.TableModel;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import pl.jeleniagora.mks.chrono.Chrono;
 import pl.jeleniagora.mks.events.AfterStartListGeneration;
 import pl.jeleniagora.mks.events.ChangeCompetition;
 import pl.jeleniagora.mks.events.DidNotFinished;
@@ -20,9 +21,15 @@ import pl.jeleniagora.mks.events.Disqualification;
 import pl.jeleniagora.mks.events.EndOfRun;
 import pl.jeleniagora.mks.events.SaveRuntime;
 import pl.jeleniagora.mks.events.UpdateCurrentAndNextLuger;
+import pl.jeleniagora.mks.exceptions.FailedOpenSerialPortEx;
+import pl.jeleniagora.mks.rte.RTE_COM;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
+import pl.jeleniagora.mks.serial.CommThread;
+import pl.jeleniagora.mks.serial.CommThreadTermHook;
+import pl.jeleniagora.mks.serial.RxCommType;
 import pl.jeleniagora.mks.settings.DisplayS;
+import pl.jeleniagora.mks.settings.SerialCommS;
 import pl.jeleniagora.mks.settings.SpringS;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.CompetitionEncapsulationForSelector;
@@ -55,6 +62,7 @@ import java.awt.Color;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JCheckBoxMenuItem;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.awt.event.ActionEvent;
 
@@ -65,6 +73,8 @@ public class CompManager extends JFrame {
 	
 	private JPanel contentPane;
 	private JTable table;
+	
+	private static CommThread com;
 	
 	/**
 	 * Tablica referencji do Stringów przechowywająca nazwy kolumn głównej tabeli. 
@@ -108,7 +118,7 @@ public class CompManager extends JFrame {
 		 */
 		int rowToSelect = ((CompManagerScoreTableModel)frame.getScoreTableModel()).getModelIndexFromStartNumber(startNumber);
 		
-		if (rowToSelect > 0)
+		if (rowToSelect >= 0)
 			rowToSelect = table.convertRowIndexToView(rowToSelect);
 		else return;
 		
@@ -134,9 +144,28 @@ public class CompManager extends JFrame {
 		
 		RTE_GUI rte_gui = ctx.getBean(RTE_GUI.class);
 		RTE_ST rte_st = ctx.getBean(RTE_ST.class);
-
+		RTE_COM rte_com = ctx.getBean(RTE_COM.class);
+		
 		rte_gui.syncCompManagerRdy = new Object();
 		
+		try {
+			com = new CommThread("/dev/ttyUSB0", ctx);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		} catch (FailedOpenSerialPortEx e1) {
+			e1.printStackTrace();
+		}
+		System.out.println("done");
+		
+		new Thread(new Chrono(ctx)).start();
+
+		Runtime.getRuntime().addShutdownHook(new Thread(new CommThreadTermHook(ctx)));
+		
+		SerialCommS.setMaxRxTimeoutMsec(2000);
+		rte_com.rxCommType = RxCommType.NUM_OF_BYTES;
+		rte_com.numberOfBytesToRx = 14;
+		rte_com.activateRx = true;
+				
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				CompManagerCSelectorUpdater selectorUpdater = new CompManagerCSelectorUpdater(ctx);

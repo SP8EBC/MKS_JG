@@ -29,7 +29,7 @@ public class CommThreadTermHook implements Runnable {
 	@Override
 	public void run() {
 		RTE_COM rte_com = ctx.getBean(RTE_COM.class);
-		if (rte_com.isPortOpen) {
+		if (rte_com.isPortOpen != null && rte_com.isPortOpen) {
 			rte_com.port.closePort();
 			System.out.println("exiting..");
 		}

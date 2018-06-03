@@ -26,14 +26,16 @@ public class SaveRuntimeDelayThread implements Runnable {
 
 	private AnnotationConfigApplicationContext ctx;
 	private LocalTime rt;
+	private boolean inhibitMsg;
 	
 	/**
 	 * Konstruktor ustawiający 
 	 * @param context
 	 */
-	public SaveRuntimeDelayThread(AnnotationConfigApplicationContext context, LocalTime runtime) {
+	public SaveRuntimeDelayThread(AnnotationConfigApplicationContext context, LocalTime runtime, boolean inhibitMessages) {
 		ctx = context;
 		rt = runtime;
+		inhibitMsg = inhibitMessages;
 	}
 	
 	/**
@@ -66,7 +68,8 @@ public class SaveRuntimeDelayThread implements Runnable {
 				UpdateCurrentAndNextLuger.moveForwardNormally();
 			} catch (EndOfRunEx e) {
 				
-				JOptionPane.showMessageDialog(null, "Zakończył się " + rte_st.currentRun.toString());
+				if (!inhibitMsg)
+					JOptionPane.showMessageDialog(null, "Zakończył się " + rte_st.currentRun.toString());
 
 				try {
 					EndOfRun.process();

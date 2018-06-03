@@ -8,6 +8,8 @@ public class DisplayS {
 	 * jako 44.087 a jeżeli będzie na false to wyświetli jako 44.87 W przypadku sekund zero zawsze jest wyświetlane
 	 */
 	private static boolean showAllTimeDigits;
+	
+	private static boolean inhibitMessageAtEndOfRun;
 
 	public static boolean isShowAllTimeDigits() {
 		return showAllTimeDigits;
@@ -15,6 +17,14 @@ public class DisplayS {
 
 	public static void setShowAllTimeDigits(boolean showAllTimeDigits) {
 		DisplayS.showAllTimeDigits = showAllTimeDigits;
+	}
+
+	public static boolean isInhibitMessageAtEndOfRun() {
+		return inhibitMessageAtEndOfRun;
+	}
+
+	public static void setInhibitMessageAtEndOfRun(boolean inhibitMessageAtEndOfRun) {
+		DisplayS.inhibitMessageAtEndOfRun = inhibitMessageAtEndOfRun;
 	}
 	
 }
