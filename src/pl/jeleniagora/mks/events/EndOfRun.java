@@ -68,6 +68,9 @@ public class EndOfRun {
 		CalculateRanksAfterRun calc = new CalculateRanksAfterRun();
 		
 		Map<LugerCompetitor, LocalTime> totalTimes = calc.calculateTotalRuntime(rte_st.currentCompetition);
+		if (totalTimes == null)
+			return;
+		
 		Map<LugerCompetitor, Short> ranks = calc.calculateRanksFromTotalRuntimes(totalTimes);
 		
 		rte_st.currentCompetition.ranks = ranks;

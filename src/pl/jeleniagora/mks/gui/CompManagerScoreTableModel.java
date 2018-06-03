@@ -381,10 +381,13 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 		testCompetition = new Competition(vctTst, 4, 1, randomize);
 		testCompetition.competitionType = CompetitionTypes.MEN_SINGLE;
 		testCompetition.startOrder = new SimpleOrder();
+		testCompetition.trainingOrContest = true;
 		
 		testCompetition2 = new Competition(vctTst2, 4, 0, randomize);
 		testCompetition2.competitionType = CompetitionTypes.WOMAN_SINGLE;
 		testCompetition2.startOrder = new SimpleOrder();
+		testCompetition2.trainingOrContest = true;
+
 		
 		try {
 			updateTableHeading(testCompetition, false);

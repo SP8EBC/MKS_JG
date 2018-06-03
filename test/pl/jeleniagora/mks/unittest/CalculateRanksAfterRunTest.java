@@ -269,4 +269,37 @@ class CalculateRanksAfterRunTest {
 		
 	}
 	
+	@Test
+	void testCalculateRanksFromTotalRuntimes_militimes() {
+		t1 = ConvertMicrotime.toLocalTime(20000);	// 2 sekundy		-> 1
+		t2 = ConvertMicrotime.toLocalTime(22000);	// 2 sekundy 200 milisekund	-> 3
+		t3 = ConvertMicrotime.toLocalTime(22010);	// 2 sekundy 201 milisekund	-> 4
+		t4 = ConvertMicrotime.toLocalTime(22010);	// 2 sekundy 201 milisekund	-> 4
+		t5 = ConvertMicrotime.toLocalTime(20000);	// 2 sekundy		-> 1
+		t6 = ConvertMicrotime.toLocalTime(120000);   // 4533 milisekund -> 4 sekund 533 milisekund	-> 6
+		t7 = ConvertMicrotime.toLocalTime(120000);	// 12 sekund	-> 6
+		
+		test.put(l7, t7);
+		test.put(l6, t6);
+		test.put(l5, t5);
+		test.put(l4, t4);
+		test.put(l3, t3);
+		test.put(l2, t2);
+		test.put(l1, t1);
+		
+		CalculateRanksAfterRun calc = new CalculateRanksAfterRun();
+		Map<LugerCompetitor, Short> out = calc.calculateRanksFromTotalRuntimes(test);
+		
+		Assert.assertEquals(new Short((short)1), out.get(l1));
+		Assert.assertEquals(new Short((short)1), out.get(l5));
+		Assert.assertEquals(new Short((short)3), out.get(l2));
+		Assert.assertEquals(new Short((short)4), out.get(l3));
+		Assert.assertEquals(new Short((short)4), out.get(l4));
+		Assert.assertEquals(new Short((short)6), out.get(l6));
+		Assert.assertEquals(new Short((short)6), out.get(l7));
+
+
+
+	}
+	
 }

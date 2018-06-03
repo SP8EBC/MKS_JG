@@ -28,8 +28,16 @@ public class CalculateRanksAfterRun {
 		 */
 		Map<LugerCompetitor, LocalTime> totalTimes = new HashMap<LugerCompetitor, LocalTime>();
 		
+		/*
+		 * Bool używany do sprawdzania czy w ogóle w tej konkurencji rozegrano jakiś ślizg który powinien być puntkowany.
+		 * Jeżeli idą dopiero treningi to metoda powinna zwrócić null. Chodzi o uniknięcie wyświetlania samych lokat '1'
+		 * w sytuacji gdy ślizg jest niepunktowany. Co do zasady zakłada się, że w konkurencji idą najpierw ślizgi treningowe
+		 * a po pierwszym ślizgu punktowanym wszystkie następne muszą już być puntkowane
+		 */
+		boolean gotAtLeastOne = false;
+		
 		for (Run r : comp.runsTimes) {
-			if (comp.trainingOrContest || r.trainingOrScored) {
+			if (!comp.trainingOrContest || r.trainingOrScored) {
 				/*
 				 * Jeżeli cała konkurencja to trening albo ten konkretny ślizg jest punktowany to trzeba go uwzględnić 
 				 * w obliczaniu 
@@ -49,6 +57,9 @@ public class CalculateRanksAfterRun {
 					LugerCompetitor k = e.getKey();
 					LocalTime v = e.getValue();
 					
+					if (!v.equals(LocalTime.of(0, 0, 0, 0)))
+						gotAtLeastOne = true;
+					
 					/*
 					 * Sprawdzanie czy wyjściowa mapa ma już klucz odpowiadający temu zawodnikowi
 					 */
@@ -66,8 +77,9 @@ public class CalculateRanksAfterRun {
 			}
 		}
 		
-		return totalTimes;
-		
+		if (gotAtLeastOne)
+			return totalTimes;
+		else return null;
 		
 	}
 	
