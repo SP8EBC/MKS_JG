@@ -99,7 +99,7 @@ public class EndOfRun {
 			rte_st.currentRun = rte_st.currentCompetition.runsTimes.elementAt(rte_st.currentRunCnt);
 			
 			/*
-			 * 
+			 * ustawia też: runClickedInTable oraz competitorClickedInTable
 			 */
 			UpdateCurrentAndNextLuger.rewindToBegin();
 			/*

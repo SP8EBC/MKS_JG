@@ -372,7 +372,7 @@ public class UpdateCurrentAndNextLuger {
 		 */
 		rte_gui.runClickedInTable = rte_st.currentRun;
 		rte_gui.competitorClickedInTable = rte_st.actuallyOnTrack;
-		rte_gui.compManager.markConreteRun(rte_st.actuallyOnTrack.getStartNumber(), actualRun + 1);
+		rte_gui.compManager.markConreteRun(rte_st.actuallyOnTrack.getStartNumber(), actualRun);
 		
 		rte_gui.actuallyOnTrack.setText(rte_st.actuallyOnTrack.toString());
 		try {
