@@ -4,6 +4,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 import pl.jeleniagora.mks.settings.ChronometerS;
+import pl.jeleniagora.mks.settings.DisplayS;
 
 public class CompManagerAsaveChbxItemListener implements ItemListener {
 
@@ -14,11 +15,13 @@ public class CompManagerAsaveChbxItemListener implements ItemListener {
 	public void itemStateChanged(ItemEvent arg0) {
 		if (arg0.getStateChange() == ItemEvent.SELECTED) {
 			ChronometerS.autosave = true;
+			DisplayS.setInhibitMessageAtEndOfRun(true);
 			
 			System.out.println("Autosave enabled");
 		}
 		else {
 			ChronometerS.autosave = false;
+			DisplayS.setInhibitMessageAtEndOfRun(true);
 			
 			System.out.println("Autosave disabled");
 		}

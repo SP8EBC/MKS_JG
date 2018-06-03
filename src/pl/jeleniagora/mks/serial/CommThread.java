@@ -125,6 +125,7 @@ public class CommThread  {
 			RTE_COM rte_com = ctxInt.getBean(RTE_COM.class);
 			
 			Thread.currentThread().setName("SerialReceiver");
+			System.out.println("--- SerialReceived started");
 			
 			try {				
 				/*

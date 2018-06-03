@@ -19,6 +19,7 @@ import pl.jeleniagora.mks.events.DidNotFinished;
 import pl.jeleniagora.mks.events.DidNotStart;
 import pl.jeleniagora.mks.events.Disqualification;
 import pl.jeleniagora.mks.events.EndOfRun;
+import pl.jeleniagora.mks.events.LandedStateReached;
 import pl.jeleniagora.mks.events.SaveRuntime;
 import pl.jeleniagora.mks.events.UpdateCurrentAndNextLuger;
 import pl.jeleniagora.mks.exceptions.FailedOpenSerialPortEx;
@@ -159,6 +160,7 @@ public class CompManager extends JFrame {
 		
 		new Thread(new Chrono(ctx)).start();
 
+		com.startThreads();
 		Runtime.getRuntime().addShutdownHook(new Thread(new CommThreadTermHook(ctx)));
 		
 		SerialCommS.setMaxRxTimeoutMsec(2000);
@@ -177,6 +179,7 @@ public class CompManager extends JFrame {
 				DidNotStart.setAppCtx(ctx);
 				Disqualification.setAppCtx(ctx);
 				EndOfRun.setAppCtx(ctx);
+				LandedStateReached.setAppCtx(ctx);
 				
 				try {
 					DisplayS.setShowAllTimeDigits(true);
