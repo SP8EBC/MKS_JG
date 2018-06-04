@@ -27,5 +27,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="jgoodies-looks-2.4.1.jar"/>
+	<classpathentry kind="lib" path="jcalendar.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

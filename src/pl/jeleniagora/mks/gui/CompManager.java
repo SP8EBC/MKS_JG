@@ -316,6 +316,7 @@ public class CompManager extends JFrame {
 		
 		JRadioButtonMenuItem rdbtnmntmTrening = new JRadioButtonMenuItem("Trening");
 		mnZawody.add(rdbtnmntmTrening);
+		rdbtnmntmTrening.addItemListener(new CompManagerRbContestsTrainingItemListener(ctx));
 		compTrainingGroup.add(rdbtnmntmTrening);
 		
 		JRadioButtonMenuItem rdbtnmntmPunktowaneZawody = new JRadioButtonMenuItem("Punktowane zawody");

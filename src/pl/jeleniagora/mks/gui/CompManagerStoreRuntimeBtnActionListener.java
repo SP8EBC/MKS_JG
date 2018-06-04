@@ -57,10 +57,17 @@ public class CompManagerStoreRuntimeBtnActionListener implements ActionListener 
 			;
 		}
 		
+		if (minutes < 0 || minutes > 59 || seconds < 0 || seconds > 59 || milis < 0 || milis > 999) {
+			JOptionPane.showMessageDialog(null, "Niepoprawny format czasu!");
+			rte_gui.min.setText("0");
+			rte_gui.sec.setText("0");
+			rte_gui.msec.setText("0");
+			return;
+		}
+		
 		Integer nanos = milis * CompManagerScoreTableTimeRenderer.nanoToMilisecScaling;
-		
 		LocalTime runTime = LocalTime.of(0, minutes, seconds, nanos);
-		
+
 		System.out.println("Saving runtime: " + runTime.toString() + " for comptr '" + rte_gui.competitorClickedInTable.toString() + "' in run "
 				+ rte_gui.runClickedInTable);
 		
