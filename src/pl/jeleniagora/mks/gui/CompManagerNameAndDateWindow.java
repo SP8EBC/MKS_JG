@@ -7,11 +7,16 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextField;
 import java.awt.Font;
+import java.time.LocalDate;
+
 import com.toedter.calendar.JCalendar;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class CompManagerNameAndDateWindow {
 
@@ -19,6 +24,10 @@ public class CompManagerNameAndDateWindow {
 	private JTextField compsName;
 	private JLabel lblNazwaZwodw;
 	private JLabel lblData;
+	
+	public int selectedDay = 0, selectedMonth = 0, selectedYear = 0;
+	
+	LocalDate selectedDate;
 
 	/**
 	 * Launch the application.
@@ -57,6 +66,7 @@ public class CompManagerNameAndDateWindow {
 		compsName.setColumns(10);
 		
 		JCalendar calendar = new JCalendar();
+		calendar.addPropertyChangeListener(new CompManagerNameAndDateCalndrListener(this));
 		
 		
 		lblNazwaZwodw = new JLabel("Nazwa zawodów / sesji treningowej");
@@ -66,6 +76,17 @@ public class CompManagerNameAndDateWindow {
 		lblData.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JButton btnOk = new JButton("OK");
+		btnOk.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int answer = JOptionPane.YES_NO_OPTION;
+				answer = JOptionPane.showConfirmDialog(null, "Czy na pewno chcesz wyjść i zapisać zmiany?", "Pozor!", answer);
+				
+				if (answer == JOptionPane.YES_OPTION) {
+					
+				}
+				
+			}
+		});
 		
 		JButton btnAnuluj = new JButton("Anuluj");
 		GroupLayout groupLayout = new GroupLayout(frmUstawNazwI.getContentPane());
