@@ -2,6 +2,9 @@ package pl.jeleniagora.mks.events;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import pl.jeleniagora.mks.exceptions.AppContextUninitializedEx;
+import pl.jeleniagora.mks.exceptions.EndOfRunEx;
+import pl.jeleniagora.mks.exceptions.StartOrderNotChoosenEx;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.types.DNF;
 import pl.jeleniagora.mks.types.LugerCompetitor;
@@ -21,14 +24,25 @@ public class DidNotFinished {
 	}
 	
 	public static void process() {
-		setNotFinishedForCurrentLuger();
+		try {
+			setNotFinishedForCurrentLuger();
+		} catch (EndOfRunEx e) {
+			e.printStackTrace();
+		} catch (AppContextUninitializedEx e) {
+			e.printStackTrace();
+		} catch (StartOrderNotChoosenEx e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
 	 * Wywiłanie metody powoduje ustawienie DNF dla zawodnika aktualnie na torze (bo nic innego nie miało by tu
 	 * sensu - tj nie da się zapisać DNF dla kogoś kto już dojechał albo jeszcze nie jechał)
+	 * @throws StartOrderNotChoosenEx 
+	 * @throws AppContextUninitializedEx 
+	 * @throws EndOfRunEx 
 	 */
-	static void setNotFinishedForCurrentLuger() {
+	static void setNotFinishedForCurrentLuger() throws EndOfRunEx, AppContextUninitializedEx, StartOrderNotChoosenEx {
 	
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 		LugerCompetitor l = rte_st.actuallyOnTrack;
@@ -40,6 +54,8 @@ public class DidNotFinished {
 			 */
 			for (Run r: rte_st.currentCompetition.runsTimes) {
 				r.run.put(l, DNF.getValue());
+				UpdateCurrentAndNextLuger.moveForwardNormally();
+
 			}
 		}
 		else {
@@ -47,6 +63,7 @@ public class DidNotFinished {
 			 * Podczas treningu nie ukończenie ślizgu nie ma wpływu na możliwość dalszych startów
 			 */
 			rte_st.currentRun.run.put(l, DNF.getValue());
+			UpdateCurrentAndNextLuger.moveForwardNormally();
 
 		}
 	}

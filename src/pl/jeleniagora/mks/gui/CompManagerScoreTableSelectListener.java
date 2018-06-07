@@ -85,7 +85,7 @@ public class CompManagerScoreTableSelectListener implements ListSelectionListene
 				/*
 				 * Kliknięto jakiś ślizg treningowy
 				 */
-				rte_gui.runClickedInTable = rte_gui.competitionBeingShown.runsTimes.get(modelColumn - 4);
+				rte_gui.runClickedInTable = rte_gui.competitionBeingShown.runsTimes.get(modelColumn - 5);
 
 				
 			}
@@ -93,9 +93,9 @@ public class CompManagerScoreTableSelectListener implements ListSelectionListene
 				/*
 				 * Kliknięto jakiś ślizg punktowany
 				 */
-				rte_gui.runClickedInTable = rte_gui.competitionBeingShown.runsTimes.get(modelColumn - 4);
+				rte_gui.runClickedInTable = rte_gui.competitionBeingShown.runsTimes.get(modelColumn - 5);
 			}
-//			System.out.println("Clicked run: " + rte_gui.runClickedInTable.toString());
+			System.out.println("Clicked run: " + rte_gui.runClickedInTable.toString());
 			
 		}
 		
@@ -107,7 +107,7 @@ public class CompManagerScoreTableSelectListener implements ListSelectionListene
 			rte_gui.runtimeFromChrono = false;
 			
 			if (modelColumn >= 5)
-				updateTextFieldsInCM(rte_gui.competitionBeingShown.runsTimes.get(modelColumn - 4).run.get(rte_gui.competitorClickedInTable));
+				updateTextFieldsInCM(rte_gui.competitionBeingShown.runsTimes.get(modelColumn - 5).run.get(rte_gui.competitorClickedInTable));
 			
 			System.out.println("runtimeFromChrono = false");
 		}
