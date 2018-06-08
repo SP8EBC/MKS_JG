@@ -1,7 +1,13 @@
 package pl.jeleniagora.mks.events;
 
+import javax.swing.JOptionPane;
+
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import pl.jeleniagora.mks.exceptions.AppContextUninitializedEx;
+import pl.jeleniagora.mks.exceptions.EndOfCompEx;
+import pl.jeleniagora.mks.exceptions.EndOfRunEx;
+import pl.jeleniagora.mks.exceptions.StartOrderNotChoosenEx;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.types.DNS;
 import pl.jeleniagora.mks.types.LugerCompetitor;
@@ -27,6 +33,8 @@ public class DidNotStart {
 	
 	public static void process() {
 		setNotStartForCurrentLuger();
+		
+		moveToNext();
 	}
 	
 	static void setNotStartForCurrentLuger() {
@@ -48,6 +56,26 @@ public class DidNotStart {
 			 */
 			rte_st.currentRun.run.put(l, DNS.getValue());
 
+		}
+	}
+	
+	static void moveToNext() {
+		try {
+			UpdateCurrentAndNextLuger.moveForwardNormally();
+		} catch (EndOfRunEx e) {
+			RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
+
+			JOptionPane.showMessageDialog(null, "Zakończył się " + rte_st.currentRun.toString());
+
+			try {
+				EndOfRun.process();
+			} catch (EndOfCompEx e1) {
+				e1.printStackTrace();
+			}
+		} catch (AppContextUninitializedEx e) {
+			e.printStackTrace();
+		} catch (StartOrderNotChoosenEx e) {
+			e.printStackTrace();
 		}
 	}
 }

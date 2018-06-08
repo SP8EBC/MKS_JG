@@ -1,10 +1,14 @@
 package pl.jeleniagora.mks.events;
 
+import javax.swing.JOptionPane;
+
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import pl.jeleniagora.mks.exceptions.AppContextUninitializedEx;
+import pl.jeleniagora.mks.exceptions.EndOfCompEx;
 import pl.jeleniagora.mks.exceptions.EndOfRunEx;
 import pl.jeleniagora.mks.exceptions.StartOrderNotChoosenEx;
+import pl.jeleniagora.mks.rte.RTE_CHRONO;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.types.DNF;
 import pl.jeleniagora.mks.types.LugerCompetitor;
@@ -27,7 +31,16 @@ public class DidNotFinished {
 		try {
 			setNotFinishedForCurrentLuger();
 		} catch (EndOfRunEx e) {
-			e.printStackTrace();
+//			e.printStackTrace(); //
+			try {
+				RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
+
+				JOptionPane.showMessageDialog(null, "Zakończył się " + rte_st.currentRun.toString());
+
+				EndOfRun.process();
+			} catch (EndOfCompEx e1) {
+				e1.printStackTrace();
+			}
 		} catch (AppContextUninitializedEx e) {
 			e.printStackTrace();
 		} catch (StartOrderNotChoosenEx e) {
@@ -45,6 +58,7 @@ public class DidNotFinished {
 	static void setNotFinishedForCurrentLuger() throws EndOfRunEx, AppContextUninitializedEx, StartOrderNotChoosenEx {
 	
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
+		RTE_CHRONO rte_chrono = (RTE_CHRONO)ctx.getBean("RTE_CHRONO");
 		LugerCompetitor l = rte_st.actuallyOnTrack;
 		
 		if (rte_st.currentRun.trainingOrScored) {
@@ -55,7 +69,7 @@ public class DidNotFinished {
 			for (Run r: rte_st.currentCompetition.runsTimes) {
 				r.run.put(l, DNF.getValue());
 				UpdateCurrentAndNextLuger.moveForwardNormally();
-
+				rte_chrono.resetStateMachine = true;		// kasownie maszyny stanów do stanu początkowego
 			}
 		}
 		else {
@@ -64,6 +78,7 @@ public class DidNotFinished {
 			 */
 			rte_st.currentRun.run.put(l, DNF.getValue());
 			UpdateCurrentAndNextLuger.moveForwardNormally();
+			rte_chrono.resetStateMachine = true;		// kasownie maszyny stanów do stanu początkowego
 
 		}
 	}

@@ -63,6 +63,15 @@ public class Chrono implements Runnable {
 		 * Wątek chodzi w nieskończonej pętli ze sleep na końcu, co zabezpiecza przed CPU load 100%
 		 */
 		for (;;) {
+			
+			/*
+			 * Sprawdzenie czy nie wystawiono flagi resetującej maszynę stanu
+			 */
+			if (rte_chrono.resetStateMachine) {
+				timeMeasurementState = ChronoStateMachine.IDLE; 
+				
+				rte_chrono.resetStateMachine = false;
+			}
 			/*
 			 * Sprawdzanie czy z portu szeregowego przyszły jakieś nowe dane
 			 */

@@ -160,7 +160,10 @@ public class CompManager extends JFrame {
 		
 		new Thread(new Chrono(ctx)).start();
 
-		com.startThreads();
+		if (com != null) {
+			com.startThreads();
+		}
+		else;
 		Runtime.getRuntime().addShutdownHook(new Thread(new CommThreadTermHook(ctx)));
 		
 		SerialCommS.setMaxRxTimeoutMsec(2000);
@@ -282,6 +285,13 @@ public class CompManager extends JFrame {
 		menuBar.add(mnZawody);
 		
 		JMenuItem mntmNazwaIData = new JMenuItem("Nazwa i data");
+		mntmNazwaIData.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// akcja od naciśnięcia przycisku myszy na pozycję w menu
+				CompManagerNameAndDateWindow window = new CompManagerNameAndDateWindow(ctx);
+				window.frmUstawNazwI.setVisible(true);
+			}
+		});
 		mnZawody.add(mntmNazwaIData);
 		
 		JSeparator separator_5 = new JSeparator();

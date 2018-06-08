@@ -33,4 +33,6 @@ public class RTE_CHRONO {
 	public Semaphore timeMeasSemaphore;
 	
 	public boolean failToParseData;
+	
+	public boolean resetStateMachine;
 }
