@@ -10,6 +10,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import pl.jeleniagora.mks.chrono.Chrono;
@@ -37,6 +39,7 @@ import pl.jeleniagora.mks.types.CompetitionEncapsulationForSelector;
 import pl.jeleniagora.mks.types.CompetitionTypes;
 import pl.jeleniagora.mks.types.Competitions;
 import pl.jeleniagora.mks.types.Reserve;
+import pl.jeleniagora.mks.types.Track;
 
 import javax.swing.JMenuBar;
 
@@ -67,6 +70,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.awt.event.ActionEvent;
 
+@org.springframework.stereotype.Component
 public class CompManager extends JFrame {
 
 	static AnnotationConfigApplicationContext ctx;
@@ -76,6 +80,10 @@ public class CompManager extends JFrame {
 	private JTable table;
 	
 	private static CommThread com;
+	
+	@Autowired
+	@Qualifier("karpacz")
+	Track track;
 	
 	/**
 	 * Tablica referencji do Stringów przechowywająca nazwy kolumn głównej tabeli. 

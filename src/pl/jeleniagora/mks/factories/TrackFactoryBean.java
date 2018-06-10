@@ -1,9 +1,11 @@
 package pl.jeleniagora.mks.factories;
 
 import org.springframework.beans.factory.FactoryBean;
+import org.springframework.stereotype.Component;
 
 import pl.jeleniagora.mks.types.Track;
 
+@Component
 public class TrackFactoryBean implements FactoryBean<Track>{
 
 	private int id;
