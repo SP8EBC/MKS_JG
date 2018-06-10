@@ -84,9 +84,9 @@ public class CompManagerNameAndDateWindow {
 		
 		JCalendar calendar = new JCalendar();
 		calendar.addPropertyChangeListener(new CompManagerNameAndDateCalndrListener(this));
-		Date date = new Date();
-		long epoch = selectedDate.toEpochDay();	// TODO: poprawić na epoch sekundy!!
-		date.setTime(epoch);
+		Date date = Date.from(selectedDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+//		long epoch = selectedDate.toEpochDay();	// TODO: poprawić na epoch sekundy!!
+//		date.setTime(epoch);
 		calendar.setDate(date);
 		
 		lblNazwaZwodw = new JLabel("Nazwa zawodów / sesji treningowej");
@@ -103,6 +103,9 @@ public class CompManagerNameAndDateWindow {
 				
 				if (answer == JOptionPane.YES_OPTION) {
 					if (context != null) {
+						if (selectedYear != 0 && selectedMonth != 0 && selectedDay != 0)
+							selectedDate = LocalDate.of(selectedYear, selectedMonth, selectedDay);
+						
 						RTE_ST rte_st = (RTE_ST)context.getBean("RTE_ST");
 						
 						rte_st.competitions.date = selectedDate;

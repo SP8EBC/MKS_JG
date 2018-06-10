@@ -5,18 +5,22 @@ import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Vector;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * Klasa definiująca całościowo zawody. Mała uwaga językowa: Competition -> Konkurecja ; Competitions -> Zawody
  * @author mateusz
  *
  */
+@XmlRootElement
 public class Competitions {
 	
 	/**
 	 * Nazwa zawodów
 	 */
 	public String name;
-	
+
 	/**
 	 * Data kiedy odbywają się zawody
 	 */
@@ -57,5 +61,14 @@ public class Competitions {
 	public Competitions(String _name, LocalDate _date) {
 		name = _name;
 		date = _date;
+	}
+	
+	@XmlElement
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

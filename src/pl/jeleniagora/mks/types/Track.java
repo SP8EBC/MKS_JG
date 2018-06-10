@@ -2,6 +2,10 @@ package pl.jeleniagora.mks.types;
 
 import java.util.Vector;
 
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 /**
  * Klasa służąca do opisania poszczególnych torów sankowych. Ważne! Wiraże i bramki startowe są numerowane
  * od zera a nie od jedynki! Start numer zero to zawsze ten najwyższy, im niższy tym większy numer. Wiraże
@@ -10,6 +14,8 @@ import java.util.Vector;
  * @author mateusz
  *
  */
+@Component
+@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class Track {
 
 	/**
@@ -46,9 +52,9 @@ public class Track {
 	 */
 	public byte curvesTotal;
 	/**
-	 *  Łączna długość toru od najwyższego startu do mety.
+	 *  Łączna długość toru od najwyższego startu do mety w metrach.
 	 */
-	public byte lnTotal;		
+	public short lnTotal;		
 	
 	/**
 	 * Wektor zawierający egzemplarze klas definiujące parametry każdego "stałego", tj nie wirtualnego startu.
