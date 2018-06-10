@@ -2,6 +2,10 @@ package pl.jeleniagora.mks.files.xml.adapters;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Component;
+
 import pl.jeleniagora.mks.types.Track;
 
 /**
@@ -13,12 +17,16 @@ public class TrackAdapter extends XmlAdapter<String, Track> {
 
 	@Override
 	public String marshal(Track arg0) throws Exception {
-		return null;
+		return arg0.name;
 	}
 
+	@SuppressWarnings("resource")
 	@Override
 	public Track unmarshal(String arg0) throws Exception {
-		return null;
+		ApplicationContext context = new ClassPathXmlApplicationContext("luge-tracks-spring-ctx.xml");
+		Track track = (Track)context.getBean(arg0.toLowerCase().substring(0, 6).replace(" ", "_"));
+		
+		return track;
 	}
 
 }

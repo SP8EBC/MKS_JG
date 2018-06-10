@@ -84,7 +84,7 @@ class AsavingTest {
 		
 		CompManagerScoreTableModel mdl = (CompManagerScoreTableModel)frame.getScoreTableModel();
 		
-		competitions = new Competitions("test", LocalDate.now());
+		competitions = new Competitions("test", LocalDate.now(), "karpacz");
 		cmps = mdl.fillWithTestData(competitions, false);
 		AfterStartListGeneration.process(competitions);
 		

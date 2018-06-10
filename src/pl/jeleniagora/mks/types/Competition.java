@@ -5,7 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 import pl.jeleniagora.mks.factories.RunsFactory;
+import pl.jeleniagora.mks.files.xml.adapters.TrackAdapter;
+import pl.jeleniagora.mks.files.xml.adapters.CompetitionTypesAdapter;
 import pl.jeleniagora.mks.start.order.StartOrderInterface;
 
 /**
@@ -34,6 +38,7 @@ public class Competition {
 	/**
 	 *  Egzemplarz enuma określający typ tej konkurencji 
 	 *  */
+	@XmlJavaTypeAdapter(value = CompetitionTypesAdapter.class)
 	public CompetitionTypes competitionType;
 
 	/**

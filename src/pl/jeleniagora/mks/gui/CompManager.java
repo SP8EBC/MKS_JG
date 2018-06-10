@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -66,11 +68,11 @@ import java.awt.Color;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JCheckBoxMenuItem;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.awt.event.ActionEvent;
 
-@org.springframework.stereotype.Component
 public class CompManager extends JFrame {
 
 	static AnnotationConfigApplicationContext ctx;
@@ -80,10 +82,6 @@ public class CompManager extends JFrame {
 	private JTable table;
 	
 	private static CommThread com;
-	
-	@Autowired
-	@Qualifier("karpacz")
-	Track track;
 	
 	/**
 	 * Tablica referencji do Stringów przechowywająca nazwy kolumn głównej tabeli. 
@@ -197,7 +195,7 @@ public class CompManager extends JFrame {
 					
 					Object value = null;
 					
-					Competitions competitions = new Competitions("test", LocalDate.now());
+					Competitions competitions = new Competitions("test", LocalDate.now(), "karpacz");
 					rte_st.competitions = competitions;
 					
 					frame = new CompManager();
@@ -226,6 +224,15 @@ public class CompManager extends JFrame {
 					
 					rte_gui.compManager = frame;
 					rte_gui.compManagerScoreModel = mdl;
+					
+					
+					///////
+					JAXBContext context = JAXBContext.newInstance(Competitions.class);
+					Marshaller mar= context.createMarshaller();
+					mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+					mar.marshal(competitions, new File("./test_out.xml"));
+					
+					//////
 					
 					synchronized(rte_gui.syncCompManagerRdy) {
 						rte_gui.syncCompManagerRdy.notifyAll();

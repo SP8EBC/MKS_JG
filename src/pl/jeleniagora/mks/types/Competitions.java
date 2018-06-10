@@ -7,6 +7,14 @@ import java.util.Vector;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import pl.jeleniagora.mks.files.xml.adapters.LocalDateAdapter;
+import pl.jeleniagora.mks.files.xml.adapters.TrackAdapter;
 
 /**
  * Klasa definiująca całościowo zawody. Mała uwaga językowa: Competition -> Konkurecja ; Competitions -> Zawody
@@ -19,26 +27,33 @@ public class Competitions {
 	/**
 	 * Nazwa zawodów
 	 */
+	@XmlElement(name="name")
 	public String name;
 
 	/**
 	 * Data kiedy odbywają się zawody
 	 */
+	@XmlJavaTypeAdapter(value = LocalDateAdapter.class)
+	@XmlElement(name="date")
 	public LocalDate date;
 
 	/**
-	 * Wektor z wszystkimi konkurencjami w tych zawodach
-	 */
-	public Vector<Competition> competitions;
-	
-	/**
 	 * Tor na którym odbywają się zawody
 	 */
+	@XmlJavaTypeAdapter(value = TrackAdapter.class)
+	@XmlElement(name="trackName")
 	public Track track;
+	
+	/**
+	 * Wektor z wszystkimi konkurencjami w tych zawodach
+	 */
+//	@XmlElement(name="trackName")
+	public Vector<Competition> competitions;
 	
 	/**
 	 * Mapowanie konkurencji do bramki startowej
 	 */
+	@XmlTransient
 	public Map<Competition, StartGate> competitionToStartGateMapping;
 	
 	public String toString() {
@@ -58,17 +73,24 @@ public class Competitions {
 		else return new String("");
 	}
 	
-	public Competitions(String _name, LocalDate _date) {
-		name = _name;
-		date = _date;
+	public Competitions() {
+		
 	}
 	
-	@XmlElement
-	public String getName() {
-		return name;
-	}
+	public Competitions(String _name, LocalDate _date, String _track_name) {
+		@SuppressWarnings("resource")
+		ApplicationContext context = new ClassPathXmlApplicationContext("luge-tracks-spring-ctx.xml");
 
-	public void setName(String name) {
-		this.name = name;
+		name = _name;
+		date = _date;
+		track = (Track)context.getBean(_track_name.toLowerCase().substring(0, 7).replace(" ", "_"));
 	}
+	
+//	public String getName() {
+//		return name;
+//	}
+
+//	public void setName(String name) {
+//		this.name = name;
+//	}
 }
