@@ -10,6 +10,8 @@ public class DisplayS {
 	private static boolean showAllTimeDigits;
 	
 	private static boolean inhibitMessageAtEndOfRun;
+	
+	public final static int columnOffset = 4;
 
 	public static boolean isShowAllTimeDigits() {
 		return showAllTimeDigits;

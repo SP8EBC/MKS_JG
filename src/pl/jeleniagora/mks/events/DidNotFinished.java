@@ -67,9 +67,11 @@ public class DidNotFinished {
 			 * z dalszej części zawodów
 			 */
 			for (Run r: rte_st.currentCompetition.runsTimes) {
-				r.run.put(l, DNF.getValue());
-				UpdateCurrentAndNextLuger.moveForwardNormally();
-				rte_chrono.resetStateMachine = true;		// kasownie maszyny stanów do stanu początkowego
+				if (!r.done) {
+					r.run.put(l, DNF.getValue());
+					UpdateCurrentAndNextLuger.moveForwardNormally();
+					rte_chrono.resetStateMachine = true;		// kasownie maszyny stanów do stanu początkowego
+				}
 			}
 		}
 		else {

@@ -12,6 +12,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.serial.TypesConverters;
+import pl.jeleniagora.mks.settings.DisplayS;
 
 /**
  * Listener wyzwalany w momencie kliknięcia przez użytkonika na jakąś komórkę głównej tabeli z wynikami ślizgów
@@ -72,7 +73,7 @@ public class CompManagerScoreTableSelectListener implements ListSelectionListene
 		
 //		System.out.println("Clicked start number: " + startNum + " from: " + rte_gui.competitionBeingShown.toString());
 		
-		if (modelColumn > 4) {
+		if (modelColumn > DisplayS.columnOffset - 1) {
 			/*
 			 * Jeżeli kliknięto kolumne z czasem
 			 */
@@ -81,11 +82,11 @@ public class CompManagerScoreTableSelectListener implements ListSelectionListene
 			int trainingRunsNum = rte_gui.competitionBeingShown.numberOfTrainingRuns;
 			int scoredRunsNum = rte_gui.competitionBeingShown.numberOfAllRuns - trainingRunsNum;
 			
-			if (modelColumn > 4 && modelColumn < 4 + trainingRunsNum) {
+			if (modelColumn > DisplayS.columnOffset - 1 && modelColumn < DisplayS.columnOffset - 1 + trainingRunsNum) {
 				/*
 				 * Kliknięto jakiś ślizg treningowy
 				 */
-				rte_gui.runClickedInTable = rte_gui.competitionBeingShown.runsTimes.get(modelColumn - 5);
+				rte_gui.runClickedInTable = rte_gui.competitionBeingShown.runsTimes.get(modelColumn - DisplayS.columnOffset);
 
 				
 			}
@@ -93,7 +94,7 @@ public class CompManagerScoreTableSelectListener implements ListSelectionListene
 				/*
 				 * Kliknięto jakiś ślizg punktowany
 				 */
-				rte_gui.runClickedInTable = rte_gui.competitionBeingShown.runsTimes.get(modelColumn - 5);
+				rte_gui.runClickedInTable = rte_gui.competitionBeingShown.runsTimes.get(modelColumn - DisplayS.columnOffset);
 			}
 			System.out.println("Clicked run: " + rte_gui.runClickedInTable.toString());
 			
@@ -106,8 +107,8 @@ public class CompManagerScoreTableSelectListener implements ListSelectionListene
 		{
 			rte_gui.runtimeFromChrono = false;
 			
-			if (modelColumn >= 5)
-				updateTextFieldsInCM(rte_gui.competitionBeingShown.runsTimes.get(modelColumn - 5).run.get(rte_gui.competitorClickedInTable));
+			if (modelColumn >= DisplayS.columnOffset)
+				updateTextFieldsInCM(rte_gui.competitionBeingShown.runsTimes.get(modelColumn - DisplayS.columnOffset).run.get(rte_gui.competitorClickedInTable));
 			
 			System.out.println("runtimeFromChrono = false");
 		}
