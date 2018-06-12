@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <competitions>
+    <dataStructureVersion>-268435455</dataStructureVersion>
     <name>test</name>
-    <date>2018-06-10</date>
+    <date>2018-06-12</date>
     <trackName>Karpacz</trackName>
     <competitions>
         <id>0</id>
@@ -11,15 +12,11 @@
         <numberOfTrainingRuns>0</numberOfTrainingRuns>
         <startList>
             <entry>
-                <key>
-                    <startNumber>1</startNumber>
-                </key>
+                <key/>
                 <value>1</value>
             </entry>
             <entry>
-                <key>
-                    <startNumber>2</startNumber>
-                </key>
+                <key/>
                 <value>2</value>
             </entry>
         </startList>
@@ -27,28 +24,20 @@
         <invertedStartList>
             <entry>
                 <key>1</key>
-                <value>
-                    <startNumber>1</startNumber>
-                </value>
+                <value/>
             </entry>
             <entry>
                 <key>2</key>
-                <value>
-                    <startNumber>2</startNumber>
-                </value>
+                <value/>
             </entry>
         </invertedStartList>
         <ranks>
             <entry>
-                <key>
-                    <startNumber>1</startNumber>
-                </key>
+                <key/>
                 <value>0</value>
             </entry>
             <entry>
-                <key>
-                    <startNumber>2</startNumber>
-                </key>
+                <key/>
                 <value>0</value>
             </entry>
         </ranks>
@@ -59,15 +48,11 @@
             <trainingOrScored>true</trainingOrScored>
             <run>
                 <entry>
-                    <key>
-                        <startNumber>1</startNumber>
-                    </key>
+                    <key/>
                     <value/>
                 </entry>
                 <entry>
-                    <key>
-                        <startNumber>2</startNumber>
-                    </key>
+                    <key/>
                     <value/>
                 </entry>
             </run>
@@ -79,15 +64,11 @@
             <trainingOrScored>true</trainingOrScored>
             <run>
                 <entry>
-                    <key>
-                        <startNumber>1</startNumber>
-                    </key>
+                    <key/>
                     <value/>
                 </entry>
                 <entry>
-                    <key>
-                        <startNumber>2</startNumber>
-                    </key>
+                    <key/>
                     <value/>
                 </entry>
             </run>
@@ -99,15 +80,11 @@
             <trainingOrScored>true</trainingOrScored>
             <run>
                 <entry>
-                    <key>
-                        <startNumber>1</startNumber>
-                    </key>
+                    <key/>
                     <value/>
                 </entry>
                 <entry>
-                    <key>
-                        <startNumber>2</startNumber>
-                    </key>
+                    <key/>
                     <value/>
                 </entry>
             </run>
@@ -119,15 +96,11 @@
             <trainingOrScored>true</trainingOrScored>
             <run>
                 <entry>
-                    <key>
-                        <startNumber>1</startNumber>
-                    </key>
+                    <key/>
                     <value/>
                 </entry>
                 <entry>
-                    <key>
-                        <startNumber>2</startNumber>
-                    </key>
+                    <key/>
                     <value/>
                 </entry>
             </run>
@@ -142,33 +115,23 @@
         <numberOfTrainingRuns>1</numberOfTrainingRuns>
         <startList>
             <entry>
-                <key>
-                    <startNumber>1</startNumber>
-                </key>
+                <key/>
                 <value>1</value>
             </entry>
             <entry>
-                <key>
-                    <startNumber>2</startNumber>
-                </key>
+                <key/>
                 <value>2</value>
             </entry>
             <entry>
-                <key>
-                    <startNumber>3</startNumber>
-                </key>
+                <key/>
                 <value>3</value>
             </entry>
             <entry>
-                <key>
-                    <startNumber>4</startNumber>
-                </key>
+                <key/>
                 <value>4</value>
             </entry>
             <entry>
-                <key>
-                    <startNumber>5</startNumber>
-                </key>
+                <key/>
                 <value>5</value>
             </entry>
         </startList>
@@ -176,64 +139,44 @@
         <invertedStartList>
             <entry>
                 <key>1</key>
-                <value>
-                    <startNumber>1</startNumber>
-                </value>
+                <value/>
             </entry>
             <entry>
                 <key>2</key>
-                <value>
-                    <startNumber>2</startNumber>
-                </value>
+                <value/>
             </entry>
             <entry>
                 <key>3</key>
-                <value>
-                    <startNumber>3</startNumber>
-                </value>
+                <value/>
             </entry>
             <entry>
                 <key>4</key>
-                <value>
-                    <startNumber>4</startNumber>
-                </value>
+                <value/>
             </entry>
             <entry>
                 <key>5</key>
-                <value>
-                    <startNumber>5</startNumber>
-                </value>
+                <value/>
             </entry>
         </invertedStartList>
         <ranks>
             <entry>
-                <key>
-                    <startNumber>1</startNumber>
-                </key>
+                <key/>
                 <value>0</value>
             </entry>
             <entry>
-                <key>
-                    <startNumber>2</startNumber>
-                </key>
+                <key/>
                 <value>0</value>
             </entry>
             <entry>
-                <key>
-                    <startNumber>3</startNumber>
-                </key>
+                <key/>
                 <value>0</value>
             </entry>
             <entry>
-                <key>
-                    <startNumber>4</startNumber>
-                </key>
+                <key/>
                 <value>0</value>
             </entry>
             <entry>
-                <key>
-                    <startNumber>5</startNumber>
-                </key>
+                <key/>
                 <value>0</value>
             </entry>
         </ranks>
@@ -244,33 +187,23 @@
             <trainingOrScored>false</trainingOrScored>
             <run>
                 <entry>
-                    <key>
-                        <startNumber>1</startNumber>
-                    </key>
+                    <key/>
                     <value/>
                 </entry>
                 <entry>
-                    <key>
-                        <startNumber>2</startNumber>
-                    </key>
+                    <key/>
                     <value/>
                 </entry>
                 <entry>
-                    <key>
-                        <startNumber>3</startNumber>
-                    </key>
+                    <key/>
                     <value/>
                 </entry>
                 <entry>
-                    <key>
-                        <startNumber>4</startNumber>
-                    </key>
+                    <key/>
                     <value/>
                 </entry>
                 <entry>
-                    <key>
-                        <startNumber>5</startNumber>
-                    </key>
+                    <key/>
                     <value/>
                 </entry>
             </run>
@@ -282,33 +215,23 @@
             <trainingOrScored>true</trainingOrScored>
             <run>
                 <entry>
-                    <key>
-                        <startNumber>1</startNumber>
-                    </key>
+                    <key/>
                     <value/>
                 </entry>
                 <entry>
-                    <key>
-                        <startNumber>2</startNumber>
-                    </key>
+                    <key/>
                     <value/>
                 </entry>
                 <entry>
-                    <key>
-                        <startNumber>3</startNumber>
-                    </key>
+                    <key/>
                     <value/>
                 </entry>
                 <entry>
-                    <key>
-                        <startNumber>4</startNumber>
-                    </key>
+                    <key/>
                     <value/>
                 </entry>
                 <entry>
-                    <key>
-                        <startNumber>5</startNumber>
-                    </key>
+                    <key/>
                     <value/>
                 </entry>
             </run>
@@ -320,33 +243,23 @@
             <trainingOrScored>true</trainingOrScored>
             <run>
                 <entry>
-                    <key>
-                        <startNumber>1</startNumber>
-                    </key>
+                    <key/>
                     <value/>
                 </entry>
                 <entry>
-                    <key>
-                        <startNumber>2</startNumber>
-                    </key>
+                    <key/>
                     <value/>
                 </entry>
                 <entry>
-                    <key>
-                        <startNumber>3</startNumber>
-                    </key>
+                    <key/>
                     <value/>
                 </entry>
                 <entry>
-                    <key>
-                        <startNumber>4</startNumber>
-                    </key>
+                    <key/>
                     <value/>
                 </entry>
                 <entry>
-                    <key>
-                        <startNumber>5</startNumber>
-                    </key>
+                    <key/>
                     <value/>
                 </entry>
             </run>
@@ -358,33 +271,23 @@
             <trainingOrScored>true</trainingOrScored>
             <run>
                 <entry>
-                    <key>
-                        <startNumber>1</startNumber>
-                    </key>
+                    <key/>
                     <value/>
                 </entry>
                 <entry>
-                    <key>
-                        <startNumber>2</startNumber>
-                    </key>
+                    <key/>
                     <value/>
                 </entry>
                 <entry>
-                    <key>
-                        <startNumber>3</startNumber>
-                    </key>
+                    <key/>
                     <value/>
                 </entry>
                 <entry>
-                    <key>
-                        <startNumber>4</startNumber>
-                    </key>
+                    <key/>
                     <value/>
                 </entry>
                 <entry>
-                    <key>
-                        <startNumber>5</startNumber>
-                    </key>
+                    <key/>
                     <value/>
                 </entry>
             </run>

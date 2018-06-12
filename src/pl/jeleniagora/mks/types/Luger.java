@@ -2,6 +2,7 @@ package pl.jeleniagora.mks.types;
 
 import java.time.LocalDate;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Klasa definiująca saneczkarza i wszystkie jego parametry takie jak Imię, Nazwisko, przynależność klubowa, referencję do 
@@ -18,6 +19,21 @@ public class Luger {
 
 	public int id;
 	
+	/**
+	 * Generowane losowo pole określające systemowy identyikator saneczkarza
+	 */
+	@SuppressWarnings("unused")
+	private long systemId;
+	
+	public void generateSystemId() {
+		 this.systemId = ThreadLocalRandom.current().nextLong();
+
+	}
+	
+	public long getSystemId() {
+		return this.systemId;
+	}
+	
 	public String name, surname;
 	
 	public LocalDate birthDate;
@@ -28,4 +44,8 @@ public class Luger {
 	 * Mapa zawierająca liczniki ślizgów dla każdego toru i bramki startowej z osobna.
 	 */
 	public Map<StartGate, Short> runsCounters;
+	
+	public Luger() {
+		this.generateSystemId();
+	}
 }

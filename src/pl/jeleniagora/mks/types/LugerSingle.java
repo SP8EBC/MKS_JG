@@ -1,5 +1,7 @@
 package pl.jeleniagora.mks.types;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * Ta klasa definiuje (enkapsuluje) saneczkarza-zawodnika (albo zawodniczke) w jedynkach
  * @author mateusz

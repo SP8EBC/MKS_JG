@@ -1,5 +1,7 @@
 package pl.jeleniagora.mks.types;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * Klasa enkapsulująca dwójke sankową.
  * @author mateusz
@@ -10,12 +12,12 @@ public class LugerDouble extends LugerCompetitor {
 	/**
 	 * Saneczkarz na górze
 	 */
-	Luger upper;
+	public Luger upper;
 	
 	/**
 	 * Saneczkarz na dole
 	 */
-	Luger lower;
+	public Luger lower;
 	
 	short startNum;
 	

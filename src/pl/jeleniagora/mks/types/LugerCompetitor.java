@@ -1,5 +1,9 @@
 package pl.jeleniagora.mks.types;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import pl.jeleniagora.mks.files.xml.adapters.LugerCompetitorAdapter;
@@ -10,9 +14,9 @@ import pl.jeleniagora.mks.files.xml.adapters.LugerCompetitorAdapter;
  * @author mateusz
  *
  */
+@XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
 @XmlJavaTypeAdapter(value = LugerCompetitorAdapter.class)
 public abstract class LugerCompetitor {
-
 	/**
 	 * Metoda zwracająca typ tego saneczkarza-zawodnika, co jest toższame z konkurencją w jakiej będzie on
 	 * startował. Jeżei dostanie się nazad MEN_SINGLE albo WOMAN_SINGLE będzie to oznaczało, że klasa implementująca
@@ -23,11 +27,13 @@ public abstract class LugerCompetitor {
 	 * 		if (LugerCompetitor iksinski instanceof LugerSingle) {;}
 	 * 
 	 * @return
-	 */
+	 */	
 	public abstract CompetitionTypes getCompetitorType();
 	
 	public abstract void setStartNumber(short num);
+	@XmlTransient
 	public abstract short getStartNumber();
 	
 	public abstract String toString();
+	
 }

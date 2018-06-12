@@ -5,11 +5,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import pl.jeleniagora.mks.factories.RunsFactory;
 import pl.jeleniagora.mks.files.xml.adapters.TrackAdapter;
 import pl.jeleniagora.mks.files.xml.adapters.CompetitionTypesAdapter;
+import pl.jeleniagora.mks.files.xml.adapters.LugerCompetitorAdapter;
 import pl.jeleniagora.mks.start.order.StartOrderInterface;
 
 /**
@@ -19,7 +25,8 @@ import pl.jeleniagora.mks.start.order.StartOrderInterface;
  * @author mateusz
  *
  */
-
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Competition {
 	
 	public int id;
@@ -38,6 +45,7 @@ public class Competition {
 	/**
 	 *  Egzemplarz enuma określający typ tej konkurencji 
 	 *  */
+	@XmlElement
 	@XmlJavaTypeAdapter(value = CompetitionTypesAdapter.class)
 	public CompetitionTypes competitionType;
 
@@ -64,7 +72,8 @@ public class Competition {
 	/**
 	 * Mapa łącząca saneczkarzy z numerami startowymi.
 	 */
-	public Map<LugerCompetitor, Short> startList;
+	@XmlElement
+	public HashMap<LugerCompetitor, Short> startList;
 	
 	/**
 	 * Kolejność startowa

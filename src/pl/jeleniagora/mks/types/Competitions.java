@@ -5,6 +5,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Vector;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -22,7 +24,10 @@ import pl.jeleniagora.mks.files.xml.adapters.TrackAdapter;
  *
  */
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Competitions {
+	
+	public final long dataStructureVersion = 0xF0000001;
 	
 	/**
 	 * Nazwa zawodów
