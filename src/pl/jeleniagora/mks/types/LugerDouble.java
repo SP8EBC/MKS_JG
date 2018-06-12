@@ -5,7 +5,7 @@ package pl.jeleniagora.mks.types;
  * @author mateusz
  *
  */
-public class LugerDouble implements LugerCompetitor {
+public class LugerDouble extends LugerCompetitor {
 
 	/**
 	 * Saneczkarz na górze

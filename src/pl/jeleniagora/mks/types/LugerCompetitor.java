@@ -1,12 +1,17 @@
 package pl.jeleniagora.mks.types;
 
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import pl.jeleniagora.mks.files.xml.adapters.LugerCompetitorAdapter;
+
 /**
- * Interfejs używany do enkapsulacji saneczkarzy w różnych typach konkurencji sankowych, zarówno jedynek jak i dwójek oraz
- * drużyn. 
+ * Klasa abstrakycjna używana do enkapsulacji saneczkarzy w różnych typach konkurencji sankowych, zarówno jedynek jak i dwójek oraz
+ * drużyn. Wcześniej był tu interfejs ale musiało to być zmienione gdyż JAXB przy marschallingu i marshallingu nie może używać interfejsów
  * @author mateusz
  *
  */
-public interface LugerCompetitor {
+@XmlJavaTypeAdapter(value = LugerCompetitorAdapter.class)
+public abstract class LugerCompetitor {
 
 	/**
 	 * Metoda zwracająca typ tego saneczkarza-zawodnika, co jest toższame z konkurencją w jakiej będzie on
@@ -19,10 +24,10 @@ public interface LugerCompetitor {
 	 * 
 	 * @return
 	 */
-	public CompetitionTypes getCompetitorType();
+	public abstract CompetitionTypes getCompetitorType();
 	
-	public void setStartNumber(short num);
-	public short getStartNumber();
+	public abstract void setStartNumber(short num);
+	public abstract short getStartNumber();
 	
-	public String toString();
+	public abstract String toString();
 }

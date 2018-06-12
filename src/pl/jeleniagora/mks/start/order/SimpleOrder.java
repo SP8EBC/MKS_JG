@@ -11,7 +11,7 @@ import pl.jeleniagora.mks.types.Run;
  * @author mateusz
  *
  */
-public class SimpleOrder implements StartOrderInterface { 
+public class SimpleOrder extends StartOrderInterface { 
 
 	public SimpleOrder() {
 		
