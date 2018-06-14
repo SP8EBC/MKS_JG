@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.xml.bind.annotation.XmlTransient;
+
 /**
  * Klasa definiująca saneczkarza i wszystkie jego parametry takie jak Imię, Nazwisko, przynależność klubowa, referencję do 
  * zawodów i treningów w których brał udiał itp. Wszelka zbieżność do niemieckiej broni krótkiej strzelającej amunicją 9 x 19mm parabellum
@@ -26,7 +28,7 @@ public class Luger {
 	private long systemId;
 	
 	public void generateSystemId() {
-		 this.systemId = ThreadLocalRandom.current().nextLong();
+		 this.systemId = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
 
 	}
 	
@@ -34,15 +36,21 @@ public class Luger {
 		return this.systemId;
 	}
 	
+	@XmlTransient
 	public String name, surname;
 	
+	@XmlTransient
 	public LocalDate birthDate;
 	
+	@XmlTransient
 	public Club club;
+	
+	public String email;
 
 	/**
 	 * Mapa zawierająca liczniki ślizgów dla każdego toru i bramki startowej z osobna.
 	 */
+	@XmlTransient
 	public Map<StartGate, Short> runsCounters;
 	
 	public Luger() {

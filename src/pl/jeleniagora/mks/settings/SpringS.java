@@ -10,8 +10,7 @@ import org.springframework.context.annotation.ImportResource;
  *
  */
 @Configuration
-@ComponentScan(basePackages = "pl.jeleniagora.mks.rte, pl.jeleniagora.mks.gui, pl.jeleniagora.mks.types")
-@ImportResource({"classpath:luge-tracks-spring-ctx.xml"})
+@ComponentScan(basePackages = "pl.jeleniagora.mks.rte, pl.jeleniagora.mks.gui, pl.jeleniagora.mks.types, pl.jeleniagora.mks.files.xml.adapters")
 public class SpringS {
 
 }

@@ -1,6 +1,5 @@
 package pl.jeleniagora.mks.gui;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.EventQueue;
 

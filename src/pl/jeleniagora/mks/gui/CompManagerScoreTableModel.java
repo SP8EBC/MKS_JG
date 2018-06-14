@@ -355,6 +355,8 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 		
 		LocalDate b = LocalDate.of(1990, 9, 12);
 		
+		LugersFactory.competitions = cmps;
+		
 		l1 = LugersFactory.createNewLugerSingleFromName("Im", "Naz", false, b, ClubsFactory.createNewFromName("MKS Karkonosze Sporty Zimowe"));
 		l2 = LugersFactory.createNewLugerSingleFromName("Imi", "Nąz", false, b, ClubsFactory.createNewFromName("MKS Karkonosze Sporty Zimowe"));
 		l3 = LugersFactory.createNewLugerSingleFromName("Aąćż", "N", false, b, ClubsFactory.createNewFromName("MKS Karkonosze Sporty Zimowe"));

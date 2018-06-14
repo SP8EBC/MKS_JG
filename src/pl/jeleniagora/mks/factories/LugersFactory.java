@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 
 import pl.jeleniagora.mks.types.Club;
+import pl.jeleniagora.mks.types.Competitions;
 import pl.jeleniagora.mks.types.Luger;
 import pl.jeleniagora.mks.types.LugerCompetitor;
 import pl.jeleniagora.mks.types.LugerSingle;
@@ -20,6 +21,8 @@ import pl.jeleniagora.mks.types.StartGate;
  *
  */
 public class LugersFactory {
+	
+	public static Competitions competitions;
 
 	
 	public static LugerCompetitor createNewLugerSingleFromName(String name, String surname, boolean isFermale, LocalDate birthday, Club club) {
@@ -35,6 +38,9 @@ public class LugersFactory {
 			s.club = club;
 			s.runsCounters = new HashMap<StartGate, Short>();
 
+			if (competitions != null) {
+				competitions.listOfAllCompetitorsInThisCompetitions.add(single);
+			}
 			
 			return single;
 	}

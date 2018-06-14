@@ -6,16 +6,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import pl.jeleniagora.mks.files.xml.adapters.LugerCompetitorAdapter;
-
 /**
  * Klasa abstrakycjna używana do enkapsulacji saneczkarzy w różnych typach konkurencji sankowych, zarówno jedynek jak i dwójek oraz
  * drużyn. Wcześniej był tu interfejs ale musiało to być zmienione gdyż JAXB przy marschallingu i marshallingu nie może używać interfejsów
  * @author mateusz
  *
  */
-@XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
-@XmlJavaTypeAdapter(value = LugerCompetitorAdapter.class)
+@XmlAccessorType(XmlAccessType.FIELD)
+
 public abstract class LugerCompetitor {
 	/**
 	 * Metoda zwracająca typ tego saneczkarza-zawodnika, co jest toższame z konkurencją w jakiej będzie on
@@ -29,7 +27,7 @@ public abstract class LugerCompetitor {
 	 * @return
 	 */	
 	public abstract CompetitionTypes getCompetitorType();
-	
+		
 	public abstract void setStartNumber(short num);
 	@XmlTransient
 	public abstract short getStartNumber();

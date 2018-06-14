@@ -2,6 +2,8 @@ package pl.jeleniagora.mks.types;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
@@ -15,6 +17,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import pl.jeleniagora.mks.files.xml.adapters.ListOfAllCompetitorsAdapter;
 import pl.jeleniagora.mks.files.xml.adapters.LocalDateAdapter;
 import pl.jeleniagora.mks.files.xml.adapters.TrackAdapter;
 
@@ -27,7 +30,7 @@ import pl.jeleniagora.mks.files.xml.adapters.TrackAdapter;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Competitions {
 	
-	public final long dataStructureVersion = 0xF0000001;
+	public final long dataStructureVersion = 0x80000001;
 	
 	/**
 	 * Nazwa zawodów
@@ -50,9 +53,17 @@ public class Competitions {
 	public Track track;
 	
 	/**
+	 * Lista przechowywująca referencję do wszystkich pojawiających się w tych zawodach indywdualnych
+	 * zawodników. Każda dwójka jest tutaj dzielna na dwóch osobnych saneczkarzy
+	 */
+	@XmlJavaTypeAdapter(value = ListOfAllCompetitorsAdapter.class)
+	@XmlElement(name = "lugers")
+	public List<LugerCompetitor> listOfAllCompetitorsInThisCompetitions;
+	
+	/**
 	 * Wektor z wszystkimi konkurencjami w tych zawodach
 	 */
-//	@XmlElement(name="trackName")
+	@XmlElement(name="competition")
 	public Vector<Competition> competitions;
 	
 	/**
@@ -79,13 +90,15 @@ public class Competitions {
 	}
 	
 	public Competitions() {
-		
+		listOfAllCompetitorsInThisCompetitions = new ArrayList<LugerCompetitor>();
 	}
 	
 	public Competitions(String _name, LocalDate _date, String _track_name) {
 		@SuppressWarnings("resource")
 		ApplicationContext context = new ClassPathXmlApplicationContext("luge-tracks-spring-ctx.xml");
 
+		listOfAllCompetitorsInThisCompetitions = new ArrayList<LugerCompetitor>();
+		
 		name = _name;
 		date = _date;
 		track = (Track)context.getBean(_track_name.toLowerCase().substring(0, 7).replace(" ", "_"));
