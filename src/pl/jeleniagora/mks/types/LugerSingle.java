@@ -16,6 +16,8 @@ public class LugerSingle extends LugerCompetitor {
 	short startNum;
 		
 	public LugerSingle(boolean isFemale) {
+		this.generateSystemId(); // z klasy bazowej
+		
 		if (isFemale)
 			type = CompetitionTypes.WOMAN_SINGLE;
 		else

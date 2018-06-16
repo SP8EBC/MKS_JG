@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlValue;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 import org.springframework.stereotype.Component;
@@ -38,10 +36,10 @@ public class StartListAdapter extends XmlAdapter<StartListAdapter.AdaptedStartLi
 	
 	public static class AdaptedStartList {
 		@XmlElement(name="startListEntry")
-		public List<AdaptedEntry> adaptedList = new ArrayList<AdaptedEntry>();
+		public List<AdaptedStartListEntry> adaptedList = new ArrayList<AdaptedStartListEntry>();
 	}
 	
-	public static class AdaptedEntry {
+	public static class AdaptedStartListEntry {
 		
 		@XmlElement(required = false, nillable = true )
 		public Long lugerSystemId;			// konkurencja pojedyncza K albo M
@@ -67,7 +65,7 @@ public class StartListAdapter extends XmlAdapter<StartListAdapter.AdaptedStartLi
 		AdaptedStartList out = new AdaptedStartList();
 		
 		for (Entry<LugerCompetitor, Short> e : arg0.entrySet()) {
-			AdaptedEntry adaptedEntry = new AdaptedEntry();
+			AdaptedStartListEntry adaptedEntry = new AdaptedStartListEntry();
 			
 			LugerCompetitor k = e.getKey();
 			

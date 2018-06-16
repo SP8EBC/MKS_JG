@@ -21,6 +21,10 @@ public class LugerDouble extends LugerCompetitor {
 	
 	short startNum;
 	
+	public LugerDouble() {
+		this.generateSystemId();	//  z klasy bazowej
+	}
+	
 	@Override
 	public CompetitionTypes getCompetitorType() {
 		// TODO Auto-generated method stub

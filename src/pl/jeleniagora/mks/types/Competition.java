@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import pl.jeleniagora.mks.factories.RunsFactory;
 import pl.jeleniagora.mks.files.xml.adapters.TrackAdapter;
 import pl.jeleniagora.mks.files.xml.adapters.CompetitionTypesAdapter;
-import pl.jeleniagora.mks.files.xml.adapters.RunsTimesAdapter;
+import pl.jeleniagora.mks.files.xml.adapters.RunVectorAdapter;
 import pl.jeleniagora.mks.files.xml.adapters.StartListAdapter;
 import pl.jeleniagora.mks.start.order.StartOrderInterface;
 
@@ -96,7 +96,7 @@ public class Competition {
 	 * Wektor zawierający czasy w poszczególnych ślizgach, jeden element klasy Run odpowiada jednemu ślizgowi i zawiera
 	 * mapę saneczkarzy startujących w tym ślizgu na ich czasy przejazdu. Początkowo czasy są inicjowane zerami. 
 	 */
-	@XmlJavaTypeAdapter(value = RunsTimesAdapter.class)
+	@XmlJavaTypeAdapter(value = RunVectorAdapter.class)
 	@XmlElement(name = "runs")
 	public Vector<Run> runsTimes;
 	

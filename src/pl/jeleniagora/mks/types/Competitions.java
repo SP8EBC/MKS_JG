@@ -18,6 +18,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import pl.jeleniagora.mks.files.xml.adapters.ListOfAllCompetitorsAdapter;
+import pl.jeleniagora.mks.files.xml.adapters.ListOfAllLugersAdapter;
 import pl.jeleniagora.mks.files.xml.adapters.LocalDateAdapter;
 import pl.jeleniagora.mks.files.xml.adapters.TrackAdapter;
 
@@ -54,11 +55,19 @@ public class Competitions {
 	
 	/**
 	 * Lista przechowywująca referencję do wszystkich pojawiających się w tych zawodach indywdualnych
-	 * zawodników. Każda dwójka jest tutaj dzielna na dwóch osobnych saneczkarzy
+	 * zawodników, czyli wszystkich egzemplarzy klas Luger.
 	 */
-	@XmlJavaTypeAdapter(value = ListOfAllCompetitorsAdapter.class)
+	@XmlJavaTypeAdapter(value = ListOfAllLugersAdapter.class)
 	@XmlElement(name = "lugers")
-	public List<LugerCompetitor> listOfAllCompetitorsInThisCompetitions;
+	public List<Luger> listOfAllLugersInThisCompetitions;
+	
+	/**
+	 * Lista przechowująca wszystkie referencję do ezgemplarzy typu bazowego LugerCompetitor pojawiające się 
+	 * w tych zawodach
+	 */
+	@XmlJavaTypeAdapter(value= ListOfAllCompetitorsAdapter.class)
+	@XmlElement(name = "competitors")
+	public List<LugerCompetitor> listOfAllCompetingLugersInThisComps;
 	
 	/**
 	 * Wektor z wszystkimi konkurencjami w tych zawodach
@@ -90,14 +99,16 @@ public class Competitions {
 	}
 	
 	public Competitions() {
-		listOfAllCompetitorsInThisCompetitions = new ArrayList<LugerCompetitor>();
+		listOfAllLugersInThisCompetitions = new ArrayList<Luger>();
+		listOfAllCompetingLugersInThisComps = new ArrayList<LugerCompetitor>();
 	}
 	
 	public Competitions(String _name, LocalDate _date, String _track_name) {
 		@SuppressWarnings("resource")
 		ApplicationContext context = new ClassPathXmlApplicationContext("luge-tracks-spring-ctx.xml");
 
-		listOfAllCompetitorsInThisCompetitions = new ArrayList<LugerCompetitor>();
+		listOfAllLugersInThisCompetitions = new ArrayList<Luger>();
+		listOfAllCompetingLugersInThisComps = new ArrayList<LugerCompetitor>();
 		
 		name = _name;
 		date = _date;

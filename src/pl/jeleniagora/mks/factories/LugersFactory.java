@@ -39,7 +39,8 @@ public class LugersFactory {
 			s.runsCounters = new HashMap<StartGate, Short>();
 
 			if (competitions != null) {
-				competitions.listOfAllCompetitorsInThisCompetitions.add(single);
+				competitions.listOfAllLugersInThisCompetitions.add(s);
+				competitions.listOfAllCompetingLugersInThisComps.add(single);
 			}
 			
 			return single;

@@ -1,5 +1,7 @@
 package pl.jeleniagora.mks.types;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -33,5 +35,16 @@ public abstract class LugerCompetitor {
 	public abstract short getStartNumber();
 	
 	public abstract String toString();
+	
+	Long competitorSystemId;
+
+	public void generateSystemId() {
+		 this.competitorSystemId = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
+
+	}
+	
+	public Long getSystemId() {
+		return this.competitorSystemId;
+	}
 	
 }

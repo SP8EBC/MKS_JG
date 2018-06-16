@@ -1,90 +1,66 @@
 package pl.jeleniagora.mks.files.xml.adapters;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import pl.jeleniagora.mks.types.Club;
 import pl.jeleniagora.mks.types.LugerCompetitor;
 import pl.jeleniagora.mks.types.LugerDouble;
 import pl.jeleniagora.mks.types.LugerSingle;
 
-public class ListOfAllCompetitorsAdapter extends XmlAdapter<ListOfAllCompetitorsAdapter.AdaptedList, List<LugerCompetitor>> {
+public class ListOfAllCompetitorsAdapter extends XmlAdapter<ListOfAllCompetitorsAdapter.AdaptedCompetitorsList, List<LugerCompetitor>> {
 
-	public static class AdaptedList { 
-		@XmlElement(name = "luger")
-		List<LugeRacer> adapted = new ArrayList<LugeRacer>();
+	public static class AdaptedCompetitorsList {
+		@XmlElement(name = "competitor")
+		public List<AdaptedCompetitorsListEntry> competitorsList;
 	}
 	
-	/**
-	 * Klasa ta została nazwana może i w nieco głupawy sposób ale chodzi o odróżnienie jej od "nadrzęnej" i "globalnej" klasy Luger która choć 
-	 * bardzo podobna do tej, jest używana do nieco innych rzeczy w innych miejscach. LugerRacer ma służyć tylko i wyłącznie adapterowi XML dla 
-	 * typu List<LugerCompetitor> Za wszelką cenę chcę uniknąć w nazewnictwa słowa 'athlete' które kojarzy mi się jedoznacznie negatywnie 
-	 * z red bullem oczywiście..
-	 * 
-	 * @author mateusz
-	 *
-	 */
-	public static class LugeRacer {
-		public long systemId;
-		
-		public String name, surname;
-		
-		@XmlJavaTypeAdapter(LocalDateAdapter.class)
-		public LocalDate birthDate;
-		
-		public Club club;
+	public static class AdaptedCompetitorsListEntry {
+		@XmlElement(required = false, nillable = true )
+		public Long singleLugerSystemId;			// konkurencja pojedyncza K albo M
+
+		@XmlElement(required = false, nillable = true )
+		public Long lowerLugerSystemId;	// dwójki sankowe - sankarz na dole
 		
 		@XmlElement(required = false, nillable = true )
-		public String email;
-
+		public Long upperLugerSystemId;		// j/w ale sankarz na górze
+		
+		@XmlElement(required = false, nillable = true )
+		public Long maleLugerSystemId;		// M podczas sztafety albo konkurencji drużynowej
+		
+		@XmlElement(required = false, nillable = true )
+		public Long femaleLugerSystemId;	// K j/w
+		
+		@XmlElement(required = true)
+		public Long competitorSystemId;
 	}
 
 	@Override
-	public AdaptedList marshal(List<LugerCompetitor> arg0) throws Exception {
-		AdaptedList out = new AdaptedList();
+	public AdaptedCompetitorsList marshal(List<LugerCompetitor> v) throws Exception {
+		AdaptedCompetitorsList out = new AdaptedCompetitorsList();
 		
-		for (LugerCompetitor e : arg0) {
+		out.competitorsList = new ArrayList<AdaptedCompetitorsListEntry>();
+		
+		for (LugerCompetitor e : v) {
 			
 			if (e instanceof LugerSingle) {
-				LugeRacer entry = new LugeRacer();
+				AdaptedCompetitorsListEntry ae = new AdaptedCompetitorsListEntry();
 				
-				entry.birthDate = ((LugerSingle)e).single.birthDate;
-				entry.club = ((LugerSingle)e).single.club;
-				entry.email = ((LugerSingle)e).single.email;
-				entry.name = ((LugerSingle)e).single.name;
-				entry.surname = ((LugerSingle)e).single.surname;
-				entry.systemId = ((LugerSingle)e).single.getSystemId();
+				ae.singleLugerSystemId = ((LugerSingle)e).single.getSystemId();
+				ae.competitorSystemId = e.getSystemId();
 				
-				out.adapted.add(entry);
+				out.competitorsList.add(ae);
 			}
 			else if (e instanceof LugerDouble) {
-				// jeżeli jest to dwójka sankowa to trzeba dociepać osobno tego co jest na górzae
-				// i tego co jest na dole
+				AdaptedCompetitorsListEntry ae = new AdaptedCompetitorsListEntry();
 				
-				LugeRacer onTop = new LugeRacer();
-				LugeRacer onBottom = new LugeRacer();
+				ae.lowerLugerSystemId = ((LugerDouble)e).lower.getSystemId();
+				ae.upperLugerSystemId = ((LugerDouble)e).upper.getSystemId();
+				ae.competitorSystemId = e.getSystemId();
 				
-				onTop.birthDate = ((LugerDouble)e).upper.birthDate;
-				onTop.club = ((LugerDouble)e).upper.club;
-				onTop.email = ((LugerDouble)e).upper.email;
-				onTop.name = ((LugerDouble)e).upper.name;
-				onTop.surname = ((LugerDouble)e).upper.surname;
-				onTop.systemId = ((LugerDouble)e).upper.getSystemId();
-
-				onBottom.birthDate = ((LugerDouble)e).lower.birthDate;
-				onBottom.club = ((LugerDouble)e).lower.club;
-				onBottom.email = ((LugerDouble)e).lower.email;
-				onBottom.name = ((LugerDouble)e).lower.name;
-				onBottom.surname = ((LugerDouble)e).lower.surname;
-				onBottom.systemId = ((LugerDouble)e).lower.getSystemId();
-
-				out.adapted.add(onBottom);
-				out.adapted.add(onTop);
+				out.competitorsList.add(ae);
 			}
 			else;
 		}
@@ -93,7 +69,7 @@ public class ListOfAllCompetitorsAdapter extends XmlAdapter<ListOfAllCompetitors
 	}
 
 	@Override
-	public List<LugerCompetitor> unmarshal(AdaptedList arg0) throws Exception {
+	public List<LugerCompetitor> unmarshal(AdaptedCompetitorsList v) throws Exception {
 		return null;
 	}
 
