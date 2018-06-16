@@ -6,6 +6,11 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ThreadLocalRandom;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 import java.util.Vector;
 
 import pl.jeleniagora.mks.serial.TypesConverters;
@@ -18,6 +23,7 @@ import pl.jeleniagora.mks.serial.TypesConverters;
  * @author mateusz
  *
  */
+@XmlRootElement
 public class Run {
 	
 	/**
@@ -43,6 +49,7 @@ public class Run {
 	/**
 	 * Mapa łącząca zawodników z ich wynikami końcowymi dla konkretnego ślizgu w konkurencji
 	 */
+	@XmlElement(name = "totalTimes")
 	public Map<LugerCompetitor, LocalTime> run;
 	
 	/**
@@ -51,6 +58,7 @@ public class Run {
 	 * aktualizujących główną tabelę wyników w CompManager. Generalnie to nie będą aż tak duże obiekty dlatego zużycie RAM
 	 * nie będzie aż tak dramatyczne żeby to był jakiś problem
 	 */
+	@XmlTransient
 	public Map<LugerCompetitor, Vector<LocalTime>> intermediateRunTimes;
 	
 	@Override

@@ -39,6 +39,7 @@ public class ListOfAllCompetitorsAdapter extends XmlAdapter<ListOfAllCompetitors
 		
 		public Club club;
 		
+		@XmlElement(required = false, nillable = true )
 		public String email;
 
 	}
