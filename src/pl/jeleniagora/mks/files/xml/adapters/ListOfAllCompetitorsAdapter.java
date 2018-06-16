@@ -34,7 +34,7 @@ public class ListOfAllCompetitorsAdapter extends XmlAdapter<ListOfAllCompetitors
 		public Long femaleLugerSystemId;	// K j/w
 		
 		@XmlElement(required = true)
-		public Long competitorSystemId;
+		public Long lugerCompetitorSystemId;
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class ListOfAllCompetitorsAdapter extends XmlAdapter<ListOfAllCompetitors
 				AdaptedCompetitorsListEntry ae = new AdaptedCompetitorsListEntry();
 				
 				ae.singleLugerSystemId = ((LugerSingle)e).single.getSystemId();
-				ae.competitorSystemId = e.getSystemId();
+				ae.lugerCompetitorSystemId = e.getSystemId();
 				
 				out.competitorsList.add(ae);
 			}
@@ -58,7 +58,7 @@ public class ListOfAllCompetitorsAdapter extends XmlAdapter<ListOfAllCompetitors
 				
 				ae.lowerLugerSystemId = ((LugerDouble)e).lower.getSystemId();
 				ae.upperLugerSystemId = ((LugerDouble)e).upper.getSystemId();
-				ae.competitorSystemId = e.getSystemId();
+				ae.lugerCompetitorSystemId = e.getSystemId();
 				
 				out.competitorsList.add(ae);
 			}

@@ -10,9 +10,6 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import pl.jeleniagora.mks.types.Club;
 import pl.jeleniagora.mks.types.Luger;
-import pl.jeleniagora.mks.types.LugerCompetitor;
-import pl.jeleniagora.mks.types.LugerDouble;
-import pl.jeleniagora.mks.types.LugerSingle;
 
 public class ListOfAllLugersAdapter extends XmlAdapter<ListOfAllLugersAdapter.AdaptedList, List<Luger>> {
 

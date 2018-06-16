@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlList;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import pl.jeleniagora.mks.factories.RunsFactory;
@@ -18,6 +19,7 @@ import pl.jeleniagora.mks.files.xml.adapters.TrackAdapter;
 import pl.jeleniagora.mks.files.xml.adapters.CompetitionTypesAdapter;
 import pl.jeleniagora.mks.files.xml.adapters.RunVectorAdapter;
 import pl.jeleniagora.mks.files.xml.adapters.StartListAdapter;
+import pl.jeleniagora.mks.files.xml.adapters.StartOrderAdapter;
 import pl.jeleniagora.mks.start.order.StartOrderInterface;
 
 /**
@@ -80,11 +82,14 @@ public class Competition {
 	/**
 	 * Kolejność startowa
 	 */
+	@XmlJavaTypeAdapter(value = StartOrderAdapter.class)
+	@XmlElement
 	public StartOrderInterface startOrder;
 	
 	/**
 	 * Odwrócona mapa która łączy numery startowe z saneczkarzami.
 	 */
+	@XmlTransient
 	public Map<Short, LugerCompetitor> invertedStartList;
 	
 	/**

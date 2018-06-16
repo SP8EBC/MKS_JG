@@ -1,5 +1,8 @@
 package pl.jeleniagora.mks.start.order;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.LugerCompetitor;
 import pl.jeleniagora.mks.types.Run;
@@ -11,6 +14,7 @@ import pl.jeleniagora.mks.types.Run;
  * @author mateusz
  *
  */
+@XmlRootElement
 public abstract class StartOrderInterface {
 	
 	/**
@@ -44,6 +48,9 @@ public abstract class StartOrderInterface {
 	 * @return
 	 */
 	public abstract boolean checkIfLastInRun(LugerCompetitor in, Competition currentCompetition, Run currentRun);
+	
+//	@XmlElement(name = "StartOrder")
+	public abstract String toString();
 
 
 }

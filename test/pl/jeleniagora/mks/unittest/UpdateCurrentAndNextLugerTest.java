@@ -2,11 +2,8 @@ package pl.jeleniagora.mks.unittest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 import java.util.Vector;
 
 import org.junit.jupiter.api.AfterEach;

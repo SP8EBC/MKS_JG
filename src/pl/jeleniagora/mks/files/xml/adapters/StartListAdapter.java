@@ -13,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 
 import pl.jeleniagora.mks.types.LugerCompetitor;
-import pl.jeleniagora.mks.types.LugerDouble;
-import pl.jeleniagora.mks.types.LugerSingle;
 
 import pl.jeleniagora.mks.rte.RTE_ST;
 
@@ -42,19 +40,9 @@ public class StartListAdapter extends XmlAdapter<StartListAdapter.AdaptedStartLi
 	public static class AdaptedStartListEntry {
 		
 		@XmlElement(required = false, nillable = true )
-		public Long lugerSystemId;			// konkurencja pojedyncza K albo M
+		public Long lugerCompetitorSystemId;		
 
-		@XmlElement(required = false, nillable = true )
-		public Long lowerLugerSystemId;	// dwójki sankowe - sankarz na dole
-		
-		@XmlElement(required = false, nillable = true )
-		public Long upperLugerSystemId;		// j/w ale sankarz na górze
-		
-		@XmlElement(required = false, nillable = true )
-		public Long maleLugerSystemId;		// M podczas sztafety albo konkurencji drużynowej
-		
-		@XmlElement(required = false, nillable = true )
-		public Long femaleLugerSystemId;	// K j/w
+
 		
 		@XmlElement(required = true)
 		public short startNumber;
@@ -69,16 +57,8 @@ public class StartListAdapter extends XmlAdapter<StartListAdapter.AdaptedStartLi
 			
 			LugerCompetitor k = e.getKey();
 			
-			if (k instanceof LugerSingle) {
-				adaptedEntry.lugerSystemId = ((LugerSingle)k).single.getSystemId();
-				adaptedEntry.startNumber = e.getValue();
-			}
-			else if (k instanceof LugerDouble) {
-				adaptedEntry.lowerLugerSystemId = ((LugerDouble)k).lower.getSystemId();
-				adaptedEntry.upperLugerSystemId = ((LugerDouble)k).upper.getSystemId();
-				adaptedEntry.startNumber = e.getValue();
-
-			}
+			adaptedEntry.lugerCompetitorSystemId = k.getSystemId();
+			adaptedEntry.startNumber = k.getStartNumber();
 			
 			out.adaptedList.add(adaptedEntry);
 		}

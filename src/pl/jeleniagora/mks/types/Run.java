@@ -10,9 +10,11 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import java.util.Vector;
 
+import pl.jeleniagora.mks.files.xml.adapters.TotalTimesMapAdapter;
 import pl.jeleniagora.mks.serial.TypesConverters;
 
 /**
@@ -50,6 +52,7 @@ public class Run {
 	 * Mapa łącząca zawodników z ich wynikami końcowymi dla konkretnego ślizgu w konkurencji
 	 */
 //	@XmlElement(name = "totalTimes")
+	@XmlJavaTypeAdapter(value = TotalTimesMapAdapter.class)
 	public Map<LugerCompetitor, LocalTime> totalTimes;
 	
 	/**

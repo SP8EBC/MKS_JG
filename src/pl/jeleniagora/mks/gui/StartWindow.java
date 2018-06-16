@@ -21,8 +21,6 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
 import java.awt.BorderLayout;
-import java.awt.Component;
-import javax.swing.Box;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.awt.Font;

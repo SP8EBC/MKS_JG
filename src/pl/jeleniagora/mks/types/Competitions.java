@@ -114,12 +114,4 @@ public class Competitions {
 		date = _date;
 		track = (Track)context.getBean(_track_name.toLowerCase().substring(0, 7).replace(" ", "_"));
 	}
-	
-//	public String getName() {
-//		return name;
-//	}
-
-//	public void setName(String name) {
-//		this.name = name;
-//	}
 }

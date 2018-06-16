@@ -11,8 +11,6 @@ import javax.swing.table.TableModel;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import pl.jeleniagora.mks.chrono.Chrono;
@@ -37,23 +35,16 @@ import pl.jeleniagora.mks.settings.SerialCommS;
 import pl.jeleniagora.mks.settings.SpringS;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.CompetitionEncapsulationForSelector;
-import pl.jeleniagora.mks.types.CompetitionTypes;
 import pl.jeleniagora.mks.types.Competitions;
-import pl.jeleniagora.mks.types.Reserve;
-import pl.jeleniagora.mks.types.Track;
-
 import javax.swing.JMenuBar;
 
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
-import java.awt.GridBagLayout;
 import java.util.Vector;
-import java.awt.GridBagConstraints;
 import javax.swing.JMenu;
 import javax.swing.JComboBox;
 import java.awt.Insets;
-import java.awt.Dimension;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.JMenuItem;

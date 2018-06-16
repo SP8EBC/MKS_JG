@@ -2,6 +2,8 @@ package pl.jeleniagora.mks.start.order;
 
 import java.time.LocalTime;
 
+import javax.xml.bind.annotation.XmlElement;
+
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.LugerCompetitor;
 import pl.jeleniagora.mks.types.Run;
@@ -15,6 +17,11 @@ public class SimpleOrder extends StartOrderInterface {
 
 	public SimpleOrder() {
 		
+	}
+	
+	@Override
+	public String toString() {
+		return "SIMPLE_ORDER";
 	}
 
 	@Override
