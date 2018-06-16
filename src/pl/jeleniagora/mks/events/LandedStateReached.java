@@ -93,13 +93,13 @@ public class LandedStateReached {
 		
 		
 		Run current = rte_st.currentRun;
-		LocalTime runtimeToUpdate = current.run.get(currentToSaveRuntime);	// metoda get zwraca kopię tego co jest zapisane w mapie
+		LocalTime runtimeToUpdate = current.totalTimes.get(currentToSaveRuntime);	// metoda get zwraca kopię tego co jest zapisane w mapie
 		runtimeToUpdate = runTime;
 		
 		/*
 		 * Zapisywanie nowego czasu ślizgu na powrót w mapie
 		 */
-		current.run.put(currentToSaveRuntime, runtimeToUpdate);
+		current.totalTimes.put(currentToSaveRuntime, runtimeToUpdate);
 		
 		try {
 			/*

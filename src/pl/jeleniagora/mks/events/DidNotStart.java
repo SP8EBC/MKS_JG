@@ -47,14 +47,14 @@ public class DidNotStart {
 			 * W ślizbu puntkowanym na zawodach nie wystartowanie dyskwalifikuje z dalszej cześci zawodów
 			 */
 			for (Run r: rte_st.currentCompetition.runsTimes) {
-				r.run.put(l, DNS.getValue());
+				r.totalTimes.put(l, DNS.getValue());
 			}
 		}
 		else {
 			/*
 			 * Podczas treningu nie wystartowanie w jednym ślizgu w dalszym ciągu umożliwia następne zjazdy/ślizgi
 			 */
-			rte_st.currentRun.run.put(l, DNS.getValue());
+			rte_st.currentRun.totalTimes.put(l, DNS.getValue());
 
 		}
 	}

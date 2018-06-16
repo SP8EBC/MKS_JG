@@ -79,7 +79,7 @@ public class SimpleOrder extends StartOrderInterface {
 		
 		for (int i = startNumber; i < numberOfComp; i++) {
 			//  
-			LocalTime v = currentRun.run.get(in);	// wyciąganie czasów ślizgu dla każdego kolejnego za tym to sprawdzenia
+			LocalTime v = currentRun.totalTimes.get(in);	// wyciąganie czasów ślizgu dla każdego kolejnego za tym to sprawdzenia
 			
 			if (v.equals(zero)) {
 				output = false;

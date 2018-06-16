@@ -68,7 +68,7 @@ public class DidNotFinished {
 			 */
 			for (Run r: rte_st.currentCompetition.runsTimes) {
 				if (!r.done) {
-					r.run.put(l, DNF.getValue());
+					r.totalTimes.put(l, DNF.getValue());
 					UpdateCurrentAndNextLuger.moveForwardNormally();
 					rte_chrono.resetStateMachine = true;		// kasownie maszyny stanów do stanu początkowego
 				}
@@ -78,7 +78,7 @@ public class DidNotFinished {
 			/*
 			 * Podczas treningu nie ukończenie ślizgu nie ma wpływu na możliwość dalszych startów
 			 */
-			rte_st.currentRun.run.put(l, DNF.getValue());
+			rte_st.currentRun.totalTimes.put(l, DNF.getValue());
 			UpdateCurrentAndNextLuger.moveForwardNormally();
 			rte_chrono.resetStateMachine = true;		// kasownie maszyny stanów do stanu początkowego
 

@@ -82,21 +82,21 @@ class CalculateRanksAfterRunTest {
 		t6 = ConvertMicrotime.toLocalTime(45330);   // 4533 milisekund -> 4 sekund 533 milisekund
 		t7 = ConvertMicrotime.toLocalTime(120000);	// 12 sekund
 		
-		run1.run.put(l1, t1);
-		run1.run.put(l2, t3);
-		run1.run.put(l3, t4);
-		run1.run.put(l4, t5);
-		run1.run.put(l5, t6);
-		run1.run.put(l6, t3);
-		run1.run.put(l7, t2);
+		run1.totalTimes.put(l1, t1);
+		run1.totalTimes.put(l2, t3);
+		run1.totalTimes.put(l3, t4);
+		run1.totalTimes.put(l4, t5);
+		run1.totalTimes.put(l5, t6);
+		run1.totalTimes.put(l6, t3);
+		run1.totalTimes.put(l7, t2);
 
-		run2.run.put(l1, t7);	// t1 + t7
-		run2.run.put(l2, t6);	// t3 + t6
-		run2.run.put(l3, t5);	// t4 + t5
-		run2.run.put(l4, t4);	// t5 + t4
-		run2.run.put(l5, t3);	// t6 + t3
-		run2.run.put(l6, t2);	// t2 + t3
-		run2.run.put(l7, t1);	// t1 + t2
+		run2.totalTimes.put(l1, t7);	// t1 + t7
+		run2.totalTimes.put(l2, t6);	// t3 + t6
+		run2.totalTimes.put(l3, t5);	// t4 + t5
+		run2.totalTimes.put(l4, t4);	// t5 + t4
+		run2.totalTimes.put(l5, t3);	// t6 + t3
+		run2.totalTimes.put(l6, t2);	// t2 + t3
+		run2.totalTimes.put(l7, t1);	// t1 + t2
 		
 		Map <LugerCompetitor, LocalTime> times = calc.calculateTotalRuntime(competition);
 		

@@ -108,7 +108,7 @@ public class CompManagerScoreTableSelectListener implements ListSelectionListene
 			rte_gui.runtimeFromChrono = false;
 			
 			if (modelColumn >= DisplayS.columnOffset)
-				updateTextFieldsInCM(rte_gui.competitionBeingShown.runsTimes.get(modelColumn - DisplayS.columnOffset).run.get(rte_gui.competitorClickedInTable));
+				updateTextFieldsInCM(rte_gui.competitionBeingShown.runsTimes.get(modelColumn - DisplayS.columnOffset).totalTimes.get(rte_gui.competitorClickedInTable));
 			
 			System.out.println("runtimeFromChrono = false");
 		}

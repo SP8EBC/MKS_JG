@@ -107,13 +107,13 @@ class UpdateCurrentAndNextLugerTest {
 		
 		Run stTraining = runsFrom1stCmp.get(0);	// czasy pierwszego ślizgu w drugiej konkurencji
 				
-		for (short i = 0; i < stTraining.run.size(); i++) {
+		for (short i = 0; i < stTraining.totalTimes.size(); i++) {
 			if (i > 1 && i < 4) {
 				
 				LocalTime time = LocalTime.of(0, 0, 55);
 				LugerCompetitor cmpr = startList.get(i);
 				
-				stTraining.run.put(cmpr, time);	// dociepywanie losowego czsu do niektórych zawodników
+				stTraining.totalTimes.put(cmpr, time);	// dociepywanie losowego czsu do niektórych zawodników
 				
 			}
 		}
@@ -161,13 +161,13 @@ class UpdateCurrentAndNextLugerTest {
 		
 		Run stTraining = runsFrom1stCmp.get(0);	// czasy pierwszego ślizgu w drugiej konkurencji
 				
-		for (short i = 0; i < stTraining.run.size(); i++) {
+		for (short i = 0; i < stTraining.totalTimes.size(); i++) {
 			if (i > 0 && i < 4) {
 				
 				LocalTime time = LocalTime.of(0, 0, 55);
 				LugerCompetitor cmpr = startList.get(i);
 				
-				stTraining.run.put(cmpr, time);	// dociepywanie losowego czsu do niektórych zawodników
+				stTraining.totalTimes.put(cmpr, time);	// dociepywanie losowego czsu do niektórych zawodników
 				
 			}
 		}

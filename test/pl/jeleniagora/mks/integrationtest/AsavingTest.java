@@ -206,7 +206,7 @@ class AsavingTest {
 		///// Koniec pierwszego ślizgu - czekanie na autozapis
 		Thread.sleep(6000, 0);	// autozapis ma delay 5 sekund
 		
-		LocalTime runtimeFor1 = rte_st.currentRun.run.get(rte_st.currentCompetition.invertedStartList.get((short)1));
+		LocalTime runtimeFor1 = rte_st.currentRun.totalTimes.get(rte_st.currentCompetition.invertedStartList.get((short)1));
 		
 		Assert.assertEquals(expected2sec, runtimeFor1);
 		
@@ -263,7 +263,7 @@ class AsavingTest {
 		Thread.sleep(6000, 0);	// autozapis ma delay 5 sekund
 		
 		//ODCZYTYWANIE CZASU ŚLIZGU DLA DRUGIEGO
-		LocalTime runtimeFor2 = rte_st.currentRun.run.get(rte_st.currentCompetition.invertedStartList.get((short)2)); 
+		LocalTime runtimeFor2 = rte_st.currentRun.totalTimes.get(rte_st.currentCompetition.invertedStartList.get((short)2)); 
 		
 		Assert.assertEquals(expected2sec200msec, runtimeFor2);
 		
@@ -321,7 +321,7 @@ class AsavingTest {
 		Thread.sleep(6000, 0);	// autozapis ma delay 5 sekund
 		
 		//ODCZYTYWANIE CZASU ŚLIZGU DLA TRZECIEGO
-		LocalTime runtimeFor3 = rte_st.currentRun.run.get(rte_st.currentCompetition.invertedStartList.get((short)3)); 
+		LocalTime runtimeFor3 = rte_st.currentRun.totalTimes.get(rte_st.currentCompetition.invertedStartList.get((short)3)); 
 		
 		Assert.assertEquals(expected2sec201msec, runtimeFor3);
 		
@@ -378,7 +378,7 @@ class AsavingTest {
 		Thread.sleep(6000, 0);	// autozapis ma delay 5 sekund
 		
 		//ODCZYTYWANIE CZASU ŚLIZGU DLA CZWARTEGO
-		LocalTime runtimeFor4 = rte_st.currentRun.run.get(rte_st.currentCompetition.invertedStartList.get((short)4)); 
+		LocalTime runtimeFor4 = rte_st.currentRun.totalTimes.get(rte_st.currentCompetition.invertedStartList.get((short)4)); 
 		
 		Assert.assertEquals(expected2sec201msec, runtimeFor3);
 		
@@ -437,7 +437,7 @@ class AsavingTest {
 		//ODCZYTYWANIE CZASU ŚLIZGU DLA PIATEGO
 		Run first = rte_st.currentCompetition.runsTimes.get(0);
 		Run second = rte_st.currentCompetition.runsTimes.get(1);
-		LocalTime runtimeFor5 = first.run.get(rte_st.currentCompetition.invertedStartList.get((short)5)); 
+		LocalTime runtimeFor5 = first.totalTimes.get(rte_st.currentCompetition.invertedStartList.get((short)5)); 
 		
 		Assert.assertEquals(expected2sec201msec, runtimeFor3);
 		Assert.assertEquals(second, rte_st.currentRun);
@@ -495,7 +495,7 @@ class AsavingTest {
 		Thread.sleep(6000, 0);	// autozapis ma delay 5 sekund
 		
 		//ODCZYTYWANIE CZASU ŚLIZGU
-		LocalTime runtimeFor1_2 = rte_st.currentRun.run.get(rte_st.currentCompetition.invertedStartList.get((short)1)); 
+		LocalTime runtimeFor1_2 = rte_st.currentRun.totalTimes.get(rte_st.currentCompetition.invertedStartList.get((short)1)); 
 		
 		Assert.assertEquals(expected2sec201msec, runtimeFor1_2);
 		Assert.assertEquals(second, rte_st.currentRun);

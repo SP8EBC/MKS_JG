@@ -127,7 +127,7 @@ public class Competition {
 		
 		for (int i = 0; i < (numberOfAllRuns + numberOfTrainingRuns); i++ ) {
 			Run runFromVct = runsTimes.get(i);
-			Map<LugerCompetitor, LocalTime> m = runFromVct.run;
+			Map<LugerCompetitor, LocalTime> m = runFromVct.totalTimes;
 			
 			m.put(comptr, LocalTime.of(0, 0, 0, 0));
 		}

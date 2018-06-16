@@ -43,7 +43,7 @@ public class CalculateRanksAfterRun {
 				 * w obliczaniu 
 				 */
 				
-				Set<Entry<LugerCompetitor, LocalTime>> set = r.run.entrySet();	// entry set z czasami aktualnie przetwarzanego ślizgu
+				Set<Entry<LugerCompetitor, LocalTime>> set = r.totalTimes.entrySet();	// entry set z czasami aktualnie przetwarzanego ślizgu
 				
 				Iterator<Entry<LugerCompetitor, LocalTime>> it = set.iterator(); 
 								

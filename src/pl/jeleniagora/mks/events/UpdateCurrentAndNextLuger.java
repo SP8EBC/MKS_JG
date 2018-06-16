@@ -65,7 +65,7 @@ public class UpdateCurrentAndNextLuger {
 			
 			start_num = order.nextStartNumber(start_num, rte_st.currentCompetition);	// numer startowy do sprawdzenia
 			LugerCompetitor k = rte_st.currentCompetition.invertedStartList.get(start_num);
-			LocalTime v = rte_st.currentRun.run.get(k);
+			LocalTime v = rte_st.currentRun.totalTimes.get(k);
 			
 			if (v.equals(zero)) {
 				returnVal = k;
@@ -73,7 +73,7 @@ public class UpdateCurrentAndNextLuger {
 			}
 			
 			j++;
-		} while (j < rte_st.currentRun.run.size());
+		} while (j < rte_st.currentRun.totalTimes.size());
 		/*
 		Vector<LocalTime> vctRunTimes = rte_st.currentRun.getVectorWithRuntimes(rte_st.currentCompetition.invertedStartList);
 		
@@ -118,7 +118,7 @@ public class UpdateCurrentAndNextLuger {
 			
 			start_num = order.nextStartNumber(start_num, rte_st.currentCompetition);	// numer startowy do sprawdzenia
 			LugerCompetitor k = rte_st.currentCompetition.invertedStartList.get(start_num);
-			LocalTime v = rte_st.currentRun.run.get(k);
+			LocalTime v = rte_st.currentRun.totalTimes.get(k);
 			
 			if (v.equals(zero)) {
 				returnVal = k;
@@ -126,7 +126,7 @@ public class UpdateCurrentAndNextLuger {
 			}
 			
 			j++;
-		} while (j < rte_st.currentRun.run.size());
+		} while (j < rte_st.currentRun.totalTimes.size());
 
 		
 		return returnVal;

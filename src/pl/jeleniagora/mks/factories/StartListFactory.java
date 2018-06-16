@@ -42,7 +42,7 @@ public class StartListFactory {
 		 * set zawierjący wszystkie klucze, czyli listę saneczkarzy w konkurencji dla której
 		 * trzeba wylosować numery startowe
 		 */
-		Set<LugerCompetitor> lugers = run.run.keySet();
+		Set<LugerCompetitor> lugers = run.totalTimes.keySet();
 		
 		/*
 		 * Tworzenie wektora na podstawie wyciągniętego z mapy setu. Chodzi o zapewnienie
@@ -86,7 +86,7 @@ public class StartListFactory {
 		
 		Run run = forCompetition.runsTimes.get(0);
 		
-		Set<LugerCompetitor> lugers = run.run.keySet();
+		Set<LugerCompetitor> lugers = run.totalTimes.keySet();
 		
 		/*
 		 * Tworzenie wektora na podstawie wyciągniętego z mapy setu. Chodzi o zapewnienie

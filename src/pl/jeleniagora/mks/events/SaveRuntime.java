@@ -42,7 +42,7 @@ public class SaveRuntime {
 			returnVal = true;
 		}
 		
-		rte_gui.runClickedInTable.run.put(rte_gui.competitorClickedInTable, runTime);
+		rte_gui.runClickedInTable.totalTimes.put(rte_gui.competitorClickedInTable, runTime);
 		
 		try {
 			rte_gui.model.updateTableData(rte_gui.competitionBeingShown, false);
@@ -66,7 +66,7 @@ public class SaveRuntime {
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
 		
-		rte_st.currentRun.run.put(rte_st.actuallyOnTrack, runTime);
+		rte_st.currentRun.totalTimes.put(rte_st.actuallyOnTrack, runTime);
 		
 		try {
 			rte_gui.model.updateTableData(rte_gui.competitionBeingShown, false);

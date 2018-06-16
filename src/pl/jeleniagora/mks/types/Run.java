@@ -49,8 +49,8 @@ public class Run {
 	/**
 	 * Mapa łącząca zawodników z ich wynikami końcowymi dla konkretnego ślizgu w konkurencji
 	 */
-	@XmlElement(name = "totalTimes")
-	public Map<LugerCompetitor, LocalTime> run;
+//	@XmlElement(name = "totalTimes")
+	public Map<LugerCompetitor, LocalTime> totalTimes;
 	
 	/**
 	 * Pomocnicza mapa łącząca zawodników z wektorem ich czasów pośrednich. Ostatni element wektora jest to czas ma mecie
@@ -77,7 +77,7 @@ public class Run {
 	
 	public Run(Map<LugerCompetitor, Short> startList, byte trainingOrScored) {
 		
-		run = new HashMap<LugerCompetitor, LocalTime>();
+		totalTimes = new HashMap<LugerCompetitor, LocalTime>();
 
 		Iterator<Entry<LugerCompetitor, Short>> it = startList.entrySet().iterator();
 		
@@ -93,14 +93,14 @@ public class Run {
 			
 			LocalTime zeroTime = LocalTime.of(0, 0, 0, 0);
 			
-			run.put(key, zeroTime);
+			totalTimes.put(key, zeroTime);
 		}
 
 	}
 	
 	public Run(Vector<LugerCompetitor> lugers, byte trainingOrScored) {
 		
-		run = new HashMap<LugerCompetitor, LocalTime>();
+		totalTimes = new HashMap<LugerCompetitor, LocalTime>();
 		
 		Iterator<LugerCompetitor> it = lugers.iterator();
 		
@@ -114,13 +114,13 @@ public class Run {
 			
 			LocalTime zeroTime = LocalTime.of(0, 0, 0, 0);
 			
-			run.put(key, zeroTime);
+			totalTimes.put(key, zeroTime);
 		}
 	}
 	
 	public Run(Vector<LugerCompetitor> lugers,  boolean randmize, byte trainingOrScored) {
 		
-		run = new HashMap<LugerCompetitor, LocalTime>();
+		totalTimes = new HashMap<LugerCompetitor, LocalTime>();
 		
 		Iterator<LugerCompetitor> it = lugers.iterator();
 		
@@ -137,18 +137,18 @@ public class Run {
 			
 			LocalTime zeroTime = LocalTime.of(0, 0, m, msec);
 			
-			run.put(key, zeroTime);
+			totalTimes.put(key, zeroTime);
 		}
 	}
 	
 	/**
 	 * Metoda zwraca końcowy czas ślizgu dla konkretnego zawodnika w konkretnym śligu
 	 * @param comptr
-	 * @param run
+	 * @param totalTimes
 	 * @return
 	 */
 	public Integer getRunTimeForCompetitor(LugerCompetitor comptr) {
-		LocalTime t = run.get(comptr);
+		LocalTime t = totalTimes.get(comptr);
 		
 		long nanoTime = t.getNano();			/// error here
 		
@@ -176,12 +176,12 @@ public class Run {
 		/*
 		 *	Tu należy pamiętać że numery startowe idą nie po programistycznemu!!!! 
 		 */
-		int numberOfCmptrs = run.size();
+		int numberOfCmptrs = totalTimes.size();
 		
 		LocalTime zero = LocalTime.of(0, 0, 0, 0);
 		
 		for (int i = 1; i <= numberOfCmptrs; i++ ) {
-			LocalTime time = this.run.get(list.get((short)i));
+			LocalTime time = this.totalTimes.get(list.get((short)i));
 			if (time == null) {
 				out.add(zero);
 			}

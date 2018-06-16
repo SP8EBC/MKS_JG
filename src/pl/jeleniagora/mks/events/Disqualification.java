@@ -37,7 +37,7 @@ public class Disqualification {
 		if (rte_st.currentRun.trainingOrScored) {
 
 			for (Run r: rte_st.currentCompetition.runsTimes) {
-				r.run.put(l, DSQ.getValue());
+				r.totalTimes.put(l, DSQ.getValue());
 			}
 		}
 		else {
