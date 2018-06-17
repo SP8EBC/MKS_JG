@@ -7,10 +7,12 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
+import pl.jeleniagora.mks.exceptions.CompetitionsNotCreatedEx;
+import pl.jeleniagora.mks.exceptions.RteIsNullEx;
 import pl.jeleniagora.mks.rte.RTE_ST;
-import pl.jeleniagora.mks.settings.LanguageS.eLanguage;
 import pl.jeleniagora.mks.types.CompetitionTypes;
 import pl.jeleniagora.mks.types.LugerCompetitor;
 import pl.jeleniagora.mks.types.LugerDouble;
@@ -22,7 +24,8 @@ public class ListOfAllCompetitorsAdapter extends XmlAdapter<ListOfAllCompetitors
 	static RTE_ST rte_st;
 	
 	@Autowired
-	static void setRte(RTE_ST rte) {
+	@Lazy
+	public void setRte(RTE_ST rte) {
 		rte_st = rte;
 	}
 	
@@ -92,6 +95,13 @@ public class ListOfAllCompetitorsAdapter extends XmlAdapter<ListOfAllCompetitors
 	public List<LugerCompetitor> unmarshal(AdaptedCompetitorsList v) throws Exception {
 		List<LugerCompetitor> out = new ArrayList<LugerCompetitor>();
 		
+		if (rte_st == null)
+			throw (new RteIsNullEx());
+		
+		if(rte_st.competitions == null) 
+			throw new CompetitionsNotCreatedEx();
+
+		
 		for (AdaptedCompetitorsListEntry e : v.competitorsList) {
 			switch(e.lugerCompetitorType) {
 			case MARRIED_COUPLE:
@@ -143,7 +153,7 @@ public class ListOfAllCompetitorsAdapter extends XmlAdapter<ListOfAllCompetitors
 			}
 		}
 		
-		return null;
+		return out;
 	}
 
 }

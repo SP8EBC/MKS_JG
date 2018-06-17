@@ -10,7 +10,9 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import pl.jeleniagora.mks.chrono.Chrono;
@@ -63,6 +65,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.awt.event.ActionEvent;
 
+@org.springframework.stereotype.Component
 public class CompManager extends JFrame {
 
 	static AnnotationConfigApplicationContext ctx;
@@ -73,6 +76,25 @@ public class CompManager extends JFrame {
 	
 	private static CommThread com;
 	
+	static RTE_GUI rte_gui;
+	static RTE_ST rte_st;
+	static RTE_COM rte_com;
+	
+	@Autowired
+	public void setGui(RTE_GUI gui) {
+		rte_gui = gui;
+	}
+	
+	@Autowired
+	public void setSt(RTE_ST st) {
+		rte_st = st;
+	}
+	
+	@Autowired
+	public void setCom(RTE_COM com) {
+		rte_com = com;
+	}
+	 
 	/**
 	 * Tablica referencji do Stringów przechowywająca nazwy kolumn głównej tabeli. 
 	 */
@@ -139,9 +161,9 @@ public class CompManager extends JFrame {
 			ctx = new AnnotationConfigApplicationContext(SpringS.class);
 		}
 		
-		RTE_GUI rte_gui = ctx.getBean(RTE_GUI.class);
-		RTE_ST rte_st = ctx.getBean(RTE_ST.class);
-		RTE_COM rte_com = ctx.getBean(RTE_COM.class);
+//		RTE_GUI rte_gui = ctx.getBean(RTE_GUI.class);
+//		RTE_ST rte_st = ctx.getBean(RTE_ST.class);
+//		RTE_COM rte_com = ctx.getBean(RTE_COM.class);
 		
 		rte_gui.syncCompManagerRdy = new Object();
 		
@@ -185,15 +207,25 @@ public class CompManager extends JFrame {
 					
 					Object value = null;
 					
-					Competitions competitions = new Competitions("test", LocalDate.now(), "karpacz");
-					rte_st.competitions = competitions;
 					
 					frame = new CompManager();
 					frame.setVisible(true);
+					
+					Competitions competitions = new Competitions("test", LocalDate.now(), "karpacz");
+					rte_st.competitions = competitions;
+
+					CompManagerScoreTableModel mdl = (CompManagerScoreTableModel)frame.getScoreTableModel();
+					//Vector<Competition> cmps = mdl.fillWithTestData(competitions, false);
+					
+					JAXBContext context = JAXBContext.newInstance(Competitions.class);
+					///////
+					Unmarshaller un = context.createUnmarshaller();
+					
+					competitions = (Competitions) un.unmarshal(new File("./test_out.xml"));
+					
+					///////
 
 					
-					CompManagerScoreTableModel mdl = (CompManagerScoreTableModel)frame.getScoreTableModel();
-					Vector<Competition> cmps = mdl.fillWithTestData(competitions, false);
 					AfterStartListGeneration.process(competitions);
 					
 					rte_gui.model = mdl;
@@ -201,8 +233,8 @@ public class CompManager extends JFrame {
 					/*
 					 * Aktualizuje zawartość listy wyboru konkurencji
 					 */
-					selectorUpdater.updateSelectorContent(cmps);
-					
+					//selectorUpdater.updateSelectorContent(cmps);
+					selectorUpdater.updateSelectorContent(competitions.competitions);
 					
 					/*
 					 * Przerysowywanie całej JTable od nowa z uwzględnieniem zmiany struktury i danych
@@ -214,13 +246,13 @@ public class CompManager extends JFrame {
 					
 					rte_gui.compManager = frame;
 					rte_gui.compManagerScoreModel = mdl;
-					
+
+
 					
 					///////
-					JAXBContext context = JAXBContext.newInstance(Competitions.class);
 					Marshaller mar= context.createMarshaller();
-					mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-					mar.marshal(competitions, new File("./test_out.xml"));
+					//mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+					//mar.marshal(competitions, new File("./test_out.xml"));
 					
 					//////
 					
@@ -245,7 +277,7 @@ public class CompManager extends JFrame {
 		// lokalny iterator do pętli
 		int i = 0;
 				
-		RTE_GUI rte_gui = ctx.getBean(RTE_GUI.class);
+//		RTE_GUI rte_gui = ctx.getBean(RTE_GUI.class);
 		
 		// inicjalizacja tablicy pod nazwy kolumn
 		this.columnNamesForTable = new String[9];
@@ -676,13 +708,13 @@ public class CompManager extends JFrame {
 		competitionSelector.setBounds(111, 6, 300, 24);
 		contentPane.add(competitionSelector);
 		
-		rte_gui.min = textField_m;
-		rte_gui.sec = textField_s;
-		rte_gui.msec = textField_msec;
+//		rte_gui.min = textField_m;
+//		rte_gui.sec = textField_s;
+//		rte_gui.msec = textField_msec;
 		
-		rte_gui.compManagerCSelector = competitionSelector;	// dodawanaie referencji do RTE
-		rte_gui.actuallyOnTrack = lblActuallyOnTrack;
-		rte_gui.nextOnTrack = lblNextOnTrack;
+//		rte_gui.compManagerCSelector = competitionSelector;	// dodawanaie referencji do RTE
+//		rte_gui.actuallyOnTrack = lblActuallyOnTrack;
+//		rte_gui.nextOnTrack = lblNextOnTrack;
 		
 		JButton btnZmieKonkurencje = new JButton("Zmień konkurencje");
 		btnZmieKonkurencje.setBounds(423, 6, 185, 25);
@@ -695,7 +727,7 @@ public class CompManager extends JFrame {
 		lblCurrentComp.setBounds(801, 11, 223, 15);
 		contentPane.add(lblCurrentComp);
 		
-		rte_gui.currentCompetition = lblCurrentComp;
+//		rte_gui.currentCompetition = lblCurrentComp;
 
 	}
 	
