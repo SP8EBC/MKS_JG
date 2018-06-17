@@ -1,7 +1,5 @@
 package pl.jeleniagora.mks.types;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
 /**
  * Klasa enkapsulująca dwójke sankową.
  * @author mateusz
@@ -25,12 +23,6 @@ public class LugerDouble extends LugerCompetitor {
 		this.generateSystemId();	//  z klasy bazowej
 	}
 	
-	@Override
-	public CompetitionTypes getCompetitorType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 	public String toString() {
 		String out;
 		
@@ -49,5 +41,6 @@ public class LugerDouble extends LugerCompetitor {
 		this.startNum = num;
 		
 	}
+
 
 }

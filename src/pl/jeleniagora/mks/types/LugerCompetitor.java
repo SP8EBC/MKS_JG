@@ -4,9 +4,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * Klasa abstrakycjna używana do enkapsulacji saneczkarzy w różnych typach konkurencji sankowych, zarówno jedynek jak i dwójek oraz
@@ -17,6 +15,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlAccessorType(XmlAccessType.FIELD)
 
 public abstract class LugerCompetitor {
+	CompetitionTypes competitorType;
+	
 	/**
 	 * Metoda zwracająca typ tego saneczkarza-zawodnika, co jest toższame z konkurencją w jakiej będzie on
 	 * startował. Jeżei dostanie się nazad MEN_SINGLE albo WOMAN_SINGLE będzie to oznaczało, że klasa implementująca
@@ -28,7 +28,13 @@ public abstract class LugerCompetitor {
 	 * 
 	 * @return
 	 */	
-	public abstract CompetitionTypes getCompetitorType();
+	public CompetitionTypes getCompetitorType() {
+		return competitorType;
+	}
+	
+	public void setCompetitorType(CompetitionTypes e) {
+		this.competitorType = e;
+	}
 		
 	public abstract void setStartNumber(short num);
 	@XmlTransient
@@ -45,6 +51,10 @@ public abstract class LugerCompetitor {
 	
 	public Long getSystemId() {
 		return this.competitorSystemId;
+	}
+	
+	public void setSystemId(Long in) {
+		this.competitorSystemId = in;
 	}
 	
 }

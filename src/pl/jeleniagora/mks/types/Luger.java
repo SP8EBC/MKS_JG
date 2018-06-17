@@ -36,6 +36,10 @@ public class Luger {
 		return this.systemId;
 	}
 	
+	public void setSystemId(long in) {
+		this.systemId = in;
+	}
+	
 	@XmlTransient
 	public String name, surname;
 	

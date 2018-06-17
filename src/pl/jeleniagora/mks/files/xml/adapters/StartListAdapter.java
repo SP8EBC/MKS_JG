@@ -1,6 +1,7 @@
 package pl.jeleniagora.mks.files.xml.adapters;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -41,8 +42,6 @@ public class StartListAdapter extends XmlAdapter<StartListAdapter.AdaptedStartLi
 		
 		@XmlElement(required = false, nillable = true )
 		public Long lugerCompetitorSystemId;		
-
-
 		
 		@XmlElement(required = true)
 		public short startNumber;
@@ -68,7 +67,15 @@ public class StartListAdapter extends XmlAdapter<StartListAdapter.AdaptedStartLi
 
 	@Override
 	public Map<LugerCompetitor, Short> unmarshal(AdaptedStartList arg0) throws Exception {
-		return null;
+		Map<LugerCompetitor, Short> out = new HashMap<LugerCompetitor, Short>();
+		
+		for (AdaptedStartListEntry e : arg0.adaptedList) {
+			LugerCompetitor cmptr = rte_st.competitions.findLugerCompetitorBySystemId(e.lugerCompetitorSystemId);
+			
+			out.put(cmptr, e.startNumber);
+		}
+		
+		return out;
 	}
 
 }

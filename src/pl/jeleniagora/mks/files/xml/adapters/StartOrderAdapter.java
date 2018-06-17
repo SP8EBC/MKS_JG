@@ -2,6 +2,7 @@ package pl.jeleniagora.mks.files.xml.adapters;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
+import pl.jeleniagora.mks.start.order.SimpleOrder;
 import pl.jeleniagora.mks.start.order.StartOrderInterface;
 
 public class StartOrderAdapter extends XmlAdapter<String, StartOrderInterface> {
@@ -13,6 +14,9 @@ public class StartOrderAdapter extends XmlAdapter<String, StartOrderInterface> {
 
 	@Override
 	public StartOrderInterface unmarshal(String arg0) throws Exception {
+		if (arg0.equals("SIMPLE_ORDER")) {
+			return new SimpleOrder();
+		}
 		return null;
 	}
 

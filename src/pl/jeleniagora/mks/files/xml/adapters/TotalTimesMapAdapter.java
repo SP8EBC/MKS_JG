@@ -2,6 +2,7 @@ package pl.jeleniagora.mks.files.xml.adapters;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -9,11 +10,23 @@ import java.util.Map.Entry;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import pl.jeleniagora.mks.chrono.ConvertMicrotime;
+import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.types.LugerCompetitor;
 
+@Component
 public class TotalTimesMapAdapter extends XmlAdapter<TotalTimesMapAdapter.AdaptedTimesMap, Map<LugerCompetitor, LocalTime>> {
 
+	static RTE_ST rte_st;
+	
+	@Autowired
+	static void setRte(RTE_ST rte) {
+		rte_st = rte;
+	}
+	
 	public static class AdaptedTimesMap {
 		public List<TimeMapEntry> runTimeInMicrotime;
 	}
@@ -48,6 +61,17 @@ public class TotalTimesMapAdapter extends XmlAdapter<TotalTimesMapAdapter.Adapte
 
 	@Override
 	public Map<LugerCompetitor, LocalTime> unmarshal(AdaptedTimesMap v) throws Exception {
+		
+		Map<LugerCompetitor, LocalTime> out = new HashMap<LugerCompetitor, LocalTime>();
+		
+		for (TimeMapEntry e : v.runTimeInMicrotime) {
+			LugerCompetitor cmptr = rte_st.competitions.findLugerCompetitorBySystemId(e.lugerCompetitorSystemId);
+			
+			LocalTime t = ConvertMicrotime.toLocalTime(e.microTime);
+			
+			out.put(cmptr, t);
+		}
+		
 		return null;
 	}
 

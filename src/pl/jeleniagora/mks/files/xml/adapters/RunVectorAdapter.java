@@ -37,7 +37,13 @@ public class RunVectorAdapter extends XmlAdapter<RunVectorAdapter.AdaptedVector,
 
 	@Override
 	public Vector<Run> unmarshal(AdaptedVector arg0) throws Exception {
-		return null;
+		Vector<Run> out = new Vector<Run>();
+		
+		for (Run e : arg0.runsData.run) {
+			out.add(e);
+		}
+		
+		return out;
 	}
 
 }

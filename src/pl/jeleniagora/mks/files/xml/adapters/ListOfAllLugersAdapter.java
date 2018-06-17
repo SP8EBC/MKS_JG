@@ -65,7 +65,24 @@ public class ListOfAllLugersAdapter extends XmlAdapter<ListOfAllLugersAdapter.Ad
 
 	@Override
 	public List<Luger> unmarshal(AdaptedList arg0) throws Exception {
-		return null;
+		
+		List<Luger> out = new ArrayList<Luger>();
+		
+		for (LugeRacer e : arg0.adapted) {
+			Luger n = new Luger();
+			
+			n.birthDate = e.birthDate;
+			n.club = e.club;
+			n.email = e.email;
+			n.surname = e.surname;
+			n.name = e.name;
+			
+			out.add(n);
+			
+		}
+		
+		return out;
+		
 	}
 
 }

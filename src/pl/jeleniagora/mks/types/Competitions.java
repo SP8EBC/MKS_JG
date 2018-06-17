@@ -114,4 +114,35 @@ public class Competitions {
 		date = _date;
 		track = (Track)context.getBean(_track_name.toLowerCase().substring(0, 7).replace(" ", "_"));
 	}
+	
+	/**
+	 * Metoda przeszukuje liste 'listOfAllLugersInThisCompetitions' w poszukiwaniu saneczkarza o wskazanym
+	 * systemId
+	 * @param systemId
+	 * @return
+	 */
+	public Luger findLugerInListBySystemId(long systemId) {
+		
+		for (Luger e : this.listOfAllLugersInThisCompetitions) {
+			if (e.getSystemId() == systemId)
+				return e;
+		}
+		return null;
+	}
+	
+	/**
+	 * Metoda przeszukuje liste 'listOfAllCompetingLugersInThisComps' w poszukiwaniu obiektu klasy 
+	 * 'LugerCompetitor' o wskazanym id systemowym
+	 * @param systemId
+	 * @return
+	 */
+	public LugerCompetitor findLugerCompetitorBySystemId(long systemId) {
+		
+		for (LugerCompetitor e : this.listOfAllCompetingLugersInThisComps) {
+			if (e.competitorSystemId == systemId)
+				return e;
+		}
+		return null;
+		
+	}
 }
