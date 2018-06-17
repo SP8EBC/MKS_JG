@@ -9,9 +9,11 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import pl.jeleniagora.mks.exceptions.LugerOrCompetitorMissingEx;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.settings.LanguageS.eLanguage;
 import pl.jeleniagora.mks.types.CompetitionTypes;
+import pl.jeleniagora.mks.types.Luger;
 import pl.jeleniagora.mks.types.LugerCompetitor;
 import pl.jeleniagora.mks.types.LugerDouble;
 import pl.jeleniagora.mks.types.LugerSingle;
@@ -102,8 +104,16 @@ public class ListOfAllCompetitorsAdapter extends XmlAdapter<ListOfAllCompetitors
 			case DOUBLE_WOMAN_ONLY: {
 				LugerDouble n = new LugerDouble();
 				n.setSystemId(e.lugerCompetitorSystemId);
-				n.upper = rte_st.competitions.findLugerInListBySystemId(e.upperLugerSystemId);
-				n.lower = rte_st.competitions.findLugerInListBySystemId(e.lowerLugerSystemId);
+				
+				Luger up = rte_st.competitions.findLugerInListBySystemId(e.upperLugerSystemId);
+				Luger down = rte_st.competitions.findLugerInListBySystemId(e.lowerLugerSystemId);
+				
+				if (up == null || down == null) {
+					throw new LugerOrCompetitorMissingEx();
+				}
+				
+				n.upper = up;
+				n.lower = down;
 				n.setCompetitorType(e.lugerCompetitorType);
 				
 				out.add(n);
@@ -111,9 +121,21 @@ public class ListOfAllCompetitorsAdapter extends XmlAdapter<ListOfAllCompetitors
 				break;
 			}
 			case MEN_SINGLE: {
+				Luger s = null;
+				
 				LugerSingle n = new LugerSingle(false);
 				n.setSystemId(e.lugerCompetitorSystemId);
-				n.single = rte_st.competitions.findLugerInListBySystemId(e.maleLugerSystemId);
+				try {
+					s = rte_st.competitions.findLugerInListBySystemId(e.singleLugerSystemId);
+				}
+				catch (Exception e1) {
+					System.out.println(e1.getMessage());
+				}
+				if (s == null) {
+					throw new LugerOrCompetitorMissingEx();
+				}
+				
+				n.single = s;
 				n.setCompetitorType(e.lugerCompetitorType);
 				
 				out.add(n);
@@ -124,7 +146,13 @@ public class ListOfAllCompetitorsAdapter extends XmlAdapter<ListOfAllCompetitors
 				
 				LugerSingle n = new LugerSingle(true);
 				n.setSystemId(e.lugerCompetitorSystemId);
-				n.single = rte_st.competitions.findLugerInListBySystemId(e.femaleLugerSystemId);
+				Luger s = rte_st.competitions.findLugerInListBySystemId(e.maleLugerSystemId);
+				
+				if (s == null) {
+					throw new LugerOrCompetitorMissingEx();
+				}
+				
+				n.single = s;
 				n.setCompetitorType(e.lugerCompetitorType);
 				
 				out.add(n);
@@ -144,7 +172,7 @@ public class ListOfAllCompetitorsAdapter extends XmlAdapter<ListOfAllCompetitors
 			}
 		}
 		
-		return null;
+		return out;
 	}
 
 }

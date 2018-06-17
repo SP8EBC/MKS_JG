@@ -10,6 +10,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -24,6 +25,7 @@ import pl.jeleniagora.mks.events.LandedStateReached;
 import pl.jeleniagora.mks.events.SaveRuntime;
 import pl.jeleniagora.mks.events.UpdateCurrentAndNextLuger;
 import pl.jeleniagora.mks.exceptions.FailedOpenSerialPortEx;
+import pl.jeleniagora.mks.rte.RTE;
 import pl.jeleniagora.mks.rte.RTE_COM;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
@@ -185,15 +187,23 @@ public class CompManager extends JFrame {
 					
 					Object value = null;
 					
-					Competitions competitions = new Competitions("test", LocalDate.now(), "karpacz");
-					rte_st.competitions = competitions;
-					
 					frame = new CompManager();
 					frame.setVisible(true);
-
 					
+					Competitions competitions = new Competitions("test", LocalDate.now(), "karpacz");
+					rte_st.competitions = competitions;
+
 					CompManagerScoreTableModel mdl = (CompManagerScoreTableModel)frame.getScoreTableModel();
-					Vector<Competition> cmps = mdl.fillWithTestData(competitions, false);
+					//Vector<Competition> cmps = mdl.fillWithTestData(competitions, false);
+					
+					JAXBContext context = JAXBContext.newInstance(Competitions.class);
+					///////
+					Unmarshaller un = context.createUnmarshaller();
+					
+					competitions = (Competitions) un.unmarshal(new File("./test_out.xml"));
+					
+					///////
+					
 					AfterStartListGeneration.process(competitions);
 					
 					rte_gui.model = mdl;
@@ -201,7 +211,8 @@ public class CompManager extends JFrame {
 					/*
 					 * Aktualizuje zawartość listy wyboru konkurencji
 					 */
-					selectorUpdater.updateSelectorContent(cmps);
+//					selectorUpdater.updateSelectorContent(cmps);
+					selectorUpdater.updateSelectorContent(competitions.competitions);
 					
 					
 					/*
@@ -217,10 +228,10 @@ public class CompManager extends JFrame {
 					
 					
 					///////
-					JAXBContext context = JAXBContext.newInstance(Competitions.class);
-					Marshaller mar= context.createMarshaller();
-					mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-					mar.marshal(competitions, new File("./test_out.xml"));
+//					JAXBContext context = JAXBContext.newInstance(Competitions.class);
+//					Marshaller mar= context.createMarshaller();
+//					mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+//					mar.marshal(competitions, new File("./test_out.xml"));
 					
 					//////
 					
@@ -242,10 +253,10 @@ public class CompManager extends JFrame {
 	 * Create the frame.
 	 */
 	public CompManager() {
-		// lokalny iterator do pętli
-		int i = 0;
+
 				
-		RTE_GUI rte_gui = ctx.getBean(RTE_GUI.class);
+//		RTE_GUI rte_gui = ctx.getBean(RTE_GUI.class);
+		RTE_GUI rte_gui = RTE.getGUI();
 		
 		// inicjalizacja tablicy pod nazwy kolumn
 		this.columnNamesForTable = new String[9];

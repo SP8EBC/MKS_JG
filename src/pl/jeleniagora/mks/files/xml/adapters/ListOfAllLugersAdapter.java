@@ -8,11 +8,23 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.types.Club;
 import pl.jeleniagora.mks.types.Luger;
 
+@Component
 public class ListOfAllLugersAdapter extends XmlAdapter<ListOfAllLugersAdapter.AdaptedList, List<Luger>> {
 
+	static RTE_ST rte_st;
+	
+	@Autowired
+	public void setRTE(RTE_ST st) {
+		rte_st = st;
+	}
+	
 	public static class AdaptedList { 
 		@XmlElement(name = "luger")
 		List<LugeRacer> adapted = new ArrayList<LugeRacer>();
@@ -78,6 +90,8 @@ public class ListOfAllLugersAdapter extends XmlAdapter<ListOfAllLugersAdapter.Ad
 			n.name = e.name;
 			
 			out.add(n);
+			
+			rte_st.competitions.listOfAllLugersInThisCompetitions.add(n);
 			
 		}
 		

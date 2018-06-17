@@ -17,13 +17,25 @@ public class RTE {
 		rte_st = st;
 	}
 	
+	public static RTE_ST getST() {
+		return rte_st;
+	}
+	
 	@Autowired
 	public void setGUI(RTE_GUI gui) {
 		rte_gui = gui;
 	}
 	
+	public static RTE_GUI getGUI() {
+		return rte_gui;
+	}
+	
 	@Autowired
 	public void setCOM(RTE_COM com) {
 		rte_com = com;
+	}
+	
+	public static RTE_COM getCOM() {
+		return rte_com;
 	}
 } 
