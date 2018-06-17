@@ -22,8 +22,9 @@ public class ListOfAllCompetitorsAdapter extends XmlAdapter<ListOfAllCompetitors
 	static RTE_ST rte_st;
 	
 	@Autowired
-	static void setRte(RTE_ST rte) {
+	void setRte(RTE_ST rte) {
 		rte_st = rte;
+		return;
 	}
 	
 	public static class AdaptedCompetitorsList {
