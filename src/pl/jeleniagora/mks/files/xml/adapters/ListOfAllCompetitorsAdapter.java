@@ -143,10 +143,17 @@ public class ListOfAllCompetitorsAdapter extends XmlAdapter<ListOfAllCompetitors
 				break;
 				}
 			case WOMAN_SINGLE: {
+				Luger s = null;
 				
 				LugerSingle n = new LugerSingle(true);
 				n.setSystemId(e.lugerCompetitorSystemId);
-				Luger s = rte_st.competitions.findLugerInListBySystemId(e.maleLugerSystemId);
+				try {
+					s = rte_st.competitions.findLugerInListBySystemId(e.singleLugerSystemId);
+				}
+				catch (Exception e1) {
+					System.out.println(e1.getMessage());
+				}
+				
 				
 				if (s == null) {
 					throw new LugerOrCompetitorMissingEx();

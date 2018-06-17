@@ -88,6 +88,7 @@ public class ListOfAllLugersAdapter extends XmlAdapter<ListOfAllLugersAdapter.Ad
 			n.email = e.email;
 			n.surname = e.surname;
 			n.name = e.name;
+			n.setSystemId(e.systemId);
 			
 			out.add(n);
 			
