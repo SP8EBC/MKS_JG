@@ -25,10 +25,9 @@ import pl.jeleniagora.mks.rte.RTE_ST;
 @Component
 public class StartListAdapter extends XmlAdapter<StartListAdapter.AdaptedStartList, Map<LugerCompetitor, Short>> {
 
-	RTE_ST rte_st;
+	static RTE_ST rte_st;
 
 	@Autowired
-	@Lazy
 	public void setRTE(RTE_ST rte) {
 		rte_st = rte;
 	}

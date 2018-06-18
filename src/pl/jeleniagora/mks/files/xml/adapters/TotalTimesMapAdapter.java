@@ -72,7 +72,7 @@ public class TotalTimesMapAdapter extends XmlAdapter<TotalTimesMapAdapter.Adapte
 			out.put(cmptr, t);
 		}
 		
-		return null;
+		return out;
 	}
 
 }
