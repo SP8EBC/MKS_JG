@@ -17,6 +17,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import pl.jeleniagora.mks.factories.RunsFactory;
 import pl.jeleniagora.mks.files.xml.adapters.TrackAdapter;
 import pl.jeleniagora.mks.files.xml.adapters.CompetitionTypesAdapter;
+import pl.jeleniagora.mks.files.xml.adapters.RanksAdapter;
 import pl.jeleniagora.mks.files.xml.adapters.RunVectorAdapter;
 import pl.jeleniagora.mks.files.xml.adapters.StartListAdapter;
 import pl.jeleniagora.mks.files.xml.adapters.StartOrderAdapter;
@@ -95,6 +96,8 @@ public class Competition {
 	/**
 	 * Mapa łącząca saneczkarzy z miejscami (lokatami) które uzyskali.
 	 */
+	// TODO
+	@XmlJavaTypeAdapter(value = RanksAdapter.class)
 	public Map<LugerCompetitor, Short> ranks;
 	
 	/**
