@@ -51,7 +51,7 @@ public class Run {
 	/**
 	 * Mapa łącząca zawodników z ich wynikami końcowymi dla konkretnego ślizgu w konkurencji
 	 */
-//	@XmlElement(name = "totalTimes")
+	@XmlElement(name = "totalTimes")
 	@XmlJavaTypeAdapter(value = TotalTimesMapAdapter.class)
 	public Map<LugerCompetitor, LocalTime> totalTimes;
 	

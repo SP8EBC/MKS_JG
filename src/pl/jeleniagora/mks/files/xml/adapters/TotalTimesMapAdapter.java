@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import pl.jeleniagora.mks.chrono.ConvertMicrotime;
+import pl.jeleniagora.mks.exceptions.RteIsNullEx;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.types.LugerCompetitor;
 
@@ -23,7 +24,7 @@ public class TotalTimesMapAdapter extends XmlAdapter<TotalTimesMapAdapter.Adapte
 	static RTE_ST rte_st;
 	
 	@Autowired
-	static void setRte(RTE_ST rte) {
+	void setRte(RTE_ST rte) {
 		rte_st = rte;
 	}
 	
@@ -61,6 +62,9 @@ public class TotalTimesMapAdapter extends XmlAdapter<TotalTimesMapAdapter.Adapte
 
 	@Override
 	public Map<LugerCompetitor, LocalTime> unmarshal(AdaptedTimesMap v) throws Exception {
+		
+		if (rte_st == null)
+			throw new RteIsNullEx();
 		
 		Map<LugerCompetitor, LocalTime> out = new HashMap<LugerCompetitor, LocalTime>();
 		

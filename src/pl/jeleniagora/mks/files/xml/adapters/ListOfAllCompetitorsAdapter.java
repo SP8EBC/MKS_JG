@@ -179,6 +179,7 @@ public class ListOfAllCompetitorsAdapter extends XmlAdapter<ListOfAllCompetitors
 			}
 		}
 		
+		rte_st.competitions.listOfAllCompetingLugersInThisComps = out;
 		return out;
 	}
 

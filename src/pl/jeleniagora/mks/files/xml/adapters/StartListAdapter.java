@@ -70,6 +70,7 @@ public class StartListAdapter extends XmlAdapter<StartListAdapter.AdaptedStartLi
 		
 		for (AdaptedStartListEntry e : arg0.adaptedList) {
 			LugerCompetitor cmptr = rte_st.competitions.findLugerCompetitorBySystemId(e.lugerCompetitorSystemId);
+
 			
 			out.put(cmptr, e.startNumber);
 		}

@@ -194,7 +194,7 @@ public class CompManager extends JFrame {
 					rte_st.competitions = competitions;
 
 					CompManagerScoreTableModel mdl = (CompManagerScoreTableModel)frame.getScoreTableModel();
-					Vector<Competition> cmps = mdl.fillWithTestData(competitions, false);
+//					Vector<Competition> cmps = mdl.fillWithTestData(competitions, false);
 					
 					JAXBContext context = JAXBContext.newInstance(Competitions.class);
 					///////
@@ -228,10 +228,10 @@ public class CompManager extends JFrame {
 					
 					
 					///////
-					//JAXBContext context = JAXBContext.newInstance(Competitions.class);
-					//Marshaller mar= context.createMarshaller();
-					//mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-					//mar.marshal(competitions, new File("./test_out.xml"));
+//					JAXBContext context = JAXBContext.newInstance(Competitions.class);
+//					Marshaller mar= context.createMarshaller();
+//					mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+//					mar.marshal(competitions, new File("./test_out.xml"));
 					
 					//////
 					
