@@ -81,6 +81,8 @@ public class Competitions {
 	@XmlTransient
 	public Map<Competition, StartGate> competitionToStartGateMapping;
 	
+	public ProgramState programState;
+	
 	public String toString() {
 		DateTimeFormatter fmtr = DateTimeFormatter.ofPattern("YYYY-MM-dd");
 		String ds;
