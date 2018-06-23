@@ -77,7 +77,11 @@ public class XmlLoader {
 		rte_st.currentCompetition = competitions.competitions.get(state._currentCompetition);
 		rte_st.currentRun = competitions.competitions.get(state._currentCompetition).runsTimes.get(state.currentRunCnt);
 		rte_st.actuallyOnTrack = competitions.findLugerCompetitorBySystemId(state._actuallyOnTrack);
-		rte_st.nextOnTrack = competitions.findLugerCompetitorBySystemId(state._nextOnTrack);
+		if (state._nextOnTrack != 0)
+			rte_st.nextOnTrack = competitions.findLugerCompetitorBySystemId(state._nextOnTrack);
+		else {
+			rte_st.nextOnTrack = null;
+		}
 		if (state._returnCmptr != 0) {
 			rte_st.returnComptr = competitions.findLugerCompetitorBySystemId(state._returnCmptr);
 		}

@@ -26,6 +26,15 @@ public class ConvertMicrotime {
 	}
 	
 	public static Integer fromLocalTime(LocalTime lt) {
-		return 0;
+		int nano = lt.getNano();
+		int sec = lt.getSecond();
+		int min = lt.getMinute();
+		int hr = lt.getHour();
+		
+		int secTotal = sec + min * 60 + hr * 3600;
+		int msec = nano / TypesConverters.nanoToMilisecScaling; 
+		int out = secTotal * 10000 + msec * 10;
+		
+		return out;
 	}
 }

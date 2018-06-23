@@ -42,7 +42,10 @@ public class ProgramStateAdapter extends XmlAdapter<ProgramStateAdapter.AdaptedP
 		
 		out.currentCompetition = arg0.currentCompetition.id;
 		out.actuallyOnTrack = arg0.actuallyOnTrack.getSystemId();
-		out.nextOnTrack = arg0.nextOnTrack.getSystemId();
+		if (arg0.nextOnTrack != null)
+			out.nextOnTrack = arg0.nextOnTrack.getSystemId();
+		else
+			out.nextOnTrack = 0;
 		if (arg0.returnCmptr != null) {
 			out.returnCmptr = arg0.returnCmptr.getSystemId();
 		}
