@@ -50,21 +50,23 @@ public class XmlLoader {
 		Unmarshaller un = context.createUnmarshaller();
 		competitions = (Competitions) un.unmarshal(new File(filename));
 		
-		restoreProgramState(competitions.programState);
+		restoreProgramState(competitions, competitions.programState);
 		restoreUserInterface(competitions);
 		
 		return competitions;
 	}
 	
-	void restoreProgramState(ProgramState state) throws RteIsNullEx {
+	void restoreProgramState(Competitions competitions, ProgramState state) throws RteIsNullEx {
 		if (rte_st == null || rte_gui == null)
 			throw new RteIsNullEx();
 		
-		rte_st.currentCompetition = state.currentCompetition;
-		rte_st.currentRun = state.currentRun;
-		rte_st.actuallyOnTrack = state.actuallyOnTrack;
-		rte_st.nextOnTrack = state.nextOnTrack;
-		rte_st.returnComptr = state.returnCmptr;
+		rte_st.currentCompetition = competitions.competitions.get(state._currentCompetition);
+		rte_st.currentRun = competitions.competitions.get(state._currentCompetition).runsTimes.get(state.currentRunCnt);
+		rte_st.actuallyOnTrack = competitions.findLugerCompetitorBySystemId(state._actuallyOnTrack);
+		rte_st.nextOnTrack = competitions.findLugerCompetitorBySystemId(state._nextOnTrack);
+		if (state._returnCmptr != 0) {
+			rte_st.returnComptr = competitions.findLugerCompetitorBySystemId(state._returnCmptr);
+		}
 		rte_st.currentRunCnt = (short) state.currentRunCnt;
 				
 		rte_gui.actuallyOnTrack.setText(rte_st.actuallyOnTrack.toString());

@@ -60,7 +60,7 @@ public class ProgramStateAdapter extends XmlAdapter<ProgramStateAdapter.AdaptedP
 		}
 		
 		ProgramState out = new ProgramState();
-		
+		/*
 		out.actuallyOnTrack = rte_st.competitions.findLugerCompetitorBySystemId(arg0.actuallyOnTrack);
 		out.nextOnTrack = rte_st.competitions.findLugerCompetitorBySystemId(arg0.nextOnTrack);
 		if (arg0.returnCmptr != 0) {
@@ -68,6 +68,13 @@ public class ProgramStateAdapter extends XmlAdapter<ProgramStateAdapter.AdaptedP
 		}
 		out.currentCompetition = rte_st.competitions.competitions.get(arg0.currentCompetition);
 		out.currentRun = out.currentCompetition.runsTimes.get(arg0.currentRun);
+		out.currentRunCnt = arg0.currentRun;
+		*/
+		
+		out._actuallyOnTrack = arg0.actuallyOnTrack;
+		out._currentCompetition = arg0.currentCompetition;
+		out._nextOnTrack = arg0.nextOnTrack;
+		out._returnCmptr = arg0.returnCmptr;
 		out.currentRunCnt = arg0.currentRun;
 		
 		return out;

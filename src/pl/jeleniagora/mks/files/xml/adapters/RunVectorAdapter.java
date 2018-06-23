@@ -6,6 +6,10 @@ import java.util.Vector;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.types.Run;
 
 public class RunVectorAdapter extends XmlAdapter<RunVectorAdapter.AdaptedVector, Vector<Run>> {
@@ -42,7 +46,7 @@ public class RunVectorAdapter extends XmlAdapter<RunVectorAdapter.AdaptedVector,
 		for (Run e : arg0.runsData.run) {
 			out.add(e);
 		}
-		
+				
 		return out;
 	}
 

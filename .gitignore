@@ -9,6 +9,10 @@
 *.txt
 
 test_out.xml
+test_out2.xml
+
+out_test.xml
+out_test2.xml
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/

@@ -8,12 +8,16 @@ package pl.jeleniagora.mks.types;
 public class ProgramState {
 
 	public Competition currentCompetition;
+	public int _currentCompetition;
 	
 	public LugerCompetitor actuallyOnTrack;
+	public long _actuallyOnTrack;
 	
 	public LugerCompetitor nextOnTrack;
+	public long _nextOnTrack;
 	
 	public LugerCompetitor returnCmptr;
+	public long _returnCmptr;
 	
 	public Run currentRun;
 	

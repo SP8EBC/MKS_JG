@@ -25,6 +25,8 @@ import pl.jeleniagora.mks.events.LandedStateReached;
 import pl.jeleniagora.mks.events.SaveRuntime;
 import pl.jeleniagora.mks.events.UpdateCurrentAndNextLuger;
 import pl.jeleniagora.mks.exceptions.FailedOpenSerialPortEx;
+import pl.jeleniagora.mks.exceptions.UninitializedCompEx;
+import pl.jeleniagora.mks.files.xml.XmlLoader;
 import pl.jeleniagora.mks.files.xml.XmlSaver;
 import pl.jeleniagora.mks.rte.RTE;
 import pl.jeleniagora.mks.rte.RTE_COM;
@@ -39,6 +41,8 @@ import pl.jeleniagora.mks.settings.SpringS;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.CompetitionEncapsulationForSelector;
 import pl.jeleniagora.mks.types.Competitions;
+import pl.jeleniagora.mks.types.Reserve;
+
 import javax.swing.JMenuBar;
 
 import javax.swing.JScrollPane;
@@ -186,48 +190,30 @@ public class CompManager extends JFrame {
 				try {
 					DisplayS.setShowAllTimeDigits(true);
 					
+					Competitions competitions = new Competitions();
+					rte_st.competitions = competitions;
+
 					Object value = null;
 					
 					frame = new CompManager();
 					frame.setVisible(true);
 					
-					Competitions competitions = new Competitions("test", LocalDate.now(), "karpacz");
-					rte_st.competitions = competitions;
-
 					CompManagerScoreTableModel mdl = (CompManagerScoreTableModel)frame.getScoreTableModel();
-					Vector<Competition> cmps = mdl.fillWithTestData(competitions, false);
-					
-//					JAXBContext context = JAXBContext.newInstance(Competitions.class);
-					///////
-//					Unmarshaller un = context.createUnmarshaller();
-					
-//					competitions = (Competitions) un.unmarshal(new File("./test_out.xml"));
-					
-					///////
-					
-					AfterStartListGeneration.process(competitions);
 					
 					rte_gui.model = mdl;
-					
-					/*
-					 * Aktualizuje zawartość listy wyboru konkurencji
-					 */
-//					selectorUpdater.updateSelectorContent(cmps);
-					selectorUpdater.updateSelectorContent(competitions.competitions);
-					
-					
-					/*
-					 * Przerysowywanie całej JTable od nowa z uwzględnieniem zmiany struktury i danych
-					 */
-					mdl.fireTableStructureChanged();
-					
-					TableCellRenderer renderer = frame.getScoreTable().getCellRenderer(1, 1);
-					Component comp = renderer.getTableCellRendererComponent(frame.table, value, true, true, 1, 1);
-					
 					rte_gui.compManager = frame;
 					rte_gui.compManagerScoreModel = mdl;
 					
+					XmlLoader loader = (XmlLoader)ctx.getBean(XmlLoader.class);
+					loader.setFilename("out_test.xml");
+					competitions = loader.loadFromXml();
+					rte_st.competitions = competitions;
 					
+					selectorUpdater.updateSelectorContent(competitions.competitions);
+					
+					TableCellRenderer renderer = frame.getScoreTable().getCellRenderer(1, 1);
+					Component comp = renderer.getTableCellRendererComponent(frame.table, value, true, true, 1, 1);
+						
 					///////
 					XmlSaver saver = (XmlSaver)ctx.getBean(XmlSaver.class);	
 					saver.setFilename("out_test2.xml");
@@ -244,6 +230,13 @@ public class CompManager extends JFrame {
 //				catch (Reserve r) {
 //					r.printStackTrace();
 //				}
+				catch (UninitializedCompEx e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (Reserve e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 			}
 		});
