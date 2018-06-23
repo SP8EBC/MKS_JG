@@ -92,6 +92,7 @@ public class XmlLoader {
 		rte_gui.model.updateTableData(rte_st.currentCompetition, false);
 		
 		rte_gui.model.fireTableStructureChanged();
+		rte_gui.currentCompetition.setText(rte_st.currentCompetition.toString());
 
 	}
 	

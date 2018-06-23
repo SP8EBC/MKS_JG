@@ -26,13 +26,15 @@ public class XmlSaver {
 	 * Nazwa wynikowego pliku XML
 	 */
 	String fn;
+	File file;
 	
 	public XmlSaver(String filename) {
 		fn = filename;
 	}
 	
 	public XmlSaver() {
-		
+		fn = null;
+		file = null;
 	}
 	
 	@Autowired
@@ -44,9 +46,18 @@ public class XmlSaver {
 		fn = _fn;
 	}
 	
+	public void setFile(File f) {
+		file = f;
+	}
+	
 	public void saveToXml(Competitions competitions) throws JAXBException, RteIsNullEx {
 		if (rte_st == null)
 			throw new RteIsNullEx();
+		File f;
+		if (fn != null)
+			f = new File(fn);
+		else 
+			f = file;
 		
 		ProgramState pgmState = new ProgramState();
 		
@@ -62,6 +73,6 @@ public class XmlSaver {
 		JAXBContext context = JAXBContext.newInstance(Competitions.class);
 		Marshaller mar= context.createMarshaller();
 		mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-		mar.marshal(competitions, new File(fn));
+		mar.marshal(competitions, f);
 	}
 }

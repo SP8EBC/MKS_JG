@@ -11,7 +11,7 @@ public class DisplayS {
 	
 	private static boolean inhibitMessageAtEndOfRun;
 	
-	public final static int columnOffset = 4;
+	public final static int columnOffset = 5;
 
 	public static boolean isShowAllTimeDigits() {
 		return showAllTimeDigits;

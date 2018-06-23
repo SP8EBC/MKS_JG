@@ -38,8 +38,8 @@ public class CompManagerOpenFileListener implements ActionListener {
 			Competitions competitions = null;
 			
 			JFileChooser fc = new JFileChooser();
-			fc.addChoosableFileFilter(new DialogXmlFileFilter());
-			fc.setAcceptAllFileFilterUsed(false);
+			fc.addChoosableFileFilter(new DialogXmlFileFilter());		// filtr wyświetlający katalogi i pliki XML
+			fc.setAcceptAllFileFilterUsed(false);				// wyłącznie opcji typ pliku : wszystkie
 			int ret = fc.showOpenDialog(null);
 			
 			if (ret == JFileChooser.APPROVE_OPTION) {

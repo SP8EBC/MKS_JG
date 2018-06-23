@@ -103,6 +103,21 @@ public class CompManager extends JFrame {
 	}
 	
 	/**
+	 * Publiczna metoda umożliwiająca automatyczne posortowanie tabeli po numerach startowych w kolejności
+	 * rosnącej
+	 */
+	public void sortByStartNumberAscending() {
+		/*
+		 * Tutaj jest użyty pewien knif umożliwiający zawsze wywołanie sortowania rosnącego dla pierwszej kolumny.
+		 * Dostępna jest tylko metoda toggleSortOrger, która przełącza raz rosnąco, raz malejąco.
+		 * 
+		 * 
+		 */
+		table.getRowSorter().toggleSortOrder(1);		
+		table.getRowSorter().toggleSortOrder(0);
+	}
+	
+	/**
 	 * Metoda ustawia kursor w tabeli wyników na konkretnego zawodnika i konkretny ślizg
 	 * @param startNumber
 	 * @param runIndex
@@ -123,7 +138,7 @@ public class CompManager extends JFrame {
 		 * Pięć pierwszych kolumn zawiera dane o zawodniku takie jak imie nazwisko, etc. dopiero szósta kolumna
 		 * to pierwsza kolumna z czasami
 		 */
-		int columnToSelect = runIndex + 4;
+		int columnToSelect = runIndex + DisplayS.columnOffset;
 		
 		System.out.println("markConcreteRun - rts " + rowToSelect + " - cts " + columnToSelect + " - startnum" + startNumber);
 		
@@ -267,7 +282,8 @@ public class CompManager extends JFrame {
 		mntmOtwrzIstniejcyPlik.addActionListener((CompManagerOpenFileListener)ctx.getBean(CompManagerOpenFileListener.class));
 		mnNewMenu.add(mntmOtwrzIstniejcyPlik);
 		
-		JMenuItem mntmZapiszPlikZawodw = new JMenuItem("Zapisz Plik Zawodów");
+		JMenuItem mntmZapiszPlikZawodw = new JMenuItem("Zapisz Plik Zawodów Jako");
+		mntmZapiszPlikZawodw.addActionListener((CompManagerSaveFileAsListener)ctx.getBean(CompManagerSaveFileAsListener.class));
 		mnNewMenu.add(mntmZapiszPlikZawodw);
 		
 		mnNewMenu.add(new JSeparator());

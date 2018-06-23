@@ -106,6 +106,7 @@ public class EndOfRun {
 			 * 
 			 */
 			rte_gui.compManagerScoreModel.fireTableStructureChanged();
+			rte_gui.compManager.sortByStartNumberAscending();
 			
 
 		}

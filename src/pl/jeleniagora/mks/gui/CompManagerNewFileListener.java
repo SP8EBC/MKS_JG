@@ -58,6 +58,7 @@ public class CompManagerNewFileListener implements ActionListener {
 			rte_gui.model.fireTableDataChanged();
 			rte_gui.nextOnTrack.setText("----");
 			rte_gui.actuallyOnTrack.setText("----");
+			rte_gui.currentCompetition.setText("----");
 
 			
 		}
