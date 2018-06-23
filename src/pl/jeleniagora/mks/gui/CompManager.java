@@ -1,16 +1,11 @@
 package pl.jeleniagora.mks.gui;
 
-import java.awt.Component;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -65,9 +60,7 @@ import java.awt.Color;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JCheckBoxMenuItem;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.awt.event.ActionEvent;
 
 public class CompManager extends JFrame {
@@ -176,7 +169,7 @@ public class CompManager extends JFrame {
 				
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				CompManagerCSelectorUpdater selectorUpdater = new CompManagerCSelectorUpdater(ctx);
+				CompManagerCSelectorUpdater selectorUpdater = (CompManagerCSelectorUpdater)ctx.getBean(CompManagerCSelectorUpdater.class);
 				AfterStartListGeneration.setAppCtx(ctx);
 				ChangeCompetition.setAppCtx(ctx);
 				UpdateCurrentAndNextLuger.setAppCtx(ctx);
@@ -190,6 +183,10 @@ public class CompManager extends JFrame {
 				try {
 					DisplayS.setShowAllTimeDigits(true);
 					
+					/* 
+					 * Obiekt klasy Competitions musi być stworzony przed wczytaniem XMLa bo adaptery typów zapisują
+					 * tam dane pośrednie które są potrzebne do odczytywania 
+					 * */
 					Competitions competitions = new Competitions();
 					rte_st.competitions = competitions;
 
@@ -207,13 +204,9 @@ public class CompManager extends JFrame {
 					XmlLoader loader = (XmlLoader)ctx.getBean(XmlLoader.class);
 					loader.setFilename("out_test.xml");
 					competitions = loader.loadFromXml();
-					rte_st.competitions = competitions;
 					
 					selectorUpdater.updateSelectorContent(competitions.competitions);
 					
-					TableCellRenderer renderer = frame.getScoreTable().getCellRenderer(1, 1);
-					Component comp = renderer.getTableCellRendererComponent(frame.table, value, true, true, 1, 1);
-						
 					///////
 					XmlSaver saver = (XmlSaver)ctx.getBean(XmlSaver.class);	
 					saver.setFilename("out_test2.xml");
@@ -267,9 +260,11 @@ public class CompManager extends JFrame {
 		menuBar.add(mnNewMenu);
 		
 		JMenuItem mntmNowyPlikZawodw = new JMenuItem("Nowy Plik Zawodów");
+		mntmNowyPlikZawodw.addActionListener((CompManagerNewFileListener)ctx.getBean(CompManagerNewFileListener.class));
 		mnNewMenu.add(mntmNowyPlikZawodw);
 		
 		JMenuItem mntmOtwrzIstniejcyPlik = new JMenuItem("Otwórz Istniejący Plik Zawodów");
+		mntmOtwrzIstniejcyPlik.addActionListener((CompManagerOpenFileListener)ctx.getBean(CompManagerOpenFileListener.class));
 		mnNewMenu.add(mntmOtwrzIstniejcyPlik);
 		
 		JMenuItem mntmZapiszPlikZawodw = new JMenuItem("Zapisz Plik Zawodów");

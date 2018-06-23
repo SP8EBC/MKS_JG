@@ -10,7 +10,11 @@ import org.springframework.context.annotation.ImportResource;
  *
  */
 @Configuration
-@ComponentScan(basePackages = "pl.jeleniagora.mks.rte, pl.jeleniagora.mks.types, pl.jeleniagora.mks.files.xml.adapters, pl.jeleniagora.mks.files.xml")
+@ComponentScan(basePackages = "pl.jeleniagora.mks.rte, "
+		+ "pl.jeleniagora.mks.types, "
+		+ "pl.jeleniagora.mks.files.xml.adapters, "
+		+ "pl.jeleniagora.mks.files.xml, "
+		+ "pl.jeleniagora.mks.gui")
 public class SpringS {
 
 }

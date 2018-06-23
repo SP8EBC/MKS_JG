@@ -83,7 +83,7 @@ class UpdateCurrentAndNextLugerTest {
 		RTE_ST rte_st = ctx.getBean(RTE_ST.class);
 		
 		CompManagerScoreTableModel mdl = (CompManagerScoreTableModel)frame.getScoreTableModel();
-		CompManagerCSelectorUpdater selectorUpdater = new CompManagerCSelectorUpdater(ctx);
+		CompManagerCSelectorUpdater selectorUpdater = (CompManagerCSelectorUpdater)ctx.getBean(CompManagerCSelectorUpdater.class);
 
 		
 		/* 
@@ -137,7 +137,7 @@ class UpdateCurrentAndNextLugerTest {
 		LocalTime zero = LocalTime.of(0, 0, 0, 0);
 
 		CompManagerScoreTableModel mdl = (CompManagerScoreTableModel)frame.getScoreTableModel();
-		CompManagerCSelectorUpdater selectorUpdater = new CompManagerCSelectorUpdater(ctx);
+		CompManagerCSelectorUpdater selectorUpdater = (CompManagerCSelectorUpdater)ctx.getBean(CompManagerCSelectorUpdater.class);
 
 		
 		/* 

@@ -24,9 +24,11 @@ public class XmlLoader {
 	RTE_GUI rte_gui;
 	
 	String filename;
+	File file;
 
 	public XmlLoader() {
-		
+		filename = null;
+		file = null;
 	}
 	
 	@Autowired
@@ -42,16 +44,28 @@ public class XmlLoader {
 	public void setFilename(String fn) {
 		filename = fn;
 	}
+	
+	public void setFile(File f) {
+		file = f;
+	}
 	 
 	public Competitions loadFromXml() throws JAXBException, RteIsNullEx, UninitializedCompEx, Reserve {
 		Competitions competitions;
+		File inputFile;
 		
 		JAXBContext context = JAXBContext.newInstance(Competitions.class);
 		Unmarshaller un = context.createUnmarshaller();
-		competitions = (Competitions) un.unmarshal(new File(filename));
 		
+		if (file != null)
+			inputFile = file;
+		else
+			inputFile = new File(filename);
+			
+		competitions = (Competitions) un.unmarshal(inputFile);
 		restoreProgramState(competitions, competitions.programState);
 		restoreUserInterface(competitions);
+		
+		rte_st.competitions = competitions;
 		
 		return competitions;
 	}

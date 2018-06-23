@@ -78,13 +78,18 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 		types[2] = new String().getClass();
 		types[3] = new String().getClass();
 		types[4] = new String().getClass();
+		
+		numberOfLugers = 0;
 
 	}
 	
 	@Override
 	public int getColumnCount() {
 		// TODO Auto-generated method stub
-		return (comp.numberOfAllRuns + 5);
+		if (comp == null)
+			return 0;
+		else
+			return (comp.numberOfAllRuns + 5);
 	}
 
 	@Override
@@ -134,6 +139,30 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 	}
 	
 	/**
+	 * MMetoda służy do zerownia/inicjalizacji tabeli z wynikami podczas tworzenia nowego pliku zawodów, czy też podczas uruchamiania
+	 * programu
+	 */
+	public void eraseEverything() {
+		columnNames = new String[5];
+		columnNames[2] = new String("Imię");
+		columnNames[3] = new String("Nazwisko");
+		columnNames[4] = new String("Klub");
+		columnNames[0] = new String("NrStartowy");
+		columnNames[1] = new String("Miejsce");
+
+		
+		types = new Class[5];
+		types[0] = new Short((short)0).getClass();
+		types[1] = new Short((short)0).getClass();
+		types[2] = new String().getClass();
+		types[3] = new String().getClass();
+		types[4] = new String().getClass();
+		
+		numberOfLugers = 0;
+		comp = null;
+	}
+	
+	/**
 	 * Metoda służy do wyszukiwania indeksu w modelu danych odpowidającemu zadanemu numerowi startowemu zawodnika. Należy mieć pozor, że
 	 * co do zasdy zawodnicy są najpierw dodawani do tabeli modelu danych bez numerów startowych (inicjalzacja zerami). Z tego powodu indeksy
 	 * w modelu danych nie odpowiadają numerom startowym
@@ -163,6 +192,9 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 	 */
 	public void updateTableData(Competition competition, boolean intermediateTiming) throws UninitializedCompEx {
 		// TODO:!! Ważne !! aktualnie metoda obsługuje tylko konkurencje jedynkowe
+		
+		if (competition == null)
+			return;
 		
 		/*
 		 * Numer aktualnie przetwarzanego saneczkarza
