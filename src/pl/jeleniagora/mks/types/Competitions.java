@@ -20,6 +20,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import pl.jeleniagora.mks.files.xml.adapters.ListOfAllCompetitorsAdapter;
 import pl.jeleniagora.mks.files.xml.adapters.ListOfAllLugersAdapter;
 import pl.jeleniagora.mks.files.xml.adapters.LocalDateAdapter;
+import pl.jeleniagora.mks.files.xml.adapters.ProgramStateAdapter;
 import pl.jeleniagora.mks.files.xml.adapters.TrackAdapter;
 
 /**
@@ -81,6 +82,11 @@ public class Competitions {
 	@XmlTransient
 	public Map<Competition, StartGate> competitionToStartGateMapping;
 	
+	/**
+	 * 
+	 */
+	@XmlElement(name="programState")
+	@XmlJavaTypeAdapter(value = ProgramStateAdapter.class)
 	public ProgramState programState;
 	
 	public String toString() {

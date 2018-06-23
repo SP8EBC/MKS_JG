@@ -25,6 +25,7 @@ import pl.jeleniagora.mks.events.LandedStateReached;
 import pl.jeleniagora.mks.events.SaveRuntime;
 import pl.jeleniagora.mks.events.UpdateCurrentAndNextLuger;
 import pl.jeleniagora.mks.exceptions.FailedOpenSerialPortEx;
+import pl.jeleniagora.mks.files.xml.XmlSaver;
 import pl.jeleniagora.mks.rte.RTE;
 import pl.jeleniagora.mks.rte.RTE_COM;
 import pl.jeleniagora.mks.rte.RTE_GUI;
@@ -194,13 +195,13 @@ public class CompManager extends JFrame {
 					rte_st.competitions = competitions;
 
 					CompManagerScoreTableModel mdl = (CompManagerScoreTableModel)frame.getScoreTableModel();
-//					Vector<Competition> cmps = mdl.fillWithTestData(competitions, false);
+					Vector<Competition> cmps = mdl.fillWithTestData(competitions, false);
 					
-					JAXBContext context = JAXBContext.newInstance(Competitions.class);
+//					JAXBContext context = JAXBContext.newInstance(Competitions.class);
 					///////
-					Unmarshaller un = context.createUnmarshaller();
+//					Unmarshaller un = context.createUnmarshaller();
 					
-					competitions = (Competitions) un.unmarshal(new File("./test_out.xml"));
+//					competitions = (Competitions) un.unmarshal(new File("./test_out.xml"));
 					
 					///////
 					
@@ -228,10 +229,9 @@ public class CompManager extends JFrame {
 					
 					
 					///////
-//					JAXBContext context = JAXBContext.newInstance(Competitions.class);
-//					Marshaller mar= context.createMarshaller();
-//					mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-//					mar.marshal(competitions, new File("./test_out.xml"));
+					XmlSaver saver = (XmlSaver)ctx.getBean(XmlSaver.class);	
+					saver.setFilename("out_test2.xml");
+					saver.saveToXml(competitions);
 					
 					//////
 					

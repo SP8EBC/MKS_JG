@@ -7,9 +7,15 @@ package pl.jeleniagora.mks.types;
  */
 public class ProgramState {
 
-	Competition currentCompetition;
+	public Competition currentCompetition;
 	
-	LugerCompetitor actuallyOnTrack;
+	public LugerCompetitor actuallyOnTrack;
 	
-	LugerCompetitor nextOnTrack;
+	public LugerCompetitor nextOnTrack;
+	
+	public LugerCompetitor returnCmptr;
+	
+	public Run currentRun;
+	
+	public int currentRunCnt;
 }
