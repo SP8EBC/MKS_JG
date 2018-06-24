@@ -143,4 +143,15 @@ public class TypesConverters {
 		
 		return out;
 	}
+	
+	public static byte[] convertByteVectorToByteArray(Vector<Byte> in) {
+		
+		byte out[] = new byte[in.size()];
+		
+		for (int i = 0; i < in.size(); i++) {
+			out[i] = in.get(i);
+		}
+		
+		return out;
+	}
 }

@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlAccessorType(XmlAccessType.FIELD)
 
 public abstract class LugerCompetitor {
-	CompetitionTypes competitorType;
+	protected CompetitionTypes competitorType; // 24 czerwca zmienione z private -> protected
 	
 	/**
 	 * Metoda zwracająca typ tego saneczkarza-zawodnika, co jest toższame z konkurencją w jakiej będzie on
@@ -42,7 +42,7 @@ public abstract class LugerCompetitor {
 	
 	public abstract String toString();
 	
-	Long competitorSystemId;
+	protected Long competitorSystemId;	// 24 czerwca zmienione z private -> protected
 
 	public void generateSystemId() {
 		 this.competitorSystemId = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);

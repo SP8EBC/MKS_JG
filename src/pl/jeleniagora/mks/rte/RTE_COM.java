@@ -71,4 +71,20 @@ public class RTE_COM {
 	 * Pole ustawiane na true jeżeli wystąpił timeout przy odbiorze danych. Musi być ręcznie kasowany przez użytkownika
 	 */
 	public boolean timeoutHappened = false;
+	
+	/**
+	 * Wektor zawierający dane do wysłannia. Biblioteka jSerialComm oczekuje na wejściu do funkcji write tablicy byte[].
+	 * Ewentualna konwersja typów leży w gestii klasy, metody itp. która używa portu szeregowego do komunikacji
+	 */
+	public Vector<Byte> txBuffer;
+	
+	/**
+	 * Semafor chroniący bufor nadawczy przed nadpisaniem przez inny proces
+	 */
+	public Semaphore txBuferSemaphore = new Semaphore(1);
+	
+	/**
+	 * Przestawienie tej flagi na true powoduje, że wątek komunikacyjny będzie wysyłał zawartość wektora txBuffer
+	 */
+	public boolean activateTx = false;
 }

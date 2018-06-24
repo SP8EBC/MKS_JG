@@ -161,7 +161,7 @@ public class CompManager extends JFrame {
 		rte_gui.syncCompManagerRdy = new Object();
 		
 		try {
-			com = new CommThread("/dev/ttyUSB0", ctx);
+			com = new CommThread("/dev/ttyUSB0", ctx, true);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		} catch (FailedOpenSerialPortEx e1) {

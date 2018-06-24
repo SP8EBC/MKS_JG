@@ -22,6 +22,8 @@ import pl.jeleniagora.mks.settings.SerialCommS;
  *
  */
 public class CommThread  {
+	
+	private boolean _rxOnly;
 
 	private SerialPort port;
 	private Boolean isPortOpen;
@@ -41,7 +43,7 @@ public class CommThread  {
 	 * @throws FailedOpenSerialPortEx 
 	 */
 	
-	public CommThread(String portName, AnnotationConfigApplicationContext context) throws IOException, FailedOpenSerialPortEx {
+	public CommThread(String portName, AnnotationConfigApplicationContext context, boolean rxOnly) throws IOException, FailedOpenSerialPortEx {
 		super();
 		
 		ctx = context;
@@ -71,6 +73,8 @@ public class CommThread  {
         
 		rte_com.port = this.port;
 		rte_com.isPortOpen = true;
+		
+		_rxOnly = rxOnly;
 	}
 	
 	/**
@@ -88,6 +92,11 @@ public class CommThread  {
 			new Thread(new Receiver(rx, rxBuffer, ctx)).start();
 		} catch (WrongInputStreamEx e) {
 			e.printStackTrace();
+		}
+		if (!_rxOnly) {
+ 
+				new Thread(new Transmitter(tx, ctx)).start();
+			
 		}
 	}
 	 
@@ -460,9 +469,69 @@ public class CommThread  {
 	
 	private class Transmitter implements Runnable {
 
+		private OutputStream str;
+		
+		/**
+		 * Liczba bajtów do wysłania przez port szeregowy
+		 */
+		private int dataLnToTx;
+		
+		/**
+		 * Bufor na dane do wysłania
+		 */
+		private byte[] txData;
+		
+		private AnnotationConfigApplicationContext ctxInt;
+		
+		public Transmitter(OutputStream s, AnnotationConfigApplicationContext context) {
+			str = s;
+			ctxInt = context;
+		}
+		
 		@Override
 		public void run() {
 			
+			RTE_COM rte_com = ctxInt.getBean(RTE_COM.class);
+			
+			Thread.currentThread().setName("SerialTransmitter");
+			System.out.println("--- SerialTransmitter started");
+			
+			for (;;) {
+				if (rte_com.activateTx) {
+					/*
+					 * Jeżeli zlecono nadanie jakichś danych po porcie szeregowym
+					 */
+					try {
+						rte_com.txBuferSemaphore.acquire();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					
+					// konwersja wektora na tablice
+					this.txData = TypesConverters.convertByteVectorToByteArray(rte_com.txBuffer);
+					this.dataLnToTx = this.txData.length;
+					
+					try {
+						str.write(txData, 0, dataLnToTx);
+					} catch (IOException e) {
+						// TODO Coś tu zrobić na ewentualność że wysyłanie może się nie udać
+						e.printStackTrace();
+					}
+					
+					rte_com.txBuferSemaphore.release();	// zwalnianie semafora po zakończonym odczycie
+				}
+				else {
+					/*
+					 * Jeżeli nie to czekaj 10ms i sprawdzaj dalej
+					 */
+					try {
+						Thread.sleep(10);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+				
+			}
 		}
 		
 	}

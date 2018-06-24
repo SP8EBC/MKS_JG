@@ -108,6 +108,13 @@ public class EndOfRun {
 			rte_gui.compManagerScoreModel.fireTableStructureChanged();
 			rte_gui.compManager.sortByStartNumberAscending();
 			
+			/*
+			 * Czasami po zastosowaniu autosortowania tabeli po zakończonym ślizgu "odklikiwał się"
+			 * pierwszy zawodnik i przeskakiwał na ostatniego wyświetlanego w tabeli. Poniższe
+			 * przypisanie jest bufixem na tą przypadłość. 
+			 */
+			rte_gui.competitorClickedInTable = rte_st.actuallyOnTrack;
+			
 
 		}
 		else {
