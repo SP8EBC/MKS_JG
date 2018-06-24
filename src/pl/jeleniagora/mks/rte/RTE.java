@@ -32,7 +32,7 @@ public class RTE {
 	}
 	
 	@Autowired
-	@Qualifier("rte_com")
+	@Qualifier("comBean")
 	public void setCOM(RTE_COM com) {
 		rte_com = com;
 	}

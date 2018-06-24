@@ -54,7 +54,7 @@ public class Chrono implements Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
 		
-		RTE_COM rte_com = ctx.getBean(RTE_COM.class);
+		RTE_COM rte_com = (RTE_COM)ctx.getBean("comBean");
 		RTE_CHRONO rte_chrono = ctx.getBean(RTE_CHRONO.class);
 
 		Thread.currentThread().setName("Chrono");

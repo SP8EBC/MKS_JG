@@ -24,6 +24,8 @@ public class CommThread  {
 	
 	RTE_COM rte_com;
 	
+	String portN;
+	
 	private boolean _rxOnly;
 
 	private SerialPort port;
@@ -78,6 +80,8 @@ public class CommThread  {
 		rte_com.isPortOpen = true;
 		
 		_rxOnly = rxOnly;
+		
+		portN = portName;
 	}
 	
 	/**
@@ -137,7 +141,7 @@ public class CommThread  {
 			
 //			RTE_COM rte_com = ctxInt.getBean(RTE_COM.class);
 			
-			Thread.currentThread().setName("SerialReceiver");
+			Thread.currentThread().setName("SerialReceiver_" + portN);
 			System.out.println("--- SerialReceived started");
 			
 			try {				
@@ -500,7 +504,7 @@ public class CommThread  {
 			
 //			RTE_COM rte_com = ctxInt.getBean(RTE_COM.class);
 			
-			Thread.currentThread().setName("SerialTransmitter");
+			Thread.currentThread().setName("SerialTransmitter_" + portN);
 			System.out.println("--- SerialTransmitter started");
 			
 			for (;;) {

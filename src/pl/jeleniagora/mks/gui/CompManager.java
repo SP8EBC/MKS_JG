@@ -7,7 +7,10 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableModel;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
 
 import pl.jeleniagora.mks.chrono.Chrono;
 import pl.jeleniagora.mks.display.SectroBigRasterDisplay;
@@ -66,7 +69,7 @@ import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 public class CompManager extends JFrame {
-
+	
 	static AnnotationConfigApplicationContext ctx;
 	static CompManager frame;
 	
@@ -158,8 +161,8 @@ public class CompManager extends JFrame {
 		
 		RTE_GUI rte_gui = ctx.getBean(RTE_GUI.class);
 		RTE_ST rte_st = ctx.getBean(RTE_ST.class);
-		RTE_COM rte_com = ctx.getBean(RTE_COM.class);
-		RTE_COM_DISP rte_com_disp = ctx.getBean(RTE_COM_DISP.class);
+		RTE_COM rte_com = (RTE_COM)ctx.getBean("comBean");
+		RTE_COM_DISP rte_com_disp = (RTE_COM_DISP)ctx.getBean("comDispBean");
 		
 		rte_gui.syncCompManagerRdy = new Object();
 		
@@ -246,7 +249,8 @@ public class CompManager extends JFrame {
 					
 					///////
 					/// display test
-					SectroBigRasterDisplay disp = new SectroBigRasterDisplay();
+					SectroBigRasterDisplay disp = (SectroBigRasterDisplay)ctx.getBean(SectroBigRasterDisplay.class);
+					disp.clearDisplay();
 					///////
 					
 					synchronized(rte_gui.syncCompManagerRdy) {

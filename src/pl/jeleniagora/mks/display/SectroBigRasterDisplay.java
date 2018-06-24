@@ -4,6 +4,7 @@ import java.nio.charset.Charset;
 import java.util.Vector;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import pl.jeleniagora.mks.exceptions.DisplayFunctionNotSupportedEx;
@@ -13,6 +14,7 @@ import pl.jeleniagora.mks.rte.RTE_COM_DISP;
 public class SectroBigRasterDisplay implements TextDisplayInterface {
 
 	@Autowired
+	@Qualifier("comDispBean")
 	RTE_COM_DISP com;
 	
 	final static byte FRAME_START = 0x02;

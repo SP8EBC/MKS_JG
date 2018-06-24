@@ -18,7 +18,6 @@ import pl.jeleniagora.mks.serial.RxCommType;
  *
  */
 @Component
-@Qualifier("rte_com")
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class RTE_COM {
 	public SerialPort port;
