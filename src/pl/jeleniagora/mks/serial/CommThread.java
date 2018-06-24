@@ -102,7 +102,7 @@ public class CommThread  {
 		}
 		if (!_rxOnly) {
  
-				new Thread(new Transmitter(tx, rte_com)).start();
+				new Thread(new Transmitter(tx, rte_com, portN)).start();
 			
 		}
 	}
@@ -491,12 +491,15 @@ public class CommThread  {
 		 */
 		private byte[] txData;
 		
+		String portName;
+		
 //		private AnnotationConfigApplicationContext ctxInt;
 		
-		public Transmitter(OutputStream s, RTE_COM rte) {
+		public Transmitter(OutputStream s, RTE_COM rte, String port) {
 			str = s;
 			//ctxInt = context;
 			rte_com = rte;
+			portName = port;
 		}
 		
 		@Override
@@ -508,7 +511,7 @@ public class CommThread  {
 			System.out.println("--- SerialTransmitter started");
 			
 			for (;;) {
-				if (rte_com.activateTx) {
+				if (rte_com.activateTx) {					
 					/*
 					 * Jeżeli zlecono nadanie jakichś danych po porcie szeregowym
 					 */
@@ -522,6 +525,8 @@ public class CommThread  {
 					this.txData = TypesConverters.convertByteVectorToByteArray(rte_com.txBuffer);
 					this.dataLnToTx = this.txData.length;
 					
+					System.out.println("-- Serial sending " + this.dataLnToTx  + " bytes of data over: " + this.portName);
+					
 					try {
 						str.write(txData, 0, dataLnToTx);
 					} catch (IOException e) {
@@ -530,15 +535,25 @@ public class CommThread  {
 						rte_com.activateTx = false;
 					}
 					
+					if (rte_com.waitAfterTx > 0) {
+						try {
+							Thread.sleep(rte_com.waitAfterTx);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+					
 					rte_com.txBuferSemaphore.release();	// zwalnianie semafora po zakończonym odczycie
 					rte_com.activateTx = false;
+					
+					System.out.println("-- Serial done sending " + this.dataLnToTx  + " bytes of data over: " + this.portName);
 				}
 				else {
 					/*
-					 * Jeżeli nie to czekaj 10ms i sprawdzaj dalej
+					 * Jeżeli nie to czekaj 1ms i sprawdzaj dalej
 					 */
 					try {
-						Thread.sleep(10);
+						Thread.sleep(1);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}

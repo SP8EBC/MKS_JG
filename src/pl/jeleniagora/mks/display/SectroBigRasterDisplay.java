@@ -35,6 +35,13 @@ public class SectroBigRasterDisplay implements TextDisplayInterface {
 	final static byte ECHO = 0x1A;
 	final static byte BRIGHT = 0x1C;
 	
+	boolean scrolling;
+	boolean centering;
+	
+	public SectroBigRasterDisplay() {
+		scrolling = false;
+		centering = false;
+	}
 	
 	@Override
 	public int getColumnRes() {
@@ -52,7 +59,9 @@ public class SectroBigRasterDisplay implements TextDisplayInterface {
 		data.add(FRAME_START);
 		data.add(CLEAR);
 		data.add(FRAME_END);
-		
+				
+		while(com.activateTx);
+		System.out.println("ClearDisplay");
 		try {
 			com.txBuferSemaphore.acquire();
 		} catch (InterruptedException e) {
@@ -64,6 +73,8 @@ public class SectroBigRasterDisplay implements TextDisplayInterface {
 		com.txBuferSemaphore.release();
 		com.activateTx = true;
 		
+		System.out.println("ClearDisplay - end");
+
 	}
 
 	@Override
@@ -89,23 +100,51 @@ public class SectroBigRasterDisplay implements TextDisplayInterface {
 			;
 		}
 		
+		for (int i = 0; i < lines.length; i++) {
+			
+			Vector<Byte> data = new Vector<Byte>();
+			data.add(FRAME_START);
+			data.add(TEXT_LL);
+			data.add((byte)(i+1));
+			
+			/*
+			 * Typ String w Javie przechowuje tekst zakodowany jako UTF-16 (znaki 2 bajtowe), dlatego trzeba go przekodować na coś
+			 * co jest zrozumiałe dla wyświetlacza
+			 */
+			byte[] line = (lines[i].getBytes(Charset.forName("ISO-8859-2")));
+			
+			for (int j = 0; j < line.length; j++)
+				data.add(line[j]);		// dopisywanie pierwszej linijki
+			
+			data.add(FRAME_END);
+			
+			// komunikacja po RS
+			while(com.activateTx);
+			System.out.println("SendText line: " + (i + 1));
+			try {
+				com.txBuferSemaphore.acquire();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			com.txBuffer = new Vector<Byte>(data);
+			
+			com.txBuferSemaphore.release();
+			com.activateTx = true;
+		}
+	}
+
+	@Override
+	public void setBrightness(int level) throws DisplayFunctionNotSupportedEx {
 		Vector<Byte> data = new Vector<Byte>();
 		data.add(FRAME_START);
-		data.add(TEXT_LL);
-		data.add((byte)1);
-		
-		/*
-		 * Typ String w Javie przechowuje tekst zakodowany jako UTF-16 (znaki 2 bajtowe), dlatego trzeba go przekodować na coś
-		 * co jest zrozumiałe dla wyświetlacza
-		 */
-		byte[] line1st = (lines[0].getBytes(Charset.forName("ISO-8859-2")));
-		
-		for (int i = 0; i < line1st.length; i++)
-			data.add(line1st[i]);		// dopisywanie pierwszej linijki
-		
+		data.add(BRIGHT);
+		data.add((byte)level);
 		data.add(FRAME_END);
-		
+				
 		// komunikacja po RS
+		while(com.activateTx);
+		System.out.println("setBrightness");
 		try {
 			com.txBuferSemaphore.acquire();
 		} catch (InterruptedException e) {
@@ -116,12 +155,59 @@ public class SectroBigRasterDisplay implements TextDisplayInterface {
 		
 		com.txBuferSemaphore.release();
 		com.activateTx = true;
+		
+		System.out.println("setBrightness - end");
+		
 	}
 
 	@Override
-	public void setBrightness(byte level) throws DisplayFunctionNotSupportedEx {
-		// TODO Auto-generated method stub
+	public void setScrolling(boolean en) throws DisplayFunctionNotSupportedEx {
+		scrolling = en;
+		
+		byte mode = (byte) 0xFF;		// nieużywane bity muszą być ustawione na jeden
+										// dlatego łatwiej będzie zainicjować 0xFF a potem
+										// kasować to co powinno być zerem
+		
+		int centeringBit = ((centering ? 1 : 0) << 1);	// LSB + 1
+		int scrollingBit = (scrolling ? 1 : 0);			// LSB
+		
+		/*
+		 * Wyliczanie wartości do ANDowania z wyjściowym bajtem do wysłania do wyświetlacza.
+		 * XOR (^) czyli alternatywa rozłączna daje na wyjściu jeden jeżeli na wejściu są dwa
+		 * różne bity. Jeżeli są takie same (dwie jedynki albo dwa zera) to daje zero. W praktyce 
+		 * XOR może być używany do odwracania stanu bitu na przeciwny. Jeżeli zXORuje się jedynkę
+		 * z jedynką to zamieni się na zero. Jeżeli to zero zXORuje się ponownie z jedynką to 
+		 * stan odwróci się na jeden
+		 */
+		byte and = (byte)(0xFF ^ ((1 << 2) | centeringBit | scrollingBit));
+		
+		mode &= and;	// ANDowanie z wynikiem XORa. Wyzeruje bity ustawione na zero
+		
+		Vector<Byte> data = new Vector<Byte>();
+		data.add(FRAME_START);
+		data.add(MODE);
+		data.add((byte)mode);
+		data.add(FRAME_END);
+		
+		// komunikacja po RS
+		while(com.activateTx);
+		System.out.println("setScrolling");
+		try {
+			com.txBuferSemaphore.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		com.txBuffer = new Vector<Byte>(data);
+		
+		com.txBuferSemaphore.release();
+		com.activateTx = true;
+		System.out.println("setScrolling - end");
+	}
 
+	@Override
+	public void setAutoCentering(boolean en) throws DisplayFunctionNotSupportedEx {
+		centering = en;
 	}
 
 }

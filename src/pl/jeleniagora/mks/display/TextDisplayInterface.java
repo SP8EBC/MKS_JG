@@ -24,7 +24,7 @@ public interface TextDisplayInterface {
 	public int getRowRes();
 	
 	/**
-	 * Metoda czyszcząca wyświetlacz
+	 * Metoda kasująca zawartość wyświetlacza, bo jej wywołaniu wyświetlacz powinien nic nie wyświetlać
 	 * @return
 	 */
 	public void clearDisplay();
@@ -40,10 +40,25 @@ public interface TextDisplayInterface {
 	public void sendText(String text, int offsetCol, int offsetRow);
 	
 	/**
-	 * Metoda ustawiająca jasność wyświetlacza.
+	 * Metoda ustawiająca jasność wyświetlacza. Przyjmuje się regulację w zakresie 0 (ciemno) do 255 (jasno)
 	 * @param level Porządana jasność
 	 * @throws DisplayFunctionNotSupportedEx Rzucany jeżeli wyświetlacz nie ma takiej funkcji
 	 */
-	public void setBrightness(byte level) throws DisplayFunctionNotSupportedEx;
+	public void setBrightness(int level) throws DisplayFunctionNotSupportedEx;
+	
+	/**
+	 * Metoda włączająca bądź wyłączająca funkcję skrolowania wierszy wyświetlacza jeżeli tekst
+	 * jest za długi aby zmieścić się w całości
+	 * @param en
+	 * @throws DisplayFunctionNotSupportedEx
+	 */
+	public void setScrolling(boolean en) throws DisplayFunctionNotSupportedEx;
+	
+	/**
+	 * Metoda wyłączająca bądź wyłączająca centrowanie tekstu. Przyjmuje się, że wyłączenie tej opcji 
+	 * spowoduje że tekst będzie wyrównany do lewej krawędzi ekranu
+	 * @param en
+	 */
+	public void setAutoCentering(boolean en) throws DisplayFunctionNotSupportedEx;
 	
 }

@@ -251,6 +251,9 @@ public class CompManager extends JFrame {
 					/// display test
 					SectroBigRasterDisplay disp = (SectroBigRasterDisplay)ctx.getBean(SectroBigRasterDisplay.class);
 					disp.clearDisplay();
+					disp.setScrolling(false);
+					disp.setBrightness(16);
+					disp.sendText("MKS_JG\r\nżźćół ŻŹĆÓŁ", 0, 0);
 					///////
 					
 					synchronized(rte_gui.syncCompManagerRdy) {

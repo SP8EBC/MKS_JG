@@ -23,4 +23,8 @@ import pl.jeleniagora.mks.serial.RxCommType;
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class RTE_COM_DISP extends RTE_COM {
 
+	public RTE_COM_DISP() {
+		this.waitAfterTx = 0;
+	}
+	
 }

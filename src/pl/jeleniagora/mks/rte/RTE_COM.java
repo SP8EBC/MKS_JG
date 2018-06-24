@@ -88,4 +88,10 @@ public class RTE_COM {
 	 * Przestawienie tej flagi na true powoduje, że wątek komunikacyjny będzie wysyłał zawartość wektora txBuffer
 	 */
 	public boolean activateTx = false;
+	
+	/**
+	 * Ewentualny delay po wywołaniu funkcji write, ustawienie na -1 powoduje że opóźnienie będzie wyliczane na podstawie
+	 * prędkości bodowej portu i ilości bajtów do wysłania
+	 */
+	public int waitAfterTx = 0;
 }
