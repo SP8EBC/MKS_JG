@@ -1,13 +1,10 @@
 package pl.jeleniagora.mks.gui;
 
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.Vector;
 
 import javax.swing.JComboBox;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
 import pl.jeleniagora.mks.rte.RTE_GUI;

@@ -10,6 +10,7 @@ import javax.swing.table.TableModel;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import pl.jeleniagora.mks.chrono.Chrono;
+import pl.jeleniagora.mks.display.SectroBigRasterDisplay;
 import pl.jeleniagora.mks.events.AfterStartListGeneration;
 import pl.jeleniagora.mks.events.ChangeCompetition;
 import pl.jeleniagora.mks.events.DidNotFinished;
@@ -25,6 +26,7 @@ import pl.jeleniagora.mks.files.xml.XmlLoader;
 import pl.jeleniagora.mks.files.xml.XmlSaver;
 import pl.jeleniagora.mks.rte.RTE;
 import pl.jeleniagora.mks.rte.RTE_COM;
+import pl.jeleniagora.mks.rte.RTE_COM_DISP;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.serial.CommThread;
@@ -71,7 +73,7 @@ public class CompManager extends JFrame {
 	private JPanel contentPane;
 	private JTable table;
 	
-	private static CommThread com;
+	private static CommThread com, comDisplay;
 	
 	/**
 	 * Tablica referencji do Stringów przechowywająca nazwy kolumn głównej tabeli. 
@@ -157,16 +159,27 @@ public class CompManager extends JFrame {
 		RTE_GUI rte_gui = ctx.getBean(RTE_GUI.class);
 		RTE_ST rte_st = ctx.getBean(RTE_ST.class);
 		RTE_COM rte_com = ctx.getBean(RTE_COM.class);
+		RTE_COM_DISP rte_com_disp = ctx.getBean(RTE_COM_DISP.class);
 		
 		rte_gui.syncCompManagerRdy = new Object();
 		
 		try {
-			com = new CommThread("/dev/ttyUSB0", ctx, true);
+			com = new CommThread("/dev/ttyUSB232i", rte_com, true);		// konwerter z izolacją meratronik
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		} catch (FailedOpenSerialPortEx e1) {
-			e1.printStackTrace();
+			System.out.println("Failed opening port /dev/ttyUSB232i");
+		//	e1.printStackTrace();
 		}
+		
+		try {
+			comDisplay = new CommThread("/dev/ttyUSB485", rte_com_disp, false); // konwerter do wyświetlacza od razu na 485
+		} catch (IOException | FailedOpenSerialPortEx e1) {
+			System.out.println("Failed opening port /dev/ttyUSB485");
+
+		}		
+
+		
 		System.out.println("done");
 		
 		new Thread(new Chrono(ctx)).start();
@@ -174,7 +187,9 @@ public class CompManager extends JFrame {
 		if (com != null) {
 			com.startThreads();
 		}
-		else;
+		if (comDisplay != null) {
+			comDisplay.startThreads();
+		}
 		Runtime.getRuntime().addShutdownHook(new Thread(new CommThreadTermHook(ctx)));
 		
 		SerialCommS.setMaxRxTimeoutMsec(2000);
@@ -228,6 +243,11 @@ public class CompManager extends JFrame {
 					saver.saveToXml(competitions);
 					
 					//////
+					
+					///////
+					/// display test
+					SectroBigRasterDisplay disp = new SectroBigRasterDisplay();
+					///////
 					
 					synchronized(rte_gui.syncCompManagerRdy) {
 						rte_gui.syncCompManagerRdy.notifyAll();

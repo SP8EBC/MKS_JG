@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.time.Duration;
 import java.time.LocalTime;
-import java.util.Vector;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -22,6 +21,8 @@ import pl.jeleniagora.mks.settings.SerialCommS;
  *
  */
 public class CommThread  {
+	
+	RTE_COM rte_com;
 	
 	private boolean _rxOnly;
 
@@ -43,17 +44,19 @@ public class CommThread  {
 	 * @throws FailedOpenSerialPortEx 
 	 */
 	
-	public CommThread(String portName, AnnotationConfigApplicationContext context, boolean rxOnly) throws IOException, FailedOpenSerialPortEx {
+	public CommThread(String portName, RTE_COM rte, boolean rxOnly) throws IOException, FailedOpenSerialPortEx {
 		super();
 		
-		ctx = context;
+//		ctx = context;
+		
+		rte_com = rte;
 		
 		/*
 		 * Tworzenie wektora bajtów pod wskazaną referencją
 		 */
 		rxBuffer = new byte[SerialCommS.getSerialBufferLn()];
 		
-		RTE_COM rte_com = ctx.getBean(RTE_COM.class);
+//		RTE_COM rte_com = ctx.getBean(RTE_COM.class);
 		
 //		SerialPort[] ports = SerialPort.getCommPorts();
 		
@@ -89,13 +92,13 @@ public class CommThread  {
 	
 	public void startThreads() {
 		try {
-			new Thread(new Receiver(rx, rxBuffer, ctx)).start();
+			new Thread(new Receiver(rx, rxBuffer, rte_com)).start();
 		} catch (WrongInputStreamEx e) {
 			e.printStackTrace();
 		}
 		if (!_rxOnly) {
  
-				new Thread(new Transmitter(tx, ctx)).start();
+				new Thread(new Transmitter(tx, rte_com)).start();
 			
 		}
 	}
@@ -109,8 +112,8 @@ public class CommThread  {
 
 		private InputStream str;
 		
-		private AnnotationConfigApplicationContext ctxInt;
-		
+		private RTE_COM rte_com;
+				
 		/**
 		 * Liczba bajtów odebranych w tym odbiorze
 		 */
@@ -118,20 +121,21 @@ public class CommThread  {
 		
 		private byte[] rxData;
 		
-		public Receiver(InputStream s, byte[] rxbuff, AnnotationConfigApplicationContext context) throws WrongInputStreamEx {
+		public Receiver(InputStream s, byte[] rxbuff, RTE_COM rte) throws WrongInputStreamEx {
 			if (s == null) {
 				throw new WrongInputStreamEx();
 			}
 			str = s;
 			numberOfBytesRxed = 0;
 			rxData = rxbuff;
-			ctxInt = context;
+			rte_com = rte;
+			//ctxInt = context;
 		}
 		
 		@Override
 		public void run() {
 			
-			RTE_COM rte_com = ctxInt.getBean(RTE_COM.class);
+//			RTE_COM rte_com = ctxInt.getBean(RTE_COM.class);
 			
 			Thread.currentThread().setName("SerialReceiver");
 			System.out.println("--- SerialReceived started");
@@ -471,6 +475,8 @@ public class CommThread  {
 
 		private OutputStream str;
 		
+		private RTE_COM rte_com;
+		
 		/**
 		 * Liczba bajtów do wysłania przez port szeregowy
 		 */
@@ -481,17 +487,18 @@ public class CommThread  {
 		 */
 		private byte[] txData;
 		
-		private AnnotationConfigApplicationContext ctxInt;
+//		private AnnotationConfigApplicationContext ctxInt;
 		
-		public Transmitter(OutputStream s, AnnotationConfigApplicationContext context) {
+		public Transmitter(OutputStream s, RTE_COM rte) {
 			str = s;
-			ctxInt = context;
+			//ctxInt = context;
+			rte_com = rte;
 		}
 		
 		@Override
 		public void run() {
 			
-			RTE_COM rte_com = ctxInt.getBean(RTE_COM.class);
+//			RTE_COM rte_com = ctxInt.getBean(RTE_COM.class);
 			
 			Thread.currentThread().setName("SerialTransmitter");
 			System.out.println("--- SerialTransmitter started");
@@ -516,9 +523,11 @@ public class CommThread  {
 					} catch (IOException e) {
 						// TODO Coś tu zrobić na ewentualność że wysyłanie może się nie udać
 						e.printStackTrace();
+						rte_com.activateTx = false;
 					}
 					
 					rte_com.txBuferSemaphore.release();	// zwalnianie semafora po zakończonym odczycie
+					rte_com.activateTx = false;
 				}
 				else {
 					/*

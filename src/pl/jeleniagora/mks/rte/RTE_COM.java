@@ -3,6 +3,7 @@ package pl.jeleniagora.mks.rte;
 import java.util.Vector;
 import java.util.concurrent.Semaphore;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,7 @@ import pl.jeleniagora.mks.serial.RxCommType;
  *
  */
 @Component
+@Qualifier("rte_com")
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class RTE_COM {
 	public SerialPort port;

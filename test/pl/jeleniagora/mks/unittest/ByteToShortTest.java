@@ -2,8 +2,6 @@ package pl.jeleniagora.mks.unittest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.nio.ByteBuffer;
-
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 

@@ -1,6 +1,7 @@
 package pl.jeleniagora.mks.rte;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -31,6 +32,7 @@ public class RTE {
 	}
 	
 	@Autowired
+	@Qualifier("rte_com")
 	public void setCOM(RTE_COM com) {
 		rte_com = com;
 	}
