@@ -13,6 +13,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.stereotype.Component;
 
 import pl.jeleniagora.mks.chrono.Chrono;
+import pl.jeleniagora.mks.display.DisplayStartScreen;
 import pl.jeleniagora.mks.display.SectroBigRasterDisplay;
 import pl.jeleniagora.mks.events.AfterStartListGeneration;
 import pl.jeleniagora.mks.events.ChangeCompetition;
@@ -67,6 +68,8 @@ import javax.swing.JCheckBoxMenuItem;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 
 public class CompManager extends JFrame {
 	
@@ -101,7 +104,8 @@ public class CompManager extends JFrame {
 	private JTextField textField_m;
 	private JTextField textField_s;
 	private JTextField textField_msec;
-
+	private final Action action = new SwingAction();
+	
 	public static void utMain(AnnotationConfigApplicationContext context) {
 		ctx = context;
 		CompManager.main(null);
@@ -166,14 +170,14 @@ public class CompManager extends JFrame {
 		
 		rte_gui.syncCompManagerRdy = new Object();
 		
-		try {
+/*		try {
 			com = new CommThread("/dev/ttyUSB232i", rte_com, true);		// konwerter z izolacją meratronik
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		} catch (FailedOpenSerialPortEx e1) {
 			System.out.println("Failed opening port /dev/ttyUSB232i");
 		//	e1.printStackTrace();
-		}
+		}*/
 		
 		try {
 			comDisplay = new CommThread("/dev/ttyUSB485", rte_com_disp, false); // konwerter do wyświetlacza od razu na 485
@@ -185,11 +189,11 @@ public class CompManager extends JFrame {
 		
 		System.out.println("done");
 		
-		new Thread(new Chrono(ctx)).start();
+//		new Thread(new Chrono(ctx)).start();
 
-		if (com != null) {
-			com.startThreads();
-		}
+//		if (com != null) {
+//			com.startThreads();
+//		}
 		if (comDisplay != null) {
 			comDisplay.startThreads();
 		}
@@ -249,11 +253,13 @@ public class CompManager extends JFrame {
 					
 					///////
 					/// display test
-					SectroBigRasterDisplay disp = (SectroBigRasterDisplay)ctx.getBean(SectroBigRasterDisplay.class);
+					//SectroBigRasterDisplay disp = (SectroBigRasterDisplay)ctx.getBean(SectroBigRasterDisplay.class);
+					SectroBigRasterDisplay disp = RTE.getRte_disp_interface();
 					disp.clearDisplay();
 					disp.setScrolling(false);
 					disp.setBrightness(16);
-					disp.sendText("MKS_JG\r\nżźćół ŻŹĆÓŁ", 0, 0);
+					
+					disp.sendText("MKS_JG\r\nwer 1.00\r\nAutor: Mateusz Lubecki = Bielsko-Biała 2018   ", 0, 0);
 					///////
 					
 					synchronized(rte_gui.syncCompManagerRdy) {
@@ -543,6 +549,23 @@ public class CompManager extends JFrame {
 		JMenu mnChronometr = new JMenu("Chronometr");
 		menuBar.add(mnChronometr);
 		
+		JMenu mnWywietlacz = new JMenu("Wyświetlacz");
+		menuBar.add(mnWywietlacz);
+		
+		JMenuItem mntmWyczyZawarto = new JMenuItem("Wyczyść Zawartość");
+		mnWywietlacz.add(mntmWyczyZawarto);
+		
+		JMenuItem mntmEkranStartowy = new JMenuItem("Ekran Startowy");
+		mntmEkranStartowy.addActionListener(new DisplayStartScreen(RTE.getRte_disp_interface()));
+//		mntmEkranStartowy.setAction(action);
+		mnWywietlacz.add(mntmEkranStartowy);
+		
+		JMenuItem mntmTest = new JMenuItem("Test 1");
+		mnWywietlacz.add(mntmTest);
+		
+		JMenuItem mntmTest_1 = new JMenuItem("Test 2");
+		mnWywietlacz.add(mntmTest_1);
+		
 		JMenu mnUstawienia = new JMenu("Ustawienia");
 		menuBar.add(mnUstawienia);
 		
@@ -747,5 +770,13 @@ public class CompManager extends JFrame {
 	
 	public JTable getScoreTable() {
 		return table;
+	}
+	private class SwingAction extends AbstractAction {
+		public SwingAction() {
+			putValue(NAME, "SwingAction");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+		}
 	}
 }

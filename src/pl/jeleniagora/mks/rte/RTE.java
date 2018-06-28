@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import pl.jeleniagora.mks.display.SectroBigRasterDisplay;
+
 @Component
 public class RTE {
 
@@ -13,6 +15,18 @@ public class RTE {
 	
 	static RTE_COM rte_com;
 	
+	static SectroBigRasterDisplay rte_disp_interface;
+	
+	
+	public static SectroBigRasterDisplay getRte_disp_interface() {
+		return rte_disp_interface;
+	}
+
+	@Autowired
+	public void setRte_disp_interface(SectroBigRasterDisplay rte_disp_interface) {
+		RTE.rte_disp_interface = rte_disp_interface;
+	}
+
 	@Autowired
 	public void setST(RTE_ST st) {
 		rte_st = st;

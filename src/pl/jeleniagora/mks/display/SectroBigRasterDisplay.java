@@ -24,7 +24,7 @@ public class SectroBigRasterDisplay implements TextDisplayInterface {
 	final static byte CLEAR = 0x17;
 	final static byte TEXT_L1 = 0x11;
 	final static byte TEXT_L2 = 0x12;
-	final static byte TEXT_BIG = 0x13;
+	final static byte TEXT_BIG = 0x14;
 	final static byte LF = 0x0A;
 	final static byte CR = 0x0D;
 	
@@ -50,7 +50,7 @@ public class SectroBigRasterDisplay implements TextDisplayInterface {
 
 	@Override
 	public int getRowRes() {
-		return 2;
+		return 3;
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class SectroBigRasterDisplay implements TextDisplayInterface {
 		data.add(CLEAR);
 		data.add(FRAME_END);
 				
-		while(com.activateTx);
+//		while(com.activateTx);
 		System.out.println("ClearDisplay");
 		try {
 			com.txBuferSemaphore.acquire();
@@ -72,6 +72,14 @@ public class SectroBigRasterDisplay implements TextDisplayInterface {
 		
 		com.txBuferSemaphore.release();
 		com.activateTx = true;
+		
+		synchronized(com.syncTransmitEnd) {
+			try {
+				com.syncTransmitEnd.wait(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		
 		System.out.println("ClearDisplay - end");
 
@@ -119,7 +127,6 @@ public class SectroBigRasterDisplay implements TextDisplayInterface {
 			data.add(FRAME_END);
 			
 			// komunikacja po RS
-			while(com.activateTx);
 			System.out.println("SendText line: " + (i + 1));
 			try {
 				com.txBuferSemaphore.acquire();
@@ -131,6 +138,20 @@ public class SectroBigRasterDisplay implements TextDisplayInterface {
 			
 			com.txBuferSemaphore.release();
 			com.activateTx = true;
+			
+			synchronized(com.syncTransmitEnd) {
+				try {
+					com.syncTransmitEnd.wait(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			
+/*			try {
+				Thread.sleep(50);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}*/
 		}
 	}
 
@@ -143,7 +164,7 @@ public class SectroBigRasterDisplay implements TextDisplayInterface {
 		data.add(FRAME_END);
 				
 		// komunikacja po RS
-		while(com.activateTx);
+//		while(com.activateTx);
 		System.out.println("setBrightness");
 		try {
 			com.txBuferSemaphore.acquire();
@@ -155,6 +176,14 @@ public class SectroBigRasterDisplay implements TextDisplayInterface {
 		
 		com.txBuferSemaphore.release();
 		com.activateTx = true;
+		
+		synchronized(com.syncTransmitEnd) {
+			try {
+				com.syncTransmitEnd.wait(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		
 		System.out.println("setBrightness - end");
 		
@@ -187,10 +216,11 @@ public class SectroBigRasterDisplay implements TextDisplayInterface {
 		data.add(FRAME_START);
 		data.add(MODE);
 		data.add((byte)mode);
+		data.add((byte)mode);
+//		data.add((byte)mode);		
 		data.add(FRAME_END);
 		
 		// komunikacja po RS
-		while(com.activateTx);
 		System.out.println("setScrolling");
 		try {
 			com.txBuferSemaphore.acquire();
@@ -202,6 +232,15 @@ public class SectroBigRasterDisplay implements TextDisplayInterface {
 		
 		com.txBuferSemaphore.release();
 		com.activateTx = true;
+		
+		synchronized(com.syncTransmitEnd) {
+			try {
+				com.syncTransmitEnd.wait(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		System.out.println("setScrolling - end");
 	}
 

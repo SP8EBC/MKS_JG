@@ -535,16 +535,12 @@ public class CommThread  {
 						rte_com.activateTx = false;
 					}
 					
-					if (rte_com.waitAfterTx > 0) {
-						try {
-							Thread.sleep(rte_com.waitAfterTx);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					}
-					
 					rte_com.txBuferSemaphore.release();	// zwalnianie semafora po zakończonym odczycie
 					rte_com.activateTx = false;
+					
+					synchronized(rte_com.syncTransmitEnd) {
+						rte_com.syncTransmitEnd.notifyAll();
+					}
 					
 					System.out.println("-- Serial done sending " + this.dataLnToTx  + " bytes of data over: " + this.portName);
 				}

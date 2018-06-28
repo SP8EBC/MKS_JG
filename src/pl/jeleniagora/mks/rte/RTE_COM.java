@@ -89,6 +89,8 @@ public class RTE_COM {
 	 */
 	public boolean activateTx = false;
 	
+	public Object syncTransmitEnd = new Object();
+	
 	/**
 	 * Ewentualny delay po wywołaniu funkcji write, ustawienie na -1 powoduje że opóźnienie będzie wyliczane na podstawie
 	 * prędkości bodowej portu i ilości bajtów do wysłania
