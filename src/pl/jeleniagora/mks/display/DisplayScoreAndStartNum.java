@@ -1,11 +1,17 @@
 package pl.jeleniagora.mks.display;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+import pl.jeleniagora.mks.chrono.ConvertMicrotime;
+import pl.jeleniagora.mks.factories.ClubsFactory;
+import pl.jeleniagora.mks.factories.LugersFactory;
 import pl.jeleniagora.mks.types.LugerCompetitor;
 
-public class DisplayScoreAndStartNum {
+public class DisplayScoreAndStartNum implements ActionListener {
 
 	TextDisplayInterface disp;
 	
@@ -41,6 +47,17 @@ public class DisplayScoreAndStartNum {
 			disp.sendText(toDisp, 0, 0);
 		}
 		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		LugerCompetitor demo = LugersFactory.createNewLugerSingleFromName("Mateusz", "Lubecki", false, LocalDate.of(1990, 9, 12), ClubsFactory.createNewFromName("SP9KAT"));
+		
+		demo.setStartNumber((short) 8);
+		
+		LocalTime time = ConvertMicrotime.toLocalTime(450000);
+		
+		this.showScoreAfterRun(time, demo);
 	}
 	
 }

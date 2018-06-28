@@ -89,6 +89,10 @@ public class RTE_COM {
 	 */
 	public boolean activateTx = false;
 	
+	/**
+	 * Obiekt sychronizcji używany do powiadamiania innych wątków używających komunikacji przez port szeregowy, że
+	 * transmisja przez port się zakończyła.
+	 */
 	public Object syncTransmitEnd = new Object();
 	
 	/**
