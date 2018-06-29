@@ -1,13 +1,14 @@
 package pl.jeleniagora.mks.events;
 
 import java.time.LocalTime;
-import java.util.Vector;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import pl.jeleniagora.mks.display.DisplayNameSurnameAndStartNum;
 import pl.jeleniagora.mks.exceptions.AppContextUninitializedEx;
 import pl.jeleniagora.mks.exceptions.EndOfRunEx;
 import pl.jeleniagora.mks.exceptions.StartOrderNotChoosenEx;
+import pl.jeleniagora.mks.rte.RTE;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.start.order.StartOrderInterface;
@@ -177,6 +178,10 @@ public class UpdateCurrentAndNextLuger {
 		
 		rte_st.nextOnTrack = findFirstWithoutTime((short) (startNumber));		
 		rte_gui.nextOnTrack.setText(rte_st.nextOnTrack.toString());
+		
+		DisplayNameSurnameAndStartNum d = new DisplayNameSurnameAndStartNum(RTE.getRte_disp_interface());
+		d.showBefore(rte_st.actuallyOnTrack);
+		
 		/*
 		Vector<LocalTime> vctRunTimes = rte_st.currentRun.getVectorWithRuntimes(rte_st.currentCompetition.invertedStartList);
 		
@@ -210,6 +215,9 @@ public class UpdateCurrentAndNextLuger {
 		
 		rte_st.actuallyOnTrack = rte_st.currentCompetition.invertedStartList.get((short)startNumber);
 		rte_gui.actuallyOnTrack.setText(rte_st.actuallyOnTrack.toString());
+		
+		DisplayNameSurnameAndStartNum d = new DisplayNameSurnameAndStartNum(RTE.getRte_disp_interface());
+		d.showBefore(rte_st.actuallyOnTrack);
 	}
 	
 	/**
@@ -248,6 +256,8 @@ public class UpdateCurrentAndNextLuger {
 		rte_gui.competitorClickedInTable = rte_st.actuallyOnTrack;
 		rte_gui.compManager.markConreteRun(rte_st.actuallyOnTrack.getStartNumber(),	rte_st.currentRunCnt);
 		
+		DisplayNameSurnameAndStartNum d = new DisplayNameSurnameAndStartNum(RTE.getRte_disp_interface());
+		d.showBefore(rte_st.actuallyOnTrack);
 	}
 	
 	/**
@@ -375,6 +385,13 @@ public class UpdateCurrentAndNextLuger {
 		rte_gui.compManager.markConreteRun(rte_st.actuallyOnTrack.getStartNumber(), actualRun);
 		
 		rte_gui.actuallyOnTrack.setText(rte_st.actuallyOnTrack.toString());
+		
+		/*
+		 * Wyświetlanie na wyświetlaczu
+		 */
+		DisplayNameSurnameAndStartNum d = new DisplayNameSurnameAndStartNum(RTE.getRte_disp_interface());
+		d.showBefore(rte_st.actuallyOnTrack);
+		
 		try {
 			/*
 			 * Jeżeli metoda została wywołana po ślizgu przedostatniego saneczkarza w konkurencji

@@ -7,6 +7,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import pl.jeleniagora.mks.chrono.ConvertMicrotime;
+import pl.jeleniagora.mks.exceptions.DisplayFunctionNotSupportedEx;
 import pl.jeleniagora.mks.factories.ClubsFactory;
 import pl.jeleniagora.mks.factories.LugersFactory;
 import pl.jeleniagora.mks.types.LugerCompetitor;
@@ -44,6 +45,12 @@ public class DisplayScoreAndStartNum implements ActionListener {
 		@Override
 		public void run() {
 			disp.clearDisplay();
+			try {
+				disp.setScrolling(false);
+				disp.setBrightness(16);
+			} catch (DisplayFunctionNotSupportedEx e) {
+				e.printStackTrace();
+			}
 			disp.sendText(toDisp, 0, 0);
 		}
 		
@@ -55,7 +62,7 @@ public class DisplayScoreAndStartNum implements ActionListener {
 		
 		demo.setStartNumber((short) 8);
 		
-		LocalTime time = ConvertMicrotime.toLocalTime(450000);
+		LocalTime time = ConvertMicrotime.toLocalTime(952340);
 		
 		this.showScoreAfterRun(time, demo);
 	}

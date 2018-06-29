@@ -3,6 +3,8 @@ package pl.jeleniagora.mks.display;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import pl.jeleniagora.mks.exceptions.DisplayFunctionNotSupportedEx;
+
 public class DisplayStartScreen implements ActionListener {
 
 	
@@ -30,6 +32,12 @@ public class DisplayStartScreen implements ActionListener {
 		@Override
 		public void run() {
 			disp.clearDisplay();
+			try {
+				disp.setScrolling(false);
+				disp.setBrightness(16);
+			} catch (DisplayFunctionNotSupportedEx e) {
+				e.printStackTrace();
+			}			
 			disp.sendText(toDisp, 0, 0);
 		}
 		
