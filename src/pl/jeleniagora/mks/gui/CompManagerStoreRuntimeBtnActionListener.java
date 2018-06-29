@@ -72,15 +72,13 @@ public class CompManagerStoreRuntimeBtnActionListener implements ActionListener 
 				+ rte_gui.runClickedInTable);
 		
 		boolean ret = SaveRuntime.saveRuntimeForMarkedCmptr(runTime);
-		
-		if (rte_gui.competitorClickedInTable.equals(rte_st.actuallyOnTrack)) {
+				
+		if (ret) {
 			/*
 			 * Jeżeli zapisuje się przy użyciu przycisku czas dla zawodnika aktualie na torze to go wyświetl
 			 */
 			SaveRuntime.displayRuntimeOnDisplay(runTime, rte_st.actuallyOnTrack);
-		}
-				
-		if (ret) {
+			
 			try {
 				UpdateCurrentAndNextLuger.moveForwardNormally();
 			} catch (EndOfRunEx e) {
