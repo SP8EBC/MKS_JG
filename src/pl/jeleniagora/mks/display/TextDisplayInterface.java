@@ -24,6 +24,17 @@ public interface TextDisplayInterface {
 	public int getRowRes();
 	
 	/**
+	 * Metoda służąca do synchronizacji dostępu do wyświetlacza. Sychronizacja ma m.in. zapewnić że jakaś treść będzie
+	 * się wyświetlała konkretny czas
+	 */
+	public void waitForDisplay();
+	
+	/**
+	 * Metoda służąca do zwalniania dostępu do wyświetlacza. Najczęściej będzie po prostu zwalniała semafor
+	 */
+	public void releaseDisplay();
+	
+	/**
 	 * Metoda kasująca zawartość wyświetlacza, bo jej wywołaniu wyświetlacz powinien nic nie wyświetlać
 	 * @return
 	 */

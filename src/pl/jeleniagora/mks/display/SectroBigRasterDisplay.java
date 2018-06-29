@@ -249,4 +249,19 @@ public class SectroBigRasterDisplay implements TextDisplayInterface {
 		centering = en;
 	}
 
+	@Override
+	public void waitForDisplay() {
+		try {
+			com.displaySemaphore.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void releaseDisplay() {
+		com.displaySemaphore.release();
+	}
+
 }

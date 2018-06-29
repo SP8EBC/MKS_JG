@@ -4,8 +4,10 @@ import java.time.LocalTime;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import pl.jeleniagora.mks.display.DisplayRuntimeAndStartNum;
 import pl.jeleniagora.mks.exceptions.AppContextUninitializedEx;
 import pl.jeleniagora.mks.exceptions.UninitializedCompEx;
+import pl.jeleniagora.mks.rte.RTE;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.serial.TypesConverters;
@@ -42,6 +44,7 @@ public class LandedStateReached {
 		rte_gui.compManager.markConreteRun(rte_st.actuallyOnTrack.getStartNumber(), rte_st.currentRunCnt);
 		
 		LandedStateReached.updateTextFieldsInCM(runtime);
+		LandedStateReached.displayRuntimeOnDisplay(runtime, rte_st.actuallyOnTrack);
 		
 		if (ChronometerS.autosave) {
 			
@@ -59,6 +62,19 @@ public class LandedStateReached {
 		
 		
 	
+	}
+	
+	/**
+	 * Prywatana metoda wyświetlająca 
+	 * @param runTime
+	 */
+	static void displayRuntimeOnDisplay(LocalTime runTime, LugerCompetitor whoFinished) {
+		DisplayRuntimeAndStartNum d = new DisplayRuntimeAndStartNum(RTE.getRte_disp_interface());
+		
+		/*
+		 * Przetrzymanie treści na wyświetlaczu wynosi 2500 bo po 3 sekundach nastąpi autozapis
+		 */
+		d.showScoreAfterRunAndDelay(runTime, whoFinished, 2500);
 	}
 	
 	/**

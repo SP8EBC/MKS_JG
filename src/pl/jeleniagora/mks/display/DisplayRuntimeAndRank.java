@@ -9,11 +9,11 @@ import pl.jeleniagora.mks.types.LugerCompetitor;
  * @author mateusz
  *
  */
-public class DisplayScoreAndRank {
+public class DisplayRuntimeAndRank {
 	
 	TextDisplayInterface display;
 	
-	DisplayScoreAndRank(TextDisplayInterface interf) {
+	DisplayRuntimeAndRank(TextDisplayInterface interf) {
 		
 	}
 	

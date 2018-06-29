@@ -27,4 +27,9 @@ public class RTE_COM_DISP extends RTE_COM {
 		this.waitAfterTx = 0;
 	}
 	
+	/**
+	 * Semafor służący do synchronizacji dostępu do wyświetlacza
+	 */
+	public Semaphore displaySemaphore = new Semaphore(1);
+	
 }

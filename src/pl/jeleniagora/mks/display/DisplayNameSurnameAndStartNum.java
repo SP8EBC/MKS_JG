@@ -46,6 +46,7 @@ public class DisplayNameSurnameAndStartNum {
 		
 		@Override
 		public void run() {
+			disp.waitForDisplay();
 			disp.clearDisplay();
 			try {
 				disp.setScrolling(false);
@@ -54,7 +55,7 @@ public class DisplayNameSurnameAndStartNum {
 				e.printStackTrace();
 			}
 			disp.sendText(s, 0, 0);
-			
+			disp.releaseDisplay();
 		}
 		
 	}

@@ -31,6 +31,7 @@ public class DisplayStartScreen implements ActionListener {
 
 		@Override
 		public void run() {
+			disp.waitForDisplay();
 			disp.clearDisplay();
 			try {
 				disp.setScrolling(false);
@@ -39,6 +40,7 @@ public class DisplayStartScreen implements ActionListener {
 				e.printStackTrace();
 			}			
 			disp.sendText(toDisp, 0, 0);
+			disp.releaseDisplay();
 		}
 		
 	}

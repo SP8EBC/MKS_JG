@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 import pl.jeleniagora.mks.chrono.Chrono;
 import pl.jeleniagora.mks.display.Clear;
-import pl.jeleniagora.mks.display.DisplayScoreAndStartNum;
+import pl.jeleniagora.mks.display.DisplayRuntimeAndStartNum;
 import pl.jeleniagora.mks.display.DisplayStartScreen;
 import pl.jeleniagora.mks.display.SectroBigRasterDisplay;
 import pl.jeleniagora.mks.events.AfterStartListGeneration;
@@ -564,7 +564,7 @@ public class CompManager extends JFrame {
 		mnWywietlacz.add(mntmEkranStartowy);
 		
 		JMenuItem mntmTest = new JMenuItem("Test 1");
-		mntmTest.addActionListener(new DisplayScoreAndStartNum(RTE.getRte_disp_interface()));
+		mntmTest.addActionListener(new DisplayRuntimeAndStartNum(RTE.getRte_disp_interface()));
 		mnWywietlacz.add(mntmTest);
 		
 		JMenuItem mntmTest_1 = new JMenuItem("Test 2");

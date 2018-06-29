@@ -71,6 +71,7 @@ public class XmlLoader {
 	}
 	
 	void restoreProgramState(Competitions competitions, ProgramState state) throws RteIsNullEx {
+		String str;
 		if (rte_st == null || rte_gui == null)
 			throw new RteIsNullEx();
 		
@@ -88,7 +89,14 @@ public class XmlLoader {
 		rte_st.currentRunCnt = (short) state.currentRunCnt;
 				
 		rte_gui.actuallyOnTrack.setText(rte_st.actuallyOnTrack.toString());
-		rte_gui.nextOnTrack.setText(rte_st.nextOnTrack.toString());
+		
+		if (rte_st.nextOnTrack != null) {
+			str = rte_st.nextOnTrack.toString();
+		}
+		else
+			str = "---";
+		
+		rte_gui.nextOnTrack.setText(str);
 	}
 	
 	void restoreUserInterface(Competitions competition) throws UninitializedCompEx, Reserve {

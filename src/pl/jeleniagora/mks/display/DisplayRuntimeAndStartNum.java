@@ -12,15 +12,22 @@ import pl.jeleniagora.mks.factories.ClubsFactory;
 import pl.jeleniagora.mks.factories.LugersFactory;
 import pl.jeleniagora.mks.types.LugerCompetitor;
 
-public class DisplayScoreAndStartNum implements ActionListener {
+public class DisplayRuntimeAndStartNum implements ActionListener {
 
 	TextDisplayInterface disp;
 	
-	public DisplayScoreAndStartNum(TextDisplayInterface interf) {
+	int delay = 0;
+	
+	public DisplayRuntimeAndStartNum(TextDisplayInterface interf) {
 		disp = interf;
 	}
 	
-	void showScoreAfterRun(LocalTime runtime, LugerCompetitor cmptr) {
+	public void showScoreAfterRunAndDelay(LocalTime runtime, LugerCompetitor cmptr, int delay) {
+		this.delay = delay;
+		this.showScoreAfterRun(runtime, cmptr);
+	}
+	
+	public void showScoreAfterRun(LocalTime runtime, LugerCompetitor cmptr) {
 		int startNum = cmptr.getStartNumber();
 		
 		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("m:ss.SSS");
@@ -29,7 +36,7 @@ public class DisplayScoreAndStartNum implements ActionListener {
 		String dispString = "Numer " + startNum + "\r\n" + cmptr.toString() + " \r\n" + timeString + " ";
 		
 		// wysłanie danych do wyświetlacza idzie w osobnym wątku aby nie blokowac UI
-		new Thread(new ShowScoreAfterRun(dispString)).start();
+		new Thread(new ShowScoreAfterRun(dispString, delay)).start();
 		
 		
 	}
@@ -38,12 +45,16 @@ public class DisplayScoreAndStartNum implements ActionListener {
 
 		String toDisp;
 		
-		ShowScoreAfterRun(String toDisplay) {
+		int dely;
+		
+		ShowScoreAfterRun(String toDisplay, int delay) {
 			toDisp = toDisplay;
+			dely = delay;
 		}
 		
 		@Override
 		public void run() {
+			disp.waitForDisplay();
 			disp.clearDisplay();
 			try {
 				disp.setScrolling(false);
@@ -52,6 +63,14 @@ public class DisplayScoreAndStartNum implements ActionListener {
 				e.printStackTrace();
 			}
 			disp.sendText(toDisp, 0, 0);
+			if (dely > 0) {
+				try {
+					Thread.sleep(dely);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			disp.releaseDisplay();
 		}
 		
 	}

@@ -4,9 +4,12 @@ import java.time.LocalTime;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import pl.jeleniagora.mks.display.DisplayRuntimeAndStartNum;
 import pl.jeleniagora.mks.exceptions.UninitializedCompEx;
+import pl.jeleniagora.mks.rte.RTE;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
+import pl.jeleniagora.mks.types.LugerCompetitor;
 
 public class SaveRuntime {
 
@@ -24,6 +27,15 @@ public class SaveRuntime {
 	
 	private SaveRuntime() {
 		
+	}
+	
+	public static void displayRuntimeOnDisplay(LocalTime runTime, LugerCompetitor whoFinished) {
+		DisplayRuntimeAndStartNum d = new DisplayRuntimeAndStartNum(RTE.getRte_disp_interface());
+		
+		/*
+		 * Przetrzymanie treści na wyświetlaczu wynosi 2500 bo po 3 sekundach nastąpi autozapis
+		 */
+		d.showScoreAfterRunAndDelay(runTime, whoFinished, 9000);
 	}
 	
 	/**
