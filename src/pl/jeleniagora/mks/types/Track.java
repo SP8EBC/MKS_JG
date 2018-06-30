@@ -71,4 +71,8 @@ public class Track {
 	 * drewniany
 	 */
 	public boolean isMadeFromConcrete;
+	
+	public String toString() {
+		return this.name;
+	}
 }

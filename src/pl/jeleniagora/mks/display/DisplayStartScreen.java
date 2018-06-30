@@ -14,7 +14,7 @@ public class DisplayStartScreen implements ActionListener {
 		disp = interf;
 	}
 	
-	void showStartScreen() {
+	public void showStartScreen() {
 		String text = "MKS_JG\r\nwer 1.00\r\nAutor: Mateusz Lubecki = Bielsko-Biała 2018   ";
 
 		new Thread(new ShowStartScreen(text)).start();

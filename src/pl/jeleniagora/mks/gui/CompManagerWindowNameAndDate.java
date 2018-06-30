@@ -26,7 +26,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class CompManagerNameAndDateWindow {
+public class CompManagerWindowNameAndDate {
 
 	JFrame frmUstawNazwI;
 	private JTextField compsName;
@@ -46,7 +46,7 @@ public class CompManagerNameAndDateWindow {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CompManagerNameAndDateWindow window = new CompManagerNameAndDateWindow(null);
+					CompManagerWindowNameAndDate window = new CompManagerWindowNameAndDate(null);
 					window.frmUstawNazwI.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -58,7 +58,7 @@ public class CompManagerNameAndDateWindow {
 	/**
 	 * Create the application.
 	 */
-	public CompManagerNameAndDateWindow(AnnotationConfigApplicationContext ctx) {
+	public CompManagerWindowNameAndDate(AnnotationConfigApplicationContext ctx) {
 		context = ctx;
 		initialize();
 	}

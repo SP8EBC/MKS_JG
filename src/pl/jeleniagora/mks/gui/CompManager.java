@@ -347,7 +347,7 @@ public class CompManager extends JFrame {
 		mntmNazwaIData.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// akcja od naciśnięcia przycisku myszy na pozycję w menu
-				CompManagerNameAndDateWindow window = new CompManagerNameAndDateWindow(ctx);
+				CompManagerWindowNameAndDate window = new CompManagerWindowNameAndDate(ctx);
 				window.frmUstawNazwI.setVisible(true);
 			}
 		});

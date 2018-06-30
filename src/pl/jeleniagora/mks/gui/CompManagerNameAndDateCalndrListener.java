@@ -6,9 +6,9 @@ import java.util.Calendar;
 
 public class CompManagerNameAndDateCalndrListener implements PropertyChangeListener {
 
-	CompManagerNameAndDateWindow parentWindow;
+	CompManagerWindowNameAndDate parentWindow;
 	
-	CompManagerNameAndDateCalndrListener(CompManagerNameAndDateWindow parent) {
+	CompManagerNameAndDateCalndrListener(CompManagerWindowNameAndDate parent) {
 		parentWindow = parent;
 	}
 	

@@ -9,6 +9,8 @@ import javax.swing.JOptionPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import pl.jeleniagora.mks.display.DisplayStartScreen;
+import pl.jeleniagora.mks.rte.RTE;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.types.Competition;
@@ -60,6 +62,8 @@ public class CompManagerNewFileListener implements ActionListener {
 			rte_gui.actuallyOnTrack.setText("----");
 			rte_gui.currentCompetition.setText("----");
 
+			DisplayStartScreen start = new DisplayStartScreen(RTE.getRte_disp_interface());
+			start.showStartScreen();
 			
 		}
 		else;
