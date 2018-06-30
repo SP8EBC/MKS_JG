@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import pl.jeleniagora.mks.exceptions.DisplayFunctionNotSupportedEx;
+import pl.jeleniagora.mks.rte.RTE;
 import pl.jeleniagora.mks.rte.RTE_COM_DISP;
 
 @Component
@@ -55,6 +56,9 @@ public class SectroBigRasterDisplay implements TextDisplayInterface {
 
 	@Override
 	public void clearDisplay() {
+		if (!com.isPortOpen)
+			return;
+		
 		Vector<Byte> data = new Vector<Byte>();
 		data.add(FRAME_START);
 		data.add(CLEAR);
@@ -87,6 +91,9 @@ public class SectroBigRasterDisplay implements TextDisplayInterface {
 
 	@Override
 	public void sendText(String text, int offsetCol, int offsetRow) {
+		if (!com.isPortOpen)
+			return;
+		
 		String lines[] = text.split("\\r?\\n"); // dzielenie wejściowego strina na linie
 		
 		if (offsetCol > 0) {
@@ -157,6 +164,9 @@ public class SectroBigRasterDisplay implements TextDisplayInterface {
 
 	@Override
 	public void setBrightness(int level) throws DisplayFunctionNotSupportedEx {
+		if (!com.isPortOpen)
+			return;
+		
 		Vector<Byte> data = new Vector<Byte>();
 		data.add(FRAME_START);
 		data.add(BRIGHT);
@@ -191,6 +201,9 @@ public class SectroBigRasterDisplay implements TextDisplayInterface {
 
 	@Override
 	public void setScrolling(boolean en) throws DisplayFunctionNotSupportedEx {
+		if (!com.isPortOpen)
+			return;
+		
 		scrolling = en;
 		
 		byte mode = (byte) 0xFF;		// nieużywane bity muszą być ustawione na jeden

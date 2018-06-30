@@ -18,7 +18,8 @@ import pl.jeleniagora.mks.rte.RTE_COM_DISP;
 		+ "pl.jeleniagora.mks.files.xml.adapters, "
 		+ "pl.jeleniagora.mks.files.xml, "
 		+ "pl.jeleniagora.mks.gui,"
-		+ "pl.jeleniagora.mks.display")
+		+ "pl.jeleniagora.mks.display,"
+		+ "pl.jeleniagora.mks.chrono")
 public class SpringS {
 
 	@Bean

@@ -9,8 +9,11 @@ import javax.xml.bind.Unmarshaller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import pl.jeleniagora.mks.display.DisplayNameSurnameAndStartNum;
+import pl.jeleniagora.mks.display.SectroBigRasterDisplay;
 import pl.jeleniagora.mks.exceptions.RteIsNullEx;
 import pl.jeleniagora.mks.exceptions.UninitializedCompEx;
+import pl.jeleniagora.mks.rte.RTE;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.types.Competitions;
@@ -49,7 +52,7 @@ public class XmlLoader {
 		file = f;
 	}
 	 
-	public Competitions loadFromXml() throws JAXBException, RteIsNullEx, UninitializedCompEx, Reserve {
+	public Competitions loadFromXml(boolean updateLedDisplay) throws JAXBException, RteIsNullEx, UninitializedCompEx, Reserve {
 		Competitions competitions;
 		File inputFile;
 		
@@ -64,6 +67,11 @@ public class XmlLoader {
 		competitions = (Competitions) un.unmarshal(inputFile);
 		restoreProgramState(competitions, competitions.programState);
 		restoreUserInterface(competitions);
+		if (updateLedDisplay) {
+			DisplayNameSurnameAndStartNum disp = new DisplayNameSurnameAndStartNum(RTE.getRte_disp_interface());
+			disp.showBefore(rte_st.actuallyOnTrack);
+			
+		}
 		
 		rte_st.competitions = competitions;
 		

@@ -13,6 +13,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.stereotype.Component;
 
 import pl.jeleniagora.mks.chrono.Chrono;
+import pl.jeleniagora.mks.chrono.SimulateChrono;
 import pl.jeleniagora.mks.display.Clear;
 import pl.jeleniagora.mks.display.DisplayRuntimeAndStartNum;
 import pl.jeleniagora.mks.display.DisplayStartScreen;
@@ -108,6 +109,8 @@ public class CompManager extends JFrame {
 	private JTextField textField_msec;
 	private final Action action = new SwingAction();
 	
+	private static SimulateChrono simul;
+	
 	public static void utMain(AnnotationConfigApplicationContext context) {
 		ctx = context;
 		CompManager.main(null);
@@ -172,14 +175,14 @@ public class CompManager extends JFrame {
 		
 		rte_gui.syncCompManagerRdy = new Object();
 		
-/*		try {
+		try {
 			com = new CommThread("/dev/ttyUSB232i", rte_com, true);		// konwerter z izolacją meratronik
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		} catch (FailedOpenSerialPortEx e1) {
 			System.out.println("Failed opening port /dev/ttyUSB232i");
 		//	e1.printStackTrace();
-		}*/
+		}
 		
 		try {
 			comDisplay = new CommThread("/dev/ttyUSB485", rte_com_disp, false); // konwerter do wyświetlacza od razu na 485
@@ -187,15 +190,14 @@ public class CompManager extends JFrame {
 			System.out.println("Failed opening port /dev/ttyUSB485");
 
 		}		
-
 		
 		System.out.println("done");
 		
-//		new Thread(new Chrono(ctx)).start();
+		new Thread(new Chrono(ctx)).start();
 
-//		if (com != null) {
-//			com.startThreads();
-//		}
+		if (com != null) {
+			com.startThreads();
+		}
 		if (comDisplay != null) {
 			comDisplay.startThreads();
 		}
@@ -206,6 +208,8 @@ public class CompManager extends JFrame {
 		rte_com.numberOfBytesToRx = 14;
 		rte_com.activateRx = true;
 				
+		simul = ctx.getBean(SimulateChrono.class);
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				CompManagerCSelectorUpdater selectorUpdater = (CompManagerCSelectorUpdater)ctx.getBean(CompManagerCSelectorUpdater.class);
@@ -242,7 +246,7 @@ public class CompManager extends JFrame {
 					
 					XmlLoader loader = (XmlLoader)ctx.getBean(XmlLoader.class);
 					loader.setFilename("out_test.xml");
-					competitions = loader.loadFromXml();
+					competitions = loader.loadFromXml(false);
 					
 					selectorUpdater.updateSelectorContent(competitions.competitions);
 					
@@ -567,8 +571,17 @@ public class CompManager extends JFrame {
 		mntmTest.addActionListener(new DisplayRuntimeAndStartNum(RTE.getRte_disp_interface()));
 		mnWywietlacz.add(mntmTest);
 		
-		JMenuItem mntmTest_1 = new JMenuItem("Test 2");
+		JMenuItem mntmTest_1 = new JMenuItem("Symulacja Chrono 1");
+		mntmTest_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//SimulateChrono simul = (SimulateChrono)ctx.getBean("SimulateChrono");
+				simul.simulate(1);
+			}
+		});
 		mnWywietlacz.add(mntmTest_1);
+		
+		JMenuItem mntmSymulacjaChrono = new JMenuItem("Symulacja Chrono 2");
+		mnWywietlacz.add(mntmSymulacjaChrono);
 		
 		JMenu mnUstawienia = new JMenu("Ustawienia");
 		menuBar.add(mnUstawienia);

@@ -47,7 +47,7 @@ public class CompManagerOpenFileListener implements ActionListener {
 				
 				loader.setFile(file);
 				try {
-					competitions = loader.loadFromXml();
+					competitions = loader.loadFromXml(true);
 				} catch (JAXBException e) {
 					e.printStackTrace();
 				} catch (RteIsNullEx e) {

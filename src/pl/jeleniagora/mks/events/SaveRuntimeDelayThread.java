@@ -63,7 +63,7 @@ public class SaveRuntimeDelayThread implements Runnable {
 		 */
 		if (rte_gui.runtimeFromChrono) {
 			SaveRuntime.saveRuntimeForCurrentCmptr(rt);
-			SaveRuntime.displayRuntimeOnDisplay(rt, rte_gui.competitorClickedInTable);
+			SaveRuntime.displayRuntimeOnDisplay(rt, rte_st.actuallyOnTrack);
 			
 			try {
 				UpdateCurrentAndNextLuger.moveForwardNormally();

@@ -59,7 +59,7 @@ public class CommThread  {
 		rxBuffer = new byte[SerialCommS.getSerialBufferLn()];
 		
 //		RTE_COM rte_com = ctx.getBean(RTE_COM.class);
-		
+	
 //		SerialPort[] ports = SerialPort.getCommPorts();
 		
 		port = SerialPort.getCommPort(portName);
@@ -67,8 +67,10 @@ public class CommThread  {
 		port.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 2345, 0);
 		boolean res = port.openPort();
 		
-		if (res == false)
+		if (res == false) {
+			rte_com.isPortOpen = false;
 			throw new FailedOpenSerialPortEx();
+		}
 		
         /*
          * Wyciąganie strumieni wejściaa wyjścia do portu szeregowego
