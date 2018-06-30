@@ -8,8 +8,10 @@ import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Component;
 
 import pl.jeleniagora.mks.types.Track;
 
@@ -33,6 +35,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import net.miginfocom.swing.MigLayout;
 
+@Component
 public class CompManagerWindowChooseTrack extends JFrame {
 
 	/**
@@ -41,6 +44,9 @@ public class CompManagerWindowChooseTrack extends JFrame {
 	private static final long serialVersionUID = -2157188548869439705L;
 
 	private JPanel contentPane;
+	
+	@Autowired
+	CompManagerWindowChooseTrackListener listener;
 	
 	ApplicationContext context;
 	
@@ -86,6 +92,8 @@ public class CompManagerWindowChooseTrack extends JFrame {
 		tracks = new ArrayList<Track>();
 
 		DefaultListModel<Track> model = new DefaultListModel<Track>();
+//		listener.model = model;
+		
 		
 		for (String s : trackNames) {
 			Track elem = (Track)context.getBean(s);
@@ -96,8 +104,10 @@ public class CompManagerWindowChooseTrack extends JFrame {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		
-		JList<Track> list = new JList<Track>(model);
+		JList<Track> list = new JList<Track>(model);			//
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.getSelectionModel().addListSelectionListener(listener);
+		
 		scrollPane.setViewportView(list);
 		
 		JButton btnNewButton = new JButton("Anuluj");
@@ -152,11 +162,20 @@ public class CompManagerWindowChooseTrack extends JFrame {
 		JLabel lblIloWiray = new JLabel("Ilość wiraży");
 		panel_1.add(lblIloWiray, "cell 0 1");
 		
+		JLabel lblIloscwirazydata = new JLabel("ilosc_wirazy_data");
+		panel_1.add(lblIloscwirazydata, "cell 1 1");
+		
 		JLabel lblDugom = new JLabel("Długość [m]");
 		panel_1.add(lblDugom, "cell 0 2");
 		
+		JLabel lblDlugoscdata = new JLabel("dlugosc_data");
+		panel_1.add(lblDlugoscdata, "cell 1 2");
+		
 		JLabel lblIloStartw = new JLabel("Ilość startów");
 		panel_1.add(lblIloStartw, "cell 0 3");
+		
+		JLabel lblIloscstartow = new JLabel("ilosc_startow");
+		panel_1.add(lblIloscstartow, "cell 1 3");
 		
 		JLabel lblZdjcie = new JLabel("Zdjęcie");
 		panel.add(lblZdjcie);

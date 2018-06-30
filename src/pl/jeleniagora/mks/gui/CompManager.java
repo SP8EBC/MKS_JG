@@ -357,6 +357,15 @@ public class CompManager extends JFrame {
 		mnZawody.add(separator_5);
 		
 		JMenuItem mntmWybierzTor = new JMenuItem("Wybierz tor");
+		mntmWybierzTor.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				CompManagerWindowChooseTrack window = (CompManagerWindowChooseTrack)ctx.getBean(CompManagerWindowChooseTrack.class);
+				window.setVisible(true);
+			}
+			
+		});
 		mnZawody.add(mntmWybierzTor);
 		
 		JMenu mnKolejnoStartowa = new JMenu("Kolejność startowa");
