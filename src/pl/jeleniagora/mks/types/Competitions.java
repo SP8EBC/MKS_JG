@@ -83,6 +83,24 @@ public class Competitions {
 	public Map<Competition, StartGate> competitionToStartGateMapping;
 	
 	/**
+	 * Imię i Nazwisko pierwszego sędziego
+	 */
+	@XmlTransient
+	public String Judge1st;
+	
+	/**
+	 * Imię i Nazwisko drugiego sędziego
+	 */
+	@XmlTransient
+	public String Judge2nd;
+	
+	/**
+	 * Imię i Nazwisko trzeciego sędziego
+	 */
+	@XmlTransient
+	public String Judge3rd;
+	
+	/**
 	 * 
 	 */
 	@XmlElement(name="programState")

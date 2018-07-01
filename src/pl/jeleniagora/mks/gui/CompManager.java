@@ -385,6 +385,15 @@ public class CompManager extends JFrame {
 		mnZawody.add(chckbxmntmOsobnaKonkurencjaDruynowa);
 		
 		JMenuItem mntmSdziowie = new JMenuItem("Sędziowie");
+		mntmSdziowie.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				CompManagerWindowJudges judges = (CompManagerWindowJudges)ctx.getBean(CompManagerWindowJudges.class);
+				judges.frame.setVisible(true);
+			}
+			
+		});
 		mnZawody.add(mntmSdziowie);
 		
 		JSeparator separator_3 = new JSeparator();
