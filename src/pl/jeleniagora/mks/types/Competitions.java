@@ -171,4 +171,12 @@ public class Competitions {
 		return null;
 		
 	}
+	
+	/**
+	 * Metoda zwraca kolejne wolne id które można przyporządkować do nowo tworzonej konkurencji
+	 * @return
+	 */
+	public int getNextIdForNewCompetition() {
+		return competitions.size();
+	}
 }

@@ -420,6 +420,12 @@ public class CompManager extends JFrame {
 		menuBar.add(mnKonkurencje);
 		
 		JMenuItem mntmDodajKonkurencj = new JMenuItem("Dodaj konkurencję");
+		mntmDodajKonkurencj.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				CompManagerWindowAddCompetition addCmp = (CompManagerWindowAddCompetition)ctx.getBean(CompManagerWindowAddCompetition.class);
+				addCmp.setVisible(true);
+			}
+		});
 		mnKonkurencje.add(mntmDodajKonkurencj);
 		
 		JMenuItem mntmUsuKonkurencj = new JMenuItem("Usuń konkurencję");
