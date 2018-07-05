@@ -35,6 +35,14 @@ public class CompManagerChgCompBtnActionListener implements ActionListener {
 		
 		if (answer == JOptionPane.YES_OPTION) {
 			
+			if (rte_gui.competitionBeingShown.competitorsCount == 0) {
+				JOptionPane.showMessageDialog(null, "Nie można przełączyć się na konkurencję w której nie ma żadnych saneczkarzy!");
+				return;
+			}
+			else {
+				;
+			}
+			
 			System.out.println("Changing current competition to: " + rte_gui.competitionBeingShown.toString()); 
 			
 			try {

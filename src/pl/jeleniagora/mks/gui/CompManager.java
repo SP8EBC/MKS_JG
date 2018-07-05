@@ -429,6 +429,16 @@ public class CompManager extends JFrame {
 		mnKonkurencje.add(mntmDodajKonkurencj);
 		
 		JMenuItem mntmUsuKonkurencj = new JMenuItem("Usuń konkurencję");
+		mntmUsuKonkurencj.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				CompManagerWindowDeleteCompetition delCmp = (CompManagerWindowDeleteCompetition)ctx.getBean(CompManagerWindowDeleteCompetition.class);
+				delCmp.initializeComboBox();
+				delCmp.setVisible(true);
+			}
+			
+		});
 		mnKonkurencje.add(mntmUsuKonkurencj);
 		
 		JMenuItem mntmEdytujKonkurencj = new JMenuItem("Edytuj konkurencję");
