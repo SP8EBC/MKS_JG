@@ -457,6 +457,7 @@ public class CompManager extends JFrame {
 		mntmDodajDoKonkurencji.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				CompManagerWindowAddLuger window = (CompManagerWindowAddLuger)ctx.getBean(CompManagerWindowAddLuger.class);
+				window.updateCurrentNumberOfLugers();
 				window.setVisible(true);
 			}
 		});

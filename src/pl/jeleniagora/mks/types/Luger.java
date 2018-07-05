@@ -57,6 +57,11 @@ public class Luger {
 	@XmlTransient
 	public Map<StartGate, Short> runsCounters;
 	
+	@Override
+	public String toString() {
+		return this.name + " " + this.surname;
+	}
+	
 	public Luger() {
 		this.generateSystemId();
 	}

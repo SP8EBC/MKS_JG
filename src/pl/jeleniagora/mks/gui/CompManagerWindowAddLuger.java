@@ -15,6 +15,7 @@ import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.types.Luger;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JButton;
@@ -26,6 +27,9 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
+import java.awt.Color;
+import java.awt.Font;
 
 /**
  * Klasa do obsługi okna Saneczkarze -> Dodaj nowego do bazy programu
@@ -48,6 +52,10 @@ public class CompManagerWindowAddLuger extends JFrame {
 	@Autowired
 	RTE_ST rte_st;
 	
+	JLabel lblAktualnieWProgramie;
+	
+	CompManagerWindowAddLuger window;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -63,11 +71,18 @@ public class CompManagerWindowAddLuger extends JFrame {
 			}
 		});
 	}
+	
+	public void updateCurrentNumberOfLugers() {
+		int num = rte_st.competitions.listOfAllLugersInThisCompetitions.size();
+		lblAktualnieWProgramie.setText("Aktualnie w programie zdefiniowano " + num + " saneczkarzy");
+	}
 
 	/**
 	 * Create the frame.
 	 */
 	public CompManagerWindowAddLuger() {
+		this.window = this;
+		
 		setTitle("Dodaj nowego saneczkarza do programu");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 706, 362);
@@ -87,6 +102,7 @@ public class CompManagerWindowAddLuger extends JFrame {
 		contentPane.add(lblImi, "cell 0 1,alignx trailing");
 		
 		textField = new JTextField();
+		textField.setFont(new Font("Dialog", Font.BOLD, 14));
 		contentPane.add(textField, "cell 1 1,growx");
 		textField.setColumns(10);
 		
@@ -94,6 +110,7 @@ public class CompManagerWindowAddLuger extends JFrame {
 		contentPane.add(lblNazwisko, "cell 0 2,alignx trailing");
 		
 		textField_1 = new JTextField();
+		textField_1.setFont(new Font("Dialog", Font.BOLD, 14));
 		contentPane.add(textField_1, "cell 1 2,growx");
 		textField_1.setColumns(10);
 		
@@ -107,6 +124,7 @@ public class CompManagerWindowAddLuger extends JFrame {
 		contentPane.add(lblAdresEmail, "cell 0 4,alignx trailing");
 		
 		textField_2 = new JTextField();
+		textField_2.setFont(new Font("Dialog", Font.BOLD, 14));
 		contentPane.add(textField_2, "cell 1 4,growx");
 		textField_2.setColumns(10);
 		
@@ -114,28 +132,81 @@ public class CompManagerWindowAddLuger extends JFrame {
 		contentPane.add(lblKlub, "cell 0 5,alignx trailing");
 		
 		textField_3 = new JTextField();
+		textField_3.setFont(new Font("Dialog", Font.BOLD, 14));
 		contentPane.add(textField_3, "cell 1 5,growx");
 		textField_3.setColumns(10);
 		
-		JLabel lblAktualnieWProgramie = new JLabel("Aktualnie w programie zdefiniowano %d saneczkarzy");
+		lblAktualnieWProgramie = new JLabel("Aktualnie w programie zdefiniowano %d saneczkarzy");
+		lblAktualnieWProgramie.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblAktualnieWProgramie, "cell 0 6 2 1");
 		
-		JLabel lblOstatnioDodany = new JLabel("Ostatnio dodany: ");
+		JLabel lblOstatnioDodany = new JLabel("<html><body style='width=300px'><p align = center>Obowiązkowo należy podać wszystkie dane za wyjątkiem adresu e-mail, ktory w zamierzeniu ma służyć do automatycznego wysyłania raportów wyników do zawodnków.</p></body></html>");
+		lblOstatnioDodany.setForeground(Color.RED);
+		lblOstatnioDodany.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblOstatnioDodany, "cell 0 7 2 1");
 		
 		JButton btnNewButton = new JButton("Zapisz i wyjdź");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String _name = textField.getText();
+				String _surname = textField.getText();
+
+				@SuppressWarnings("unused")
+				String _email = textField_2.getText();
+				String _club = textField_3.getText();
+				
+				Date _date = dateChooser.getDate();
+				
+				if (_name == null || _surname == null || _date == null || _club == null) {
+					JOptionPane.showMessageDialog(null, "Brak wpisu w jednym bądź więcej pól obowiązkowych!");
+					return;
+				}
+
+				LocalDate _local_date = _date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				
+				Luger l = new Luger();
+				l.birthDate = _local_date;
+				l.name = _name;
+				l.surname = _surname;
+				l.email = _email;
+				l.club = ClubsFactory.createNewFromName(_club);
+
+				int sizeBeforeAdd = rte_st.competitions.listOfAllLugersInThisCompetitions.size();
+				
+				/* Dodowanie nowego saneczkarza do listy (tylko do listy, nie do konkurencji */
+				rte_st.competitions.listOfAllLugersInThisCompetitions.add(l);
+				
+				int sizeAfterAdd = rte_st.competitions.listOfAllLugersInThisCompetitions.size();
+				
+				/* Wyciąganie dla weryfikacji ostatnio dodanego */
+				Luger added = rte_st.competitions.listOfAllLugersInThisCompetitions.get(sizeAfterAdd - 1);
+				
+				/* Aktualzowanie labelek*/
+				lblOstatnioDodany.setText("Ostatnio dodany: " + added.toString());
+				lblAktualnieWProgramie.setText("Aktualnie w programie zdefiniowano " + sizeAfterAdd + " saneczkarzy");
+				
+				window.dispose();
+			}
+		});
 		
 		JButton btnZapiszIDodaj = new JButton("Zapisz i dodaj kolejnego");
 		btnZapiszIDodaj.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String _name = textField.getText();
 				String _surname = textField.getText();
-				Date _date = dateChooser.getDate();
-				LocalDate _local_date = _date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
 				@SuppressWarnings("unused")
 				String _email = textField_2.getText();
 				String _club = textField_3.getText();
+				
+				Date _date = dateChooser.getDate();
+				
+				if (_name == null || _surname == null || _date == null || _club == null) {
+					JOptionPane.showMessageDialog(null, "Brak wpisu w jednym bądź więcej pól obowiązkowych!");
+					return;
+				}
+
+				LocalDate _local_date = _date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 				
 				Luger l = new Luger();
 				l.birthDate = _local_date;
@@ -168,6 +239,12 @@ public class CompManagerWindowAddLuger extends JFrame {
 		});
 		
 		JButton btnWyjdBezZapisywania = new JButton("Wyjdź bez zapisywania");
+		btnWyjdBezZapisywania.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				window.dispose();
+			
+			}
+		});
 		GroupLayout gl_buttonPanel = new GroupLayout(buttonPanel);
 		gl_buttonPanel.setHorizontalGroup(
 			gl_buttonPanel.createParallelGroup(Alignment.LEADING)
