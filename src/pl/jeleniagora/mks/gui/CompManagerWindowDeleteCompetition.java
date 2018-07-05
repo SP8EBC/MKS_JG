@@ -22,6 +22,11 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * Klasa do obsługi okna Konkurencje -> Usuń Konkurencje
+ * @author mateusz
+ *
+ */
 @Component
 @Lazy
 public class CompManagerWindowDeleteCompetition extends JFrame {

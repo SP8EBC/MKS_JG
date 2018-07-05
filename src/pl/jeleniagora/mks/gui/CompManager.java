@@ -453,32 +453,29 @@ public class CompManager extends JFrame {
 		JMenu mnSaneczkarze = new JMenu("Saneczkarze");
 		menuBar.add(mnSaneczkarze);
 		
-		JMenuItem mntmDodajDoKonkurencji = new JMenuItem("Dodaj/usuń jedynki");
+		JMenuItem mntmDodajDoKonkurencji = new JMenuItem("Dodaj nowego do bazy programu");
+		mntmDodajDoKonkurencji.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				CompManagerWindowAddLuger window = (CompManagerWindowAddLuger)ctx.getBean(CompManagerWindowAddLuger.class);
+				window.setVisible(true);
+			}
+		});
 		mnSaneczkarze.add(mntmDodajDoKonkurencji);
-		
-		JMenuItem mntmDodajDwjkiDo = new JMenuItem("Dodaj/usuń dwójki");
-		mnSaneczkarze.add(mntmDodajDwjkiDo);
-		
-		JMenuItem mntmDodajusuDruyny = new JMenuItem("Dodaj/usuń drużyny");
-		mnSaneczkarze.add(mntmDodajusuDruyny);
-		
-		JMenuItem mntmDodajusuSztafete = new JMenuItem("Dodaj/usuń sztafete");
-		mnSaneczkarze.add(mntmDodajusuSztafete);
 		
 		JSeparator separator_2 = new JSeparator();
 		mnSaneczkarze.add(separator_2);
 		
-		JMenuItem mntmSparujWDwjki = new JMenuItem("Sparuj w dwójki");
+		JMenuItem mntmDopiszIstniejcegoDo = new JMenuItem("Dopisz z bazy do konkurencji jedynek");
+		mnSaneczkarze.add(mntmDopiszIstniejcegoDo);
+		
+		JMenuItem mntmSparujWDwjki = new JMenuItem("Sparuj w dwójki i dopisz do konkurencji");
 		mnSaneczkarze.add(mntmSparujWDwjki);
 		
-		JMenuItem mntmUtwrzDruyn = new JMenuItem("Utwórz drużynę");
+		JMenuItem mntmUtwrzDruyn = new JMenuItem("Utwórz drużynę i dopisz do konkurencji");
 		mnSaneczkarze.add(mntmUtwrzDruyn);
 		
-		JMenuItem mntmUtwrzSztafet = new JMenuItem("Utwórz sztafetę");
+		JMenuItem mntmUtwrzSztafet = new JMenuItem("Utwórz sztafetę i dopisz do konkurencji");
 		mnSaneczkarze.add(mntmUtwrzSztafet);
-		
-		JMenuItem mntmSzybkiPodgldDanych = new JMenuItem("Szybki podgląd danych");
-		mnSaneczkarze.add(mntmSzybkiPodgldDanych);
 		
 		JSeparator separator_1 = new JSeparator();
 		mnSaneczkarze.add(separator_1);
