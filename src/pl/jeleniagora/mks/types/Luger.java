@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -50,6 +51,12 @@ public class Luger {
 	public Club club;
 	
 	public String email;
+	
+	/**
+	 * Flaga ustawiana na true jeżeli ten saneczkarz został przypisany do co najmniej jednej konkurencji
+	 */
+	@XmlElement(required = false, nillable = true )
+	public boolean hasBeenAdded;
 
 	/**
 	 * Mapa zawierająca liczniki ślizgów dla każdego toru i bramki startowej z osobna.

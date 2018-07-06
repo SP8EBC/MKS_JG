@@ -214,6 +214,7 @@ public class CompManagerWindowAddLuger extends JFrame {
 				l.surname = _surname;
 				l.email = _email;
 				l.club = ClubsFactory.createNewFromName(_club);
+				l.hasBeenAdded = false;
 
 				int sizeBeforeAdd = rte_st.competitions.listOfAllLugersInThisCompetitions.size();
 				

@@ -51,6 +51,9 @@ public class ListOfAllLugersAdapter extends XmlAdapter<ListOfAllLugersAdapter.Ad
 		
 		@XmlElement(required = false, nillable = true )
 		public String email;
+		
+		@XmlElement(required = true, nillable = true )
+		public boolean hasBeenAdded;
 
 	}
 
@@ -68,6 +71,7 @@ public class ListOfAllLugersAdapter extends XmlAdapter<ListOfAllLugersAdapter.Ad
 			entry.name = e.name;
 			entry.surname = e.surname;
 			entry.systemId = e.getSystemId();
+			entry.hasBeenAdded = e.hasBeenAdded;
 			
 			out.adapted.add(entry);
 		}
@@ -89,6 +93,7 @@ public class ListOfAllLugersAdapter extends XmlAdapter<ListOfAllLugersAdapter.Ad
 			n.surname = e.surname;
 			n.name = e.name;
 			n.setSystemId(e.systemId);
+			n.hasBeenAdded = e.hasBeenAdded;
 			
 			out.add(n);
 			

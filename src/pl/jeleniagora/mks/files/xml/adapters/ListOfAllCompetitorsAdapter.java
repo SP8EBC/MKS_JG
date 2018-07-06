@@ -108,6 +108,9 @@ public class ListOfAllCompetitorsAdapter extends XmlAdapter<ListOfAllCompetitors
 				Luger up = rte_st.competitions.findLugerInListBySystemId(e.upperLugerSystemId);
 				Luger down = rte_st.competitions.findLugerInListBySystemId(e.lowerLugerSystemId);
 				
+				up.hasBeenAdded = true;
+				down.hasBeenAdded = true;
+				
 				if (up == null || down == null) {
 					throw new LugerOrCompetitorMissingEx();
 				}
@@ -125,6 +128,7 @@ public class ListOfAllCompetitorsAdapter extends XmlAdapter<ListOfAllCompetitors
 				
 				LugerSingle n = new LugerSingle(false);
 				n.setSystemId(e.lugerCompetitorSystemId);
+				
 				try {
 					s = rte_st.competitions.findLugerInListBySystemId(e.singleLugerSystemId);
 				}
@@ -134,6 +138,8 @@ public class ListOfAllCompetitorsAdapter extends XmlAdapter<ListOfAllCompetitors
 				if (s == null) {
 					throw new LugerOrCompetitorMissingEx();
 				}
+				
+				s.hasBeenAdded = true;
 				
 				n.single = s;
 				n.setCompetitorType(e.lugerCompetitorType);
@@ -158,6 +164,8 @@ public class ListOfAllCompetitorsAdapter extends XmlAdapter<ListOfAllCompetitors
 				if (s == null) {
 					throw new LugerOrCompetitorMissingEx();
 				}
+				
+				s.hasBeenAdded = true;
 				
 				n.single = s;
 				n.setCompetitorType(e.lugerCompetitorType);
