@@ -620,6 +620,15 @@ public class CompManager extends JFrame {
 		
 		JMenu mnPomoc = new JMenu("Pomoc");
 		menuBar.add(mnPomoc);
+		
+		JMenuItem mntmInstrukcjaSzybkiegoStartu = new JMenuItem("Instrukcja szybkiego startu");
+		mnPomoc.add(mntmInstrukcjaSzybkiegoStartu);
+		
+		JMenuItem mntmInformacjeKontaktowe = new JMenuItem("Informacje kontaktowe");
+		mnPomoc.add(mntmInformacjeKontaktowe);
+		
+		JMenuItem mntmOProgramie = new JMenuItem("O programie");
+		mnPomoc.add(mntmOProgramie);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

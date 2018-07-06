@@ -52,6 +52,8 @@ public class Luger {
 	
 	public String email;
 	
+	public long telephoneNumber;
+	
 	/**
 	 * Flaga ustawiana na true jeżeli ten saneczkarz został przypisany do co najmniej jednej konkurencji
 	 */
