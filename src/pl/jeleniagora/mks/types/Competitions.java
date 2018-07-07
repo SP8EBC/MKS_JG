@@ -32,7 +32,7 @@ import pl.jeleniagora.mks.files.xml.adapters.TrackAdapter;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Competitions {
 	
-	public final long dataStructureVersion = 0x80000001;
+	public final long dataStructureVersion = 0x80000002;
 	
 	/**
 	 * Nazwa zawodów

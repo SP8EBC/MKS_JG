@@ -1,11 +1,15 @@
 package pl.jeleniagora.mks.gui;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.swing.table.AbstractTableModel;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import pl.jeleniagora.mks.rte.RTE_ST;
+import pl.jeleniagora.mks.types.Luger;
 
 /**
  * Model danych dla lewej tabeli w oknie Dodawania/usuwania zawodnika z konkurencji jedynek
@@ -18,11 +22,27 @@ public class CompManagerWindowAddLugerSingleLTableModel extends AbstractTableMod
 	@Autowired
 	RTE_ST rte_st;
 	
+	List<Luger> listOfLugersToShow;
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 5250867278266583242L;
 
+	public void updateContent(boolean onlyNotAdded) {
+		List<Luger> inputList = rte_st.competitions.listOfAllLugersInThisCompetitions;
+		
+		listOfLugersToShow = new LinkedList<Luger>();
+		
+		for (Luger elem: inputList) {
+			if (onlyNotAdded && elem.hasBeenAdded)
+				continue;
+			else {
+				listOfLugersToShow.add(elem);
+			}
+		}
+	}
+	
 	@Override
 	public int getColumnCount() {
 		return 2;
@@ -35,6 +55,25 @@ public class CompManagerWindowAddLugerSingleLTableModel extends AbstractTableMod
 
 	@Override
 	public Object getValueAt(int arg0, int arg1) {
+		String name, surname;
+		
+		Luger elem = listOfLugersToShow.get(arg0);
+		
+		if (elem != null) {
+			name = elem.name;
+			surname = elem.surname;
+		}
+		else {
+			name = "";
+			surname = "";
+		}
+		
+		if (arg1 == 0) {
+			return name;
+		}
+		else if (arg1 == 1) {
+			return surname;
+		}
 		return null;
 	}
 
@@ -52,6 +91,11 @@ public class CompManagerWindowAddLugerSingleLTableModel extends AbstractTableMod
 		else
 			return "Nazwisko";
 		
+	}
+	
+	@Override
+	public boolean isCellEditable(int row, int col) {
+		return false;
 	}
 	
 }

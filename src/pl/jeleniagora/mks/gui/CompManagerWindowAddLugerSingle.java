@@ -20,7 +20,12 @@ import org.springframework.stereotype.Component;
 
 import java.awt.Color;
 import net.miginfocom.swing.MigLayout;
+import pl.jeleniagora.mks.types.Competition;
+
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 @Component
 public class CompManagerWindowAddLugerSingle extends JFrame {
@@ -36,6 +41,12 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 
 	@Autowired
 	CompManagerWindowAddLugerSingleLTableModel leftModel;
+	
+	/**
+	 * Pole ustawiane przez checkbox poniżej listy zawodników. Po zaznaczeniu lewy panel ma pokazywać
+	 * tylko tych sankarzy którzy nie są jeszcze przypisani do żadnej konkurencji
+	 */
+	boolean showOnlyNotAddedLugers;
 	
 	/**
 	 * Launch the application.
@@ -169,7 +180,7 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 		JLabel lblWybierzKonkurencjeDo = new JLabel("Wybierz konkurencje do której chcesz dodać zawodników");
 		lblWybierzKonkurencjeDo.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JComboBox comboBox = new JComboBox();
+		JComboBox<Competition> comboBox = new JComboBox<Competition>();
 		GroupLayout gl_compSelPanel = new GroupLayout(compSelPanel);
 		gl_compSelPanel.setHorizontalGroup(
 			gl_compSelPanel.createParallelGroup(Alignment.LEADING)
@@ -193,11 +204,26 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 		searchField.setColumns(10);
 		
 		searchTable = new JTable();
+		
+		JCheckBox chckbxPokazujWycznieNiedodanych = new JCheckBox("Pokazuj wyłącznie niedodanych");
+		chckbxPokazujWycznieNiedodanych.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Object source = arg0.getSource();
+				JCheckBox c = (JCheckBox)source;
+				if (c.isSelected())
+					showOnlyNotAddedLugers = true;
+				else 
+					showOnlyNotAddedLugers = false;
+			}
+		});
 		GroupLayout gl_searchPanel = new GroupLayout(searchPanel);
 		gl_searchPanel.setHorizontalGroup(
 			gl_searchPanel.createParallelGroup(Alignment.LEADING)
-				.addComponent(searchField, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
+				.addComponent(searchField, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
 				.addComponent(searchTable, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+				.addGroup(gl_searchPanel.createSequentialGroup()
+					.addComponent(chckbxPokazujWycznieNiedodanych)
+					.addContainerGap())
 		);
 		gl_searchPanel.setVerticalGroup(
 			gl_searchPanel.createParallelGroup(Alignment.LEADING)
@@ -205,7 +231,10 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 					.addGap(5)
 					.addComponent(searchField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
-					.addComponent(searchTable, GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE))
+					.addComponent(searchTable, GroupLayout.PREFERRED_SIZE, 446, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(chckbxPokazujWycznieNiedodanych)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		searchPanel.setLayout(gl_searchPanel);
 		contentPane.setLayout(gl_contentPane);
