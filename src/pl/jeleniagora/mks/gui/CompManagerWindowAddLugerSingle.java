@@ -16,10 +16,12 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.LineBorder;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.awt.Color;
 import net.miginfocom.swing.MigLayout;
+import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.types.Competition;
 
 import javax.swing.JButton;
@@ -28,6 +30,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 @Component
+@Lazy
 public class CompManagerWindowAddLugerSingle extends JFrame {
 
 	/**
@@ -38,9 +41,15 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 	private JTextField searchField;
 	private JTable searchTable;
 	private JTable table;
+	JComboBox<Competition> comboBox;
 
+	CompManagerWindowAddLugerSingle window;
+	
 	@Autowired
 	CompManagerWindowAddLugerSingleLTableModel leftModel;
+	
+	@Autowired
+	RTE_ST rte_st;
 	
 	/**
 	 * Pole ustawiane przez checkbox poniżej listy zawodników. Po zaznaczeniu lewy panel ma pokazywać
@@ -63,11 +72,23 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 			}
 		});
 	}
+	
+	public void updateContent() {
+		searchTable.setModel(leftModel); 	// W momencie wywołania konstruktora obiekt leftModel jest jeszcze przed
+											// autowiringiem przez co JTable jest tworzona z nullowym modelem.
+		leftModel.updateContent(true);	// aktualizowanie modelu danych do tabeli po lewej stronie
+		comboBox.removeAllItems(); 	// wyciepywanie wszystkich aktualnie istniejących elementów checkboxa
+		for (Competition c : rte_st.competitions.competitions) {
+			// aktualizowane comboboxa w oparciu o wszystkie aktualnie zdefiniowane konkurencje
+			comboBox.addItem(c);
+		}
+	}
 
 	/**
 	 * Create the frame.
 	 */
 	public CompManagerWindowAddLugerSingle() {
+		this.window = this;
 		setResizable(false);
 		setTitle("Dopisz lub usuń zawodnika z konkurencji jedynek");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -90,6 +111,11 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 		JButton btnUsuZKonkurencji = new JButton("Usuń zaznaczonego w prawym panelu z konkurencji");
 		
 		JButton btnZakocz = new JButton("Zakończ");
+		btnZakocz.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				window.dispose();
+			}
+		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -180,7 +206,7 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 		JLabel lblWybierzKonkurencjeDo = new JLabel("Wybierz konkurencje do której chcesz dodać zawodników");
 		lblWybierzKonkurencjeDo.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JComboBox<Competition> comboBox = new JComboBox<Competition>();
+		comboBox = new JComboBox<Competition>();
 		GroupLayout gl_compSelPanel = new GroupLayout(compSelPanel);
 		gl_compSelPanel.setHorizontalGroup(
 			gl_compSelPanel.createParallelGroup(Alignment.LEADING)
@@ -203,9 +229,11 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 		searchField = new JTextField();
 		searchField.setColumns(10);
 		
-		searchTable = new JTable();
+		searchTable = new JTable(leftModel);
+		//searchTable.setModel();
 		
 		JCheckBox chckbxPokazujWycznieNiedodanych = new JCheckBox("Pokazuj wyłącznie niedodanych");
+		chckbxPokazujWycznieNiedodanych.setSelected(true);
 		chckbxPokazujWycznieNiedodanych.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Object source = arg0.getSource();
@@ -214,6 +242,10 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 					showOnlyNotAddedLugers = true;
 				else 
 					showOnlyNotAddedLugers = false;
+				
+				leftModel.updateContent(showOnlyNotAddedLugers);
+				leftModel.fireTableStructureChanged();
+				leftModel.fireTableDataChanged();
 			}
 		});
 		GroupLayout gl_searchPanel = new GroupLayout(searchPanel);

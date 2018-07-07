@@ -467,6 +467,14 @@ public class CompManager extends JFrame {
 		mnSaneczkarze.add(separator_2);
 		
 		JMenuItem mntmDopiszIstniejcegoDo = new JMenuItem("Dopisz z bazy do konkurencji jedynek");
+		mntmDopiszIstniejcegoDo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				///
+				CompManagerWindowAddLugerSingle window = (CompManagerWindowAddLugerSingle)ctx.getBean(CompManagerWindowAddLugerSingle.class);
+				window.updateContent();
+				window.setVisible(true);
+			}
+		});
 		mnSaneczkarze.add(mntmDopiszIstniejcegoDo);
 		
 		JMenuItem mntmSparujWDwjki = new JMenuItem("Sparuj w dwójki i dopisz do konkurencji");

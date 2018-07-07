@@ -24,14 +24,17 @@ public class CompManagerWindowAddLugerSingleLTableModel extends AbstractTableMod
 	
 	List<Luger> listOfLugersToShow;
 	
+	Object[][] tableData;
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 5250867278266583242L;
 
 	public void updateContent(boolean onlyNotAdded) {
-		List<Luger> inputList = rte_st.competitions.listOfAllLugersInThisCompetitions;
+		int i = 0;
 		
+		List<Luger> inputList = rte_st.competitions.listOfAllLugersInThisCompetitions;
 		listOfLugersToShow = new LinkedList<Luger>();
 		
 		for (Luger elem: inputList) {
@@ -41,6 +44,18 @@ public class CompManagerWindowAddLugerSingleLTableModel extends AbstractTableMod
 				listOfLugersToShow.add(elem);
 			}
 		}
+		
+		tableData = new String[listOfLugersToShow.size()][2];
+		
+		for (Luger e : listOfLugersToShow) {
+			tableData[i][0] = e.name;
+			tableData[i][1] = e.surname;
+			
+			i++;
+		}
+		
+		this.fireTableStructureChanged();
+		this.fireTableDataChanged();
 	}
 	
 	@Override
@@ -50,9 +65,13 @@ public class CompManagerWindowAddLugerSingleLTableModel extends AbstractTableMod
 
 	@Override
 	public int getRowCount() {
-		return 0;
+		return listOfLugersToShow.size();
 	}
 
+	public Object[][] getTableData() {
+		return tableData;
+	}
+	
 	@Override
 	public Object getValueAt(int arg0, int arg1) {
 		String name, surname;
