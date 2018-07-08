@@ -12,7 +12,6 @@ import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.LugerCompetitor;
 import pl.jeleniagora.mks.types.LugerSingle;
 
-@Component
 public class CompManagerWindowAddLugerSingleRTableModel extends AbstractTableModel {
 
 	/**
@@ -25,6 +24,7 @@ public class CompManagerWindowAddLugerSingleRTableModel extends AbstractTableMod
 	
 	public CompManagerWindowAddLugerSingleRTableModel (Competition in) {
 		chosenCompetition = in;
+		displayVct = new Vector<LugerCompetitor>();
 		
 		for (Entry<LugerCompetitor, Short> e : chosenCompetition.startList.entrySet()) {
 			LugerCompetitor k = e.getKey();
@@ -41,6 +41,15 @@ public class CompManagerWindowAddLugerSingleRTableModel extends AbstractTableMod
 	public int getRowCount() {
 		// TODO Auto-generated method stub
 		return chosenCompetition.competitorsCount; // TODO: sprawdzić czy to pole jest włściwie aktualizowane
+	}
+	
+	@Override
+	public String getColumnName(int c) {
+		if (c == 0) 
+			return "Imię";
+		else
+			return "Nazwisko";
+		
 	}
 
 	@Override

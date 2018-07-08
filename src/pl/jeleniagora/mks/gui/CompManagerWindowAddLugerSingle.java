@@ -28,6 +28,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
 
 @Component
 @Lazy
@@ -156,17 +157,20 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 					.addContainerGap())
 		);
 		
-		table = new JTable();
-		table.setFillsViewportHeight(true);
+		JScrollPane scrollPane = new JScrollPane();
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addComponent(table, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addComponent(table, GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE)
+				.addComponent(scrollPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
 		);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		table.setFillsViewportHeight(true);
 		panel.setLayout(gl_panel);
 		infoPanel.setLayout(new MigLayout("", "[114px][8px][280px:280px]", "[15px][15px][][][][][][][][]"));
 		
@@ -253,8 +257,6 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 		
 		searchField = new JTextField();
 		searchField.setColumns(10);
-		
-		searchTable = new JTable(leftModel);
 		//searchTable.setModel();
 		
 		JCheckBox chckbxPokazujWycznieNiedodanych = new JCheckBox("Pokazuj wyłącznie niedodanych");
@@ -273,13 +275,17 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 				leftModel.fireTableDataChanged();
 			}
 		});
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
 		GroupLayout gl_searchPanel = new GroupLayout(searchPanel);
 		gl_searchPanel.setHorizontalGroup(
 			gl_searchPanel.createParallelGroup(Alignment.LEADING)
-				.addComponent(searchField, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
-				.addComponent(searchTable, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+				.addComponent(searchField, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
 				.addGroup(gl_searchPanel.createSequentialGroup()
 					.addComponent(chckbxPokazujWycznieNiedodanych)
+					.addContainerGap())
+				.addGroup(gl_searchPanel.createSequentialGroup()
+					.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		gl_searchPanel.setVerticalGroup(
@@ -288,11 +294,14 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 					.addGap(5)
 					.addComponent(searchField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
-					.addComponent(searchTable, GroupLayout.PREFERRED_SIZE, 446, GroupLayout.PREFERRED_SIZE)
+					.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 446, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(chckbxPokazujWycznieNiedodanych)
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
+		
+		searchTable = new JTable(leftModel);
+		scrollPane_1.setViewportView(searchTable);
 		searchPanel.setLayout(gl_searchPanel);
 		contentPane.setLayout(gl_contentPane);
 	}
