@@ -47,7 +47,10 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 	
 	@Autowired
 	CompManagerWindowAddLugerSingleLTableModel leftModel;
-	
+
+	CompManagerWindowAddLugerSingleRTableModel rightModel;
+
+
 	@Autowired
 	RTE_ST rte_st;
 	
@@ -154,6 +157,7 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 		);
 		
 		table = new JTable();
+		table.setFillsViewportHeight(true);
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -207,6 +211,27 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 		lblWybierzKonkurencjeDo.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		comboBox = new JComboBox<Competition>();
+		comboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Object object = arg0.getSource();
+				Competition selected;
+				
+				// wyciąganie zaznaczonej w polu rozwijanym konkurencji
+				if (object instanceof JComboBox<?>) {
+					
+					@SuppressWarnings("unchecked")
+					JComboBox<Competition> selector = (JComboBox<Competition>)object;
+					
+					selected = (Competition) selector.getSelectedItem();
+				}
+				else return;
+				
+				// wypełnianie prawego panela zawodnikami dopisanymi już do wybranej konkurencji
+				rightModel = new CompManagerWindowAddLugerSingleRTableModel(selected);
+				table.setModel(rightModel);
+				
+			}
+		});
 		GroupLayout gl_compSelPanel = new GroupLayout(compSelPanel);
 		gl_compSelPanel.setHorizontalGroup(
 			gl_compSelPanel.createParallelGroup(Alignment.LEADING)
