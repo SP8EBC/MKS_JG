@@ -24,12 +24,19 @@ public class CompManagerWindowAddLugerSingleRTableModel extends AbstractTableMod
 	
 	public CompManagerWindowAddLugerSingleRTableModel (Competition in) {
 		chosenCompetition = in;
+		
+		if (chosenCompetition == null) {
+			return;
+		}
+		
 		displayVct = new Vector<LugerCompetitor>();
 		
 		for (Entry<LugerCompetitor, Short> e : chosenCompetition.startList.entrySet()) {
 			LugerCompetitor k = e.getKey();
 			displayVct.addElement(k);
 		}
+		
+		return;
 	}
 	
 	@Override
@@ -40,7 +47,7 @@ public class CompManagerWindowAddLugerSingleRTableModel extends AbstractTableMod
 	@Override
 	public int getRowCount() {
 		// TODO Auto-generated method stub
-		return chosenCompetition.competitorsCount; // TODO: sprawdzić czy to pole jest włściwie aktualizowane
+		return chosenCompetition.competitorsCount;
 	}
 	
 	@Override
@@ -54,7 +61,18 @@ public class CompManagerWindowAddLugerSingleRTableModel extends AbstractTableMod
 
 	@Override
 	public Object getValueAt(int arg0, int arg1) {
-		LugerCompetitor k = displayVct.elementAt(arg0);
+		if (arg0 < 0 || arg1 < 0)
+			return null;
+		
+		LugerCompetitor k = null;
+		
+		try {
+			k = displayVct.elementAt(arg0);
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
 		LugerSingle s = (LugerSingle)k;
 		
 		if (arg1 == 0) {

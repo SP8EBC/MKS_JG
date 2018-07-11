@@ -10,6 +10,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextField;
 import javax.swing.JTable;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -23,6 +24,8 @@ import org.springframework.stereotype.Component;
 
 import java.awt.Color;
 import net.miginfocom.swing.MigLayout;
+import pl.jeleniagora.mks.exceptions.UninitializedCompEx;
+import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.CompetitionTypes;
@@ -81,6 +84,11 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 	 * Zawodnik wybrany w lewej tabeli
 	 */
 	Luger selectedInSearchTable;
+	
+	/**
+	 * Zawodik wybrany w prawej tabeli
+	 */
+	LugerSingle selectedInCompetitionTable;
 
 	CompManagerWindowAddLugerSingle window;
 	
@@ -92,6 +100,9 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 
 	@Autowired
 	RTE_ST rte_st;
+	
+	@Autowired
+	RTE_GUI rte_gui;
 	
 	/**
 	 * Pole ustawiane przez checkbox poniżej listy zawodników. Po zaznaczeniu lewy panel ma pokazywać
@@ -123,9 +134,13 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 		for (Competition c : rte_st.competitions.competitions) {
 			// aktualizowane comboboxa w oparciu o wszystkie aktualnie zdefiniowane konkurencje
 			comboBox.addItem(c);
-		}
-		
+		}		
 		selected = rte_st.competitions.competitions.get(0);
+		comboBox.setSelectedItem(selected);
+		
+		rightModel = new CompManagerWindowAddLugerSingleRTableModel(selected);
+		competitionTable.setModel(rightModel);
+		rightModel.fireTableDataChanged();
 	}
 
 	/**
@@ -135,7 +150,7 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 		this.window = this;
 		setResizable(false);
 		setTitle("Dopisz lub usuń zawodnika z konkurencji jedynek");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1017, 570);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -151,6 +166,10 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 		JButton btnDodajZaznaczonegoDo = new JButton("Dodaj zaznaczonego w lewym panelu do konkurencji");
 		btnDodajZaznaczonegoDo.addActionListener(new ActionListener() {
 			// dodawanie zaznaczonego w panelu po lewej saneczkarza do konkurencji
+			
+			// dodawanie do aktualnie rozgrywanej konkurencji jest możliwe ale zawodnik zostanie dodany bez nru startowego (0)
+			// co spowoduje że nie będzie uwzględniany na liście startowej. Jego wciągnięcie na listę będzie wymagało
+			// ponownego wygenerowanie nrów startowych
 			public void actionPerformed(ActionEvent arg0) {
 				boolean gender = false;
 				if(selected.competitionType.equals(CompetitionTypes.WOMAN_SINGLE))
@@ -160,6 +179,7 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 				LugerSingle toAdd = new LugerSingle(gender);
 				toAdd.single = selectedInSearchTable;
 				selected.addToCompetition(toAdd);
+				rte_st.competitions.listOfAllCompetingLugersInThisComps.add(toAdd);
 				
 				rightModel = new CompManagerWindowAddLugerSingleRTableModel(selected);
 				competitionTable.setModel(rightModel);
@@ -170,10 +190,63 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 		JPanel panel = new JPanel();
 		
 		JButton btnUsuZKonkurencji = new JButton("Usuń zaznaczonego w prawym panelu z konkurencji");
+		btnUsuZKonkurencji.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				// sprawdzanie czy użytkownik nie próbuje usunąć zawodnika z aktualnie rozgrywanej konkurencji.
+				// działanie takie jest niedozwolone gdyż z definicji wymagało by ponownego wylosowania nrów startowych
+				// co kompletnie rozwaliło by logikę aplikacji, a przede wszystkim poważnie zaburzyło kolejność startową
+				if (rte_st.currentCompetition.equals(selected)) {
+					JOptionPane.showMessageDialog(window, "Nie możesz usunąć zawodika z aktualnie rozgrywanej konkurencji!!");
+					return;
+				}
+				
+				// sprawdzanie czy użytkownik przed użyciem przycisku usuń wybrał jakiegokolwiek zawodnika
+				if (selectedInCompetitionTable != null) {
+					
+					boolean result = selected.removeFromCompetition(selectedInCompetitionTable);
+					
+					if (!result) {
+						// result może być równy false jeżeli z jakichś powodów próbowano usunąć zawodnika który np. nie znajdował się
+						// w ogóle w tej konkurencji. Raczej coś takiego nie wystąpi, bo jeżeli nie był w tej konkurencji to nie powinien
+						// się również wyświetlać na liście
+						JOptionPane.showMessageDialog(window, "Wystąpił problem podczas usuwania zawodnika z konkurencji");
+						return;
+					}
+					
+					rte_st.competitions.listOfAllCompetingLugersInThisComps.remove(selectedInCompetitionTable);
+										
+					// regenrowanie modelu danych do prawej tabeli aby uwzględnić zmiany w konkrencji
+					rightModel = new CompManagerWindowAddLugerSingleRTableModel(selected);
+					competitionTable.setModel(rightModel);
+					rightModel.fireTableDataChanged();
+					
+					competitionTable.changeSelection(-1, -1, false, false);
+				}
+				else {
+					;
+				}
+			}
+		});
 		
 		JButton btnZakocz = new JButton("Zakończ");
 		btnZakocz.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+				// sprawdzanie czy w głównym oknie nie jest wyświetlana konkurencja z której usuwa bądź dodaje się zawodników
+				if (rte_gui.competitionBeingShown.equals(selected)) {
+					// jeżeli tak to należy odświeżyć jej widok
+					try {
+						rte_gui.compManagerScoreModel.updateTableData(selected, false);
+						rte_gui.compManagerScoreModel.fireTableDataChanged();		// wywoływanie triggera po aktualizacji zawartości tabeli
+					} catch (UninitializedCompEx e) {
+						e.printStackTrace();	// ten wyjątek raczej się tutaj nie rzuci
+					}
+				}
+				else {
+					;	// jeżeli wyświetlana jest inna to nic nie rób
+				}
+				
 				window.dispose();
 			}
 		});
@@ -228,6 +301,34 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 		competitionTable = new JTable();
 		scrollPane.setViewportView(competitionTable);
 		competitionTable.setFillsViewportHeight(true);
+		competitionTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent arg0) {
+				int selectedRowFromModel = -1;
+				
+				// numer zaznaczonego z widoku
+				int selectedRowFromView = competitionTable.getSelectedRow();
+				
+				try {
+					// konwersja na pozycję w modelu 
+					selectedRowFromModel = competitionTable.convertColumnIndexToModel(selectedRowFromView);
+				}
+				catch(Exception e) {
+					;
+				}
+				
+				if (selectedRowFromView < 0) {
+					selectedInCompetitionTable = null;
+					return;
+				}
+				
+				selectedInCompetitionTable = (LugerSingle) rightModel.displayVct.get(selectedRowFromView);
+				
+			}
+			
+		});
+		/////
 
 		panel.setLayout(gl_panel);
 		infoPanel.setLayout(new MigLayout("", "[114px][8px][280px:280px]", "[15px][15px][][][][][][][][]"));
@@ -376,6 +477,9 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 				catch (Exception e) {
 					;
 				}
+				
+				if (selectedRowFromModel < 0)
+					return;		// jeżeli tabela jest pusta
 				
 				// ustawianie klikniętego w lewej tabeli
 				selectedInSearchTable = leftModel.listOfLugersToShow.get(selectedRowFromModel);

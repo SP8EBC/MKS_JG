@@ -78,7 +78,9 @@ public class SimpleOrder extends StartOrderInterface {
 
 	@Override
 	public boolean checkIfLastInRun(LugerCompetitor in, Competition currentCompetition, Run currentRun) {
-		int numberOfComp = currentCompetition.startList.size();
+		// uwaga mapa startList może zawierać zarówno zawodników z numerami startowymi jak również tych bez nich(wartość 0!)
+		
+		int numberOfComp = currentCompetition.invertedStartList.size(); // wcześniej było start list
 		short startNumber = in.getStartNumber();	// numer startowy sankarza do sprawdzenia czy jest ostatni
 		LocalTime zero = LocalTime.of(0, 0, 0, 0);
 		

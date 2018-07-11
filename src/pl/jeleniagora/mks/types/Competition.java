@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import javax.swing.JOptionPane;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -127,13 +128,14 @@ public class Competition {
 	 * będzie przeciążana osobno dla jedynki, dwójki, drużyny, sztafety itp.
 	 * @param comptr
 	 */
-	public void addToCompetition(LugerSingle comptr) {
+	public void addToCompetition(LugerCompetitor comptr) {
 		// Dodawanie do listy startowej bez numeru startowego
 		startList.put(comptr, new Short((short)0));
 		
 		// Dodawanie do mapy (listy) wyników -> wiadomo że zero bo nie dodaje się po konkurencji
-		startList.put(comptr, new Short((short)0));
+		ranks.put(comptr, new Short((short)0));
 		
+		competitorsCount++;
 		
 		for (int i = 0; i < (numberOfAllRuns + numberOfTrainingRuns); i++ ) {
 			Run runFromVct = runsTimes.get(i);
@@ -141,6 +143,27 @@ public class Competition {
 			
 			m.put(comptr, LocalTime.of(0, 0, 0, 0));
 		}
+	}
+	
+	/**
+	 * Metoda 
+	 * @param comptr Referencja na zawodnika do usunięcia z tej konkurencji
+	 * @return True jeżeli zawodnik został usunięty bądź false jeżeli w ogóle nie występował w tej konkurencji.
+	 */
+	public boolean removeFromCompetition(LugerCompetitor comptr) {
+		int startNumber = comptr.getStartNumber();
+		
+		
+		if (ranks.remove(comptr) == null) {
+			return false;	// sprawdzanie czy taki saneczkarz w ogóle został do tej konkurencji dodany
+		}
+		startList.remove(comptr);
+		if (startNumber > 0)
+			invertedStartList.remove((short)startNumber);
+		
+		competitorsCount--;
+		
+		return true;
 	}
 	
 	public Competition() {
