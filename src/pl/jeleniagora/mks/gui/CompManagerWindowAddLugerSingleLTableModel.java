@@ -65,7 +65,9 @@ public class CompManagerWindowAddLugerSingleLTableModel extends AbstractTableMod
 
 	@Override
 	public int getRowCount() {
-		return listOfLugersToShow.size();
+		if (listOfLugersToShow != null)
+			return listOfLugersToShow.size();
+		else return 0;
 	}
 	
 	@Override

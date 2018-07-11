@@ -14,6 +14,8 @@ import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -23,6 +25,10 @@ import java.awt.Color;
 import net.miginfocom.swing.MigLayout;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.types.Competition;
+import pl.jeleniagora.mks.types.CompetitionTypes;
+import pl.jeleniagora.mks.types.Luger;
+import pl.jeleniagora.mks.types.LugerCompetitor;
+import pl.jeleniagora.mks.types.LugerSingle;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -39,10 +45,42 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 	 */
 	private static final long serialVersionUID = -679230823534376426L;
 	private JPanel contentPane;
+	
+	/**
+	 * Pole tekstowe do przeszukiwania listy zawodników do dodania
+	 */
 	private JTextField searchField;
+	
+	/**
+	 * Tabela po lewej do przeszukiwania po zawodnikach do dodania do konkurencji
+	 */
 	private JTable searchTable;
-	private JTable table;
+	
+	/**
+	 * Tablea po lewej do pokazania aktualnie dodanych do konkurencji zawodników
+	 */
+	private JTable competitionTable;
+	
+	/**
+	 * ComboBox do wybierania konkurencji do dodania/usunięcia zawodników
+	 */
 	JComboBox<Competition> comboBox;
+	
+	/**
+	 * Konkurencja wybrana przez ComboBoxa
+	 */
+	Competition selected;
+	
+	JLabel lblImienazwisko;
+	JLabel lblKlub_1;
+	JLabel lblDataurodzenia;
+	JLabel lblEmail_1;
+	JLabel lblNrtelefonu;
+	
+	/**
+	 * Zawodnik wybrany w lewej tabeli
+	 */
+	Luger selectedInSearchTable;
 
 	CompManagerWindowAddLugerSingle window;
 	
@@ -86,6 +124,8 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 			// aktualizowane comboboxa w oparciu o wszystkie aktualnie zdefiniowane konkurencje
 			comboBox.addItem(c);
 		}
+		
+		selected = rte_st.competitions.competitions.get(0);
 	}
 
 	/**
@@ -109,6 +149,23 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 		infoPanel.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		
 		JButton btnDodajZaznaczonegoDo = new JButton("Dodaj zaznaczonego w lewym panelu do konkurencji");
+		btnDodajZaznaczonegoDo.addActionListener(new ActionListener() {
+			// dodawanie zaznaczonego w panelu po lewej saneczkarza do konkurencji
+			public void actionPerformed(ActionEvent arg0) {
+				boolean gender = false;
+				if(selected.competitionType.equals(CompetitionTypes.WOMAN_SINGLE))
+					gender = true;
+				else;
+				
+				LugerSingle toAdd = new LugerSingle(gender);
+				toAdd.single = selectedInSearchTable;
+				selected.addToCompetition(toAdd);
+				
+				rightModel = new CompManagerWindowAddLugerSingleRTableModel(selected);
+				competitionTable.setModel(rightModel);
+				rightModel.fireTableDataChanged();
+			}
+		});
 		
 		JPanel panel = new JPanel();
 		
@@ -168,9 +225,10 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 				.addComponent(scrollPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
 		);
 		
-		table = new JTable();
-		scrollPane.setViewportView(table);
-		table.setFillsViewportHeight(true);
+		competitionTable = new JTable();
+		scrollPane.setViewportView(competitionTable);
+		competitionTable.setFillsViewportHeight(true);
+
 		panel.setLayout(gl_panel);
 		infoPanel.setLayout(new MigLayout("", "[114px][8px][280px:280px]", "[15px][15px][][][][][][][][]"));
 		
@@ -180,31 +238,31 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 		JLabel lblImiINazwisko = new JLabel("Imię i Nazwisko:");
 		infoPanel.add(lblImiINazwisko, "cell 0 2,alignx left,aligny top");
 		
-		JLabel lblImienazwisko = new JLabel("imie_nazwisko");
+		lblImienazwisko = new JLabel("imie_nazwisko");
 		infoPanel.add(lblImienazwisko, "cell 2 2,alignx left,aligny top");
 		
 		JLabel lblKlub = new JLabel("Klub:");
 		infoPanel.add(lblKlub, "cell 0 3");
 		
-		JLabel lblKlub_1 = new JLabel("klub");
+		lblKlub_1 = new JLabel("klub");
 		infoPanel.add(lblKlub_1, "cell 2 3");
 		
 		JLabel lblDataUrodzenia = new JLabel("Data Urodzenia:");
 		infoPanel.add(lblDataUrodzenia, "cell 0 4");
 		
-		JLabel lblDataurodzenia = new JLabel("dataurodzenia");
+		lblDataurodzenia = new JLabel("dataurodzenia");
 		infoPanel.add(lblDataurodzenia, "cell 2 4");
 		
 		JLabel lblEmail = new JLabel("e-mail:");
 		infoPanel.add(lblEmail, "cell 0 5");
 		
-		JLabel lblEmail_1 = new JLabel("email");
+		lblEmail_1 = new JLabel("email");
 		infoPanel.add(lblEmail_1, "cell 2 5");
 		
 		JLabel lblNrTelefonu = new JLabel("Nr telefonu:");
 		infoPanel.add(lblNrTelefonu, "cell 0 6");
 		
-		JLabel lblNrtelefonu = new JLabel("nrtelefonu");
+		lblNrtelefonu = new JLabel("nrtelefonu");
 		infoPanel.add(lblNrtelefonu, "cell 2 6");
 		
 		JLabel lbllistaPoLewej = new JLabel("<html><body style='width: 330px;'><p align=center>Lista po lewej stronie pokazuje wszystkich dodanych do systemu saneczkarzy. Pole tekstowe nad nią służy do szybkiego przeszukiwania listy po konkretnym imieniu lub nazwisku. Lista po prawej stronie wyświetla zawodników dodanych aktualnie do wybranej z pola rozwijanego konkurencji. Jest ona aktualizowana za każdym użyciem przycisku \"Dodaj\" albo \"Usuń\"</p></body></html>");
@@ -218,7 +276,6 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Object object = arg0.getSource();
-				Competition selected;
 				
 				// wyciąganie zaznaczonej w polu rozwijanym konkurencji
 				if (object instanceof JComboBox<?>) {
@@ -232,7 +289,7 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 				
 				// wypełnianie prawego panela zawodnikami dopisanymi już do wybranej konkurencji
 				rightModel = new CompManagerWindowAddLugerSingleRTableModel(selected);
-				table.setModel(rightModel);
+				competitionTable.setModel(rightModel);
 				
 			}
 		});
@@ -301,8 +358,50 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 		);
 		
 		searchTable = new JTable(leftModel);
+		searchTable.setAutoCreateRowSorter(true);
+		searchTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			// listener od kliknięcia na wiersz
+			
+			@Override
+			public void valueChanged(ListSelectionEvent arg0) {
+				int selectedRowFromModel = -1;
+				
+				// numer klikniętego wiersza w widoku
+				int selectedRow = searchTable.getSelectedRow();
+				
+				try {
+					// konwersja wiersza w widoku na wiersz w modelu danych
+					selectedRowFromModel = searchTable.convertRowIndexToModel(selectedRow);
+				}
+				catch (Exception e) {
+					;
+				}
+				
+				// ustawianie klikniętego w lewej tabeli
+				selectedInSearchTable = leftModel.listOfLugersToShow.get(selectedRowFromModel);
+				
+				// aktualizowanie labelek
+				updateMoreInfo(selectedInSearchTable);
+			}
+			
+		});
+		
 		scrollPane_1.setViewportView(searchTable);
 		searchPanel.setLayout(gl_searchPanel);
 		contentPane.setLayout(gl_contentPane);
+	}
+	
+	void updateMoreInfo(Luger in) {
+		lblImienazwisko.setText(in.name + " " + in.surname);
+		lblKlub_1.setText(in.club.name);
+		if (in.email != null && in.email.contains("@"))
+			lblEmail_1.setText(in.email);
+		else 
+			lblEmail_1.setText("// Nie zdefiniowano");
+		lblDataurodzenia.setText(in.birthDate.toString());
+		if (in.telephoneNumber > 100)
+			lblNrtelefonu.setText(new Long(in.telephoneNumber).toString());
+		else
+			lblNrtelefonu.setText("// Nie zdefiniowano");
 	}
 }
