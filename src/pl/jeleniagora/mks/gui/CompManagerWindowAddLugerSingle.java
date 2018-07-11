@@ -38,6 +38,8 @@ import javax.swing.JCheckBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 @Component
 @Lazy
@@ -392,6 +394,8 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 				rightModel = new CompManagerWindowAddLugerSingleRTableModel(selected);
 				competitionTable.setModel(rightModel);
 				
+				searchField.setText("");
+				
 			}
 		});
 		GroupLayout gl_compSelPanel = new GroupLayout(compSelPanel);
@@ -414,6 +418,19 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 		compSelPanel.setLayout(gl_compSelPanel);
 		
 		searchField = new JTextField();
+		searchField.addKeyListener(new KeyAdapter() {
+			// listener od naciśnięcia przycisku w oknie
+			
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				return;
+			}
+			@Override
+			public void keyReleased(KeyEvent e) {
+				String text = searchField.getText();
+				leftModel.updateContent(showOnlyNotAddedLugers, text);
+			}
+		});
 		searchField.setColumns(10);
 		//searchTable.setModel();
 		
@@ -431,6 +448,8 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 				leftModel.updateContent(showOnlyNotAddedLugers);
 				leftModel.fireTableStructureChanged();
 				leftModel.fireTableDataChanged();
+				
+				searchField.setText("");
 			}
 		});
 		

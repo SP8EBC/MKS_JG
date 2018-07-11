@@ -58,6 +58,44 @@ public class CompManagerWindowAddLugerSingleLTableModel extends AbstractTableMod
 		this.fireTableDataChanged();
 	}
 	
+	public void updateContent(boolean onlyNotAdded, String search) {
+		int i = 0;
+		
+		List<Luger> inputList = rte_st.competitions.listOfAllLugersInThisCompetitions;
+		listOfLugersToShow = new LinkedList<Luger>();
+		
+		for (Luger elem: inputList) {
+			if (onlyNotAdded && elem.hasBeenAdded)
+				continue;
+			else {
+				if 	(search.length() > 0 && 	(
+					elem.name.toLowerCase().contains(search.toLowerCase()) || 
+					elem.surname.toLowerCase().contains(search.toLowerCase())
+												)
+					) 
+				{
+					listOfLugersToShow.add(elem);
+				}
+				else if (search.length() <= 0) {
+					// jeżeli pole tekstowe do wyszukiwania jest puste to pokaż wszystkich
+					listOfLugersToShow.add(elem);
+				}
+			}
+		}
+		
+		tableData = new String[listOfLugersToShow.size()][2];
+		
+		for (Luger e : listOfLugersToShow) {
+			tableData[i][0] = e.name;
+			tableData[i][1] = e.surname;
+			
+			i++;
+		}
+		
+		this.fireTableStructureChanged();
+		this.fireTableDataChanged();
+	}
+	
 	@Override
 	public int getColumnCount() {
 		return 2;
