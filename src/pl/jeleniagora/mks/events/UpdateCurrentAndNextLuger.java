@@ -84,7 +84,7 @@ public class UpdateCurrentAndNextLuger {
 			}
 			
 			j++;
-		} while (start_num < lastStartNumber);
+		} while (!order.checkIfLastInRun(start_num, rte_st.currentCompetition));
 		/*
 		Vector<LocalTime> vctRunTimes = rte_st.currentRun.getVectorWithRuntimes(rte_st.currentCompetition.invertedStartList);
 		
@@ -146,7 +146,7 @@ public class UpdateCurrentAndNextLuger {
 			}
 			
 			j++;
-		} while (start_num < lastStartNumber);
+		} while (!order.checkIfLastInRun(start_num, rte_st.currentCompetition));
 
 		
 		return returnVal;

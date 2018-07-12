@@ -45,10 +45,23 @@ public abstract class StartOrderInterface {
 	/**
 	 * Metoda ma zwracać true jeżeli wskazany saneczkarz jest ostatni w kolejce startowej i za nim
 	 * nie ma już nikogo w aktualnym ślizgu. Ta metoda NIE MA zawijać na początek ślizgu jeżeli nie znajdzie
-	 * nikogo od wskazanego numer startowego do ostatniego (najwyższego) w konkurencji.
+	 * nikogo od wskazanego numer startowego do ostatniego (najwyższego) w konkurencji. Metoda jest potrzebna
+	 * aby uwzględnić sytuacje w której wielokrotnie używano opcji "Pomiń aktualnego i przejdź do następnego.." 
+	 * i innych zmieniających kolejność startową. Wtedy saneczkarz o numerze startowym niższym niż ten
+	 * który normalnie powinien być ostatni, może właśnie stać się ostatnim jeżeli wszyscy przed nim już jechali
 	 * @return
 	 */
 	public abstract boolean checkIfLastInRun(LugerCompetitor in, Competition currentCompetition, Run currentRun);
+	
+	/**
+	 * Metoda ma sprawdzać czy wskazany numer startowy jest ostatnim numerem startowym wg zadanej kolejności startowej. 
+	 * Dla kolejności uproszczonej zwróci ona true dla najwyższego numer startowego na liście. Dla kolejności FIL
+	 * zwórci true dla zawodnika który w poprzednim ślizgu uzyskał najlepszy czas. W przeciwieństwie do poprzedniej
+	 * metody nie są tutaj pod uwagę w ogóle brane czasy ślizgów! Metoda ma po prostu operować wyłąćznie na nrach.
+	 * @param startNum
+	 * @return
+	 */
+	public abstract boolean checkIfLastInRun(short startNum, Competition currentCompetition);
 	
 //	@XmlElement(name = "StartOrder")
 	public abstract String toString();

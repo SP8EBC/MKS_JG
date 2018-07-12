@@ -122,5 +122,17 @@ public class SimpleOrder extends StartOrderInterface {
 		
 		return output;
 	}
+
+	@Override
+	public boolean checkIfLastInRun(short startNum, Competition currentCompetition) {
+		
+		short lastStartNumber = currentCompetition.getLastStartNumber();
+		short firstStartNumber = currentCompetition.getFirstStartNumber();
+		
+		if (startNum == lastStartNumber)
+			return true;
+		
+		return false;
+	}
 	
 }
