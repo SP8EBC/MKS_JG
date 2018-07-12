@@ -61,20 +61,30 @@ public class UpdateCurrentAndNextLuger {
 		if (order == null)
 			throw new StartOrderNotChoosenEx();
 		
+		short lastStartNumber = rte_st.currentCompetition.getLastStartNumber();
+		short firstStartNumber = rte_st.currentCompetition.getFirstStartNumber();
+		
 		do {
 			// pętla wykonuje się do momentu aż nie sprawdzi się wszystkich elementów w mapie
 			
 			start_num = order.nextStartNumber(start_num, rte_st.currentCompetition);	// numer startowy do sprawdzenia
-			LugerCompetitor k = rte_st.currentCompetition.invertedStartList.get(start_num);
-			LocalTime v = rte_st.currentRun.totalTimes.get(k);
 			
-			if (v.equals(zero)) {
+			if (start_num == null) {
+				// jeżeli start_num równa się null oznacza to że doszło się do końca konkurencji
+				return null;
+			}
+			
+			LugerCompetitor k = rte_st.currentCompetition.invertedStartList.get(start_num);	// saneczkarz o tym numerze startowym
+			LocalTime v = rte_st.currentRun.totalTimes.get(k);	// i jego czas przejazdu w aktualnym ślizgu
+			
+			if (v != null && v.equals(zero)) {
+				// domyślnie czasy ślizgu są inicjowane zerami. Zero oznacza że zawodnik jeszcze nie jechał
 				returnVal = k;
 				break;
 			}
 			
 			j++;
-		} while (j < rte_st.currentRun.totalTimes.size());
+		} while (start_num < lastStartNumber);
 		/*
 		Vector<LocalTime> vctRunTimes = rte_st.currentRun.getVectorWithRuntimes(rte_st.currentCompetition.invertedStartList);
 		
@@ -104,7 +114,10 @@ public class UpdateCurrentAndNextLuger {
 		
 		LugerCompetitor returnVal = null;
 		int j = 0;
-		Short start_num = startNum;
+		Short start_num = startNum;		// ustawianie jako początkowy numer ten zadany w argumencie funkcji
+		
+		short lastStartNumber = rte_st.currentCompetition.getLastStartNumber();
+		short firstStartNumber = rte_st.currentCompetition.getFirstStartNumber();
 		
 		StartOrderInterface order = rte_st.currentCompetition.startOrder;		
 		/*
@@ -118,16 +131,22 @@ public class UpdateCurrentAndNextLuger {
 			// pętla wykonuje się do momentu aż nie sprawdzi się wszystkich elementów w mapie
 			
 			start_num = order.nextStartNumber(start_num, rte_st.currentCompetition);	// numer startowy do sprawdzenia
+			
+			if (start_num == null) {
+				// jeżeli start_num równa się null oznacza to że doszło się do końca konkurencji
+				return null;
+			}
+			
 			LugerCompetitor k = rte_st.currentCompetition.invertedStartList.get(start_num);
 			LocalTime v = rte_st.currentRun.totalTimes.get(k);
 			
-			if (v.equals(zero)) {
+			if (v.equals(zero)) {	// TODO: bug!!
 				returnVal = k;
 				break;
 			}
 			
 			j++;
-		} while (j < rte_st.currentRun.totalTimes.size());
+		} while (start_num < lastStartNumber);
 
 		
 		return returnVal;
@@ -174,10 +193,19 @@ public class UpdateCurrentAndNextLuger {
 		rte_st.actuallyOnTrack = rte_st.currentCompetition.invertedStartList.get((short)startNumber);
 		rte_gui.actuallyOnTrack.setText(rte_st.actuallyOnTrack.toString());
 		
+		/*
+		 * Podświetalnie aktualnego ślizgu i aktualnego na torze
+		 */
 		rte_gui.compManager.markConreteRun(rte_st.actuallyOnTrack.getStartNumber(), rte_st.currentRunCnt);
 		
-		rte_st.nextOnTrack = findFirstWithoutTime((short) (startNumber));		
-		rte_gui.nextOnTrack.setText(rte_st.nextOnTrack.toString());
+		/*
+		 * Wyszukiwanie pierwszego sankarza bez czasu ślizgu najdującego się na liście startowej za aktualnie na torze
+		 */
+		rte_st.nextOnTrack = findFirstWithoutTime((short) (startNumber));
+		if (rte_st.nextOnTrack != null)
+			rte_gui.nextOnTrack.setText(rte_st.nextOnTrack.toString());
+		else
+			rte_gui.nextOnTrack.setText("----");	// jeżeli aktualnie na torze jest ostatnim
 		
 		DisplayNameSurnameAndStartNum d = new DisplayNameSurnameAndStartNum(RTE.getRte_disp_interface());
 		d.showBefore(rte_st.actuallyOnTrack);
