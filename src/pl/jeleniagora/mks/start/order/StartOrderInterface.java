@@ -44,7 +44,8 @@ public abstract class StartOrderInterface {
 	
 	/**
 	 * Metoda ma zwracać true jeżeli wskazany saneczkarz jest ostatni w kolejce startowej i za nim
-	 * nie ma już nikogo w aktualnym ślizgu. 
+	 * nie ma już nikogo w aktualnym ślizgu. Ta metoda NIE MA zawijać na początek ślizgu jeżeli nie znajdzie
+	 * nikogo od wskazanego numer startowego do ostatniego (najwyższego) w konkurencji.
 	 * @return
 	 */
 	public abstract boolean checkIfLastInRun(LugerCompetitor in, Competition currentCompetition, Run currentRun);

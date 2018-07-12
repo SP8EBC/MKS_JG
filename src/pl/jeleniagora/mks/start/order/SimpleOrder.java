@@ -27,21 +27,41 @@ public class SimpleOrder extends StartOrderInterface {
 	@Override
 	public Short nextStartNumber(short currentStartNumber, Competition currentCompetition) {
 		int startlistSize = currentCompetition.invertedStartList.size(); // ilość elementów w liście startowej czyli liczba zaneczkarzy
+		short lastStartNumber = currentCompetition.getLastStartNumber();
 		
-		if (currentStartNumber < (short)startlistSize)
-			/* Jeżeli na liście startowej jest jeszcze jakis sankarz to po prostu zwróć kolejny numer startowy */
-			return ++currentStartNumber;
+		do {
+			++currentStartNumber; // zwiększanie numeru startowego o jeden
+			
+			// sprawdzenie czy numer startowy o jeden większy niż aktualny w ogóle istnieje
+			if (currentCompetition.invertedStartList.containsKey(currentStartNumber)) {
+				return currentStartNumber; // jeżeli istnieje to zwróć właśnie ten jako następny
+			}
+		
+			// pętla wykonuje się do momentu w którym nie dojdzie się do końca lity sta
+		} while(currentStartNumber < lastStartNumber);
+		
+		return null;
+		/*
+		if (currentStartNumber < (short)startlistSize) {
+			++currentStartNumber;
+			
+			if (currentCompetition.invertedStartList.containsKey(currentStartNumber)) {
+				return currentStartNumber;
+			}
+			
+		}
 		else
-			/* W przeciwnym razie zwróc null */
 			return null;
+		*/
 	}
 
 	@Override
 	public Short nextStartNumber(LugerCompetitor currentStartNumber, Competition currentCompetition) {
+		short lastStartNumber = currentCompetition.getLastStartNumber();
 		int startlistSize = currentCompetition.invertedStartList.size(); // ilość elementów w liście startowej czyli liczba zaneczkarzy
 		short currentSN = currentStartNumber.getStartNumber();
 		
-		if (currentSN < (short)startlistSize)
+		if (currentSN < lastStartNumber)
 			/* Jeżeli na liście startowej jest jeszcze jakis sankarz to po prostu zwróć kolejny numer startowy */
 			return ++currentSN;
 		else
@@ -51,12 +71,13 @@ public class SimpleOrder extends StartOrderInterface {
 
 	@Override
 	public LugerCompetitor nextStartLuger(LugerCompetitor currentStartNumber, Competition currentCompetition) {
+		short lastStartNumber = currentCompetition.getLastStartNumber();
 		int startlistSize = currentCompetition.invertedStartList.size(); // ilość elementów w liście startowej czyli liczba zaneczkarzy
 		short currentSN = currentStartNumber.getStartNumber();
 		
 		LugerCompetitor returnValue = null;
 		
-		if (currentSN < (short)startlistSize) {
+		if (currentSN < lastStartNumber) {
 			returnValue = currentCompetition.invertedStartList.get((short)(currentSN +1));
 		}
 		else {
@@ -80,17 +101,20 @@ public class SimpleOrder extends StartOrderInterface {
 	public boolean checkIfLastInRun(LugerCompetitor in, Competition currentCompetition, Run currentRun) {
 		// uwaga mapa startList może zawierać zarówno zawodników z numerami startowymi jak również tych bez nich(wartość 0!)
 		
+		short lastStartNumber = currentCompetition.getLastStartNumber();
+		short firstStartNumber = currentCompetition.getFirstStartNumber();
+		
 		int numberOfComp = currentCompetition.invertedStartList.size(); // wcześniej było start list
 		short startNumber = in.getStartNumber();	// numer startowy sankarza do sprawdzenia czy jest ostatni
 		LocalTime zero = LocalTime.of(0, 0, 0, 0);
 		
 		boolean output = true;
 		
-		for (int i = startNumber; i < numberOfComp; i++) {
+		for (int i = startNumber; i < lastStartNumber; i++) {
 			//  
 			LocalTime v = currentRun.totalTimes.get(in);	// wyciąganie czasów ślizgu dla każdego kolejnego za tym to sprawdzenia
 			
-			if (v.equals(zero)) {
+			if (v != null && v.equals(zero)) {
 				output = false;
 				break;
 			}

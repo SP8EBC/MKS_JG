@@ -3,6 +3,7 @@ package pl.jeleniagora.mks.types;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Vector;
 
 import javax.swing.JOptionPane;
@@ -77,7 +78,9 @@ public class Competition {
 	public Vector<Integer> trainingRunsDone;
 	
 	/**
-	 * Mapa łącząca saneczkarzy z numerami startowymi.
+	 * Mapa łącząca saneczkarzy z numerami startowymi. Na tej liście moga pojawić się zawodnicy z numerami startowymi równymi zero
+	 * co ma miejsce jeszcze przed wygenerowaniem numer startowych, albo po dodaniu nowych zawodników do konkurencji
+	 * już po wygenerowniu.
 	 */
 	@XmlJavaTypeAdapter(value = StartListAdapter.class)
 	public HashMap<LugerCompetitor, Short> startList;
@@ -90,7 +93,8 @@ public class Competition {
 	public StartOrderInterface startOrder;
 	
 	/**
-	 * Odwrócona mapa która łączy numery startowe z saneczkarzami.
+	 * Odwrócona mapa która łączy numery startowe z saneczkarzami. Tutaj występują tylko i wyłącznie zawodnicy z wygenerowanymi 
+	 * numerami startowymi. Nie ma zer
 	 */
 	@XmlJavaTypeAdapter(value = InvertedStartListAdapter.class)
 	@XmlElement
@@ -121,6 +125,37 @@ public class Competition {
 			return startList.values().size();
 		
 		return 0;
+	}
+	
+	/**
+	 * Metoda zwraca ostatni (najwyższy) numer startowy na listach startowych. Jest niezbędna gdyż po usuwaniu sankarzy z konkurencji
+	 * najwyższy numer startowy może być dużo większu niż liczba elementów na liście
+	 * @return
+	 */
+	public short getLastStartNumber() {
+		short returnVal = 0;
+		
+		for (Short e : invertedStartList.keySet()) {
+			if (e > returnVal)
+				returnVal = e;
+		}
+		return returnVal;
+	}
+	
+	/**
+	 * Metoda zwraca pierwszy (najniższy) numer startowy na listach startowych. Najniższy nie oznacza koniecznie pierwszy, bo użytkownik
+	 * może po wygenerowaniu numerów startowych usunąć pierwszego z listy i wtedy trzeba zaczać od numeru drugiego.
+	 * @return
+	 */
+	public short getFirstStartNumber() {
+		short returnVal = 255; // jest to jednocześnie ograniczenie ilości sankarzy w jednej konkurencji
+		
+		for (Short e : invertedStartList.keySet()) {
+			if (e < returnVal)
+				returnVal = e;
+		}
+		return returnVal;
+		
 	}
 	
 	/**
