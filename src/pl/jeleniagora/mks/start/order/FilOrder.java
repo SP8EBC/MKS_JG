@@ -39,17 +39,18 @@ public class FilOrder  extends StartOrderInterface {
 			short rankOfCurrentStartNum = currentCompetition.ranks.get(competitorForCurrentStartNum);
 
 			// wyciąganie wszystkich sankarzy z numerem startowym przekazanym do metody jako aktualny (sprawdzenie ex-aequo)
-			Vector<LugerCompetitor> exa = currentCompetition.returnLugersWithThisRank(rankOfCurrentStartNum);
+			Vector<LugerCompetitor> exa = currentCompetition.returnLugersWithThisRank(rankOfCurrentStartNum, true);
 			
-			// jeżeli miejsce aktualnego sankarza jest ex-aequo z innym to trzeba wybrać następnego ex-equo z większym numerem startowym
+			// jeżeli miejsce aktualnego sankarza jest ex-aequo z innym to trzeba wybrać następnego ex-equo z mniejszym numerem startowym
 			if (currentCompetition.checkIfExAequo(rankOfCurrentStartNum) > 1) {
 				
-				// przeszukiwanie wektora z miejscami ex-aequo w poszukiwaaniu pierwszego zawodnika z nr startowym większym niż aktualny
+				// przeszukiwanie wektora z miejscami ex-aequo w poszukiwaaniu pierwszego zawodnika z nr startowym mniejszym niż aktualny
 				for (LugerCompetitor elem : exa) {
-					// metoda 'returnLugersWithThisRank' zwraca zawodników posortowanych po nr startowych rosnąco
-					if (elem.getStartNumber() > currentStartNumber)
+					// metoda 'returnLugersWithThisRank' zwraca zawodników posortowanych po nr startowych malejąco
+					if (elem.getStartNumber() < currentStartNumber) {
 						returnValue = elem.getStartNumber();
-					break;
+						break;
+					}
 				}
 				
 				// jeżeli returnValue jest w dalszym ciągu nullem to ozncza, że ten był ostatnim ex-aequo i trzeba przeskoczyć do kolejnego
@@ -62,7 +63,7 @@ public class FilOrder  extends StartOrderInterface {
 					// zamienianie entryset na nieposortowny wektor, który potem będzie sortowany po lokatach malejąco
 					Vector<Entry<LugerCompetitor, Short>> rankVector = new Vector<Entry<LugerCompetitor, Short>>(set);
 					
-					// sortowanie wektora rosnąco po lokatach
+					// sortowanie wektora malejąco po lokatach
 					rankVector.sort((Entry<LugerCompetitor, Short> e1, Entry<LugerCompetitor, Short> e2) -> {
 						// SORTOWANIE ROSNĄCE:
 						// lambda ma zwrócić wartość dodatnią jeżeli e1 jest większe niż e2
@@ -74,8 +75,9 @@ public class FilOrder  extends StartOrderInterface {
 					
 					// pętla po wszystkich elementach z posortownego malejąco wektora
 					for (Entry<LugerCompetitor, Short> e : rankVector) {
-						// jeżeli aktualnie sprawdzany numer startowy jest mniejszy niż aktualny to zwróc właśnie ten
-						if (e.getValue() < currentStartNumber) {
+						// jeżeli lokata aktualnie sprawdzanego numeru startowego jest mniejszy niż sankarz o nrze
+						// startowym przekazanym jako parametr metody, to zwróc właśnie tego aktualnie sprawdzanego.
+						if (e.getValue() < rankOfCurrentStartNum) {
 							returnValue = e.getKey().getStartNumber();
 							break;
 						}
@@ -94,7 +96,7 @@ public class FilOrder  extends StartOrderInterface {
 					return null;
 				
 				// jeżeli sankarz przekazany do metody nie był pierwszy, to należy sprawdzić czy kolejna miejsza lokata nie jest ex-aequo
-				Vector<LugerCompetitor> nexa = currentCompetition.returnLugersWithThisRank((short) (rankOfCurrentStartNum - 1)); 
+				Vector<LugerCompetitor> nexa = currentCompetition.returnLugersWithThisRank((short) (rankOfCurrentStartNum - 1), false); 
 				
 				// jeżeli nie jest ex-aequo to po prostu zwróć numer startowy zawodnika który ma tą kolejną lokatę
 				if (nexa.size() == 1) {

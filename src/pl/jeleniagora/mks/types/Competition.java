@@ -170,7 +170,7 @@ public class Competition {
 	 * @param rank
 	 * @return
 	 */
-	public Vector<LugerCompetitor> returnLugersWithThisRank(short rank) {
+	public Vector<LugerCompetitor> returnLugersWithThisRank(short rank, boolean descendingOrder) {
 		
 		Vector<LugerCompetitor> out = new Vector<LugerCompetitor>();
 		
@@ -186,9 +186,17 @@ public class Competition {
 		if (out.size() > 0) {
 			// metoda bazuje na entrySet który w ogóle nie gwarantuje zachowania kolejności elementów zgodnie z tą
 			// w jakiej były one dodawane do mapy, dlatego wyjściowy wektor trzeba posortować po numerach startowych zawodników rosnąco
-			out.sort((LugerCompetitor a, LugerCompetitor b) -> {
-				return a.getStartNumber() - b.getStartNumber();		// TODO: lambda wyrażenie!
-			});
+			
+			if (!descendingOrder) {
+				out.sort((LugerCompetitor a, LugerCompetitor b) -> {
+					return a.getStartNumber() - b.getStartNumber();		// TODO: lambda wyrażenie!
+				});
+			}
+			else {
+				out.sort((LugerCompetitor a, LugerCompetitor b) -> {
+					return b.getStartNumber() - a.getStartNumber();		// TODO: lambda wyrażenie!
+				});				
+			}
 			
 			return out;
 		}

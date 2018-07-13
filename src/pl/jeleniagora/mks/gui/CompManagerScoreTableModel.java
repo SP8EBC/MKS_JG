@@ -413,14 +413,14 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 		 * Tworzy pusty wektor czasów przejazdu
 		 */
 		
-		testCompetition2 = new Competition(vctTst2, 4, 0, randomize);
+		testCompetition2 = new Competition(vctTst2, 4, 0, randomize);		// mniejsza
 		testCompetition2.competitionType = CompetitionTypes.WOMAN_SINGLE;
 		testCompetition2.startOrder = new SimpleOrder();
 		testCompetition2.trainingOrContest = true;
 		testCompetition2.id = out.size();
 		out.add(testCompetition2);
 		
-		testCompetition = new Competition(vctTst, 4, 1, randomize);
+		testCompetition = new Competition(vctTst, 4, 1, randomize);			// większa
 		testCompetition.competitionType = CompetitionTypes.MEN_SINGLE;
 		testCompetition.startOrder = new SimpleOrder();
 		testCompetition.trainingOrContest = true;
