@@ -140,6 +140,62 @@ public class Competition {
 	}
 	
 	/**
+	 * Metoda ma sprawdzać czy podana jako parametr lokata nie jest miejscem ex-aeqo
+	 * @param rank
+	 * @return Jeden jeżeli podana lokata nie jest ex-aequo, w przeciwnym razie metoda zwraca ilu sankarzy zajęło to samo miejsce.
+	 */
+	public short checkIfExAequo(short rank) {
+		
+		short returnVal = 0;
+		
+		for (Entry<LugerCompetitor, Short> e : ranks.entrySet()) {
+			// pętla bo wszystkich wpisanch na liście wyników
+			
+			LugerCompetitor k = e.getKey();
+			Short v = e.getValue();
+			
+			if (v == 0) 	
+				continue;	// jeżeli lokata równa się zero to być może jest to zawodnik dodany później
+			
+			if (v == rank)
+				returnVal++;
+			
+		}
+		
+		return (short) (returnVal );
+	}
+	
+	/**
+	 * Metoda zwraca wszystkich zawodników ex-aequo na danym miejscu, lub null jeżeli nikt takiej lokaty nie ma
+	 * @param rank
+	 * @return
+	 */
+	public Vector<LugerCompetitor> returnLugersWithThisRank(short rank) {
+		
+		Vector<LugerCompetitor> out = new Vector<LugerCompetitor>();
+		
+		for (Entry <LugerCompetitor, Short> e : ranks.entrySet()) {
+			LugerCompetitor k = e.getKey();
+			Short v = e.getValue();
+			
+			if (v == rank) {
+				out.add(k);
+			}
+		}
+		
+		if (out.size() > 0) {
+			// metoda bazuje na entrySet który w ogóle nie gwarantuje zachowania kolejności elementów zgodnie z tą
+			// w jakiej były one dodawane do mapy, dlatego wyjściowy wektor trzeba posortować po numerach startowych zawodników rosnąco
+			out.sort((LugerCompetitor a, LugerCompetitor b) -> {
+				return a.getStartNumber() - b.getStartNumber();		// TODO: lambda wyrażenie!
+			});
+			
+			return out;
+		}
+		else return null;
+	}
+	
+	/**
 	 * Metoda zwraca ostatni (najwyższy) numer startowy na listach startowych. Jest niezbędna gdyż po usuwaniu sankarzy z konkurencji
 	 * najwyższy numer startowy może być dużo większu niż liczba elementów na liście
 	 * @return
