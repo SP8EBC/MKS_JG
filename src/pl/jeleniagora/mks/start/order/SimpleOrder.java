@@ -37,22 +37,10 @@ public class SimpleOrder extends StartOrderInterface {
 				return currentStartNumber; // jeżeli istnieje to zwróć właśnie ten jako następny
 			}
 		
-			// pętla wykonuje się do momentu w którym nie dojdzie się do końca lity sta
+			// pętla wykonuje się do momentu w którym nie dojdzie się do końca lity startowej, czyli najwyższego nru startowego
 		} while(currentStartNumber < lastStartNumber);
 		
 		return null;
-		/*
-		if (currentStartNumber < (short)startlistSize) {
-			++currentStartNumber;
-			
-			if (currentCompetition.invertedStartList.containsKey(currentStartNumber)) {
-				return currentStartNumber;
-			}
-			
-		}
-		else
-			return null;
-		*/
 	}
 
 	@Override
@@ -70,6 +58,7 @@ public class SimpleOrder extends StartOrderInterface {
 	}
 
 	@Override
+	//TODO: poprawić!!
 	public LugerCompetitor nextStartLuger(LugerCompetitor currentStartNumber, Competition currentCompetition) {
 		short lastStartNumber = currentCompetition.getLastStartNumber();
 		int startlistSize = currentCompetition.invertedStartList.size(); // ilość elementów w liście startowej czyli liczba zaneczkarzy

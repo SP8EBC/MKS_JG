@@ -44,7 +44,11 @@ public class UpdateCurrentAndNextLuger {
 	
 	/**
 	 * Prywatna metoda służąca do wyszukiwania pierwszego zawodnika który albo nie ma w ogóle czasu
-	 * przejazdu albo ma zapisane 0:00.000 - generalnie wyszukuje tego co jeszcze nie jechał
+	 * przejazdu albo ma zapisane 0:00.000 - generalnie wyszukuje tego co jeszcze nie jechał. Używana jest
+	 * przy obsłudze zmiany konkurencji oraz przy obsłudze przycisku "Omiń aktualnego u przejdź do następnego..."
+	 * Dodatkowo jest używana w moveForwardNormally w tej klasie jako metoda sprawdzenia czy nie dotarło się
+	 * do końca ślizgu. Jeżeli metoda zwróci null oznacza to, że w danym ślizgu nie ma już żadnych
+	 * zawodników w kolejce startowej
 	 * @return
 	 * @throws StartOrderNotChoosenEx 
 	 */

@@ -85,6 +85,20 @@ public class ChangeCompetition {
 			 */
 		}
 		
+		// sprawdzanie czy aktualny ślizg jest treningiem czy nie
+		if (rte_st.currentRun.trainingOrScored)
+			rte_st.currentCompetition.isCurrentRunTraining = false;
+		else
+			rte_st.currentCompetition.isCurrentRunTraining = true;
+		
+		// sprawdzenie czy aktualny ślizg jest pierwszym punktownm czy kolejnym punktowanym
+		if (rte_st.currentRun.numberInScoredOrTrainingRuns > 0 && rte_st.currentRun.trainingOrScored) {
+			rte_st.currentCompetition.isCurrentRunFirstScored = false;
+		}
+		else {
+			rte_st.currentCompetition.isCurrentRunFirstScored = true;
+		}
+		
 		/*
 		 * Wyszukiwanie pierwszego saneczkarza który jeszcze nie jechał i ustawianie go jako następnego
 		 */

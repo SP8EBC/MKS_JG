@@ -29,12 +29,13 @@ import pl.jeleniagora.mks.serial.TypesConverters;
 public class Run {
 	
 	/**
-	 * Numer kolejny ślizgu w konkurencji
+	 * Numer kolejny ślizgu w konkurencji. Liczony po programistycznemu, tj. od zera
 	 */
 	public short number;
 	
 	/**
-	 * 
+	 * Numer kolejny ślizgu w ślizgach treningowych i punktowanych. Liczony po programistyczny, czyli np zerowy
+	 * ślizg treningowy, pierwszy ślizg treningowy a potem zerowy ślizg punktowny, pierwszy punktowany itp.
 	 */
 	public short numberInScoredOrTrainingRuns;
 	

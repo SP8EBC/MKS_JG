@@ -78,6 +78,18 @@ public class Competition {
 	public Vector<Integer> trainingRunsDone;
 	
 	/**
+	 * Pole ustawione na true jeżei aktualnie rozgrywa się pierwszy punktowany ślizg. Pole jest tu potrzebne
+	 * aby klasy od kolejności startowej nie musiały grzebać w RTE
+	 */
+	public boolean isCurrentRunFirstScored = false;
+	
+	/**
+	 * Ustawiany na true jeżeli aktualnie idzie ślizg treningowy. Pole jest tu potrzebne
+	 * aby klasy od kolejności startowej nie musiały grzebać w RTE
+	 */
+	public boolean isCurrentRunTraining = false;
+	
+	/**
 	 * Mapa łącząca saneczkarzy z numerami startowymi. Na tej liście moga pojawić się zawodnicy z numerami startowymi równymi zero
 	 * co ma miejsce jeszcze przed wygenerowaniem numer startowych, albo po dodaniu nowych zawodników do konkurencji
 	 * już po wygenerowniu.

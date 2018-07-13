@@ -10,7 +10,8 @@ import pl.jeleniagora.mks.types.Run;
 /**
  * Interfejs określający jakie metody muszą mieć klasy określjące kolejność startową. Większość (jak nie wszystkie) metod
  * przyjmuje jako argument referencję na obiekt klasy Competition. Jest to potrzebne zwłaszcza w przypadku kolejności FIL, 
- * która od drugiego ślizgu zależy od wyników po zakończeniu poprzedniego.
+ * która od drugiego ślizgu zależy od wyników po zakończeniu poprzedniego. Klasy omplementujące tą klasę abstrakcyjną powinny
+ * być bezstanowe i nie posiadać efektów ubocznych (side effects)!
  * @author mateusz
  *
  */
@@ -58,6 +59,7 @@ public abstract class StartOrderInterface {
 	 * Dla kolejności uproszczonej zwróci ona true dla najwyższego numer startowego na liście. Dla kolejności FIL
 	 * zwórci true dla zawodnika który w poprzednim ślizgu uzyskał najlepszy czas. W przeciwieństwie do poprzedniej
 	 * metody nie są tutaj pod uwagę w ogóle brane czasy ślizgów! Metoda ma po prostu operować wyłąćznie na nrach.
+	 * Używna w metodach findFirstWithoutTime
 	 * @param startNum
 	 * @return
 	 */
