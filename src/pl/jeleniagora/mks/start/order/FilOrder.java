@@ -1,6 +1,7 @@
 package pl.jeleniagora.mks.start.order;
 
 import java.util.Map.Entry;
+import java.time.LocalTime;
 import java.util.Set;
 import java.util.Vector;
 
@@ -10,8 +11,9 @@ import pl.jeleniagora.mks.types.Run;
 
 /**
  * Klasa która będzie generowała "koszerną" tj zgodną z regulaminem sportowym FIL kolejność startową. 
- * W pierwszym śligu kolejność wyznaczają numery startowe. W kolejnych ślizgach kolejność startowa
- * jest wyznaczona przez miejsca zajęte w przez zawodnikach po zakończeniu poprzedniego w kolejności odwrotnej. 
+ * W pierwszym śligu kolejność wyznaczają numery startowe od pierwszego rosnąco. W kolejnych ślizgach kolejność 
+ * startowa jest wyznaczona przez miejsca zajęte przez zawodników po poprzednio zakończonym ślizgu/zjeździe 
+ * w kolejności odwrotnej - jedzie najpierw ostatni a potem kolejni w stronę tego który zajął pierwsze miejsce.
  * Na przykład w ślizgu punktowanym nr 2 jako pierwszy będzie jechał ten kto zajął ostatnie miejsce w ślizgu 
  * punktowanym nr 1. W przypadku miejsc ex-aeqo pierwszy jedzie ten o najwyższym nrze startowym a potem 
  * kolejno ci o coraz niższych (coraz bliższych jedynki) numerach startowych
@@ -249,25 +251,99 @@ public class FilOrder  extends StartOrderInterface {
 			}
 		}
 		
-		return returnValue;	}
+		return returnValue;	
+		}
 
 	@Override
 	public boolean checkIfLastInRun(LugerCompetitor in, Competition currentCompetition, Run currentRun) {
 		short startNumberToCheck = in.getStartNumber();
+		boolean returnValue = true;
+		LocalTime zero = LocalTime.of(0, 0, 0, 0);
 		
-		// sprawdzanie przy użyciu metody 'nextStartNumber' czy za wskazanym numerem jest ktoś jeszcze
-		if (this.nextStartNumber(startNumberToCheck, currentCompetition) != null)
-			return false;
-		else return true;
+		// ustawiane na true jeżeli aktualnie leci ślizg w którym należy stosować kolejność FIL
+		boolean applyFilOrder = false;
+		
+		// spawdzanie preconitions do ewentalnego włączenia kolejności FIL
+		if (currentCompetition.isCurrentRunTraining == false && currentCompetition.isCurrentRunFirstScored == false) 
+			applyFilOrder = true;
+		else
+			applyFilOrder = false; // w ślizgach treningowych i pierwszym punktowanym obowiązuje kolejność "prosta"
+		
+		// jeżeli jest to ślizg/zjazd w którym należy zastosować kolejność FIL
+		if (applyFilOrder) { 
+		
+			// pętla chodzi po wszystkich zawodnikach przed aktualnie sprawdzanym i sprawdza ich czas ślizgu
+			while (this.nextStartNumber(startNumberToCheck, currentCompetition) != null) {
+				LocalTime timeToCheck = currentRun.totalTimes.get(in);	// czas ślizgu/przejazdu do sprawdzenia
+				
+				if (timeToCheck.equals(zero)) {
+					// jeżeli czas ślizgu/przejazdu jakiegokolwiek zawodnika przed aktualie sprawdzanm jest
+					// równy zero, to oznacza to, że ten sprawdzany nie jest ostatni
+					returnValue = false;
+					break;
+				}
+			}
+		}
+		else {
+			SimpleOrder simple = new SimpleOrder();
+			
+			returnValue = simple.checkIfLastInRun(in, currentCompetition, currentRun);
+		}
+		
+		return returnValue;
 	}
 
 	@Override
 	public boolean checkIfLastInRun(short startNum, Competition currentCompetition) {
 		
-		// sprawdzanie przy użyciu metody 'nextStartNumber' czy za wskazanym numerem jest ktoś jeszcze
-		if (this.nextStartNumber(startNum, currentCompetition) != null)
-			return false;
-		else return true;
+		short startNumberToCheck = startNum;
+		boolean returnValue = true;
+		LocalTime zero = LocalTime.of(0, 0, 0, 0);
+		Run currentRun = null;
+		
+		// ustawiane na true jeżeli aktualnie leci ślizg w którym należy stosować kolejność FIL
+		boolean applyFilOrder = false;
+		
+		// spawdzanie preconitions do ewentalnego włączenia kolejności FIL
+		if (currentCompetition.isCurrentRunTraining == false && currentCompetition.isCurrentRunFirstScored == false) 
+			applyFilOrder = true;
+		else
+			applyFilOrder = false; // w ślizgach treningowych i pierwszym punktowanym obowiązuje kolejność "prosta"
+
+		if (applyFilOrder) {
+			// poszukiwanie aktualego ślizgu/zjazdu
+			for (Run r : currentCompetition.runsTimes) {
+				if (r.done)
+					continue;
+				else
+					currentRun = r;
+			}
+			
+			// pętla chodzi po wszystkich zawodnikach przed aktualnie sprawdzanym i sprawdza ich czas ślizgu
+			while (this.nextStartNumber(startNumberToCheck, currentCompetition) != null) {
+				LugerCompetitor in = currentCompetition.invertedStartList.get(startNumberToCheck);
+				LocalTime timeToCheck = currentRun.totalTimes.get(in);	// czas ślizgu/przejazdu do sprawdzenia
+				
+				returnValue = false;
+				
+				/* - ???
+				if (timeToCheck.equals(zero)) {
+					// jeżeli czas ślizgu/przejazdu jakiegokolwiek zawodnika przed aktualie sprawdzanm jest
+					// równy zero, to oznacza to, że ten sprawdzany nie jest ostatni
+					returnValue = false;
+					break;
+				}
+				*/
+			}
+		}
+		else {
+			SimpleOrder order = new SimpleOrder();
+			
+			returnValue = order.checkIfLastInRun(startNumberToCheck, currentCompetition);
+		}
+		
+		return returnValue;
+	
 		
 	}
 

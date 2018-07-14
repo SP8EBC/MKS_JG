@@ -78,11 +78,41 @@ public class SimpleOrder extends StartOrderInterface {
 
 	@Override
 	public LugerCompetitor getFirst(Competition currentCompetition) {
-		return currentCompetition.invertedStartList.get((short)(1));
+		
+		LugerCompetitor returnValue = null;
+		int numberOfLugers = currentCompetition.invertedStartList.size();
+		
+		// pętla zaczyna od pierwszego numeru startowego (numer 1) i idzie w góre
+		for (int i = 1; i <= numberOfLugers; i++) {
+			returnValue =  currentCompetition.invertedStartList.get((short)i);
+			
+			// jeżeli wyciągnięty po tym numerze startowym istnieje to nalezy go zwrócić
+			// jako pierwszego znalezionego
+			if (returnValue != null)
+				break;
+			
+		}
+		
+		return returnValue;
 	}
 
 	@Override
 	public LugerCompetitor getSecond(Competition currentCompetition) {
+		
+		LugerCompetitor returnValue = null;
+		int numberOfLugers = currentCompetition.invertedStartList.size();
+
+		// pętla zaczyna od zawodnika który ma numer startowy o jeden większ niż pierwszy
+		for (short i = (short) (this.getFirst(currentCompetition).getStartNumber() + 1); i <= numberOfLugers; i++) {
+			returnValue =  currentCompetition.invertedStartList.get((short)i);
+			
+			// jeżeli wyciągnięty po tym numerze startowym istnieje to nalezy go zwrócić
+			// jako pierwszego znalezionego
+			if (returnValue != null)
+				break;
+			
+		}
+		
 		return currentCompetition.invertedStartList.get((short)(2));
 	}
 
