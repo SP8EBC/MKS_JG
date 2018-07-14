@@ -13,7 +13,8 @@ import pl.jeleniagora.mks.types.Run;
  * W pierwszym śligu kolejność wyznaczają numery startowe. W kolejnych ślizgach kolejność startowa
  * jest wyznaczona przez miejsca zajęte w przez zawodnikach po zakończeniu poprzedniego w kolejności odwrotnej. 
  * Na przykład w ślizgu punktowanym nr 2 jako pierwszy będzie jechał ten kto zajął ostatnie miejsce w ślizgu 
- * punktowanym nr 1. W przypadku miejsc ex-aeqo pierwszy jedzie ten o najniższym nrze startowym
+ * punktowanym nr 1. W przypadku miejsc ex-aeqo pierwszy jedzie ten o najwyższym nrze startowym a potem 
+ * kolejno ci o coraz niższych (coraz bliższych jedynki) numerach startowych
  * @author mateusz
  *
  */
@@ -120,32 +121,154 @@ public class FilOrder  extends StartOrderInterface {
 
 	@Override
 	public Short nextStartNumber(LugerCompetitor currentStartNumber, Competition currentCompetition) {
-		return null;
+		short sn = currentStartNumber.getStartNumber();
+		
+		return this.nextStartNumber(sn, currentCompetition);
 	}
 
 	@Override
 	public LugerCompetitor nextStartLuger(LugerCompetitor currentStartNumber, Competition currentCompetition) {
-		return null;
+		short sn = currentStartNumber.getStartNumber();
+
+		short nextSn = this.nextStartNumber(sn, currentCompetition);
+		
+		return currentCompetition.invertedStartList.get(nextSn);
 	}
 
 	@Override
 	public LugerCompetitor getFirst(Competition currentCompetition) {
-		return null;
+		LugerCompetitor returnValue = null;
+		
+		// ustawiane na true jeżeli aktualnie leci ślizg w którym należy stosować kolejność FIL
+		boolean applyFilOrder = false;
+		
+		// spawdzanie preconitions do ewentalnego włączenia kolejności FIL
+		if (currentCompetition.isCurrentRunTraining == false && currentCompetition.isCurrentRunFirstScored == false) 
+			applyFilOrder = true;
+		else
+			applyFilOrder = false; // w ślizgach treningowych i pierwszym punktowanym obowiązuje kolejność "prosta"
+		
+		// jeżeli nalezy tu zastosować kolejność FIL to trzeba odszukać zawodnika który zajął ostanią lokatę po 
+		// ostatnio zakończonym ślizgu / zdjeździe
+		if (applyFilOrder) {
+			
+			short lowestRank = 0;
+			
+			// określanie jaka jest ostatnia lokata
+			for (Entry <LugerCompetitor, Short> e : currentCompetition.ranks.entrySet()) {
+				// jeżeli miejsce (lokata) aktualnie sprawdzanego sankarza jest niższe niż ostatnie najniższe
+				// to zaktalizuj odpowiednią zmienną
+				if (e.getValue() > lowestRank)
+					lowestRank = e.getValue();
+			}
+			
+			// sprawdzanie czy ostatnia lokate nie jest ex-aequo. wektor będzie wrócony jako posrtowany
+			// malejąco. Najwyższe nry startowe na początku a potem malejąco w strone jedynki
+			Vector<LugerCompetitor> ex = currentCompetition.returnLugersWithThisRank(lowestRank, true);
+			
+			// takie przypisanie jest uniwersalne i zadziała poprawnie bez względu czy ostatnie miejsce jest z kimś
+			// ex-aequo czy nie. Jeżeli nie jest to wektor zawiera jeden element, jeżeli jest to pierwszy element
+			// bedzie zawierał sankarza o najwyższym numerze
+			returnValue = ex.get(0);
+		}
+		// jeżeli nie należy stosować kolejności FIL to trzeba znaleźdź sankarza z najniższym numerem startowym i jego 
+		// zwrócić z metody jako pierwszego to startu
+		else {
+			for (int i = 1; i <= currentCompetition.invertedStartList.size(); i++) {
+				// próba wyciągnięcia sankarza o tym numerze startowym
+				LugerCompetitor v = currentCompetition.invertedStartList.get((short)i);
+				
+				// sprawdzenie czy taki numer startowy w ogóle istnieje
+				if (v != null) {
+					// jeżeli istnieje to przerwij dalsze sprawdzanie i zróć właśnie tego
+					returnValue = v;
+					break;
+				}
+			}
+		}
+		
+		return returnValue;
 	}
 
 	@Override
 	public LugerCompetitor getSecond(Competition currentCompetition) {
-		return null;
-	}
+		LugerCompetitor returnValue = null;
+		
+		// ustawiane na true jeżeli aktualnie leci ślizg w którym należy stosować kolejność FIL
+		boolean applyFilOrder = false;
+		
+		// spawdzanie preconitions do ewentalnego włączenia kolejności FIL
+		if (currentCompetition.isCurrentRunTraining == false && currentCompetition.isCurrentRunFirstScored == false) 
+			applyFilOrder = true;
+		else
+			applyFilOrder = false; // w ślizgach treningowych i pierwszym punktowanym obowiązuje kolejność "prosta"
+		
+		// jeżeli nalezy tu zastosować kolejność FIL to najpierw trzeba odszukać sankarza, który zajął po ostatnim ślizgu
+		// najniższą lokatę a potem znaleźdź koljnego za nim
+		if (applyFilOrder) {
+			
+			short lowestRank = 0;
+			
+			// określanie jaka jest ostatnia lokata
+			for (Entry <LugerCompetitor, Short> e : currentCompetition.ranks.entrySet()) {
+				// jeżeli miejsce (lokata) aktualnie sprawdzanego sankarza jest niższe niż ostatnie najniższe
+				// to zaktalizuj odpowiednią zmienną
+				if (e.getValue() > lowestRank)
+					lowestRank = e.getValue();
+			}
+			
+			// sprawdzanie czy ostatnia lokate nie jest ex-aequo
+			Vector<LugerCompetitor> ex = currentCompetition.returnLugersWithThisRank(lowestRank, true);
+			
+			// jeżeli ostatnie miejsce jest z kim ex.equo to trzeba zwrócić sankarza który ma kolejny mniejszy
+			// nr startowy
+			if (ex.size() > 1) {
+				returnValue = ex.get(1);
+			}
+			
+			// jeżeli ostatnie miejsce nie jest ex-aequo to trzeba zwórić kolejnego który miał wyższa lokatę
+			else {
+				Vector<LugerCompetitor> n = currentCompetition.returnLugersWithThisRank((short) (lowestRank - 1), true);
+				
+				returnValue = n.get(0);	// przedostatnie może być ex-aequo ale 
+			}
+		}
+		// jeżeli nie należy stosować kolejności FIL to trzeba znaleźdź sankarza z najniższym numerem startowym i jego 
+		// zwrócić z metody jako pierwszego to startu
+		else {
+			for (int i = 1; i <= currentCompetition.invertedStartList.size(); i++) {
+				// próba wyciągnięcia sankarza o tym numerze startowym
+				LugerCompetitor v = currentCompetition.invertedStartList.get((short)i);
+				
+				// sprawdzenie czy taki numer startowy w ogóle istnieje
+				if (v != null) {
+					// jeżeli istnieje to przerwij dalsze sprawdzanie i zróć właśnie tego
+					returnValue = v;
+					break;
+				}
+			}
+		}
+		
+		return returnValue;	}
 
 	@Override
 	public boolean checkIfLastInRun(LugerCompetitor in, Competition currentCompetition, Run currentRun) {
-		return false;
+		short startNumberToCheck = in.getStartNumber();
+		
+		// sprawdzanie przy użyciu metody 'nextStartNumber' czy za wskazanym numerem jest ktoś jeszcze
+		if (this.nextStartNumber(startNumberToCheck, currentCompetition) != null)
+			return false;
+		else return true;
 	}
 
 	@Override
 	public boolean checkIfLastInRun(short startNum, Competition currentCompetition) {
-		return false;
+		
+		// sprawdzanie przy użyciu metody 'nextStartNumber' czy za wskazanym numerem jest ktoś jeszcze
+		if (this.nextStartNumber(startNum, currentCompetition) != null)
+			return false;
+		else return true;
+		
 	}
 
 	@Override
