@@ -134,6 +134,10 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 		leftModel.updateContent(true);	// aktualizowanie modelu danych do tabeli po lewej stronie
 		comboBox.removeAllItems(); 	// wyciepywanie wszystkich aktualnie istniejących elementów checkboxa
 		for (Competition c : rte_st.competitions.competitions) {
+			if (c.competitionType != CompetitionTypes.MEN_SINGLE &&
+					c.competitionType != CompetitionTypes.WOMAN_SINGLE)
+				continue;
+			
 			// aktualizowane comboboxa w oparciu o wszystkie aktualnie zdefiniowane konkurencje
 			comboBox.addItem(c);
 		}		
@@ -231,7 +235,7 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 			}
 		});
 		
-		JButton btnZakocz = new JButton("Zakończ");
+		JButton btnZakocz = new JButton("Zamknij okno");
 		btnZakocz.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				

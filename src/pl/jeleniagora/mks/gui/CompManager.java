@@ -478,6 +478,14 @@ public class CompManager extends JFrame {
 		mnSaneczkarze.add(mntmDopiszIstniejcegoDo);
 		
 		JMenuItem mntmSparujWDwjki = new JMenuItem("Sparuj w dwójki i dopisz do konkurencji");
+		mntmSparujWDwjki.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				///
+				CompManagerWindowAddLugerDouble window = (CompManagerWindowAddLugerDouble)ctx.getBean(CompManagerWindowAddLugerDouble.class);
+				window.updateContent();
+				window.setVisible(true);
+			}
+		});
 		mnSaneczkarze.add(mntmSparujWDwjki);
 		
 		JMenuItem mntmUtwrzDruyn = new JMenuItem("Utwórz drużynę i dopisz do konkurencji");

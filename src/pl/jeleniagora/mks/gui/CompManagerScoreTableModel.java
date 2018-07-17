@@ -239,12 +239,11 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 				
 				switch (lugerType) {
 					case DOUBLE:
-						break;
 					case DOUBLE_MEN_ONLY:
-						break;
 					case DOUBLE_MIXED:
-						break;
 					case DOUBLE_WOMAN_ONLY:
+					case MARRIED_COUPLE:
+						
 						break;
 					case TEAM_RELAY:
 						break;
@@ -324,7 +323,8 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 		if (competition.competitionType.equals(CompetitionTypes.DOUBLE) ||
 				competition.competitionType.equals(CompetitionTypes.DOUBLE_MEN_ONLY) ||
 				competition.competitionType.equals(CompetitionTypes.DOUBLE_MIXED) ||
-				competition.competitionType.equals(CompetitionTypes.DOUBLE_WOMAN_ONLY))
+				competition.competitionType.equals(CompetitionTypes.DOUBLE_WOMAN_ONLY) ||
+				competition.competitionType.equals(CompetitionTypes.MARRIED_COUPLE))
 		{
 			isDouble = true;
 		}
