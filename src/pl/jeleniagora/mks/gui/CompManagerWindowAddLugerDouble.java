@@ -3,6 +3,8 @@ package pl.jeleniagora.mks.gui;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -21,6 +23,8 @@ import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.CompetitionTypes;
 import pl.jeleniagora.mks.types.Luger;
+import pl.jeleniagora.mks.types.LugerDouble;
+import pl.jeleniagora.mks.types.LugerSingle;
 
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
@@ -48,6 +52,8 @@ public class CompManagerWindowAddLugerDouble extends JFrame {
 	private JTextField searchField;
 	private JTable searchTable;
 	private JTable competitionTable;
+	
+	JFrame window;
 
 	JLabel lblImie;
 	JLabel lblNazisko;
@@ -68,6 +74,11 @@ public class CompManagerWindowAddLugerDouble extends JFrame {
 	Luger selectedInSearchTable;
 	
 	/**
+	 * Zawodik wybrany w prawej tabeli
+	 */
+	LugerDouble selectedInCompetitionTable;
+	
+	/**
 	 * Pole ustawiane przez checkbox poniżej listy zawodników. Po zaznaczeniu lewy panel ma pokazywać
 	 * tylko tych sankarzy którzy nie są jeszcze przypisani do żadnej konkurencji
 	 */
@@ -83,6 +94,8 @@ public class CompManagerWindowAddLugerDouble extends JFrame {
 	
 	@Autowired
 	RTE_GUI rte_gui;
+	
+	LugerDouble toAdd;
 	
 	/**
 	 * Launch the application.
@@ -119,11 +132,12 @@ public class CompManagerWindowAddLugerDouble extends JFrame {
 			comboBox.addItem(c);
 		}
 		
-		if (comboBox.getItemCount() == 0)
+		if (comboBox.getItemCount() == 0) {
 			JOptionPane.showMessageDialog(this, "W konfiguracji programu nie została zdefiniowana żadna konkurencja dwójkowa!");
+			selected = null;
+		}
 		else {
 			selected = comboBox.getItemAt(0);
-	//		selected = rte_st.competitions.competitions.get(0);
 			comboBox.setSelectedItem(selected);
 			
 			rightModel = new CompManagerWindowAddLugerDoubleRTableModel(selected);
@@ -137,6 +151,8 @@ public class CompManagerWindowAddLugerDouble extends JFrame {
 	 * Create the frame.
 	 */
 	public CompManagerWindowAddLugerDouble() {
+		this.window = this;
+		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1017, 570);
 		contentPane = new JPanel();
@@ -153,6 +169,11 @@ public class CompManagerWindowAddLugerDouble extends JFrame {
 		infoPanel.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		
 		JButton btnZamknijOkno = new JButton("Zamknij okno");
+		btnZamknijOkno.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				window.dispose();
+			}
+		});
 		btnZamknijOkno.setMinimumSize(new Dimension(433, 25));
 		btnZamknijOkno.setMaximumSize(new Dimension(433, 25));
 		btnZamknijOkno.setPreferredSize(new Dimension(433, 25));
@@ -160,6 +181,26 @@ public class CompManagerWindowAddLugerDouble extends JFrame {
 		JButton btnUsuWybranW = new JButton("Usuń wybraną w panelu po prawej dwójkę z konkurencji");
 		
 		JButton btnDodajPrzygotowanDwjke = new JButton("Dodaj przygotowaną dwójke do konkurencji");
+		btnDodajPrzygotowanDwjke.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				////
+				if (toAdd == null || toAdd.upper == null || toAdd.lower == null) {
+					JOptionPane.showMessageDialog(null, "Nie ustawiłeś odpowiednio saneczkarzy do tej dwójki!");
+					return;
+				}
+				else {
+					toAdd.upper.hasBeenAdded = true;
+					toAdd.lower.hasBeenAdded = true;
+					
+					selected.addToCompetition(toAdd);
+					rte_st.competitions.listOfAllCompetingLugersInThisComps.add(toAdd);
+
+					rightModel = new CompManagerWindowAddLugerDoubleRTableModel(selected);
+					competitionTable.setModel(rightModel);
+					rightModel.fireTableDataChanged();
+				}
+			}
+		});
 		btnDodajPrzygotowanDwjke.setMinimumSize(new Dimension(433, 25));
 		btnDodajPrzygotowanDwjke.setMaximumSize(new Dimension(433, 25));
 		btnDodajPrzygotowanDwjke.setPreferredSize(new Dimension(433, 25));
@@ -213,8 +254,49 @@ public class CompManagerWindowAddLugerDouble extends JFrame {
 		competitionTable = new JTable();
 		scrollPane_1.setColumnHeaderView(competitionTable);
 		competitionPanel.setLayout(gl_competitionPanel);
+		competitionTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent arg0) {
+				@SuppressWarnings("unused")
+				int selectedRowFromModel = -1;
+				
+				// numer zaznaczonego z widoku
+				int selectedRowFromView = competitionTable.getSelectedRow();
+				
+				try {
+					// konwersja na pozycję w modelu 
+					selectedRowFromModel = competitionTable.convertColumnIndexToModel(selectedRowFromView);
+				}
+				catch(Exception e) {
+					;
+				}
+				
+				if (selectedRowFromView < 0) {
+					selectedInCompetitionTable = null;
+					return;
+				}
+				
+				selectedInCompetitionTable = (LugerDouble) rightModel.displayVct.get(selectedRowFromView);
+				
+			}
+			
+		});
 		
 		searchField = new JTextField();
+		searchField.addKeyListener(new KeyAdapter() {
+			// listener od naciśnięcia przycisku w oknie
+			
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				return;
+			}
+			@Override
+			public void keyReleased(KeyEvent e) {
+				String text = searchField.getText();
+				leftModel.updateContent(showOnlyNotAddedLugers, text);
+			}
+		});
 		searchField.setColumns(10);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -341,12 +423,32 @@ public class CompManagerWindowAddLugerDouble extends JFrame {
 		infoPanel.add(lblGora, "cell 1 8");
 		
 		JButton btnUstawNaGrze = new JButton("Ustaw na górze");
+		btnUstawNaGrze.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (toAdd == null)
+					toAdd = new LugerDouble();
+				
+				toAdd.upper = selectedInSearchTable;
+				
+				lblGora.setText( toAdd.upper.toString());
+			}
+		});
 		infoPanel.add(btnUstawNaGrze, "cell 3 8");
 		
 		JLabel lblDol = new JLabel("// nie wybrano");
 		infoPanel.add(lblDol, "cell 1 9");
 		
 		JButton btnUstawNaDole = new JButton("Ustaw na dole");
+		btnUstawNaDole.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (toAdd == null)
+					toAdd = new LugerDouble();
+				
+				toAdd.lower = selectedInSearchTable;
+				
+				lblDol.setText( toAdd.lower.toString());
+			}
+		});
 		infoPanel.add(btnUstawNaDole, "cell 3 9");
 		
 		comboBox = new JComboBox<Competition>();

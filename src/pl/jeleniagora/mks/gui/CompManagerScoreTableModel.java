@@ -17,6 +17,7 @@ import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.CompetitionTypes;
 import pl.jeleniagora.mks.types.Competitions;
 import pl.jeleniagora.mks.types.LugerCompetitor;
+import pl.jeleniagora.mks.types.LugerDouble;
 import pl.jeleniagora.mks.types.LugerSingle;
 import pl.jeleniagora.mks.types.Reserve;
 import pl.jeleniagora.mks.types.Run;
@@ -243,6 +244,20 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 					case DOUBLE_MIXED:
 					case DOUBLE_WOMAN_ONLY:
 					case MARRIED_COUPLE:
+						LugerDouble d = (LugerDouble) luger;
+						int startNumm = currLuger.getValue();	// numer startowy
+						String upper = d.upper.toString();
+						String lower = d.lower.toString();
+						String lugeCl = d.upper.club.name;
+						
+						l[0] = (short)startNumm;	// numer startowy
+						l[1] = (short)competition.ranks.get(d); // miejsce
+						l[2] = upper;
+						l[3] = lower;
+						l[4] = lugeCl;
+						
+						j = 5;
+						
 						
 						break;
 					case TEAM_RELAY:

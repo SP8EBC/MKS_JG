@@ -15,6 +15,7 @@ import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.CompetitionTypes;
 import pl.jeleniagora.mks.types.LugerCompetitor;
+import pl.jeleniagora.mks.types.Run;
 
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
@@ -151,6 +152,16 @@ public class CompManagerWindowAddCompetition extends JFrame {
 				c.startList = new HashMap<LugerCompetitor, Short>();
 				c.invertedStartList = new HashMap<Short, LugerCompetitor>();
 				c.scoredRunsDone  = new Vector<Integer>();
+				
+				c.runsTimes = new Vector<Run>();
+				for (int i = 0; i < c.numberOfTrainingRuns; i++) {
+					Run run = new Run(c.startList, (byte)0);
+					c.runsTimes.add(run);
+				}
+				for (int i = 0; i < (c.numberOfAllRuns - c.numberOfTrainingRuns); i++) {
+					Run run = new Run(c.startList, (byte)1);
+					c.runsTimes.add(run);					
+				}
 				
 				rte_st.competitions.competitions.add(c);
 				selectorUpdater.updateSelectorContent(rte_st.competitions.competitions);
