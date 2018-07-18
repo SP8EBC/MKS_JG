@@ -50,7 +50,6 @@ public class CompManagerDsqBtnActionListener implements ActionListener {
 			} catch (UninitializedCompEx e) {
 
 			}
-			rte_gui.model.fireTableDataChanged();
 		}
 		else {
 			

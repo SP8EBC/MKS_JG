@@ -38,7 +38,6 @@ public class CompManagerDnsBtnActionListener implements ActionListener {
 			} catch (UninitializedCompEx e) {
 
 			}
-			rte_gui.model.fireTableDataChanged();
 		}
 		else {
 			

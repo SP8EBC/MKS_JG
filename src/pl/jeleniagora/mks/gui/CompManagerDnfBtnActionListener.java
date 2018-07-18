@@ -37,7 +37,6 @@ public class CompManagerDnfBtnActionListener implements ActionListener {
 			} catch (UninitializedCompEx e) {
 
 			}
-			rte_gui.model.fireTableDataChanged();
 		}
 		else {
 			
