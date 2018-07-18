@@ -20,7 +20,8 @@ public abstract class StartOrderInterface {
 	
 	/**
 	 * Metoda zwraca nastepny numer startowy nastepny po wskazanym w argumencie, bądź null jeżeli wskazany numer
-	 * startowy jest ostatni
+	 * startowy jest ostatni. Metody NIE MAJĄ brać pod uwagę czy sankarze pod numerami startowymi mają w ślizgu
+	 * jakieś czasy przejazdu czy nie. Metody MAJĄ JEDYNIE zwrwcać kolejne numery startowe.
 	 * @param currentStartNumber
 	 * @param currentCompetition
 	 * @return

@@ -42,13 +42,16 @@ public class DidNotStart {
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 		LugerCompetitor l = rte_st.actuallyOnTrack;
 		
-		if (rte_st.currentRun.trainingOrScored) {
+		if (rte_st.currentRun.trainingOrScored && rte_st.currentCompetition.trainingOrContest) {
 			/*
 			 * W ślizbu puntkowanym na zawodach nie wystartowanie dyskwalifikuje z dalszej cześci zawodów
 			 */
 			for (Run r: rte_st.currentCompetition.runsTimes) {
+				if (r.done)
+					continue;
 				r.totalTimes.put(l, DNS.getValue());
 			}
+
 		}
 		else {
 			/*

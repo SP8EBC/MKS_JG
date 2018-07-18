@@ -271,7 +271,7 @@ public class UpdateCurrentAndNextLuger {
 	/**
 	 * Metod ustawiająca jako aktualnie na torze pierwszego zawodnika w śligu (saneczkarz o nrze startowym jeden)
 	 * a jako następnego drugiego zawodnika (nr startowy dwa). Używana przy prełączaniu na następny ślizg bo zakończeniu
-	 * jednego
+	 * jednego w klasie pl.jeleniagora.mks.events.EndOfRun
 	 */
 	public static void rewindToBegin() {
 		

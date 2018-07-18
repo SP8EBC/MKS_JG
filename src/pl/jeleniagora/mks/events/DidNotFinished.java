@@ -28,15 +28,56 @@ public class DidNotFinished {
 	}
 	
 	public static void process() {
-		try {
 			setNotFinishedForCurrentLuger();
+			
+			moveToNext();
+	}
+	
+	/**
+	 * Wywiłanie metody powoduje ustawienie DNF dla zawodnika aktualnie na torze (bo nic innego nie miało by tu
+	 * sensu - tj nie da się zapisać DNF dla kogoś kto już dojechał albo jeszcze nie jechał)
+	 * @throws StartOrderNotChoosenEx 
+	 * @throws AppContextUninitializedEx 
+	 * @throws EndOfRunEx 
+	 */
+	static void setNotFinishedForCurrentLuger() {
+	
+		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
+		RTE_CHRONO rte_chrono = (RTE_CHRONO)ctx.getBean("RTE_CHRONO");
+		LugerCompetitor l = rte_st.actuallyOnTrack;
+		
+		if (rte_st.currentRun.trainingOrScored && rte_st.currentCompetition.trainingOrContest) {
+			/*
+			 * W ślizgu punktowanym nie dojechanie do mety przez zawodnika dyskwalifikuje go całkowicie 
+			 * z dalszej części zawodów
+			 */
+			for (Run r: rte_st.currentCompetition.runsTimes) {
+				if (!r.done) {
+					r.totalTimes.put(l, DNF.getValue());
+				}
+			}
+			rte_chrono.resetStateMachine = true;		// kasownie maszyny stanów do stanu początkowego
+
+		}
+		else {
+			/*
+			 * Podczas treningu nie ukończenie ślizgu nie ma wpływu na możliwość dalszych startów
+			 */
+			rte_st.currentRun.totalTimes.put(l, DNF.getValue());
+			rte_chrono.resetStateMachine = true;		// kasownie maszyny stanów do stanu początkowego
+
+		}
+	}
+	
+	static void moveToNext() {
+		try {
+			UpdateCurrentAndNextLuger.moveForwardNormally();
 		} catch (EndOfRunEx e) {
-//			e.printStackTrace(); //
+			RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
+
+			JOptionPane.showMessageDialog(null, "Zakończył się " + rte_st.currentRun.toString());
+
 			try {
-				RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
-
-				JOptionPane.showMessageDialog(null, "Zakończył się " + rte_st.currentRun.toString());
-
 				EndOfRun.process();
 			} catch (EndOfCompEx e1) {
 				e1.printStackTrace();
@@ -48,40 +89,4 @@ public class DidNotFinished {
 		}
 	}
 	
-	/**
-	 * Wywiłanie metody powoduje ustawienie DNF dla zawodnika aktualnie na torze (bo nic innego nie miało by tu
-	 * sensu - tj nie da się zapisać DNF dla kogoś kto już dojechał albo jeszcze nie jechał)
-	 * @throws StartOrderNotChoosenEx 
-	 * @throws AppContextUninitializedEx 
-	 * @throws EndOfRunEx 
-	 */
-	static void setNotFinishedForCurrentLuger() throws EndOfRunEx, AppContextUninitializedEx, StartOrderNotChoosenEx {
-	
-		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
-		RTE_CHRONO rte_chrono = (RTE_CHRONO)ctx.getBean("RTE_CHRONO");
-		LugerCompetitor l = rte_st.actuallyOnTrack;
-		
-		if (rte_st.currentRun.trainingOrScored) {
-			/*
-			 * W ślizgu punktowanym nie dojechanie do mety przez zawodnika dyskwalifikuje go całkowicie 
-			 * z dalszej części zawodów
-			 */
-			for (Run r: rte_st.currentCompetition.runsTimes) {
-				if (!r.done) {
-					r.totalTimes.put(l, DNF.getValue());
-					UpdateCurrentAndNextLuger.moveForwardNormally();
-					rte_chrono.resetStateMachine = true;		// kasownie maszyny stanów do stanu początkowego
-				}
-			}
-		}
-		else {
-			/*
-			 * Podczas treningu nie ukończenie ślizgu nie ma wpływu na możliwość dalszych startów
-			 */
-			rte_st.currentRun.totalTimes.put(l, DNF.getValue());
-			UpdateCurrentAndNextLuger.moveForwardNormally();
-			rte_chrono.resetStateMachine = true;		// kasownie maszyny stanów do stanu początkowego
-
-		}
-	}
 }
