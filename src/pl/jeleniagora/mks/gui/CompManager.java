@@ -29,6 +29,7 @@ import pl.jeleniagora.mks.events.SaveRuntime;
 import pl.jeleniagora.mks.events.UpdateCurrentAndNextLuger;
 import pl.jeleniagora.mks.exceptions.FailedOpenSerialPortEx;
 import pl.jeleniagora.mks.exceptions.UninitializedCompEx;
+import pl.jeleniagora.mks.factories.StartListFactory;
 import pl.jeleniagora.mks.files.xml.XmlLoader;
 import pl.jeleniagora.mks.files.xml.XmlSaver;
 import pl.jeleniagora.mks.rte.RTE;
@@ -59,6 +60,7 @@ import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.Font;
 
@@ -83,6 +85,8 @@ public class CompManager extends JFrame {
 	private JTable table;
 	
 	private static CommThread com, comDisplay;
+	
+	private static RTE_ST st;
 	
 	/**
 	 * Tablica referencji do Stringów przechowywająca nazwy kolumn głównej tabeli. 
@@ -172,6 +176,8 @@ public class CompManager extends JFrame {
 		RTE_ST rte_st = ctx.getBean(RTE_ST.class);
 		RTE_COM rte_com = (RTE_COM)ctx.getBean("comBean");
 		RTE_COM_DISP rte_com_disp = (RTE_COM_DISP)ctx.getBean("comDispBean");
+		
+		st = rte_st;
 		
 		rte_gui.syncCompManagerRdy = new Object();
 		
@@ -498,6 +504,33 @@ public class CompManager extends JFrame {
 		mnSaneczkarze.add(separator_1);
 		
 		JMenuItem mntmLosujNumeryStartowe = new JMenuItem("Losuj numery startowe");
+		mntmLosujNumeryStartowe.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				int answer = JOptionPane.showConfirmDialog(null, "Czy na pewno chcesz wylosować numery startowe dla konkurencji: " + rte_gui.competitionBeingShown.toString(), "Pozor", JOptionPane.YES_NO_OPTION);
+				if (answer == JOptionPane.NO_OPTION) {
+					System.out.println("no");;
+					return;
+				}
+				else if (answer == JOptionPane.YES_OPTION) {
+					System.out.println("yes");;
+					StartListFactory.generateStartList(rte_gui.competitionBeingShown);
+					
+					try {
+						rte_gui.model.updateTableData(rte_gui.competitionBeingShown, false);
+					} catch (UninitializedCompEx e1) {
+						e1.printStackTrace();
+					}
+					
+					rte_gui.model.fireTableDataChanged();
+					
+					if (rte_gui.competitionBeingShown.equals(st.currentCompetition)) {
+						AfterStartListGeneration.process(st.currentCompetition);
+					}
+				}
+				
+			}
+		});
 		mnSaneczkarze.add(mntmLosujNumeryStartowe);
 		
 		JMenu mnRaporty = new JMenu("Raporty");

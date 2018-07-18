@@ -18,6 +18,7 @@ import pl.jeleniagora.mks.types.LugerCompetitor;
 import pl.jeleniagora.mks.types.Run;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
@@ -108,7 +109,7 @@ public class CompManagerWindowAddCompetition extends JFrame {
 		contentPane.add(lblIloWszystkichlizgw, "cell 0 3");
 		
 		JSpinner spinner = new JSpinner();
-		spinner.setModel(new SpinnerNumberModel(0, 0, 9, 1));
+		spinner.setModel(new SpinnerNumberModel(1, 1, 9, 1));
 		spinner.setFont(new Font("Dialog", Font.BOLD, 18));
 		contentPane.add(spinner, "flowx,cell 2 3");
 		
@@ -129,6 +130,11 @@ public class CompManagerWindowAddCompetition extends JFrame {
 		JButton btnDodaj = new JButton("Dodaj");
 		btnDodaj.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if ((Integer)spinner_1.getValue() > (Integer)spinner.getValue()) {
+					JOptionPane.showMessageDialog(window, "Liczba ślizgów / zjazdów treningowych nie może być większa niż punktowanych!");
+					return;
+				}
+				
 				Competition c = new Competition();
 				
 				CompetitionTypes type = (CompetitionTypes)comboBox.getSelectedItem();

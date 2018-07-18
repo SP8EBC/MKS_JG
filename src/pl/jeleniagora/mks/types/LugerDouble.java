@@ -21,6 +21,7 @@ public class LugerDouble extends LugerCompetitor {
 	
 	public LugerDouble() {
 		this.generateSystemId();	//  z klasy bazowej
+		this.competitorType = CompetitionTypes.DOUBLE;
 	}
 	
 	public String toString() {

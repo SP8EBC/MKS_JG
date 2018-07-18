@@ -353,9 +353,9 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 		if (isDouble) {
 			/* Jeżeli konkurencja jest "dwójkowa" to zamiast Nazwiska i Imienia wyświetlaj
 			 * tylko nazwiska obydwu zaneczkarzy */
-			columnNames[i] = new String("Nazwisko Góra");
+			columnNames[i] = new String("Zawodnik na górze");
 			types[i++] = new String().getClass();
-			columnNames[i] = new String("Nazwisko Dół");
+			columnNames[i] = new String("Zawodnik na dole");
 			types[i++] = new String().getClass();
 		}
 		else {

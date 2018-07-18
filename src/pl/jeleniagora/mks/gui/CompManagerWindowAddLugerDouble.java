@@ -179,6 +179,47 @@ public class CompManagerWindowAddLugerDouble extends JFrame {
 		btnZamknijOkno.setPreferredSize(new Dimension(433, 25));
 		
 		JButton btnUsuWybranW = new JButton("Usuń wybraną w panelu po prawej dwójkę z konkurencji");
+		btnUsuWybranW.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				// sprawdzanie czy użytkownik nie próbuje usunąć zawodnika z aktualnie rozgrywanej konkurencji.
+				// działanie takie jest niedozwolone gdyż z definicji wymagało by ponownego wylosowania nrów startowych
+				// co kompletnie rozwaliło by logikę aplikacji, a przede wszystkim poważnie zaburzyło kolejność startową
+				if (rte_st.currentCompetition.equals(selected)) {
+					JOptionPane.showMessageDialog(window, "Nie możesz usunąć zawodnika z aktualnie rozgrywanej konkurencji!!");
+					return;
+				}
+				
+				// sprawdzanie czy użytkownik przed użyciem przycisku usuń wybrał jakiegokolwiek zawodnika
+				if (selectedInCompetitionTable != null) {
+					
+					boolean result = selected.removeFromCompetition(selectedInCompetitionTable);
+					
+					if (!result) {
+						// result może być równy false jeżeli z jakichś powodów próbowano usunąć zawodnika który np. nie znajdował się
+						// w ogóle w tej konkurencji. Raczej coś takiego nie wystąpi, bo jeżeli nie był w tej konkurencji to nie powinien
+						// się również wyświetlać na liście
+						JOptionPane.showMessageDialog(window, "Wystąpił problem podczas usuwania zawodnika z konkurencji");
+						return;
+					}
+					
+					rte_st.competitions.listOfAllCompetingLugersInThisComps.remove(selectedInCompetitionTable);
+					
+					selectedInCompetitionTable.lower.hasBeenAdded = false;
+					selectedInCompetitionTable.upper.hasBeenAdded = false;
+										
+					// regenrowanie modelu danych do prawej tabeli aby uwzględnić zmiany w konkrencji
+					rightModel = new CompManagerWindowAddLugerDoubleRTableModel(selected);
+					competitionTable.setModel(rightModel);
+					rightModel.fireTableDataChanged();
+					
+					competitionTable.changeSelection(-1, -1, false, false);
+				}
+				else {
+					;
+				}
+			}
+		});
 		
 		JButton btnDodajPrzygotowanDwjke = new JButton("Dodaj przygotowaną dwójke do konkurencji");
 		btnDodajPrzygotowanDwjke.addActionListener(new ActionListener() {
@@ -253,6 +294,7 @@ public class CompManagerWindowAddLugerDouble extends JFrame {
 		
 		competitionTable = new JTable();
 		scrollPane_1.setColumnHeaderView(competitionTable);
+		scrollPane_1.setViewportView(competitionTable);
 		competitionPanel.setLayout(gl_competitionPanel);
 		competitionTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
@@ -302,6 +344,7 @@ public class CompManagerWindowAddLugerDouble extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		
 		JCheckBox chckbxPokazujWycznieNiedodanych = new JCheckBox("Pokazuj wyłącznie niedodanych");
+		chckbxPokazujWycznieNiedodanych.setSelected(true);
 		chckbxPokazujWycznieNiedodanych.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Object source = arg0.getSource();
