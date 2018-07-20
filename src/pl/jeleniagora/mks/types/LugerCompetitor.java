@@ -41,6 +41,7 @@ public abstract class LugerCompetitor {
 	public abstract short getStartNumber();
 	
 	public abstract String toString();
+	public abstract String clubToString();
 	
 	protected Long competitorSystemId;	// 24 czerwca zmienione z private -> protected
 

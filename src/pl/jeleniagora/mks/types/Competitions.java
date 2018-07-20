@@ -39,6 +39,8 @@ public class Competitions {
 	 */
 	@XmlElement(name="name")
 	public String name;
+	
+	public String organizer;
 
 	/**
 	 * Data kiedy odbywają się zawody

@@ -35,4 +35,10 @@ public class LugerSingle extends LugerCompetitor {
 		this.startNum = num;
 	}
 
+	@Override
+	public String clubToString() {
+		// TODO Auto-generated method stub
+		return single.club.name;
+	}
+
 }

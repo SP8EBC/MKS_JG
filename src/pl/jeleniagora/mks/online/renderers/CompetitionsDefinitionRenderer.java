@@ -21,6 +21,12 @@ public class CompetitionsDefinitionRenderer {
 		
 		out.location = competitions.track.location;
 		
+		out.judge1 = competitions.Judge1st;
+		out.judge2 = competitions.Judge2nd;
+		out.judge3 = competitions.Judge3rd;
+		
+		out.organizer = competitions.organizer;
+		
 		return out;
 		
 	}

@@ -25,6 +25,11 @@ public class SingleCompetitionDefinition {
 	public int competitorsNumber;
 	
 	/**
+	 * Numery startowe
+	 */
+	public Vector<Integer> competitorsStartNums;
+	
+	/**
 	 * Wektor imion i nazwisk zawodników
 	 */
 	public Vector<String> competitorsNames;

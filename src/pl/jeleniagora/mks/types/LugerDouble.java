@@ -43,5 +43,10 @@ public class LugerDouble extends LugerCompetitor {
 		
 	}
 
+	@Override
+	public String clubToString() {
+		return upper.club.name;
+	}
+
 
 }

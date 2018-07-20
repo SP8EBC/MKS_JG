@@ -11,6 +11,15 @@ import java.util.Vector;
  */
 public class CompetitionData {
 
+	public CompetitionData() {
+		competitorsNames = new Vector<String>();
+		competitorsRanks = new Vector<Integer>();
+		competitorsClubsNames = new Vector<String>();
+		
+		competitorsTimesStrings = new Vector<Vector<String>>();
+		competitorsStartNums = new Vector<Integer>();
+	}
+	
 	public int compId;
 	
 	/**
@@ -19,9 +28,25 @@ public class CompetitionData {
 	public Vector<String> competitorsNames;
 	
 	/**
+	 * Numery startowe
+	 */
+	public Vector<Integer> competitorsStartNums;
+	
+	/**
+	 * Lokaty zawodników
+	 */
+	public Vector<Integer> competitorsRanks;
+	
+	/**
 	 * Wektor nazw klubów zawodników
 	 */
 	public Vector<String> competitorsClubsNames;
+	
+	/**
+	 * Rodzaj kolejnych ślizgów zgodnie z kolejnością w wewnętrznym wektorze 'competitorsTimesStrings', false
+	 * oznacza ślizg treningowy, true punktowany
+	 */
+	public Vector<Boolean> runsType;
 	
 	/**
 	 * Wektor wektorów stringów określający czasy przejazdu wszystkich zawodników.
