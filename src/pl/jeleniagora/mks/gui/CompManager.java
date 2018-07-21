@@ -667,6 +667,27 @@ public class CompManager extends JFrame {
 		JMenu mnUstawienia = new JMenu("Ustawienia");
 		menuBar.add(mnUstawienia);
 		
+		JMenu mnLugepl = new JMenu("Luge.pl");
+		menuBar.add(mnLugepl);
+		
+		JCheckBox chckbxWczWynikiOnline = new JCheckBox("Włącz wyniki online");
+		mnLugepl.add(chckbxWczWynikiOnline);
+		
+		JSeparator separator_6 = new JSeparator();
+		mnLugepl.add(separator_6);
+		
+		JMenuItem mntmSprawdKomunikacjzSerwerem = new JMenuItem("Sprawdź komunikację z serwerem");
+		mnLugepl.add(mntmSprawdKomunikacjzSerwerem);
+		
+		JMenuItem mntmDodajBierzceZawody = new JMenuItem("Dodaj bieżące zawody do systemu");
+		mnLugepl.add(mntmDodajBierzceZawody);
+		
+		JMenuItem mntmDodajaktualizujWywietlanKonkurencje = new JMenuItem("Dodaj/aktualizuj wyświetlaną konkurencje");
+		mnLugepl.add(mntmDodajaktualizujWywietlanKonkurencje);
+		
+		JMenuItem mntmDodajaktualizujRozgrywanKonkurencje = new JMenuItem("Dodaj/aktualizuj rozgrywaną konkurencje");
+		mnLugepl.add(mntmDodajaktualizujRozgrywanKonkurencje);
+		
 		JMenu mnPomoc = new JMenu("Pomoc");
 		menuBar.add(mnPomoc);
 		
