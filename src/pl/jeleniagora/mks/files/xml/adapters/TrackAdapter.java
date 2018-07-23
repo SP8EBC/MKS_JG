@@ -24,7 +24,8 @@ public class TrackAdapter extends XmlAdapter<String, Track> {
 	@Override
 	public Track unmarshal(String arg0) throws Exception {
 		ApplicationContext context = new ClassPathXmlApplicationContext("luge-tracks-spring-ctx.xml");
-		Track track = (Track)context.getBean(arg0.toLowerCase().substring(0, 6).replace(" ", "_"));
+		String nameForContext = arg0.toLowerCase().substring(0, 7).replace(" ", "_");
+		Track track = (Track)context.getBean(nameForContext);
 		
 		return track;
 	}

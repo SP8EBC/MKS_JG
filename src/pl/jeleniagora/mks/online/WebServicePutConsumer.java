@@ -21,7 +21,7 @@ import pl.jeleniagora.mks.types.online.SingleCompetitionDefinition;
  */
 public class WebServicePutConsumer {
 
-	final String uri = "http://luge.pl:8080/scoringComm/onlineApi/competitionDataUpdater/{id}";
+	final String uri = "http://luge.pl:8080/MKS_JG_ONLINE/competitionDataUpdater/{id}";
 	
 	public void competitionDataUpdater(Competition competition) {
 		SingleCompetitionDefinitionRenderer rndr = new SingleCompetitionDefinitionRenderer();
@@ -41,6 +41,7 @@ public class WebServicePutConsumer {
 			public void run() {
 				Thread.currentThread().setName("competitionDataUpdater");
 				template.put(uri, def, params);
+				
 			}
 		
 		}.run();

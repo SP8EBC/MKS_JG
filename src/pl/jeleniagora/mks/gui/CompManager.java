@@ -32,6 +32,7 @@ import pl.jeleniagora.mks.exceptions.UninitializedCompEx;
 import pl.jeleniagora.mks.factories.StartListFactory;
 import pl.jeleniagora.mks.files.xml.XmlLoader;
 import pl.jeleniagora.mks.files.xml.XmlSaver;
+import pl.jeleniagora.mks.online.WebServicePostConsumer;
 import pl.jeleniagora.mks.rte.RTE;
 import pl.jeleniagora.mks.rte.RTE_COM;
 import pl.jeleniagora.mks.rte.RTE_COM_DISP;
@@ -680,6 +681,12 @@ public class CompManager extends JFrame {
 		mnLugepl.add(mntmSprawdKomunikacjzSerwerem);
 		
 		JMenuItem mntmDodajBierzceZawody = new JMenuItem("Dodaj bieżące zawody do systemu");
+		mntmDodajBierzceZawody.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				WebServicePostConsumer consumer = new WebServicePostConsumer();
+				consumer.competitionsCreator(st.competitions);
+			}
+		});
 		mnLugepl.add(mntmDodajBierzceZawody);
 		
 		JMenuItem mntmDodajaktualizujWywietlanKonkurencje = new JMenuItem("Dodaj/aktualizuj wyświetlaną konkurencje");
