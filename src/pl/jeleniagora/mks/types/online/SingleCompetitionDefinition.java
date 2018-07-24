@@ -8,6 +8,12 @@ import java.util.Vector;
  *
  */
 public class SingleCompetitionDefinition {
+	
+	public SingleCompetitionDefinition() {
+		competitorsStartNums = new Vector<Integer>();
+		competitorsNames = new Vector<String>();
+		competitorsClubsNames = new Vector<String>();
+	}
 
 	/**
 	 * Identyfikator numeryczny konkurencji

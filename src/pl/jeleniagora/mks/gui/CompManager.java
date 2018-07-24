@@ -690,6 +690,12 @@ public class CompManager extends JFrame {
 		mnLugepl.add(mntmDodajBierzceZawody);
 		
 		JMenuItem mntmDodajaktualizujWywietlanKonkurencje = new JMenuItem("Dodaj/aktualizuj wyświetlaną konkurencje");
+		mntmDodajaktualizujWywietlanKonkurencje.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				WebServicePostConsumer consumer = new WebServicePostConsumer();
+				consumer.competitionAdder(rte_gui.competitionBeingShown);
+			}
+		});
 		mnLugepl.add(mntmDodajaktualizujWywietlanKonkurencje);
 		
 		JMenuItem mntmDodajaktualizujRozgrywanKonkurencje = new JMenuItem("Dodaj/aktualizuj rozgrywaną konkurencje");
