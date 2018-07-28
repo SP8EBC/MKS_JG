@@ -98,6 +98,20 @@ public class EndOfRun {
 			
 			rte_st.currentRun = rte_st.currentCompetition.runsTimes.elementAt(rte_st.currentRunCnt);
 			
+			// sprawdzanie czy aktualny ślizg jest treningiem czy nie
+			if (rte_st.currentRun.trainingOrScored)
+				rte_st.currentCompetition.isCurrentRunTraining = false;
+			else
+				rte_st.currentCompetition.isCurrentRunTraining = true;
+			
+			// sprawdzenie czy aktualny ślizg jest pierwszym punktownm czy kolejnym punktowanym
+			if (rte_st.currentRun.numberInScoredOrTrainingRuns > 0 && rte_st.currentRun.trainingOrScored) {
+				rte_st.currentCompetition.isCurrentRunFirstScored = false;
+			}
+			else {
+				rte_st.currentCompetition.isCurrentRunFirstScored = true;
+			}
+			
 			/*
 			 * ustawia też: runClickedInTable oraz competitorClickedInTable
 			 */

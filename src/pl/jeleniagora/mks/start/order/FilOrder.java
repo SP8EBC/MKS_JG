@@ -37,6 +37,15 @@ public class FilOrder  extends StartOrderInterface {
 			applyFilOrder = false; // w ślizgach treningowych i pierwszym punktowanym obowiązuje kolejność "prosta"
 		
 		if (applyFilOrder) {
+			if (currentStartNumber == 0) {
+				// jeżeli to metody przekazano numer startowy 0 to oznacza to że dotarło się
+				// do końca konkurencji i metoda jest wywoływana z UpdateCurrentAndNextLuger.findFirstWithoutTime
+				// gdzie służy do zwracania kolejnych numerów startowych do sprawdzenia dla nich czasów przejazdu
+				returnValue = this.getFirst(currentCompetition).getStartNumber();
+				
+				return returnValue;
+			}
+			
 			// obiekt klasy LugerCompetitor dla aktualnego numeru startowego - wyciąganie sankarza 
 			LugerCompetitor competitorForCurrentStartNum = currentCompetition.invertedStartList.get(currentStartNumber);
 			short rankOfCurrentStartNum = currentCompetition.ranks.get(competitorForCurrentStartNum);
@@ -238,7 +247,9 @@ public class FilOrder  extends StartOrderInterface {
 		// jeżeli nie należy stosować kolejności FIL to trzeba znaleźdź sankarza z najniższym numerem startowym i jego 
 		// zwrócić z metody jako pierwszego to startu
 		else {
-			for (int i = this.getFirst(currentCompetition).getStartNumber(); i <= currentCompetition.invertedStartList.size(); i++) {
+			int firstToCheck = this.getFirst(currentCompetition).getStartNumber(); 
+			
+			for (int i = firstToCheck + 1; i <= currentCompetition.invertedStartList.size(); i++) {
 				// próba wyciągnięcia sankarza o tym numerze startowym
 				LugerCompetitor v = currentCompetition.invertedStartList.get((short)i);
 				
@@ -326,14 +337,14 @@ public class FilOrder  extends StartOrderInterface {
 				
 				returnValue = false;
 				
-				/* - ???
+				
 				if (timeToCheck.equals(zero)) {
 					// jeżeli czas ślizgu/przejazdu jakiegokolwiek zawodnika przed aktualie sprawdzanm jest
 					// równy zero, to oznacza to, że ten sprawdzany nie jest ostatni
 					returnValue = false;
 					break;
 				}
-				*/
+				
 			}
 		}
 		else {
