@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Vector;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.swing.JOptionPane;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -37,7 +38,15 @@ import pl.jeleniagora.mks.start.order.StartOrderInterface;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Competition {
 	
+	/**
+	 * Numer kolejny konkurencji w zawodach
+	 */
 	public int id;
+	
+	/**
+	 * Losowo generowany numer seryjny danej konkurencji
+	 */
+	public long serialNum;
 	
 	public String name;
 	
@@ -285,10 +294,16 @@ public class Competition {
 		return true;
 	}
 	
+	public void generateNewSerialNumber() {
+		this.serialNum = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
+	}
+	
 	public Competition() {
 		this.competitionType = CompetitionTypes.UNINITIALIZED_COMP;
 		this.numberOfAllRuns = 0;
 		this.numberOfTrainingRuns = 0;
+		
+		//
 	}
 	
 	/**
@@ -332,7 +347,7 @@ public class Competition {
 		else 
 			runsTimes = RunsFactory.createNewRunsFromLugersVct(in, allRuns, trainingRuns, true);
 			
-		
+		this.serialNum = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
 	}
 	
 	public Vector<LugerCompetitor> getStartListAsVector() {

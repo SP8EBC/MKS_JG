@@ -20,8 +20,6 @@ import pl.jeleniagora.mks.serial.TypesConverters;
 /**
  * Klasa używana do przechowywania wyników dla poszczególnych ślizgów. 
  * 
- * TODO: Dopisać pole z jego obsługą ustwiające trening/punktowany ślizg
- * 
  * @author mateusz
  *
  */
@@ -32,6 +30,12 @@ public class Run {
 	 * Numer kolejny ślizgu w konkurencji. Liczony po programistycznemu, tj. od zera
 	 */
 	public short number;
+	
+	/**
+	 * Unikatowy, losowo generowany numer seryjny ślizgu
+	 */
+	@XmlElement(required = true, nillable =  true)
+	public long serialNumber;
 	
 	/**
 	 * Numer kolejny ślizgu w ślizgach treningowych i punktowanych. Liczony po programistyczny, czyli np zerowy
@@ -81,6 +85,8 @@ public class Run {
 	
 	public Run(Map<LugerCompetitor, Short> startList, byte trainingOrScored) {
 		
+		serialNumber = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
+		
 		totalTimes = new HashMap<LugerCompetitor, LocalTime>();
 
 		Iterator<Entry<LugerCompetitor, Short>> it = startList.entrySet().iterator();
@@ -104,6 +110,8 @@ public class Run {
 	
 	public Run(Vector<LugerCompetitor> lugers, byte trainingOrScored) {
 		
+		serialNumber = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
+		
 		totalTimes = new HashMap<LugerCompetitor, LocalTime>();
 		
 		Iterator<LugerCompetitor> it = lugers.iterator();
@@ -123,6 +131,8 @@ public class Run {
 	}
 	
 	public Run(Vector<LugerCompetitor> lugers,  boolean randmize, byte trainingOrScored) {
+		
+		serialNumber = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
 		
 		totalTimes = new HashMap<LugerCompetitor, LocalTime>();
 		

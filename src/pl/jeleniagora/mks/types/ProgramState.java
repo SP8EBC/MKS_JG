@@ -9,6 +9,7 @@ public class ProgramState {
 
 	public Competition currentCompetition;
 	public int _currentCompetition;
+	public long _currentCompetitionSn;
 	
 	public LugerCompetitor actuallyOnTrack;
 	public long _actuallyOnTrack;
@@ -20,6 +21,7 @@ public class ProgramState {
 	public long _returnCmptr;
 	
 	public Run currentRun;
+	public long _currentRunSn;
 	
 	public int currentRunCnt;
 }

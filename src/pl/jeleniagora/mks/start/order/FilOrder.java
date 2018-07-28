@@ -238,7 +238,7 @@ public class FilOrder  extends StartOrderInterface {
 		// jeżeli nie należy stosować kolejności FIL to trzeba znaleźdź sankarza z najniższym numerem startowym i jego 
 		// zwrócić z metody jako pierwszego to startu
 		else {
-			for (int i = 1; i <= currentCompetition.invertedStartList.size(); i++) {
+			for (int i = this.getFirst(currentCompetition).getStartNumber(); i <= currentCompetition.invertedStartList.size(); i++) {
 				// próba wyciągnięcia sankarza o tym numerze startowym
 				LugerCompetitor v = currentCompetition.invertedStartList.get((short)i);
 				

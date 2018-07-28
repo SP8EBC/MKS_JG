@@ -21,8 +21,10 @@ public class ProgramStateAdapter extends XmlAdapter<ProgramStateAdapter.AdaptedP
 	}
 	
 	public static class AdaptedProgramState {
-		@XmlElement(required = true, defaultValue = "0")
+		@XmlElement(required = true, defaultValue = "-1")
 		int currentCompetition;
+		
+		public long currentCompetitionSerial;
 		
 		public long actuallyOnTrack;
 		
@@ -30,8 +32,10 @@ public class ProgramStateAdapter extends XmlAdapter<ProgramStateAdapter.AdaptedP
 		
 		public long returnCmptr;
 		
-		@XmlElement(required = true, defaultValue = "0")
+		@XmlElement(required = true, defaultValue = "-1")
 		int currentRun;
+		
+		public long currentRunSerial;
 		
 		
 	}
@@ -41,6 +45,7 @@ public class ProgramStateAdapter extends XmlAdapter<ProgramStateAdapter.AdaptedP
 		AdaptedProgramState out = new AdaptedProgramState();
 		
 		out.currentCompetition = arg0.currentCompetition.id;
+		out.currentCompetitionSerial = arg0.currentCompetition.serialNum;
 		out.actuallyOnTrack = arg0.actuallyOnTrack.getSystemId();
 		if (arg0.nextOnTrack != null)
 			out.nextOnTrack = arg0.nextOnTrack.getSystemId();
@@ -51,6 +56,9 @@ public class ProgramStateAdapter extends XmlAdapter<ProgramStateAdapter.AdaptedP
 		}
 		else 
 			out.returnCmptr = 0;
+		
+		out.currentRun = arg0.currentRunCnt;
+		out.currentRunSerial = arg0.currentRun.serialNumber;
 		
 		return out;
 		
@@ -76,8 +84,10 @@ public class ProgramStateAdapter extends XmlAdapter<ProgramStateAdapter.AdaptedP
 		
 		out._actuallyOnTrack = arg0.actuallyOnTrack;
 		out._currentCompetition = arg0.currentCompetition;
+		out._currentCompetitionSn = arg0.currentCompetitionSerial;
 		out._nextOnTrack = arg0.nextOnTrack;
 		out._returnCmptr = arg0.returnCmptr;
+		out._currentRunSn = arg0.currentRunSerial;
 		out.currentRunCnt = arg0.currentRun;
 		
 		return out;

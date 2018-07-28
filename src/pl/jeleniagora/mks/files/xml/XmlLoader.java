@@ -113,6 +113,12 @@ public class XmlLoader {
 		
 		rte_gui.model.fireTableStructureChanged();
 		rte_gui.currentCompetition.setText(rte_st.currentCompetition.toString());
+		
+		rte_gui.competitorClickedInTable = rte_st.actuallyOnTrack;
+		rte_gui.competitorPreviouslyClicked = rte_st.actuallyOnTrack;
+		
+		rte_gui.runClickedInTable = rte_st.currentRun;
+		rte_gui.runPreviouslyClicked = rte_st.currentRun;
 
 	}
 	

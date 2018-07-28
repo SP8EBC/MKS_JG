@@ -179,6 +179,7 @@ public class CompManagerWindowAddCompetition extends JFrame {
 				}
 				
 				c.id = rte_st.competitions.getNextIdForNewCompetition();
+				c.generateNewSerialNumber();
 				
 				c.competitionType = type;
 				c.name = compName;
