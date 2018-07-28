@@ -110,6 +110,37 @@ public class FilOrder  extends StartOrderInterface {
 				// jeżeli sankarz przekazany do metody nie był pierwszy, to należy sprawdzić czy kolejna miejsza lokata nie jest ex-aequo
 				Vector<LugerCompetitor> nexa = currentCompetition.returnLugersWithThisRank((short) (rankOfCurrentStartNum - 1), false); 
 				
+				// jeżeli kolejna lokata za sprawdzanym numerem nie istnieje to oznacza to zbliżanie się do miejsca ex-aeqo
+				if (nexa == null) {
+					// tu należy odszukać kolejną lokatę po tej zajmowanej przez aktualnie sprawdzany nr startowy
+					int rank = rankOfCurrentStartNum - 1;
+					
+					// pętla będzie po koleji zmniejszała lokatę idąc coraz bardziej pierwszego miejsca i sprawdza czy
+					// istnieje zawodnik o tej lokacie
+					while (rank > 0) {
+						Vector<LugerCompetitor> cmptrs = currentCompetition.returnLugersWithThisRank((short) rank, false);
+						
+						if (cmptrs != null) {
+							// jeżeli referencja do wektora jest różna od nulla to znaczy że są zawodnicy o tej lokacie
+							// istnieją i można ten wektor przekazać do dalszego procesowania
+							
+							nexa = cmptrs;
+							break;
+						}
+						
+						rank--;
+					}
+					
+					// jeżeli pętla dotarła do zera i nie znalazła żadnych zawodników to oznacza to, że ma on najwyższą
+					// lokatę. Może to być jednak postrzegane jako błąd w strukturze danych, bo jeżeli nie jest to miejsce
+					// ex-aequo i nie jest to jednocześnie miejsce nr 1 to taka sytuacja nie powinna się w ogóle znaleźdź
+					//
+					// TODO: wymyśleć co tu się powinno stać
+					if (rank == 0) {
+						return null;
+					}
+				}
+				
 				// jeżeli nie jest ex-aequo to po prostu zwróć numer startowy zawodnika który ma tą kolejną lokatę
 				if (nexa.size() == 1) {
 					returnValue = nexa.get(0).getStartNumber();

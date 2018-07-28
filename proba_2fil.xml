@@ -285,12 +285,12 @@
                 <startNumber>3</startNumber>
             </startListEntry>
             <startListEntry>
-                <lugerCompetitorSystemId>219659586404053772</lugerCompetitorSystemId>
-                <startNumber>1</startNumber>
-            </startListEntry>
-            <startListEntry>
                 <lugerCompetitorSystemId>3548166701966170181</lugerCompetitorSystemId>
                 <startNumber>4</startNumber>
+            </startListEntry>
+            <startListEntry>
+                <lugerCompetitorSystemId>219659586404053772</lugerCompetitorSystemId>
+                <startNumber>1</startNumber>
             </startListEntry>
             <startListEntry>
                 <lugerCompetitorSystemId>4705892691336905242</lugerCompetitorSystemId>
@@ -327,19 +327,19 @@
             </adaptedRank>
             <adaptedRank>
                 <lugerCompetitorSystemId>3924083426256801628</lugerCompetitorSystemId>
-                <rank>3</rank>
-            </adaptedRank>
-            <adaptedRank>
-                <lugerCompetitorSystemId>219659586404053772</lugerCompetitorSystemId>
-                <rank>2</rank>
+                <rank>4</rank>
             </adaptedRank>
             <adaptedRank>
                 <lugerCompetitorSystemId>3548166701966170181</lugerCompetitorSystemId>
                 <rank>1</rank>
             </adaptedRank>
             <adaptedRank>
+                <lugerCompetitorSystemId>219659586404053772</lugerCompetitorSystemId>
+                <rank>2</rank>
+            </adaptedRank>
+            <adaptedRank>
                 <lugerCompetitorSystemId>4705892691336905242</lugerCompetitorSystemId>
-                <rank>4</rank>
+                <rank>2</rank>
             </adaptedRank>
         </ranks>
         <runs>
@@ -360,12 +360,12 @@
                             <microTime>220000</microTime>
                         </runTimeInMicrotime>
                         <runTimeInMicrotime>
-                            <lugerCompetitorSystemId>219659586404053772</lugerCompetitorSystemId>
-                            <microTime>30000</microTime>
-                        </runTimeInMicrotime>
-                        <runTimeInMicrotime>
                             <lugerCompetitorSystemId>3548166701966170181</lugerCompetitorSystemId>
                             <microTime>90000</microTime>
+                        </runTimeInMicrotime>
+                        <runTimeInMicrotime>
+                            <lugerCompetitorSystemId>219659586404053772</lugerCompetitorSystemId>
+                            <microTime>30000</microTime>
                         </runTimeInMicrotime>
                         <runTimeInMicrotime>
                             <lugerCompetitorSystemId>4705892691336905242</lugerCompetitorSystemId>
@@ -389,16 +389,16 @@
                             <microTime>70000</microTime>
                         </runTimeInMicrotime>
                         <runTimeInMicrotime>
-                            <lugerCompetitorSystemId>219659586404053772</lugerCompetitorSystemId>
-                            <microTime>50000</microTime>
-                        </runTimeInMicrotime>
-                        <runTimeInMicrotime>
                             <lugerCompetitorSystemId>3548166701966170181</lugerCompetitorSystemId>
                             <microTime>40000</microTime>
                         </runTimeInMicrotime>
                         <runTimeInMicrotime>
+                            <lugerCompetitorSystemId>219659586404053772</lugerCompetitorSystemId>
+                            <microTime>50000</microTime>
+                        </runTimeInMicrotime>
+                        <runTimeInMicrotime>
                             <lugerCompetitorSystemId>4705892691336905242</lugerCompetitorSystemId>
-                            <microTime>80000</microTime>
+                            <microTime>50000</microTime>
                         </runTimeInMicrotime>
                     </totalTimes>
                 </run>
@@ -418,11 +418,11 @@
                             <microTime>0</microTime>
                         </runTimeInMicrotime>
                         <runTimeInMicrotime>
-                            <lugerCompetitorSystemId>219659586404053772</lugerCompetitorSystemId>
+                            <lugerCompetitorSystemId>3548166701966170181</lugerCompetitorSystemId>
                             <microTime>0</microTime>
                         </runTimeInMicrotime>
                         <runTimeInMicrotime>
-                            <lugerCompetitorSystemId>3548166701966170181</lugerCompetitorSystemId>
+                            <lugerCompetitorSystemId>219659586404053772</lugerCompetitorSystemId>
                             <microTime>0</microTime>
                         </runTimeInMicrotime>
                         <runTimeInMicrotime>
@@ -447,11 +447,11 @@
                             <microTime>0</microTime>
                         </runTimeInMicrotime>
                         <runTimeInMicrotime>
-                            <lugerCompetitorSystemId>219659586404053772</lugerCompetitorSystemId>
+                            <lugerCompetitorSystemId>3548166701966170181</lugerCompetitorSystemId>
                             <microTime>0</microTime>
                         </runTimeInMicrotime>
                         <runTimeInMicrotime>
-                            <lugerCompetitorSystemId>3548166701966170181</lugerCompetitorSystemId>
+                            <lugerCompetitorSystemId>219659586404053772</lugerCompetitorSystemId>
                             <microTime>0</microTime>
                         </runTimeInMicrotime>
                         <runTimeInMicrotime>
@@ -468,7 +468,7 @@
         <currentCompetition>1</currentCompetition>
         <currentCompetitionSerial>0</currentCompetitionSerial>
         <actuallyOnTrack>5146088792352077747</actuallyOnTrack>
-        <nextOnTrack>4705892691336905242</nextOnTrack>
+        <nextOnTrack>3924083426256801628</nextOnTrack>
         <returnCmptr>0</returnCmptr>
         <currentRun>2</currentRun>
         <currentRunSerial>0</currentRunSerial>
