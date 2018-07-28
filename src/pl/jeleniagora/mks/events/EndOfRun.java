@@ -127,4 +127,16 @@ public class EndOfRun {
 		
 		
 	}
+	
+	static void switchStartOrder() {
+		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
+
+		// sprawdzanie czy użytkownik nie zmienił w konfiguracji konkurencji kolejności startowej
+		if (rte_st.currentCompetition.startOrder != rte_st.currentCompetition.startOrderToChange) {
+			rte_st.currentCompetition.startOrder = rte_st.currentCompetition.startOrderToChange;
+		}
+		else {
+			;
+		}
+	}
 }

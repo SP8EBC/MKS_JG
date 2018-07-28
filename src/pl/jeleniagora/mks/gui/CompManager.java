@@ -379,18 +379,7 @@ public class CompManager extends JFrame {
 		});
 		mnZawody.add(mntmWybierzTor);
 		
-		JMenu mnKolejnoStartowa = new JMenu("Kolejność startowa");
-		mnZawody.add(mnKolejnoStartowa);
-		
 		ButtonGroup startOrderGrp = new ButtonGroup();
-		
-		JRadioButtonMenuItem rdbtnmntmZawszeWgNumerw = new JRadioButtonMenuItem("Zawsze wg numerów startowych");
-		mnKolejnoStartowa.add(rdbtnmntmZawszeWgNumerw);
-		startOrderGrp.add(rdbtnmntmZawszeWgNumerw);
-		
-		JRadioButtonMenuItem rdbtnmntmZgodnaZFil = new JRadioButtonMenuItem("Zgodna z FIL");
-		mnKolejnoStartowa.add(rdbtnmntmZgodnaZFil);
-		startOrderGrp.add(rdbtnmntmZgodnaZFil);
 		
 		JCheckBoxMenuItem chckbxmntmOsobnaKonkurencjaDruynowa = new JCheckBoxMenuItem("Osobna konkurencja drużynowa");
 		mnZawody.add(chckbxmntmOsobnaKonkurencjaDruynowa);

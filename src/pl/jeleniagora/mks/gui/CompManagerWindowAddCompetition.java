@@ -12,6 +12,9 @@ import org.springframework.stereotype.Component;
 import net.miginfocom.swing.MigLayout;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
+import pl.jeleniagora.mks.start.order.FilOrder;
+import pl.jeleniagora.mks.start.order.SimpleOrder;
+import pl.jeleniagora.mks.start.order.StartOrderInterface;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.CompetitionTypes;
 import pl.jeleniagora.mks.types.LugerCompetitor;
@@ -27,11 +30,13 @@ import java.awt.Dimension;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JCheckBox;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
+import javax.swing.JRadioButton;
 
 @Component
 public class CompManagerWindowAddCompetition extends JFrame {
@@ -49,7 +54,24 @@ public class CompManagerWindowAddCompetition extends JFrame {
 	@Autowired
 	CompManagerCSelectorUpdater selectorUpdater;	
 	
+	StartOrderInterface selected;
+	
 	public CompManagerWindowAddCompetition window;
+	
+	class OrderRadioGroupActionListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			String cmd = arg0.getActionCommand();
+			
+			switch (cmd) {
+				case "fil" : selected = new FilOrder(); break;
+				case "simple" : selected = new SimpleOrder(); break;
+				default: selected = null;
+			}
+		}
+		
+	}
 	
 	/**
 	 * Launch the application.
@@ -66,7 +88,7 @@ public class CompManagerWindowAddCompetition extends JFrame {
 			}
 		});
 	}
-
+	
 	/**
 	 * Create the frame.
 	 */
@@ -76,11 +98,11 @@ public class CompManagerWindowAddCompetition extends JFrame {
 		setResizable(false);
 		setTitle("Dodaj nową konkurencję");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 530, 363);
+		setBounds(100, 100, 530, 411);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[250px:n:250px][][40px:n][][][]", "[][40px:n:40px,bottom][][][][][][][]"));
+		contentPane.setLayout(new MigLayout("", "[250px:n:250px][][40px:n][][][]", "[][40px:n:40px,bottom][][][][][][][][]"));
 		
 		JLabel lblWybierzTym = new JLabel("Wybierz tym konkurencji:\n");
 		contentPane.add(lblWybierzTym, "cell 0 0,alignx trailing");
@@ -127,6 +149,16 @@ public class CompManagerWindowAddCompetition extends JFrame {
 		JLabel lblZaznaczeniePowyszejOpcji = new JLabel("<html><body style='width = 200px;'><p align=center>Zaznaczenie powyższej opcji powoduje że program będzie obliczał lokatę po zakończeniu każdego zjazdu / ślizgu (tak jak dla punktowanych) bez względu na liczbę nastawioną w polu \"w tym treningowe\". Jednoczeście użycie opcji DNF / DNS będzie odnosiło się do bierzącego ślizgu a dyskwalifikacja nie będzie działała w ogóle (tak jak dla treningu)</p></body></html>");
 		contentPane.add(lblZaznaczeniePowyszejOpcji, "cell 0 5 5 2");
 		
+		JLabel lblWybierzKolejnoStartow = new JLabel("Wybierz kolejność startową:");
+		contentPane.add(lblWybierzKolejnoStartow, "cell 0 7");
+		
+		ButtonGroup orderGroup = new ButtonGroup();
+		
+		JRadioButton rdbtnUproszczonaZgodnie = new JRadioButton("Uproszczona - według nr startowych");
+		rdbtnUproszczonaZgodnie.setActionCommand("simple");
+		rdbtnUproszczonaZgodnie.addActionListener(new OrderRadioGroupActionListener());
+		contentPane.add(rdbtnUproszczonaZgodnie, "cell 2 7");
+		
 		JButton btnDodaj = new JButton("Dodaj");
 		btnDodaj.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -154,6 +186,9 @@ public class CompManagerWindowAddCompetition extends JFrame {
 				c.numberOfAllRuns = (Integer)spinner.getValue();
 				c.numberOfTrainingRuns = (Integer)spinner_1.getValue();
 				
+				c.startOrder = selected;
+				c.startOrderToChange = selected;
+				
 				c.ranks = new HashMap<LugerCompetitor, Short>();
 				c.startList = new HashMap<LugerCompetitor, Short>();
 				c.invertedStartList = new HashMap<Short, LugerCompetitor>();
@@ -169,6 +204,8 @@ public class CompManagerWindowAddCompetition extends JFrame {
 					c.runsTimes.add(run);					
 				}
 				
+				
+				
 				rte_st.competitions.competitions.add(c);
 				selectorUpdater.updateSelectorContent(rte_st.competitions.competitions);
 				
@@ -176,7 +213,15 @@ public class CompManagerWindowAddCompetition extends JFrame {
 				
 			}
 		});
-		contentPane.add(btnDodaj, "cell 0 8,growx");
+		
+		JRadioButton rdbtnZgodnaZRegulaminem = new JRadioButton("Zgodna z regulaminem FIL");
+		rdbtnZgodnaZRegulaminem.setActionCommand("fil");
+		rdbtnZgodnaZRegulaminem.addActionListener(new OrderRadioGroupActionListener());
+		contentPane.add(rdbtnZgodnaZRegulaminem, "cell 2 8");
+		contentPane.add(btnDodaj, "cell 0 9,growx");
+		
+		orderGroup.add(rdbtnUproszczonaZgodnie);
+		orderGroup.add(rdbtnZgodnaZRegulaminem);
 		
 		JButton btnAnuluj = new JButton("Anuluj");
 		btnAnuluj.addActionListener(new ActionListener() {
@@ -184,7 +229,7 @@ public class CompManagerWindowAddCompetition extends JFrame {
 				window.dispose();
 			}
 		});
-		contentPane.add(btnAnuluj, "cell 2 8 3 1,growx");
+		contentPane.add(btnAnuluj, "cell 2 9 3 1,growx");
 	}
 
 }

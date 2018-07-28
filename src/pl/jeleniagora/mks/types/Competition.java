@@ -98,11 +98,19 @@ public class Competition {
 	public HashMap<LugerCompetitor, Short> startList;
 	
 	/**
-	 * Kolejność startowa
+	 * Aktualnie używana kolejność startowa
 	 */
 	@XmlJavaTypeAdapter(value = StartOrderAdapter.class)
 	@XmlElement
 	public StartOrderInterface startOrder;
+	
+	/**
+	 * Kolejność startowa wybrana przez użytkownika z menu na którą program powinien się przełączyć
+	 * po zakończeniu aktualnego ślizgu 
+	 */
+	@XmlJavaTypeAdapter(value = StartOrderAdapter.class)
+	@XmlElement
+	public StartOrderInterface startOrderToChange;
 	
 	/**
 	 * Odwrócona mapa która łączy numery startowe z saneczkarzami. Tutaj występują tylko i wyłącznie zawodnicy z wygenerowanymi 

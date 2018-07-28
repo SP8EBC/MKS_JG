@@ -60,7 +60,7 @@ public class CompManagerChgCompBtnActionListener implements ActionListener {
 			try {
 				cmpr = UpdateCurrentAndNextLuger.findFirstWithoutTime();
 			} catch (StartOrderNotChoosenEx e) {
-				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Wybrana konkurencja nie ma ustawionej kolejności startowej!");
 			}
 			
 			if (cmpr != null) {

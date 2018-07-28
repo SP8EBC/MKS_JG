@@ -32,15 +32,34 @@ import pl.jeleniagora.mks.files.xml.adapters.TrackAdapter;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Competitions {
 	
-	public final long dataStructureVersion = 0x80000002;
+	public final long dataStructureVersion = 0x80000003;
 	
 	/**
 	 * Nazwa zawodów
 	 */
-	@XmlElement(name="name")
+	@XmlElement(name="name", required = true, defaultValue = "", nillable = true)
 	public String name;
 	
+	@XmlElement(name = "organizer", required = true, defaultValue = "", nillable = true)
 	public String organizer;
+	
+	/**
+	 * Imię i Nazwisko pierwszego sędziego
+	 */
+	@XmlElement(name = "judge1st", required = true, defaultValue = "", nillable = true)
+	public String Judge1st;
+	
+	/**
+	 * Imię i Nazwisko drugiego sędziego
+	 */
+	@XmlElement(name = "judge2nd", required = true, defaultValue = "", nillable = true)
+	public String Judge2nd;
+	
+	/**
+	 * Imię i Nazwisko trzeciego sędziego
+	 */
+	@XmlElement(name = "judge3rd", required = true, defaultValue = "", nillable = true)
+	public String Judge3rd;
 
 	/**
 	 * Data kiedy odbywają się zawody
@@ -83,24 +102,6 @@ public class Competitions {
 	 */
 	@XmlTransient
 	public Map<Competition, StartGate> competitionToStartGateMapping;
-	
-	/**
-	 * Imię i Nazwisko pierwszego sędziego
-	 */
-	@XmlTransient
-	public String Judge1st;
-	
-	/**
-	 * Imię i Nazwisko drugiego sędziego
-	 */
-	@XmlTransient
-	public String Judge2nd;
-	
-	/**
-	 * Imię i Nazwisko trzeciego sędziego
-	 */
-	@XmlTransient
-	public String Judge3rd;
 	
 	/**
 	 * 
