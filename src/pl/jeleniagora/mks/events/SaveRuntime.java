@@ -6,6 +6,8 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import pl.jeleniagora.mks.display.DisplayRuntimeAndStartNum;
 import pl.jeleniagora.mks.exceptions.UninitializedCompEx;
+import pl.jeleniagora.mks.online.WebServicePutConsumer;
+import pl.jeleniagora.mks.online.renderers.CompetitionDataRenderer;
 import pl.jeleniagora.mks.rte.RTE;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
@@ -63,6 +65,9 @@ public class SaveRuntime {
 		}
 		rte_gui.model.fireTableDataChanged();
 		
+		WebServicePutConsumer ws = new WebServicePutConsumer((AfterWebServiceContact) ctx.getBean("afterWebServiceContact"));
+		ws.competitionDataUpdater(rte_gui.competitionBeingShown);
+		
 		return returnVal;
 	}
 	
@@ -86,5 +91,9 @@ public class SaveRuntime {
 
 		}
 		rte_gui.model.fireTableDataChanged();
+		
+		WebServicePutConsumer ws = new WebServicePutConsumer((AfterWebServiceContact) ctx.getBean("afterWebServiceContact"));
+		ws.competitionDataUpdater(rte_st.currentCompetition);
+		
 	}
 }

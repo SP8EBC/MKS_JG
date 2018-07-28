@@ -61,4 +61,10 @@ public class RTE_ST {
 	 */
 	public LugerCompetitor nextOnTrack;
 	
+	/**
+	 * Ustawienie zmiennej na true powoduje że program będzie próbował aktualizować
+	 * wyniki online po każdym zakończonym ślizgu
+	 */
+	public boolean enableOnlineScoring = false;
+	
 }

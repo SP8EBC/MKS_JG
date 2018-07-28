@@ -54,6 +54,9 @@ public class RTE_GUI {
 	public JLabel nextOnTrack;
 	public JLabel currentCompetition;
 	
+	public JLabel lblredniaPrdko;
+	public JLabel lblTimeFromChrono;
+	
 	public Object syncCompManagerRdy;
 	
 	public Competition competitionBeingShown;

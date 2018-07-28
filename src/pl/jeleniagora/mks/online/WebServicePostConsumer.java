@@ -19,6 +19,7 @@ import pl.jeleniagora.mks.online.renderers.CompetitionsDefinitionRenderer;
 import pl.jeleniagora.mks.online.renderers.SingleCompetitionDefinitionRenderer;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.Competitions;
+import pl.jeleniagora.mks.types.online.AddSingleCompetitionReturn;
 import pl.jeleniagora.mks.types.online.CompetitionsDefinition;
 import pl.jeleniagora.mks.types.online.SingleCompetitionDefinition;
 
@@ -46,7 +47,7 @@ public class WebServicePostConsumer {
 					HttpEntity<SingleCompetitionDefinition> entityRequest = new HttpEntity<>(def);
 					
 					// metoda zwraca ResponseEntity w którym jest np od razu zwrócony HTTP return code
-					ResponseEntity<String> responseStr = template.exchange(uri, HttpMethod.POST, entityRequest, String.class);
+					ResponseEntity<AddSingleCompetitionReturn> responseStr = template.exchange(uri, HttpMethod.POST, entityRequest, AddSingleCompetitionReturn.class);
 					//String reponseStr = template.postForObject(uri, def, String.class);
 					return;
 				}

@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import pl.jeleniagora.mks.events.AfterWebServiceContact;
 import pl.jeleniagora.mks.rte.RTE_COM;
 import pl.jeleniagora.mks.rte.RTE_COM_DISP;
 
@@ -19,6 +20,7 @@ import pl.jeleniagora.mks.rte.RTE_COM_DISP;
 		+ "pl.jeleniagora.mks.files.xml, "
 		+ "pl.jeleniagora.mks.gui,"
 		+ "pl.jeleniagora.mks.display,"
+		+ "pl.jeleniagora.mks.events,"
 		+ "pl.jeleniagora.mks.chrono")
 public class SpringS {
 
@@ -30,5 +32,10 @@ public class SpringS {
 	@Bean
 	public RTE_COM_DISP comDispBean() {
 		return new RTE_COM_DISP();
+	}
+	
+	@Bean
+	public AfterWebServiceContact afterWebServiceContact() {
+		return new AfterWebServiceContact();
 	}
 }

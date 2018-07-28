@@ -1,6 +1,7 @@
 package pl.jeleniagora.mks.events;
 
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -46,6 +47,9 @@ public class LandedStateReached {
 		LandedStateReached.updateTextFieldsInCM(runtime);
 		LandedStateReached.displayRuntimeOnDisplay(runtime, rte_st.actuallyOnTrack);
 		
+		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("mm:ss.nnn");
+		rte_gui.lblTimeFromChrono.setText(runtime.format(fmt));
+		
 		if (ChronometerS.autosave) {
 			
 			boolean inhibit = DisplayS.isInhibitMessageAtEndOfRun();
@@ -53,6 +57,7 @@ public class LandedStateReached {
 			rte_gui.runtimeFromChrono = true;
 			
 			new Thread(new SaveRuntimeDelayThread(ctx, runtime, inhibit)).start();
+		
 
 		}
 		else {

@@ -76,6 +76,8 @@ import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class CompManager extends JFrame {
 	
@@ -112,6 +114,8 @@ public class CompManager extends JFrame {
 	private JTextField textField_m;
 	private JTextField textField_s;
 	private JTextField textField_msec;
+	JLabel lblredniaPrdko;
+	JLabel label;	// czas mety z chronometru
 	private final Action action = new SwingAction();
 	
 	private static SimulateChrono simul;
@@ -672,6 +676,18 @@ public class CompManager extends JFrame {
 		menuBar.add(mnLugepl);
 		
 		JCheckBox chckbxWczWynikiOnline = new JCheckBox("Włącz wyniki online");
+		chckbxWczWynikiOnline.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				if (arg0.getStateChange() == ItemEvent.SELECTED) {
+					st.enableOnlineScoring = true;
+				}
+				else if (arg0.getStateChange() == ItemEvent.DESELECTED) {
+					st.enableOnlineScoring = false;
+
+				}
+				else;
+			}
+		});
 		mnLugepl.add(chckbxWczWynikiOnline);
 		
 		JSeparator separator_6 = new JSeparator();
@@ -859,17 +875,19 @@ public class CompManager extends JFrame {
 		lblCzaslizguOtrzymany.setBounds(1036, 551, 205, 15);
 		contentPane.add(lblCzaslizguOtrzymany);
 		
-		JLabel label = new JLabel("0:00.000");
+		label = new JLabel("0:00.000");
 		label.setFont(new Font("Dialog", Font.BOLD, 22));
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setBounds(1036, 573, 205, 27);
 		contentPane.add(label);
+		rte_gui.lblTimeFromChrono = label; 
 		
-		JLabel lblredniaPrdko = new JLabel("Średnia Prędkość: 102km/h");
+		lblredniaPrdko = new JLabel("Średnia Prędkość: 102km/h");
 		lblredniaPrdko.setForeground(Color.RED);
 		lblredniaPrdko.setHorizontalAlignment(SwingConstants.CENTER);
 		lblredniaPrdko.setBounds(1036, 11, 205, 15);
 		contentPane.add(lblredniaPrdko);
+		rte_gui.lblredniaPrdko = lblredniaPrdko;
 		
 		JCheckBox chckbxAutozapisCzasulizgu = new JCheckBox("Autozapis czasu ślizgu");
 		chckbxAutozapisCzasulizgu.setSelected(false);
