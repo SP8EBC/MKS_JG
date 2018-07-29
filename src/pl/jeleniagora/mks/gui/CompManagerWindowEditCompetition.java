@@ -4,8 +4,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
-import net.miginfocom.swing.MigLayout;
+import javax.swing.JOptionPane;
 
+import net.miginfocom.swing.MigLayout;
+import pl.jeleniagora.mks.start.order.FilOrder;
+import pl.jeleniagora.mks.start.order.SimpleOrder;
 import pl.jeleniagora.mks.start.order.StartOrderInterface;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.Competitions;
@@ -18,6 +21,11 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.LineBorder;
+
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import java.awt.Color;
 import javax.swing.JTextField;
 import java.awt.Font;
@@ -29,6 +37,8 @@ import javax.swing.JSpinner;
 import javax.swing.JButton;
 import javax.swing.SpinnerNumberModel;
 
+@Component
+@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class CompManagerWindowEditCompetition extends JFrame {
 
 	/**
@@ -38,23 +48,32 @@ public class CompManagerWindowEditCompetition extends JFrame {
 	private JPanel contentPane;
 	private JTextField textFieldName;
 	
+	CompManagerWindowEditCompetition window;
+	
 	StartOrderInterface choosenStartOrder;
 	
 	JComboBox<Competition> comboBoxCompetition;
+	Competition chosenCompetition;
 	
 	/**
 	 * Ilość ślizgów treningowych dla konkurencji wybranej z listy rozwijanej
 	 */
-	int trainingRunsForChoosen;
-	
-	int indexOfLastTrainingRun;
-	Run lastTrainingRun;
+	int trainingRunsForChosen;
 	
 	/**
 	 * Ilość ślizgów punktwanych dla konkurencji wybraej z listy rozwijanej
 	 */
-	int scoredRunsForChoosen;
+	int scoredRunsForChosen;
 	
+	/**
+	 * Indek ostatniego ślizgu treningowego w konkurencji
+	 */
+	int indexOfLastTrainingRun;
+	Run lastTrainingRun;
+	
+	/**
+	 * Indeks pierwszego punktowanego ślizgu w wektorze Run
+	 */
 	int indexOfFirstScored;
 	Run firstScored;
 	
@@ -72,6 +91,9 @@ public class CompManagerWindowEditCompetition extends JFrame {
 	 * Spinner do zmiany ilości ślizgów punktowanych
 	 */
 	JSpinner spinnerScoredRuns;
+	
+	JRadioButton rdbtnUproszczonaWg;
+	JRadioButton rdbtnZgodnaZRegulamnem;
 	
 	public void updateContent(Competitions competitions) {
 		
@@ -91,8 +113,8 @@ public class CompManagerWindowEditCompetition extends JFrame {
 	private void updateContent(Competition competition) {
 		nameForChoosen = competition.name;
 		
-		trainingRunsForChoosen = competition.numberOfTrainingRuns;
-		scoredRunsForChoosen = competition.numberOfAllRuns - trainingRunsForChoosen;
+		trainingRunsForChosen = competition.numberOfTrainingRuns;
+		scoredRunsForChosen = competition.numberOfAllRuns - trainingRunsForChosen;
 		
 		for (Run r : competition.runsTimes) {
 			// pętla chodzi po wszystkich ślizgach - zjazdach w tej konkurencji
@@ -107,14 +129,27 @@ public class CompManagerWindowEditCompetition extends JFrame {
 		indexOfFirstScored = indexOfLastTrainingRun + 1;
 		firstScored = competition.runsTimes.elementAt(indexOfFirstScored);
 		
-		spinnerTrainingRuns.setValue(trainingRunsForChoosen);
-		spinnerScoredRuns.setValue(scoredRunsForChoosen);
+		spinnerTrainingRuns.setValue(trainingRunsForChosen);
+		spinnerScoredRuns.setValue(scoredRunsForChosen);
+		
+		textFieldName.setText(nameForChoosen);
+		
+		if (competition.startOrder instanceof SimpleOrder) {
+			rdbtnUproszczonaWg.setSelected(true);
+			rdbtnZgodnaZRegulamnem.setSelected(false);			
+		}
+		else if (competition.startOrder instanceof FilOrder) {
+			rdbtnZgodnaZRegulamnem.setSelected(true);
+			rdbtnUproszczonaWg.setSelected(false);
+
+		}
 	}
 
 	/**
 	 * Create the frame.
 	 */
 	public CompManagerWindowEditCompetition() {
+		this.window = this;
 		setResizable(false);
 		setTitle("Edytuj parametry konkurencji");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -135,9 +170,9 @@ public class CompManagerWindowEditCompetition extends JFrame {
 				@SuppressWarnings("unchecked")
 				JComboBox<Competition> castedSource = (JComboBox<Competition>)actionSource;
 				
-				Competition choosen = (Competition)castedSource.getSelectedItem();
+				chosenCompetition = (Competition)castedSource.getSelectedItem();
 				
-				updateContent(choosen);
+				updateContent(chosenCompetition);
 			}
 			
 		});
@@ -177,10 +212,10 @@ public class CompManagerWindowEditCompetition extends JFrame {
 		
 		ButtonGroup startOrderGroup = new ButtonGroup();
 		
-		JRadioButton rdbtnUproszczonaWg = new JRadioButton("Uproszczona - wg numerów startowych rosnąco");
+		rdbtnUproszczonaWg = new JRadioButton("Uproszczona - wg numerów startowych rosnąco");
 		competitionParametersPanel.add(rdbtnUproszczonaWg, "cell 1 1 8 1");
 		
-		JRadioButton rdbtnZgodnaZRegulamnem = new JRadioButton("Zgodna z regulamnem sportowym FIL");
+		rdbtnZgodnaZRegulamnem = new JRadioButton("Zgodna z regulamnem sportowym FIL");
 		competitionParametersPanel.add(rdbtnZgodnaZRegulamnem, "cell 1 2 8 1");
 		
 		startOrderGroup.add(rdbtnZgodnaZRegulamnem);
@@ -212,9 +247,78 @@ public class CompManagerWindowEditCompetition extends JFrame {
 		competitionParametersPanel.add(lbluwagaZmniejszenieLiczby, "cell 0 5 9 1");
 		
 		JButton btnZapiszIZamknij = new JButton("Zapisz i zamknij");
+		btnZapiszIZamknij.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				// sprawdzanie czy użytkownik nie próbuje zmniejszyć ilości ślizgów
+				if(	(int)spinnerScoredRuns.getValue() < scoredRunsForChosen ||
+					(int)spinnerTrainingRuns.getValue() < trainingRunsForChosen) {
+					
+					Competition c = chosenCompetition;
+					
+					int answer = JOptionPane.showConfirmDialog(window, "Czy na pewno chcesz zmniejszyć liczbę ślizgów i usunąć część czasów?", "Pozor!", JOptionPane.YES_NO_OPTION);
+					if (answer == JOptionPane.YES_OPTION) {
+						//zmniejszanie ilości ślizgów przez usunięcie ostatnich ślizgów odpowiednio treningowych a potem punktowanych;
+						
+						// indeks pierwszego ślizgu treningowego do usunięcia
+						int firstTrainingToRemove = trainingRunsForChosen - (trainingRunsForChosen - (int)spinnerTrainingRuns.getValue());
+						
+						// sprawdzenie czy w ogóle należy usuwać jakiekolwiek treningowe (może chcieć tylko punktowane)
+						if (firstTrainingToRemove < trainingRunsForChosen) {
+							// usuwanie ślizgów treningowych
+							for (int i = firstTrainingToRemove; i <= indexOfLastTrainingRun; i++) {
+								c.runsTimes.remove(i);
+							}
+							
+							trainingRunsForChosen = (int)spinnerTrainingRuns.getValue();
+							c.numberOfTrainingRuns = trainingRunsForChosen;
+						}
+						
+						// powtórne odszukiwanie indeksów ostatniego treningowego i pierwszego punktowanego
+						// gdyż operacja usuwania z wektora powoduje przesuwanie następnych elementów w lewo
+						for (Run r : c.runsTimes) {
+							// pętla chodzi po wszystkich ślizgach - zjazdach w tej konkurencji
+							if (!r.trainingOrScored) {
+								// co do zasady ślizgi są posortowane w kolejności najpierw treingowe
+								// potem punktowane. Dlatego ostatni ślizg, który zostanie tutaj 
+								indexOfLastTrainingRun = chosenCompetition.runsTimes.indexOf(r);
+								lastTrainingRun = r;
+							}
+						}
+						
+						indexOfFirstScored = indexOfLastTrainingRun + 1;
+						firstScored = chosenCompetition.runsTimes.elementAt(indexOfFirstScored);
+						
+						// wyciąganie aktualnej liczby wszystkich ślizgów/zjazdów 
+						int runsCount = c.runsTimes.size();
+						
+						// znajdywanie pierwszego indeksu ślizgu do usunięcia (punktowane są zawsze po treningach)
+						int firstScoredToRemove = runsCount - (scoredRunsForChosen - (int)spinnerScoredRuns.getValue());
+						
+						if (firstScoredToRemove < runsCount) {
+							for (int i = firstScoredToRemove; i < runsCount; i++) {
+								c.runsTimes.remove(i);
+							}
+							
+							scoredRunsForChosen = (int)spinnerScoredRuns.getValue();
+							chosenCompetition.numberOfAllRuns = trainingRunsForChosen + scoredRunsForChosen;
+						}
+						
+					}
+					if (answer == JOptionPane.NO_OPTION) {
+						;
+					}
+				}
+			}
+		});
 		competitionParametersPanel.add(btnZapiszIZamknij, "cell 0 6 3 1,growx");
 		
 		JButton btnWyjdBezZapisu = new JButton("Wyjdź bez zapisu");
+		btnWyjdBezZapisu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				window.dispose();
+			}
+		});
 		competitionParametersPanel.add(btnWyjdBezZapisu, "cell 4 6 5 1,growx");
 		contentPane.setLayout(gl_contentPane);
 	}

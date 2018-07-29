@@ -30,7 +30,6 @@ import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.CompetitionTypes;
 import pl.jeleniagora.mks.types.Luger;
-import pl.jeleniagora.mks.types.LugerCompetitor;
 import pl.jeleniagora.mks.types.LugerSingle;
 
 import javax.swing.JButton;
@@ -311,7 +310,8 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 
 			@Override
 			public void valueChanged(ListSelectionEvent arg0) {
-				int selectedRowFromModel = -1;
+				@SuppressWarnings("unused")
+				int selectedRowFromModel = -1;	// ? czy to jest potrzebe?
 				
 				// numer zaznaczonego z widoku
 				int selectedRowFromView = competitionTable.getSelectedRow();

@@ -442,6 +442,14 @@ public class CompManager extends JFrame {
 		mnKonkurencje.add(mntmUsuKonkurencj);
 		
 		JMenuItem mntmEdytujKonkurencj = new JMenuItem("Edytuj konkurencję");
+		mntmEdytujKonkurencj.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				CompManagerWindowEditCompetition editCmp = (CompManagerWindowEditCompetition)ctx.getBean(CompManagerWindowEditCompetition.class);
+				editCmp.updateContent(st.competitions);
+				editCmp.setVisible(true);
+				
+			}
+		});
 		mnKonkurencje.add(mntmEdytujKonkurencj);
 		
 		JSeparator separator = new JSeparator();

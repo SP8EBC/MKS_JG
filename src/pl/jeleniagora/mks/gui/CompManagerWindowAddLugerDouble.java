@@ -24,7 +24,6 @@ import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.CompetitionTypes;
 import pl.jeleniagora.mks.types.Luger;
 import pl.jeleniagora.mks.types.LugerDouble;
-import pl.jeleniagora.mks.types.LugerSingle;
 
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
