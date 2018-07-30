@@ -25,8 +25,14 @@ import pl.jeleniagora.mks.types.online.SingleCompetitionDefinition;
 
 public class WebServicePostConsumer {
 	
+	/**
+	 * Metoda używana do dodawania do systemu pojedynczej konkurencji. Przydatna jeżeli najpierw dodało się
+	 * całe zawody do luge.pl a potem dodowało się pojedyczą konkurencję
+	 * @param comp
+	 */
 	public void competitionAdder(Competition comp) {
 		
+		@SuppressWarnings("unused")
 		final String uri = "http://localhost:8080/MKS_JG_ONLINE/addCmp";
 		
 		SingleCompetitionDefinitionRenderer rndr = new SingleCompetitionDefinitionRenderer();
@@ -35,6 +41,7 @@ public class WebServicePostConsumer {
 		List<HttpMessageConverter<?>> list = new ArrayList<HttpMessageConverter<?>>();
 		list.add(new MappingJackson2HttpMessageConverter());
 		
+		@SuppressWarnings("unused")
 		RestTemplate template = new RestTemplate();
 		
 		// uruchamianie zapytania do web-serwisu w osobnym wątku żeby nie blokowac GUI
@@ -48,7 +55,14 @@ public class WebServicePostConsumer {
 					
 					// metoda zwraca ResponseEntity w którym jest np od razu zwrócony HTTP return code
 					ResponseEntity<AddSingleCompetitionReturn> responseStr = template.exchange(uri, HttpMethod.POST, entityRequest, AddSingleCompetitionReturn.class);
-					//String reponseStr = template.postForObject(uri, def, String.class);
+					
+					AddSingleCompetitionReturn result = responseStr.getBody();
+					
+					// jeżeli zawody zostały już wcześniej dodane 
+					if (result.alreadyCreated) {
+						JOptionPane.showMessageDialog(null, "Konkurencja ta została już wcześniej dodana do systemu. Baza danych luge.pl nie została zmodyfikowana");
+					}
+					
 					return;
 				}
 				catch(ResourceAccessException e) {

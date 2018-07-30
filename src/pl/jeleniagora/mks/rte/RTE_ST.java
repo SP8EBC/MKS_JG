@@ -53,6 +53,12 @@ public class RTE_ST {
 	public LugerCompetitor returnComptr;
 	
 	/**
+	 * Ustawienie na true powoduje że sankarz wskazany jako returnComptr został zamieniony
+	 * z pozycji "aktualnie na torze" a nie następnie
+	 */
+	public boolean returnToActual;
+	
+	/**
 	 * Referencja do "zawodnika aktualnie na torze"
 	 */
 	public LugerCompetitor actuallyOnTrack;

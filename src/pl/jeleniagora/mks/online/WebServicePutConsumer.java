@@ -35,12 +35,16 @@ public class WebServicePutConsumer {
 		callback = cbk;
 	}
 	
+	/**
+	 * Klient web serwisu wywoływany po każdym użyciu przycisku zapisz czas zawodnika
+	 * @param competition
+	 */
 	public void competitionDataUpdater(Competition competition) {
 		SingleCompetitionDefinitionRenderer rndr = new SingleCompetitionDefinitionRenderer();
 		SingleCompetitionDefinition def = rndr.render(competition);
 		
 		Map <String, String> params = new HashMap<String, String>();
-		params.put("id", new Integer(competition.id).toString());
+		params.put("id", new Long(competition.serialNum).toString());
 		
 		List<HttpMessageConverter<?>> list = new ArrayList<HttpMessageConverter<?>>();
 		list.add(new MappingJackson2HttpMessageConverter());

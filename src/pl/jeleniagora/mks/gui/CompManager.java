@@ -75,6 +75,8 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class CompManager extends JFrame {
 	
@@ -113,6 +115,8 @@ public class CompManager extends JFrame {
 	private JTextField textField_msec;
 	JLabel lblredniaPrdko;
 	JLabel label;	// czas mety z chronometru
+	JButton btnWybierzZaznaczonegoW;
+	
 	private final Action action = new SwingAction();
 	
 	private static SimulateChrono simul;
@@ -299,7 +303,6 @@ public class CompManager extends JFrame {
 	 * Create the frame.
 	 */
 	public CompManager() {
-
 				
 //		RTE_GUI rte_gui = ctx.getBean(RTE_GUI.class);
 		RTE_GUI rte_gui = RTE.getGUI();
@@ -312,6 +315,25 @@ public class CompManager extends JFrame {
 		setAlwaysOnTop(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1259, 658);
+		setFocusable(true);
+		
+		addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if (arg0.isShiftDown()) {
+					rte_gui.shiftPressed = true;
+					btnWybierzZaznaczonegoW.setText("<html><p align=\"center\">Ustaw zaznaczonego " + "<br>" + " w tabeli saneczkarza jako " + "<br>" + " aktualnie na torze</p></html>");
+				}
+			}
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (!e.isShiftDown()) {
+
+				rte_gui.shiftPressed = false;
+				btnWybierzZaznaczonegoW.setText("<html><p align=\"center\">Ustaw zaznaczonego " + "<br>" + " w tabeli saneczkarza jako " + "<br>" + " następnego</p></html>");
+				}
+			}
+		});
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -702,9 +724,18 @@ public class CompManager extends JFrame {
 				consumer.competitionAdder(rte_gui.competitionBeingShown);
 			}
 		});
+		
+		JMenuItem mntmUsuBieceZawody = new JMenuItem("Usuń bieżące zawody z systemu");
+		mnLugepl.add(mntmUsuBieceZawody);
 		mnLugepl.add(mntmDodajaktualizujWywietlanKonkurencje);
 		
 		JMenuItem mntmDodajaktualizujRozgrywanKonkurencje = new JMenuItem("Dodaj/aktualizuj rozgrywaną konkurencje");
+		mntmDodajaktualizujRozgrywanKonkurencje.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				WebServicePostConsumer consumer = new WebServicePostConsumer();
+				consumer.competitionAdder(st.currentCompetition);
+			}
+		});
 		mnLugepl.add(mntmDodajaktualizujRozgrywanKonkurencje);
 		
 		JMenu mnPomoc = new JMenu("Pomoc");
@@ -728,6 +759,24 @@ public class CompManager extends JFrame {
 		
 		/* Tworzenie JTable w oparciu o przygotowany model		 */
 		table = new JTable(new CompManagerScoreTableModel());
+		table.setFocusable(true);
+		table.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if (arg0.isShiftDown()) {
+					rte_gui.shiftPressed = true;
+					btnWybierzZaznaczonegoW.setText("<html><p align=\"center\">Ustaw zaznaczonego " + "<br>" + " w tabeli saneczkarza jako " + "<br>" + " aktualnie na torze</p></html>");
+				}
+			}
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (!e.isShiftDown()) {
+
+				rte_gui.shiftPressed = false;
+				btnWybierzZaznaczonegoW.setText("<html><p align=\"center\">Ustaw zaznaczonego " + "<br>" + " w tabeli saneczkarza jako " + "<br>" + " następnego</p></html>");
+				}
+			}
+		});
 		table.setFillsViewportHeight(true);
 		table.setAutoCreateRowSorter(true);
 		table.getSelectionModel().addListSelectionListener(new CompManagerScoreTableSelectListener(table, ctx));
@@ -847,11 +896,12 @@ public class CompManager extends JFrame {
 		lblNextOnTrack.setBounds(256, 577, 253, 15);
 		contentPane.add(lblNextOnTrack);
 		
-		JButton btnWybierzZaznaczonegoW = new JButton("Wybierz zaznaczonego w tabeli saneczkarza jako następnego");
+		btnWybierzZaznaczonegoW = new JButton("Wybierz zaznaczonego w tabeli saneczkarza jako następnego");
 		btnWybierzZaznaczonegoW.setBounds(523, 546, 225, 59);
 		btnWybierzZaznaczonegoW.addActionListener(new CompManagerSetMrkAsNextBtnActionListener(ctx));
 		btnWybierzZaznaczonegoW.setText("<html><p align=\"center\">Ustaw zaznaczonego " + "<br>" + " w tabeli saneczkarza jako " + "<br>" + " następnego</p></html>");
 		contentPane.add(btnWybierzZaznaczonegoW);
+		rte_gui.btnWybierzZaznaczonegoW = btnWybierzZaznaczonegoW;
 		
 		JButton btnPowrDoKolejnoci = new JButton("Powróć do kolejności saneczkarzy wg listy startowej");
 		btnPowrDoKolejnoci.setMargin(new Insets(2, 7, 2, 7));
@@ -872,7 +922,7 @@ public class CompManager extends JFrame {
 		contentPane.add(label);
 		rte_gui.lblTimeFromChrono = label; 
 		
-		lblredniaPrdko = new JLabel("Średnia Prędkość: 102km/h");
+		lblredniaPrdko = new JLabel("");
 		lblredniaPrdko.setForeground(Color.RED);
 		lblredniaPrdko.setHorizontalAlignment(SwingConstants.CENTER);
 		lblredniaPrdko.setBounds(1036, 11, 205, 15);

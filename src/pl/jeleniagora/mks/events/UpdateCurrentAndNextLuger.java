@@ -167,8 +167,14 @@ public class UpdateCurrentAndNextLuger {
 		 * Ustawianie jako nastepnego na torze zawodnika przechowywanego w "returnCmptr" 
 		 */
 		if (rte_st.returnComptr != null) {
-			rte_st.nextOnTrack = rte_st.returnComptr;
-			rte_gui.nextOnTrack.setText(rte_st.nextOnTrack.toString());
+			if (!rte_st.returnToActual) {
+				rte_st.nextOnTrack = rte_st.returnComptr;
+				rte_gui.nextOnTrack.setText(rte_st.nextOnTrack.toString());
+			}
+			else {
+				rte_st.actuallyOnTrack = rte_st.returnComptr;
+				rte_gui.actuallyOnTrack.setText(rte_st.actuallyOnTrack.toString());
+			}
 		}
 	}
 	

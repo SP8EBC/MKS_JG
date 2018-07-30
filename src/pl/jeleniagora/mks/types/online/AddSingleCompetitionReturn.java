@@ -1,8 +1,13 @@
 package pl.jeleniagora.mks.types.online;
 
+/**
+ * Klasa zwracana przez WebSerwis od dodowania nowych zawodów do systemu
+ * @author mateusz
+ *
+ */
 public class AddSingleCompetitionReturn {
 	
-	public String returnTest;
+	public boolean alreadyCreated;
 
-	public Integer id;
+	public Long serialNum;
 }

@@ -1,5 +1,6 @@
 package pl.jeleniagora.mks.rte;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -45,6 +46,13 @@ public class RTE_GUI {
 	 * wartość true powoduje, że kliknięcie "zapisz czas zawodnika" przesuwa aktualnie/kolejnego do przodu
 	 */
 	public boolean runtimeFromChrono;
+	
+	/**
+	 * Ustawiane na true przez keyEvent jeżeli jest naciśnięty przycisk shift na klawiaturze
+	 */
+	public boolean shiftPressed;
+	
+	public JButton btnWybierzZaznaczonegoW;
 	
 	public JTextField min;
 	public JTextField sec;
