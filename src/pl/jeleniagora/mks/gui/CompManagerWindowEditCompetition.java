@@ -7,11 +7,16 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import net.miginfocom.swing.MigLayout;
+import pl.jeleniagora.mks.exceptions.UninitializedCompEx;
+import pl.jeleniagora.mks.rte.RTE_GUI;
+import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.start.order.FilOrder;
 import pl.jeleniagora.mks.start.order.SimpleOrder;
 import pl.jeleniagora.mks.start.order.StartOrderInterface;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.Competitions;
+import pl.jeleniagora.mks.types.LugerCompetitor;
+import pl.jeleniagora.mks.types.Reserve;
 import pl.jeleniagora.mks.types.Run;
 
 import javax.swing.JComboBox;
@@ -22,6 +27,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.LineBorder;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -31,6 +37,10 @@ import javax.swing.JTextField;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalTime;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.Vector;
 
 import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
@@ -47,6 +57,12 @@ public class CompManagerWindowEditCompetition extends JFrame {
 	private static final long serialVersionUID = -7099964404892224928L;
 	private JPanel contentPane;
 	private JTextField textFieldName;
+	
+	@Autowired
+	RTE_GUI rte_gui;
+	
+	@Autowired
+	RTE_ST rte_st;
 	
 	CompManagerWindowEditCompetition window;
 	
@@ -232,14 +248,14 @@ public class CompManagerWindowEditCompetition extends JFrame {
 		competitionParametersPanel.add(lblTreningowe, "cell 3 4");
 		
 		spinnerTrainingRuns = new JSpinner();
-		spinnerTrainingRuns.setModel(new SpinnerNumberModel(1, 1, 9, 1));
+		spinnerTrainingRuns.setModel(new SpinnerNumberModel(0, 0, 9, 1));
 		competitionParametersPanel.add(spinnerTrainingRuns, "cell 4 4");
 		
 		JLabel lblPunktowane = new JLabel("Punktowane");
 		competitionParametersPanel.add(lblPunktowane, "cell 6 4");
 		
 		spinnerScoredRuns = new JSpinner();
-		spinnerScoredRuns.setModel(new SpinnerNumberModel(0, 0, 9, 1));
+		spinnerScoredRuns.setModel(new SpinnerNumberModel(1, 1, 9, 1));
 		competitionParametersPanel.add(spinnerScoredRuns, "cell 7 4");
 		
 		JLabel lbluwagaZmniejszenieLiczby = new JLabel("<html><p align='center'>Uwaga! Zmniejszenie liczby ślizgów i zatwierdzenie zmian spowoduje bezpowrotne usunięcie części czasów.</p></html>");
@@ -309,7 +325,60 @@ public class CompManagerWindowEditCompetition extends JFrame {
 						;
 					}
 				}
+				// sprawdzanie czy użytkownik nie chcę dodać nowych ślizgów / zjazdów do konkurencji
+				else if ((int)spinnerScoredRuns.getValue() > scoredRunsForChosen ||
+					(int)spinnerTrainingRuns.getValue() > trainingRunsForChosen) 
+				{
+					int scoredToAdd = (int)spinnerScoredRuns.getValue() - scoredRunsForChosen;
+					int trainingToAdd = (int)spinnerTrainingRuns.getValue() - trainingRunsForChosen;
+					
+					// tworzenie wektora z saneczkarzami z tej konkurencji na podstawie listy czasów
+					// z innego ślizgu z tej konkurencji
+					Set<Entry<LugerCompetitor, LocalTime>> set =  firstScored.totalTimes.entrySet();
+					
+					// wektor na saneczkarzy do dodania do kolejnego ślizgu
+					Vector<LugerCompetitor> cmptr = new Vector<LugerCompetitor>();
+					
+					for (Entry<LugerCompetitor, LocalTime> elem : set) {
+						LugerCompetitor key = elem.getKey();
+						
+						cmptr.addElement(key);
+					}
+					
+					// sprawdzanie czy trzeba dodać jakiś ślizg punktowany
+					if (scoredToAdd > 0) {
+						// jeżeli trzeba dodać to trzeba go dodać na samym końcu
+						for (int i = 0; i < scoredToAdd; i++) {
+							Run toAdd = new Run(cmptr, (byte)1);
+							chosenCompetition.runsTimes.add(toAdd);
+							chosenCompetition.numberOfAllRuns++;
+						}
+					}
+					if (trainingToAdd > 0) {
+						for (int i = 0; i < trainingToAdd; i++) {
+							// każdy ślizg treningowy powinien zostać dodany po ostatnim treningowym
+							Run toAdd = new Run(cmptr, (byte)0);
+							chosenCompetition.runsTimes.add(i + trainingRunsForChosen, toAdd);
+							chosenCompetition.numberOfAllRuns++;
+							chosenCompetition.numberOfTrainingRuns++;
+						}
+					}
+				}
+				else;
+				
+				if (rte_gui.competitionBeingShown.equals(rte_st.currentCompetition)) {
+					try {
+						rte_gui.compManagerScoreModel.updateTableData(chosenCompetition, false);
+						rte_gui.compManagerScoreModel.updateTableHeading(chosenCompetition, false);
+					} catch (UninitializedCompEx | Reserve e1) {
+						e1.printStackTrace();
+					}
+					rte_gui.compManagerScoreModel.fireTableStructureChanged();
+					rte_gui.compManagerScoreModel.fireTableDataChanged();
+				}
+				window.dispose();
 			}
+			
 		});
 		competitionParametersPanel.add(btnZapiszIZamknij, "cell 0 6 3 1,growx");
 		

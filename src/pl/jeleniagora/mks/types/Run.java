@@ -82,7 +82,7 @@ public class Run {
 	private Run() {
 		;
 	}
-	
+		
 	public Run(Map<LugerCompetitor, Short> startList, byte trainingOrScored) {
 		
 		serialNumber = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);

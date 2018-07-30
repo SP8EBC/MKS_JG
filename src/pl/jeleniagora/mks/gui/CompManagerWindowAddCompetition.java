@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import net.miginfocom.swing.MigLayout;
-import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.start.order.FilOrder;
 import pl.jeleniagora.mks.start.order.SimpleOrder;

@@ -7,10 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableModel;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.stereotype.Component;
 
 import pl.jeleniagora.mks.chrono.Chrono;
 import pl.jeleniagora.mks.chrono.SimulateChrono;
@@ -243,8 +240,6 @@ public class CompManager extends JFrame {
 					 * */
 					Competitions competitions = new Competitions();
 					rte_st.competitions = competitions;
-
-					Object value = null;
 					
 					frame = new CompManager();
 					frame.setVisible(true);
@@ -378,9 +373,7 @@ public class CompManager extends JFrame {
 			
 		});
 		mnZawody.add(mntmWybierzTor);
-		
-		ButtonGroup startOrderGrp = new ButtonGroup();
-		
+				
 		JCheckBoxMenuItem chckbxmntmOsobnaKonkurencjaDruynowa = new JCheckBoxMenuItem("Osobna konkurencja drużynowa");
 		mnZawody.add(chckbxmntmOsobnaKonkurencjaDruynowa);
 		
