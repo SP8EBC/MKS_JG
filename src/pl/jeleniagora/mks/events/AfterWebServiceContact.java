@@ -28,6 +28,6 @@ public class AfterWebServiceContact {
 	}
 	
 	public void errorStatusReturned(HttpStatus status) {
-		
+		rte_gui.lblredniaPrdko.setText("Srv err " + status.value());
 	}
 }

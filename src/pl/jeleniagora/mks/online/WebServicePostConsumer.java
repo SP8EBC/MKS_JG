@@ -73,6 +73,7 @@ public class WebServicePostConsumer {
 				catch(HttpClientErrorException | HttpServerErrorException e) {
 					// wyjątek rzucany jeżeli serwer zwrócił jakiś kod błędu
 					System.out.println(e.getResponseBodyAsString());
+					
 				}
 			}
 		
