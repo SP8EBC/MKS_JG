@@ -137,6 +137,13 @@ public class Competition {
 	public Map<LugerCompetitor, Short> ranks;
 	
 	/**
+	 * Mapa łącząca sankarzy z "lokatami częściowymi" czyli przeliczanymi na bierząco lokatami
+	 * w aktualnie rozgrywanym ślizgu
+	 */
+	@XmlJavaTypeAdapter(value = RanksAdapter.class)
+	public Map<LugerCompetitor, Short> partialRanks;
+	
+	/**
 	 * Wektor zawierający czasy w poszczególnych ślizgach, jeden element klasy Run odpowiada jednemu ślizgowi i zawiera
 	 * mapę saneczkarzy startujących w tym ślizgu na ich czasy przejazdu. Początkowo czasy są inicjowane zerami. 
 	 */

@@ -90,8 +90,14 @@ public class CalculateRanksAfterRun {
 		
 		Map<LugerCompetitor, Short> out = new HashMap<LugerCompetitor, Short>();
 		
+		/*
+		 * Wyciąganie listy czasów łącznych czasów ślizgów
+		 */
 		List<Entry<LugerCompetitor, LocalTime>> list = new LinkedList<>(rt.entrySet());
 		
+		/*
+		 * Sortowanie
+		 */
 		list.sort(new EntryLugerCmptrLocalTimeComparator());
 		
 		for (int i = 0; i < list.size(); i++) {
