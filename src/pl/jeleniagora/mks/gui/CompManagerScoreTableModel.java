@@ -21,7 +21,6 @@ import pl.jeleniagora.mks.types.LugerCompetitor;
 import pl.jeleniagora.mks.types.LugerDouble;
 import pl.jeleniagora.mks.types.LugerSingle;
 import pl.jeleniagora.mks.types.Reserve;
-import pl.jeleniagora.mks.types.Run;
 
 /**
  * Model używany do rysowania tabeli wyników typu JTable

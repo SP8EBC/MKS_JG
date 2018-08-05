@@ -5,10 +5,8 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import pl.jeleniagora.mks.exceptions.AppContextUninitializedEx;
 import pl.jeleniagora.mks.exceptions.MissingCompetitionEx;
 import pl.jeleniagora.mks.exceptions.NoMoreCompetitionsEx;
-import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.types.Competition;
-import pl.jeleniagora.mks.types.LugerCompetitor;
 import pl.jeleniagora.mks.types.Run;
 
 public class ChangeCompetition {
@@ -42,7 +40,7 @@ public class ChangeCompetition {
 		Run firstNotCompleted = null;
 		
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
-		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
+//		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
 		
 		/*
 		 * Sprawdzenie czy podana na wejściu konkrencja istnieje w ogóle w tych zawodach
@@ -121,6 +119,7 @@ public class ChangeCompetition {
 		int currentCompRef = rte_st.competitions.competitions.lastIndexOf(rte_st.currentCompetition);
 		int numberOfComps = rte_st.competitions.competitions.size();
 		
+		@SuppressWarnings("unused")
 		Run firstNotCompleted = null;
 		
 		rte_st.competitionsDone.add(rte_st.currentCompetition);

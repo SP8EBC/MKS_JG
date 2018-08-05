@@ -107,6 +107,9 @@ public class CompManagerScoreTableTimeRenderer extends DefaultTableCellRenderer 
 		return timeString;
 	}
 	
+	/**
+	 * W tej metodzie znajduje się kod odpowiedzialny za podświetlenie 
+	 */
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value,
 			    boolean isSelected, boolean hasFocus, int row, int column)  
@@ -123,7 +126,7 @@ public class CompManagerScoreTableTimeRenderer extends DefaultTableCellRenderer 
 			 * Jeżeli aktualnie w tabeli jest wyświetlana aktualnie rozgrywana konkurencja
 			 */
 
-			int columnWithCurrentRun = rte_st.currentRun.number + 5;
+			int columnWithCurrentRun = rte_st.currentRun.number + DisplayS.columnOffset;
 			
 			if(columnWithCurrentRun == column) {
 				rendererComp .setBackground(Color.getHSBColor(215, 0.02f, 0.83f));
