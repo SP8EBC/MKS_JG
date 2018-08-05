@@ -11,7 +11,7 @@ public class DisplayS {
 	
 	private static boolean inhibitMessageAtEndOfRun;
 	
-	public final static int columnOffset = 5;
+	public final static int columnOffset = 6;	// zmiana po dodaniu lokaty w bierzącym ślizgu
 
 	public static boolean isShowAllTimeDigits() {
 		return showAllTimeDigits;

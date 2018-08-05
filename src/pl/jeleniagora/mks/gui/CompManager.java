@@ -187,6 +187,9 @@ public class CompManager extends JFrame {
 		
 		rte_gui.syncCompManagerRdy = new Object();
 		
+		CompManagerUpdateAndRefreshScoreTable updater = ctx.getBean(CompManagerUpdateAndRefreshScoreTable.class);
+		rte_gui.updater = updater;
+		
 		try {
 			com = new CommThread("/dev/ttyUSB232i", rte_com, true);		// konwerter z izolacją meratronik
 		} catch (IOException e1) {

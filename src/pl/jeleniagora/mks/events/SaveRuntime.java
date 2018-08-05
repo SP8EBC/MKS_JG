@@ -11,6 +11,7 @@ import pl.jeleniagora.mks.online.renderers.CompetitionDataRenderer;
 import pl.jeleniagora.mks.rte.RTE;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
+import pl.jeleniagora.mks.scoring.CalculatePartialRanks;
 import pl.jeleniagora.mks.types.LugerCompetitor;
 
 public class SaveRuntime {
@@ -42,6 +43,7 @@ public class SaveRuntime {
 	
 	/**
 	 * Metoda służy do zapisywania czasu ślizgu dla zawodnika i ślizgu klikniętego w tabeli wyników w CompManager.
+	 * Metoda używana w momencie naciśnięcia przez użytkownika przycisku
 	 * @param runTime
 	 * 
 	 */
@@ -51,12 +53,24 @@ public class SaveRuntime {
 		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
 		
 		boolean returnVal = false;
+		CalculatePartialRanks partialRanks = new CalculatePartialRanks();
+
 		
 		if (rte_gui.competitorClickedInTable == rte_st.actuallyOnTrack) {
 			returnVal = true;
 		}
 		
 		rte_gui.runClickedInTable.totalTimes.put(rte_gui.competitorClickedInTable, runTime);
+		if (rte_gui.runClickedInTable.equals(rte_st.currentRun) &&
+				rte_gui.competitionBeingShown.equals(rte_st.currentCompetition)) {
+			/*
+			 * aktualizacja lokat w ślizgu może odbyć się tylko jeżeli użytkownik zapisuje czas 
+			 * dla aktualnie rozgrywanego ślizgu w aktualnie rozgrywanej konkurencji, bo tego tyczą
+			 * się 'lokaty w ślizgu'
+			 */
+			partialRanks.calculatePartialRanks(rte_st.currentCompetition, rte_st.currentRun);
+			rte_gui.updater.updateCurrentCompetition();
+		}
 		
 		try {
 			rte_gui.model.updateTableData(rte_gui.competitionBeingShown, false);
@@ -73,7 +87,8 @@ public class SaveRuntime {
 	
 	/**
 	 * Metoda służy do zapisywania czasu w bierzącym ślizgu dla zawodnika aktualnie na torze, 
-	 * czyli tego który właśnie dojechał do mety
+	 * czyli tego który właśnie dojechał do mety. Metoda używana wyłącznie przy autozapisie
+	 * po dojechaniu do mety
 	 * @param runTime
 	 */
 	public static void saveRuntimeForCurrentCmptr(LocalTime runTime) {

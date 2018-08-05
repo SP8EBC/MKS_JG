@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import pl.jeleniagora.mks.gui.CompManager;
 import pl.jeleniagora.mks.gui.CompManagerScoreTableModel;
+import pl.jeleniagora.mks.gui.CompManagerUpdateAndRefreshScoreTable;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.CompetitionEncapsulationForSelector;
 import pl.jeleniagora.mks.types.LugerCompetitor;
@@ -39,6 +40,11 @@ public class RTE_GUI {
 	 * liczbę i typ kolumn oraz dane w tabeli 
 	 */
 	public CompManagerScoreTableModel compManagerScoreModel;
+	
+	/**
+	 * Klasa służąco do szybkiej aktualizacji i odświeżania zawartości modelu
+	 */
+	public CompManagerUpdateAndRefreshScoreTable updater;
 	
 	/**
 	 * Ustawienie na true oznacza, że maszyna stanów obliczyła czas ślizgu i wartoci wyświetlane w oknach min/sec/msec to właśnie ten czas.

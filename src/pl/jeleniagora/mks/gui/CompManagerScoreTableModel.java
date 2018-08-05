@@ -12,6 +12,7 @@ import pl.jeleniagora.mks.exceptions.UninitializedCompEx;
 import pl.jeleniagora.mks.factories.ClubsFactory;
 import pl.jeleniagora.mks.factories.LugersFactory;
 import pl.jeleniagora.mks.factories.StartListFactory;
+import pl.jeleniagora.mks.settings.DisplayS;
 import pl.jeleniagora.mks.start.order.SimpleOrder;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.CompetitionTypes;
@@ -65,20 +66,23 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 	 */
 	public CompManagerScoreTableModel() {
 		this.comp = new Competition();
-		columnNames = new String[5];
-		columnNames[2] = new String("Imię");
-		columnNames[3] = new String("Nazwisko");
-		columnNames[4] = new String("Klub");
+		columnNames = new String[6];
 		columnNames[0] = new String("NrStartowy");
-		columnNames[1] = new String("Miejsce");
+		columnNames[1] = new String("Lokata ogółem");
+		columnNames[2] = new String("Lokata w ślizgu");
+		columnNames[3] = new String("Imię");
+		columnNames[4] = new String("Nazwisko");
+		columnNames[5] = new String("Klub");
+
 
 		
-		types = new Class[5];
+		types = new Class[6];
 		types[0] = new Short((short)0).getClass();
 		types[1] = new Short((short)0).getClass();
-		types[2] = new String().getClass();
+		types[2] = new Short((short)0).getClass();
 		types[3] = new String().getClass();
 		types[4] = new String().getClass();
+		types[5] = new String().getClass();
 		
 		numberOfLugers = 0;
 
@@ -144,20 +148,23 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 	 * programu
 	 */
 	public void eraseEverything() {
-		columnNames = new String[5];
-		columnNames[2] = new String("Imię");
-		columnNames[3] = new String("Nazwisko");
-		columnNames[4] = new String("Klub");
+		columnNames = new String[6];
 		columnNames[0] = new String("NrStartowy");
-		columnNames[1] = new String("Miejsce");
+		columnNames[1] = new String("Lokata ogółem");
+		columnNames[2] = new String("Lokata w ślizgu");
+		columnNames[3] = new String("Imię");
+		columnNames[4] = new String("Nazwisko");
+		columnNames[5] = new String("Klub");
+
 
 		
-		types = new Class[5];
+		types = new Class[6];
 		types[0] = new Short((short)0).getClass();
 		types[1] = new Short((short)0).getClass();
-		types[2] = new String().getClass();
+		types[2] = new Short((short)0).getClass();
 		types[3] = new String().getClass();
 		types[4] = new String().getClass();
+		types[5] = new String().getClass();
 		
 		numberOfLugers = 0;
 		comp = null;
@@ -231,7 +238,7 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 				/*
 				 * Przeciepywanie danych z klas do tablicy Object[][]
 				 */
-				Object[] l = new Object[5 + allRuns];
+				Object[] l = new Object[DisplayS.columnOffset + allRuns];
 
 				Entry<LugerCompetitor, Short> currLuger = lugersIt.next();
 
@@ -251,12 +258,12 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 						String lugeCl = d.upper.club.name;
 						
 						l[0] = (short)startNumm;	// numer startowy
-						l[1] = (short)competition.ranks.get(d); // miejsce
+						l[1] = (short)competition.ranks.get(d); // miejsce ogółem
 						l[2] = upper;
 						l[3] = lower;
 						l[4] = lugeCl;
 						
-						j = 5;
+						j = DisplayS.columnOffset;
 						
 						
 						break;
@@ -276,11 +283,16 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 						
 						l[0] = (short)startNum;	// numer startowy
 						l[1] = (short)competition.ranks.get(s); // miejsce
-						l[2] = name;
-						l[3] = surname;
-						l[4] = lugeClub;
+						if (competition.partialRanks != null && 
+							competition.partialRanks.containsKey(s))
+							l[2] = (short)competition.partialRanks.get(s); // miejsce w ślizgu
+						else
+							l[2] = (short)0;
+						l[3] = name;
+						l[4] = surname;
+						l[5] = lugeClub;
 						
-						j = 5;
+						j = DisplayS.columnOffset;
 					default:
 						break;
 				}
@@ -323,8 +335,8 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 		int allRuns = competition.numberOfAllRuns;
 		int trainingRuns = competition.numberOfTrainingRuns;
 		
-		this.columnNames = new String[allRuns + 5];
-		this.types = new Class[allRuns + 5];
+		this.columnNames = new String[allRuns + DisplayS.columnOffset];
+		this.types = new Class[allRuns + DisplayS.columnOffset];
 		
 		this.comp = competition;
 		
@@ -347,7 +359,10 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 		columnNames[i] = new String("NrStart");
 		types[i++] = new Short((short)0).getClass();
 
-		columnNames[i] = new String("Miejsce");
+		columnNames[i] = new String("Lokata ogółem");
+		types[i++] = new Short((short)0).getClass();
+		
+		columnNames[i] = new String("Lokata w ślizgu");
 		types[i++] = new Short((short)0).getClass();
 		
 		if (isDouble) {

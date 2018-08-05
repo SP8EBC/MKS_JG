@@ -140,7 +140,8 @@ public class Competition {
 	 * Mapa łącząca sankarzy z "lokatami częściowymi" czyli przeliczanymi na bierząco lokatami
 	 * w aktualnie rozgrywanym ślizgu
 	 */
-	@XmlJavaTypeAdapter(value = RanksAdapter.class)
+	@XmlTransient	// tymczasowo
+//	@XmlJavaTypeAdapter(value = RanksAdapter.class)
 	public Map<LugerCompetitor, Short> partialRanks;
 	
 	/**

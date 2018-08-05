@@ -13,6 +13,7 @@ import pl.jeleniagora.mks.exceptions.NoMoreCompetitionsEx;
 import pl.jeleniagora.mks.exceptions.StartOrderNotChoosenEx;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
+import pl.jeleniagora.mks.scoring.CalculatePartialRanks;
 
 /**
  * Klasa służy do zapisu czasu ślizgu z poziomu dodatkowego wątku, który będzie opóźniał to o kilka sekund na potrzeby opcji 
@@ -48,6 +49,7 @@ public class SaveRuntimeDelayThread implements Runnable {
 		System.out.println("SaveRuntimeDelayThread started");
 		
 		boolean compHasToBeChanged = false;
+		CalculatePartialRanks partialRanks = new CalculatePartialRanks();
 		
 		/*
 		 * Czekanie 5 sekund
@@ -64,6 +66,8 @@ public class SaveRuntimeDelayThread implements Runnable {
 		if (rte_gui.runtimeFromChrono) {
 			SaveRuntime.saveRuntimeForCurrentCmptr(rt);
 			SaveRuntime.displayRuntimeOnDisplay(rt, rte_st.actuallyOnTrack);
+			partialRanks.calculatePartialRanks(rte_st.currentCompetition, rte_st.currentRun);
+			rte_gui.updater.updateCurrentCompetition();
 			
 			try {
 				UpdateCurrentAndNextLuger.moveForwardNormally();
@@ -97,6 +101,7 @@ public class SaveRuntimeDelayThread implements Runnable {
 
 				}
 			}
+			///
 		}
 		else {
 			return;

@@ -15,9 +15,9 @@ public class CalculatePartialRanks {
 	
 	public Map<LugerCompetitor, Short> calculatePartialRanks(Competition comps, Run currentRun) {
 		
-		short rank = 1, lastRank = 1;
+		short rank = 0, lastRank = 1;
 		short shift = 0;
-		
+				
 		LocalTime zero = LocalTime.of(0, 0, 0, 0);
 		
 		Map<LugerCompetitor, Short> out = new HashMap<LugerCompetitor, Short>();
@@ -70,6 +70,10 @@ public class CalculatePartialRanks {
 				}
 			}
 			else {
+				if (current.getValue().equals(zero) ||
+						current.getValue() == null)
+					continue;
+				
 				/*
 				 * Wstawianie pierwszego
 				 */
