@@ -67,8 +67,8 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 		this.comp = new Competition();
 		columnNames = new String[6];
 		columnNames[0] = new String("NrStartowy");
-		columnNames[1] = new String("Lokata ogółem");
-		columnNames[2] = new String("Lokata w ślizgu");
+		columnNames[1] = new String("Lokata po ostatnim ślizgu");
+		columnNames[2] = new String("Lokata w aktualnym ślizgu");
 		columnNames[3] = new String("Imię");
 		columnNames[4] = new String("Nazwisko");
 		columnNames[5] = new String("Klub");
@@ -149,8 +149,8 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 	public void eraseEverything() {
 		columnNames = new String[6];
 		columnNames[0] = new String("NrStartowy");
-		columnNames[1] = new String("Lokata ogółem");
-		columnNames[2] = new String("Lokata w ślizgu");
+		columnNames[1] = new String("Lokata po ostatnim ślizgu");
+		columnNames[2] = new String("Lokata w aktualnym ślizgu");
 		columnNames[3] = new String("Imię");
 		columnNames[4] = new String("Nazwisko");
 		columnNames[5] = new String("Klub");
@@ -358,10 +358,10 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 		columnNames[i] = new String("NrStart");
 		types[i++] = new Short((short)0).getClass();
 
-		columnNames[i] = new String("Lokata ogółem");
+		columnNames[i] = new String("Lokata po ostatnim");
 		types[i++] = new Short((short)0).getClass();
 		
-		columnNames[i] = new String("Lokata w ślizgu");
+		columnNames[i] = new String("Lokata w aktualnym");
 		types[i++] = new Short((short)0).getClass();
 		
 		if (isDouble) {

@@ -12,6 +12,7 @@ import pl.jeleniagora.mks.rte.RTE;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.scoring.CalculatePartialRanks;
+import pl.jeleniagora.mks.settings.GeneralS;
 import pl.jeleniagora.mks.types.LugerCompetitor;
 
 public class SaveRuntime {
@@ -68,7 +69,10 @@ public class SaveRuntime {
 			 * dla aktualnie rozgrywanego ślizgu w aktualnie rozgrywanej konkurencji, bo tego tyczą
 			 * się 'lokaty w ślizgu'
 			 */
-			partialRanks.calculatePartialRanks(rte_st.currentCompetition, rte_st.currentRun);
+			if (GeneralS.isPartialRanksRunOnly())
+				partialRanks.calculatePartialRanksInRun(rte_st.currentCompetition, rte_st.currentRun);
+			else
+				partialRanks.calculatePartialRanks(rte_st.currentCompetition);
 			rte_gui.updater.updateCurrentCompetition();
 		}
 		

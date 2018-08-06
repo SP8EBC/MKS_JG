@@ -7,6 +7,8 @@ public class GeneralS {
 	 * dwójki mieszane), zamiast po prostu wyświetlać "dwójki" bez żadnego rozróżnienia
 	 */
 	private static boolean showDiffDoubles;
+	
+	private static boolean partialRanksRunOnly = false;
 
 	public static boolean isShowDiffDoubles() {
 		return showDiffDoubles;
@@ -14,6 +16,14 @@ public class GeneralS {
 
 	public static void setShowDiffDoubles(boolean showDiffDoubles) {
 		GeneralS.showDiffDoubles = showDiffDoubles;
+	}
+
+	public static boolean isPartialRanksRunOnly() {
+		return partialRanksRunOnly;
+	}
+
+	public static void setPartialRanksRunOnly(boolean partialRanksRunOnly) {
+		GeneralS.partialRanksRunOnly = partialRanksRunOnly;
 	}
 	
 }
