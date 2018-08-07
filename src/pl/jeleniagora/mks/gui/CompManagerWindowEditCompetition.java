@@ -286,8 +286,9 @@ public class CompManagerWindowEditCompetition extends JFrame {
 								c.runsTimes.remove(i);
 							}
 							
-							trainingRunsForChosen = (int)spinnerTrainingRuns.getValue();
+							trainingRunsForChosen = (int)spinnerTrainingRuns.getValue();		// numberOfTrainingsRuns
 							c.numberOfTrainingRuns = trainingRunsForChosen;
+							c.numberOfAllRuns = trainingRunsForChosen + scoredRunsForChosen;
 						}
 						
 						// powtórne odszukiwanie indeksów ostatniego treningowego i pierwszego punktowanego

@@ -93,7 +93,7 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 		if (comp == null)
 			return 0;
 		else
-			return (comp.numberOfAllRuns + 5);
+			return (comp.numberOfAllRuns + DisplayS.columnOffset);
 	}
 
 	@Override

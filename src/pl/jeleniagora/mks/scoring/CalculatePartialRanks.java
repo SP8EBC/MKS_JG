@@ -100,6 +100,9 @@ public class CalculatePartialRanks {
 	}
 	
 	public Map<LugerCompetitor, Short> calculatePartialRanks(Competition comps)	{
+		if (comps.isCurrentRunTraining && comps.trainingOrContest)
+			return new HashMap<LugerCompetitor, Short>();
+		
 		Map<LugerCompetitor, LocalTime> total = calculateTotalRuntime(comps);
 		Map<LugerCompetitor, Short> out = calculateRanksFromMap(total);
 		
@@ -199,6 +202,10 @@ public class CalculatePartialRanks {
 				previous = list.get(i-1);
 			else
 				previous = null;
+			
+			if (current.getValue().isAfter(DNS.getValue())) {
+				continue;
+			}
 			
 			/*
 			 * Sprawdzanie czy następny saneczkarz nie ma takiego samego czasu przejazdu
