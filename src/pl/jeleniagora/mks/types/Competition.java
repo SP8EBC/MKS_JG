@@ -193,6 +193,8 @@ public class Competition {
 	/**
 	 * Metoda zwraca wszystkich zawodników ex-aequo na danym miejscu, lub null jeżeli nikt takiej lokaty nie ma
 	 * @param rank
+	 * @param descendingOrder Parametr określający kolejność sortowania zawodików o tej lokacie względem ich numerów startowych -
+	 * true powoduje że zostaną zwróceni od najwyższego do najniższego numeru startowego
 	 * @return
 	 */
 	public Vector<LugerCompetitor> returnLugersWithThisRank(short rank, boolean descendingOrder) {
@@ -212,7 +214,7 @@ public class Competition {
 			// metoda bazuje na entrySet który w ogóle nie gwarantuje zachowania kolejności elementów zgodnie z tą
 			// w jakiej były one dodawane do mapy, dlatego wyjściowy wektor trzeba posortować po numerach startowych zawodników rosnąco
 			
-			if (!descendingOrder) {
+			if (!descendingOrder) {	// podwójne przeczenie. jeżeli descendingOrder jest ustawione na FALSE
 				out.sort((LugerCompetitor a, LugerCompetitor b) -> {
 					return a.getStartNumber() - b.getStartNumber();		// TODO: lambda wyrażenie!
 				});

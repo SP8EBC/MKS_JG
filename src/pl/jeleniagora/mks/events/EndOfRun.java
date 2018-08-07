@@ -2,6 +2,7 @@ package pl.jeleniagora.mks.events;
 
 import java.io.IOException;
 import java.time.LocalTime;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -94,6 +95,8 @@ public class EndOfRun {
 			 * Jeżeli w tej konkurencji jest jeszcze jakiś ślizg
 			 */
 			
+			rte_st.currentCompetition.partialRanks = new HashMap<LugerCompetitor, Short>();
+			
 			rte_st.currentRunCnt++;
 			
 			rte_st.currentRun = rte_st.currentCompetition.runsTimes.elementAt(rte_st.currentRunCnt);
@@ -120,6 +123,7 @@ public class EndOfRun {
 			 * 
 			 */
 			rte_gui.compManagerScoreModel.fireTableStructureChanged();
+			rte_gui.compManagerScoreModel.fireTableDataChanged();
 			rte_gui.compManager.sortByStartNumberAscending();
 			
 			/*

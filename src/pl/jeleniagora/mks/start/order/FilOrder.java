@@ -270,9 +270,31 @@ public class FilOrder  extends StartOrderInterface {
 			
 			// jeżeli ostatnie miejsce nie jest ex-aequo to trzeba zwórić kolejnego który miał wyższa lokatę
 			else {
-				Vector<LugerCompetitor> n = currentCompetition.returnLugersWithThisRank((short) (lowestRank - 1), true);
+				// ale jednocześnie trzeba sprawdzić czy nie doszło do sytacji, w której za ostatnim miejscem idąc w stronę pierwszego
+				// jest przerwa w puktacji związana z innym ex-aequo
+				short rankToCheck = (short) (lowestRank - 1); // sprawdzanie zaczyna się od przedostatniego miejsca
+				Vector<LugerCompetitor> n;
 				
-				returnValue = n.get(0);	// przedostatnie może być ex-aequo ale 
+				do {
+					n = currentCompetition.returnLugersWithThisRank(rankToCheck, true);
+					if (n != null && n.size() > 0)
+						break;	// wyjście z pętli na pierwszej znalezionej lokacie
+					
+					rankToCheck--;
+					
+				} while (rankToCheck > 0);
+				
+				//n = currentCompetition.returnLugersWithThisRank((short) (lowestRank - 1), true);
+				
+				if (rankToCheck == (lowestRank - 1))
+					// jeżeli przedostatnie miejsce nie jest ex-aeqo to zwróć po prostu zawodnika który
+					// uzyskał lokatę o jedną wyższą od najgorszej
+					returnValue = n.get(0);
+				else {
+					// jeżeli przedostatnie miejsce jest ex-aeqo to należy zwrócić zawodnika z największym numerem
+					// startowym ze wszystkich którzy mają tę lokatę
+					returnValue = n.get(0);
+				}
 			}
 		}
 		// jeżeli nie należy stosować kolejności FIL to trzeba znaleźdź sankarza z najniższym numerem startowym i jego 
