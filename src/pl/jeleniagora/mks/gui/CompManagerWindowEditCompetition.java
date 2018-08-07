@@ -265,6 +265,7 @@ public class CompManagerWindowEditCompetition extends JFrame {
 		JButton btnZapiszIZamknij = new JButton("Zapisz i zamknij");
 		btnZapiszIZamknij.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				short j = 0;
 				
 				// sprawdzanie czy użytkownik nie próbuje zmniejszyć ilości ślizgów
 				if(	(int)spinnerScoredRuns.getValue() < scoredRunsForChosen ||
@@ -284,6 +285,11 @@ public class CompManagerWindowEditCompetition extends JFrame {
 							// usuwanie ślizgów treningowych
 							for (int i = firstTrainingToRemove; i <= indexOfLastTrainingRun; i++) {
 								c.runsTimes.remove(i);
+							}
+							
+							// poprawianie numerów kolejnych ślizgów tj pola Run.number
+							for (Run r : c.runsTimes) {
+								r.number = j++;
 							}
 							
 							trainingRunsForChosen = (int)spinnerTrainingRuns.getValue();		// numberOfTrainingsRuns
@@ -315,6 +321,12 @@ public class CompManagerWindowEditCompetition extends JFrame {
 						if (firstScoredToRemove < runsCount) {
 							for (int i = firstScoredToRemove; i < runsCount; i++) {
 								c.runsTimes.remove(i);
+							}
+							
+							j = 0;
+							// poprawianie numerów kolejnych ślizgów tj pola Run.number
+							for (Run r : c.runsTimes) {
+								r.number = j++;
 							}
 							
 							scoredRunsForChosen = (int)spinnerScoredRuns.getValue();
@@ -354,6 +366,11 @@ public class CompManagerWindowEditCompetition extends JFrame {
 							chosenCompetition.runsTimes.add(toAdd);
 							chosenCompetition.numberOfAllRuns++;
 						}
+						
+						// poprawianie numerów kolejnych ślizgów tj pola Run.number
+						for (Run r : chosenCompetition.runsTimes) {
+							r.number = j++;
+						}
 					}
 					if (trainingToAdd > 0) {
 						for (int i = 0; i < trainingToAdd; i++) {
@@ -362,6 +379,11 @@ public class CompManagerWindowEditCompetition extends JFrame {
 							chosenCompetition.runsTimes.add(i + trainingRunsForChosen, toAdd);
 							chosenCompetition.numberOfAllRuns++;
 							chosenCompetition.numberOfTrainingRuns++;
+						}
+						
+						// poprawianie numerów kolejnych ślizgów tj pola Run.number
+						for (Run r : chosenCompetition.runsTimes) {
+							r.number = j++;
 						}
 					}
 				}

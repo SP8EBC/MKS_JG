@@ -99,11 +99,11 @@ public class CalculatePartialRanks {
 		
 	}
 	
-	public Map<LugerCompetitor, Short> calculatePartialRanks(Competition comps)	{
+	public Map<LugerCompetitor, Short> calculatePartialRanks(Competition comps, Run currentRun)	{
 		if (comps.isCurrentRunTraining && comps.trainingOrContest)
 			return new HashMap<LugerCompetitor, Short>();
 		
-		Map<LugerCompetitor, LocalTime> total = calculateTotalRuntime(comps);
+		Map<LugerCompetitor, LocalTime> total = calculateTotalRuntime(comps, currentRun);
 		Map<LugerCompetitor, Short> out = calculateRanksFromMap(total);
 		
 		comps.partialRanks = out;
@@ -119,7 +119,7 @@ public class CalculatePartialRanks {
 	 * @param comp
 	 * @return
 	 */
-	private Map<LugerCompetitor, LocalTime> calculateTotalRuntime(Competition comp) {
+	private Map<LugerCompetitor, LocalTime> calculateTotalRuntime(Competition comp, Run currentRun) {
 
 		/*
 		 * Map łącząca numer startowy saneczkarza z jego łącznym czasem przejazdu od pierwszego do aktualnego ślizgu 
@@ -127,6 +127,7 @@ public class CalculatePartialRanks {
 		Map<LugerCompetitor, LocalTime> totalTimes = new HashMap<LugerCompetitor, LocalTime>();
 		
 		for (Run r : comp.runsTimes) {
+				
 			if (!comp.trainingOrContest || r.trainingOrScored) {
 				/*
 				 * Jeżeli cała konkurencja to trening albo ten konkretny ślizg jest punktowany to trzeba go uwzględnić 
@@ -148,7 +149,7 @@ public class CalculatePartialRanks {
 					LocalTime v = e.getValue();		// i jego czasu przejazdu
 					
 					if (v.equals(LocalTime.of(0, 0, 0, 0)) || v == null)
-						v = DNS.getValue(); // jeżeli saneczkarz jeszcze nie jechał
+						v = DNS.getValue().plusMinutes(1); // jeżeli saneczkarz jeszcze nie jechał
 											// to tymczasowo dopisz DNS
 						
 					/*
@@ -165,6 +166,11 @@ public class CalculatePartialRanks {
 						totalTimes.put(k, v);
 					}
 				} while (it.hasNext());
+			}
+			
+			if (r.equals(currentRun)) {
+				// zakończ przetwarzanie na aktualnym ślizgu
+				break;
 			}
 		}
 		

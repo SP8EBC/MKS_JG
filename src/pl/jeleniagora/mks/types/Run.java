@@ -32,7 +32,7 @@ public class Run {
 	public short number;
 	
 	/**
-	 * Unikatowy, losowo generowany numer seryjny ślizgu
+	 * Unikatowy, losowo generowany numer seryjny ślizgu. Używany głównie w XMLu
 	 */
 	@XmlElement(required = true, nillable =  true)
 	public long serialNumber;

@@ -72,7 +72,7 @@ public class SaveRuntime {
 			if (GeneralS.isPartialRanksRunOnly())
 				partialRanks.calculatePartialRanksInRun(rte_st.currentCompetition, rte_st.currentRun);
 			else
-				partialRanks.calculatePartialRanks(rte_st.currentCompetition);
+				partialRanks.calculatePartialRanks(rte_st.currentCompetition, rte_st.currentRun);
 			rte_gui.updater.updateCurrentCompetition();
 		}
 		
