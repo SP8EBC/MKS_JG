@@ -15,8 +15,10 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import pl.jeleniagora.mks.events.AfterWebServiceContact;
+import pl.jeleniagora.mks.online.renderers.CompetitionDataRenderer;
 import pl.jeleniagora.mks.online.renderers.SingleCompetitionDefinitionRenderer;
 import pl.jeleniagora.mks.types.Competition;
+import pl.jeleniagora.mks.types.online.CompetitionData;
 import pl.jeleniagora.mks.types.online.SingleCompetitionDefinition;
 
 /**
@@ -40,8 +42,9 @@ public class WebServicePutConsumer {
 	 * @param competition
 	 */
 	public void competitionDataUpdater(Competition competition) {
-		SingleCompetitionDefinitionRenderer rndr = new SingleCompetitionDefinitionRenderer();
-		SingleCompetitionDefinition def = rndr.render(competition);
+		//SingleCompetitionDefinitionRenderer rndr = new SingleCompetitionDefinitionRenderer();
+		//SingleCompetitionDefinition def = rndr.render(competition);
+		CompetitionData data = CompetitionDataRenderer.renderer(competition);
 		
 		Map <String, String> params = new HashMap<String, String>();
 		params.put("id", new Long(competition.serialNum).toString());
@@ -57,7 +60,7 @@ public class WebServicePutConsumer {
 			public void run() {
 				Thread.currentThread().setName("competitionDataUpdater");
 				try {
-					template.put(uri, def, params);
+					template.put(uri, data, params);
 				}
 				catch(ResourceAccessException e) {
 					// wyjątek rzucany jeżeli nie można ustanowić komunikacji z serwerem

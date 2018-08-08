@@ -1,54 +1,52 @@
 package pl.jeleniagora.mks.online.renderers;
 
-import java.time.LocalTime;
 import java.util.Map.Entry;
-import java.util.Vector;
 
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.LugerCompetitor;
 import pl.jeleniagora.mks.types.Run;
 import pl.jeleniagora.mks.types.online.CompetitionData;
+import pl.jeleniagora.mks.types.online.CompetitionDataEntry;
 
 public class CompetitionDataRenderer {
 
 	public static CompetitionData renderer(Competition competition) {
-		
-		// zmienna lokalna określająca pierwszy obiekt pętli, blokuje dodawanie do out.runsType
-		boolean first = true;	
+
 		
 		CompetitionData out = new CompetitionData();
 		
-		out.compId = competition.id;
+		out.competitionSerialNumber = competition.serialNum;
+		out.competitionId = competition.id;
 		
 		for (Entry<Short, LugerCompetitor> e : competition.invertedStartList.entrySet()) {
 			
 			Short k = e.getKey();
 			LugerCompetitor v = e.getValue();
 			
-			out.competitorsStartNums.add(new Integer(k));
-			out.competitorsNames.addElement(v.toString());
-			out.competitorsRanks.addElement(new Integer(k));
+			CompetitionDataEntry entry = new CompetitionDataEntry();
 			
-			out.competitorsRanks.add(new Integer(competition.ranks.get(v)));
-			out.competitorsClubsNames.add(v.clubToString());
-			
-			Vector<String> times = new Vector<String>(); 	// czasy przejazdu - ślizgu dla tego saneczkarza
+			entry.clubName = v.clubToString();
+			entry.competitorName = v.toString();
+			entry.competitorStartNumber = new Integer(k);
+			entry.competitorRank = competition.ranks.get(v);
+			if (competition.partialRanks != null && competition.partialRanks.containsKey(v))
+				entry.competitorPartialRank = competition.partialRanks.get(v);
+			else
+				entry.competitorPartialRank = 0;
+
 			
 			for (Run r : competition.runsTimes) {
-				if (first) {
-					if (r.trainingOrScored)
-						out.runsType.add(true);
-					else 
-						out.runsType.add(false);
-					
-					first = false;
+				if (r.trainingOrScored) {
+					entry.trainingRunsTimesStr.add(r.totalTimes.get(v).toString());
+				}
+				else {
+					entry.scoredRunsTimesStr.add(r.totalTimes.get(v).toString());					
 				}
 				
-				LocalTime t = r.totalTimes.get(v);
-				times.add(t.toString());
 			}
 			
-			out.competitorsTimesStrings.add(times);
+			out.entry.add(entry);
+			//out.competitorsTimesStrings.add(times);
 		}
 		
 		
