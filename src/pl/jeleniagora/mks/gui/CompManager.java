@@ -39,6 +39,7 @@ import pl.jeleniagora.mks.serial.CommThread;
 import pl.jeleniagora.mks.serial.CommThreadTermHook;
 import pl.jeleniagora.mks.serial.RxCommType;
 import pl.jeleniagora.mks.settings.DisplayS;
+import pl.jeleniagora.mks.settings.GeneralS;
 import pl.jeleniagora.mks.settings.SerialCommS;
 import pl.jeleniagora.mks.settings.SpringS;
 import pl.jeleniagora.mks.types.Competition;
@@ -77,6 +78,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.JRadioButton;
 
 public class CompManager extends JFrame {
 	
@@ -384,9 +386,6 @@ public class CompManager extends JFrame {
 		});
 		mnZawody.add(mntmNazwaIData);
 		
-		JSeparator separator_5 = new JSeparator();
-		mnZawody.add(separator_5);
-		
 		JMenuItem mntmWybierzTor = new JMenuItem("Wybierz tor");
 		mntmWybierzTor.addActionListener(new ActionListener() {
 
@@ -422,10 +421,13 @@ public class CompManager extends JFrame {
 		JRadioButtonMenuItem rdbtnmntmTrening = new JRadioButtonMenuItem("Trening");
 		mnZawody.add(rdbtnmntmTrening);
 		rdbtnmntmTrening.addItemListener(new CompManagerRbContestsTrainingItemListener(ctx));
+		rdbtnmntmTrening.setActionCommand("training");
 		compTrainingGroup.add(rdbtnmntmTrening);
 		
 		JRadioButtonMenuItem rdbtnmntmPunktowaneZawody = new JRadioButtonMenuItem("Punktowane zawody");
 		mnZawody.add(rdbtnmntmPunktowaneZawody);
+//		rdbtnmntmPunktowaneZawody.addItemListener(new CompManagerRbContestsTrainingItemListener(ctx));
+		rdbtnmntmPunktowaneZawody.setActionCommand("contest");
 		compTrainingGroup.add(rdbtnmntmPunktowaneZawody);
 		
 		JSeparator separator_4 = new JSeparator();
@@ -433,6 +435,59 @@ public class CompManager extends JFrame {
 		
 		JMenuItem mntmPrzeliczPunktacje = new JMenuItem("Przelicz punktacje");
 		mnZawody.add(mntmPrzeliczPunktacje);
+		
+		JMenu mnSposbObliczaniaLokaty = new JMenu("Sposób obliczania lokaty w aktualnym ślizgu");
+		mnZawody.add(mnSposbObliczaniaLokaty);
+		
+		//
+		ButtonGroup partialRanksButtonGroup = new ButtonGroup();
+		
+		JRadioButton rdbtnNaPodstawiePoprzednich = new JRadioButton("Na podstawie poprzednich i aktualnego ślizgu");
+		mnSposbObliczaniaLokaty.add(rdbtnNaPodstawiePoprzednich);
+		partialRanksButtonGroup.add(rdbtnNaPodstawiePoprzednich);
+		rdbtnNaPodstawiePoprzednich.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Object actionSrc = arg0.getSource();
+				JRadioButton actionRb = (JRadioButton)actionSrc;
+				
+				if (actionRb.isSelected()) {
+					GeneralS.setPartialRanksRunOnly(false);
+					System.out.println("ParialRanksRunOnly disabled");
+				}
+				else {
+					GeneralS.setPartialRanksRunOnly(true);		
+					System.out.println("ParialRanksRunOnly enable");
+				}
+			}
+			
+		});
+		
+		JRadioButton rdbtnTylkoNaPodstawie = new JRadioButton("Tylko na podstawie aktualnego ślizgu");
+		mnSposbObliczaniaLokaty.add(rdbtnTylkoNaPodstawie);
+		partialRanksButtonGroup.add(rdbtnTylkoNaPodstawie);
+		rdbtnTylkoNaPodstawie.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Object actionSrc = arg0.getSource();
+				JRadioButton actionRb = (JRadioButton)actionSrc;
+				
+				if (actionRb.isSelected()) {
+					GeneralS.setPartialRanksRunOnly(true);
+					System.out.println("ParialRanksRunOnly enable");
+				}
+				else {
+					GeneralS.setPartialRanksRunOnly(false);		
+					System.out.println("ParialRanksRunOnly disable");
+				}
+			}
+			
+		});
+		
+		JMenuItem mntmWyjanienie = new JMenuItem("Wyjaśnienie");
+		mnSposbObliczaniaLokaty.add(mntmWyjanienie);
 				
 		JMenu mnKonkurencje = new JMenu("Konkurencje");
 		menuBar.add(mnKonkurencje);

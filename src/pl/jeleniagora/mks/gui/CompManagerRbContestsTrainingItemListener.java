@@ -10,6 +10,7 @@ import javax.swing.event.ChangeListener;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import pl.jeleniagora.mks.rte.RTE_ST;
+import pl.jeleniagora.mks.types.Competition;
 
 public class CompManagerRbContestsTrainingItemListener implements ItemListener {
 
@@ -24,12 +25,15 @@ public class CompManagerRbContestsTrainingItemListener implements ItemListener {
 		
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 		
+		
 		if (arg0.getStateChange() == ItemEvent.SELECTED) {
-			rte_st.currentCompetition.trainingOrContest = false;
+			for (Competition c : rte_st.competitions.competitions)
+				c.trainingOrContest = false;
 			JOptionPane.showMessageDialog(null, "Konfiguracja zawodów przełączona na tryb treningowy, punktacja będzie liczona po każdej konkurencji");
 		}
 		else if (arg0.getStateChange() == ItemEvent.DESELECTED) {
-			rte_st.currentCompetition.trainingOrContest = true;
+			for (Competition c : rte_st.competitions.competitions)
+				c.trainingOrContest = true;
 			JOptionPane.showMessageDialog(null, "Konfiguracja zawodów przełączona na tryb 'zawody', punktacja będzie liczona tylko dla ślizgów punktowanych");
 
 		}
