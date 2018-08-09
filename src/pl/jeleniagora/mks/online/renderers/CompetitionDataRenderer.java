@@ -37,10 +37,10 @@ public class CompetitionDataRenderer {
 			
 			for (Run r : competition.runsTimes) {
 				if (r.trainingOrScored) {
-					entry.trainingRunsTimesStr.add(r.totalTimes.get(v).toString());
+					entry.scoredRunsTimesStr.add(r.totalTimes.get(v).toString());
 				}
 				else {
-					entry.scoredRunsTimesStr.add(r.totalTimes.get(v).toString());					
+					entry.trainingRunsTimesStr.add(r.totalTimes.get(v).toString());					
 				}
 				
 			}

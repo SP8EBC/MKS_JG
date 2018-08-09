@@ -29,7 +29,7 @@ import pl.jeleniagora.mks.types.online.SingleCompetitionDefinition;
  */
 public class WebServicePutConsumer {
 
-	final String uri = "http://localhost:8080/MKS_JG_ONLINE/competitionDataUpdater/{id}";
+	final String uri = "http://localhost:8080/MKS_JG_ONLINE/updateCmpData/{id}";
 	
 	AfterWebServiceContact callback;
 	
