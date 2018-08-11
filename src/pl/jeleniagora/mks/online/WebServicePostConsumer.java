@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -108,6 +109,12 @@ public class WebServicePostConsumer {
 					JOptionPane.showMessageDialog(null, "Wystąpił błąd poczas komunikacji z serwerem luge.pl");
 				}
 				catch(HttpClientErrorException | HttpServerErrorException e) {
+					if (e.getStatusCode().equals(HttpStatus.CONFLICT)) {
+						if (e.getResponseBodyAsString().equals("ALREADY_CREATED")) {
+							JOptionPane.showMessageDialog(null, "Zawody o tej nazwie znajdują się już w systemie online. Baza danych nie została zmodyfikowana");
+							
+						}
+					}
 					// wyjątek rzucany jeżeli serwer zwrócił jakiś kod błędu
 					System.out.println(e.getResponseBodyAsString());
 				}
