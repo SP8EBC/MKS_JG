@@ -180,6 +180,9 @@ public class Competitions {
 	 * @return
 	 */
 	public int getNextIdForNewCompetition() {
-		return competitions.size();
+		if (this.competitions == null) {
+			this.competitions = new Vector<Competition>();
+		}
+		return this.competitions.size();
 	}
 }

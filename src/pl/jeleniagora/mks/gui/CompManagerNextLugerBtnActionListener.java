@@ -10,6 +10,8 @@ import pl.jeleniagora.mks.events.UpdateCurrentAndNextLuger;
 import pl.jeleniagora.mks.exceptions.AppContextUninitializedEx;
 import pl.jeleniagora.mks.exceptions.EndOfRunEx;
 import pl.jeleniagora.mks.exceptions.StartOrderNotChoosenEx;
+import pl.jeleniagora.mks.rte.RTE_GUI;
+import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.types.LugerCompetitor;
 
 /**
@@ -28,6 +30,15 @@ public class CompManagerNextLugerBtnActionListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		
+		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
+		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
+		
+		if (rte_st.competitions.competitions.size() == 0 ||
+			rte_st.currentCompetition == null || 
+			rte_st.currentCompetition.invertedStartList.size() == 0 || 
+			rte_st.currentRun == null)
+			return;
+			
 		try {
 			UpdateCurrentAndNextLuger.moveForwardNormally();
 		} catch (EndOfRunEx e) {

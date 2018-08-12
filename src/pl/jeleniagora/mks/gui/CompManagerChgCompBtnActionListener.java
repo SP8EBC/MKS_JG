@@ -30,6 +30,13 @@ public class CompManagerChgCompBtnActionListener implements ActionListener {
 		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 		
+		if (rte_gui.competitionBeingShown == null || 
+			rte_gui.competitionBeingShown.runsTimes.size() == 0 ||
+			rte_gui.competitionBeingShown.startList.size() == 0) {
+			JOptionPane.showMessageDialog(null, "Nie możesz przełączyć się na konkurencję bez zawodników bądź bez ślizgów/zjazdów");
+			return;
+		}
+		
 		int answer = JOptionPane.YES_NO_OPTION;
 		answer = JOptionPane.showConfirmDialog(null, "Czy na pewno chcesz zmienić aktualną konkurencję?", "Pozor!", answer);
 		
