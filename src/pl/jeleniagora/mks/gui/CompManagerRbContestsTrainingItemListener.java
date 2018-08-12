@@ -29,12 +29,12 @@ public class CompManagerRbContestsTrainingItemListener implements ItemListener {
 		if (arg0.getStateChange() == ItemEvent.SELECTED) {
 			for (Competition c : rte_st.competitions.competitions)
 				c.trainingOrContest = false;
-			JOptionPane.showMessageDialog(null, "Konfiguracja zawodów przełączona na tryb treningowy, punktacja będzie liczona po każdej konkurencji");
+			JOptionPane.showMessageDialog(null, "Konfiguracja zawodów przełączona na tryb treningowy, lokaty będą liczone po każdym ślizgu/zjeździe");
 		}
 		else if (arg0.getStateChange() == ItemEvent.DESELECTED) {
 			for (Competition c : rte_st.competitions.competitions)
 				c.trainingOrContest = true;
-			JOptionPane.showMessageDialog(null, "Konfiguracja zawodów przełączona na tryb 'zawody', punktacja będzie liczona tylko dla ślizgów punktowanych");
+			JOptionPane.showMessageDialog(null, "Konfiguracja zawodów przełączona na tryb 'zawody', lokaty będą liczone tylko dla ślizgów punktowanych");
 
 		}
 		else;

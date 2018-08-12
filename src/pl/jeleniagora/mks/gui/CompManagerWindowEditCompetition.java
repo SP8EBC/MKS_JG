@@ -111,6 +111,8 @@ public class CompManagerWindowEditCompetition extends JFrame {
 	JRadioButton rdbtnUproszczonaWg;
 	JRadioButton rdbtnZgodnaZRegulamnem;
 	
+	JComboBox<String> comboBox;
+	
 	public void updateContent(Competitions competitions) {
 		
 		if (competitions.competitions.size() == 0) 
@@ -150,6 +152,15 @@ public class CompManagerWindowEditCompetition extends JFrame {
 		
 		textFieldName.setText(nameForChoosen);
 		
+		if (competition.trainingOrContest) {
+			// jeżeli ustawiono konkurencję jako konkurencje w zawodach
+			comboBox.setSelectedItem("Zawody - tylko po punktowanych");
+		}
+		else {
+			// jeżeli ustawiono jako trening
+			comboBox.setSelectedItem("Trening - po każdym ślizgu");
+		}
+		
 		if (competition.startOrder instanceof SimpleOrder) {
 			rdbtnUproszczonaWg.setSelected(true);
 			rdbtnZgodnaZRegulamnem.setSelected(false);			
@@ -169,7 +180,7 @@ public class CompManagerWindowEditCompetition extends JFrame {
 		setResizable(false);
 		setTitle("Edytuj parametry konkurencji");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 574, 302);
+		setBounds(100, 100, 574, 345);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -213,7 +224,7 @@ public class CompManagerWindowEditCompetition extends JFrame {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(competitionParametersPanel, GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE))
 		);
-		competitionParametersPanel.setLayout(new MigLayout("", "[][grow][][][][][][][3.00][]", "[][][][][][][]"));
+		competitionParametersPanel.setLayout(new MigLayout("", "[][grow][grow][][][][][][3.00][]", "[][][][][][][][]"));
 		
 		JLabel lblNazwaKonkurencji = new JLabel("Nazwa konkurencji:");
 		competitionParametersPanel.add(lblNazwaKonkurencji, "cell 0 0,alignx trailing");
@@ -266,6 +277,14 @@ public class CompManagerWindowEditCompetition extends JFrame {
 		btnZapiszIZamknij.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				short j = 0;
+				
+				if (comboBox.getSelectedItem().equals("Zawody - tylko po punktowanych")) {
+					chosenCompetition.trainingOrContest = true;
+				}
+				else if (comboBox.getSelectedItem().equals("Trening - po każdym ślizgu")) {
+					chosenCompetition.trainingOrContest = false;					
+				}
+				else;
 				
 				// sprawdzanie czy użytkownik nie próbuje zmniejszyć ilości ślizgów
 				if(	(int)spinnerScoredRuns.getValue() < scoredRunsForChosen ||
@@ -403,7 +422,12 @@ public class CompManagerWindowEditCompetition extends JFrame {
 			}
 			
 		});
-		competitionParametersPanel.add(btnZapiszIZamknij, "cell 0 6 3 1,growx");
+		
+		comboBox = new JComboBox<String>();
+		competitionParametersPanel.add(comboBox, "cell 2 6 6 1,growx");
+		competitionParametersPanel.add(btnZapiszIZamknij, "cell 0 7 3 1,growx");
+		comboBox.addItem("Trening - po każdym ślizgu");
+		comboBox.addItem("Zawody - tylko po punktowanych");
 		
 		JButton btnWyjdBezZapisu = new JButton("Wyjdź bez zapisu");
 		btnWyjdBezZapisu.addActionListener(new ActionListener() {
@@ -411,7 +435,10 @@ public class CompManagerWindowEditCompetition extends JFrame {
 				window.dispose();
 			}
 		});
-		competitionParametersPanel.add(btnWyjdBezZapisu, "cell 4 6 5 1,growx");
+		competitionParametersPanel.add(btnWyjdBezZapisu, "cell 4 7 6 1,growx");
+		
+		JLabel lblSposbObliczaniaLokat = new JLabel("<html><p align='center'>Sposób obliczania lokat:</p></html>");
+		competitionParametersPanel.add(lblSposbObliczaniaLokat, "cell 0 6 2 1");
 		contentPane.setLayout(gl_contentPane);
 	}
 }

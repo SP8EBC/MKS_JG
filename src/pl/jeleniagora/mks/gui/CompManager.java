@@ -418,18 +418,6 @@ public class CompManager extends JFrame {
 		
 		ButtonGroup compTrainingGroup = new ButtonGroup();
 		
-		JRadioButtonMenuItem rdbtnmntmTrening = new JRadioButtonMenuItem("Trening");
-		mnZawody.add(rdbtnmntmTrening);
-		rdbtnmntmTrening.addItemListener(new CompManagerRbContestsTrainingItemListener(ctx));
-		rdbtnmntmTrening.setActionCommand("training");
-		compTrainingGroup.add(rdbtnmntmTrening);
-		
-		JRadioButtonMenuItem rdbtnmntmPunktowaneZawody = new JRadioButtonMenuItem("Punktowane zawody");
-		mnZawody.add(rdbtnmntmPunktowaneZawody);
-//		rdbtnmntmPunktowaneZawody.addItemListener(new CompManagerRbContestsTrainingItemListener(ctx));
-		rdbtnmntmPunktowaneZawody.setActionCommand("contest");
-		compTrainingGroup.add(rdbtnmntmPunktowaneZawody);
-		
 		JSeparator separator_4 = new JSeparator();
 		mnZawody.add(separator_4);
 		
