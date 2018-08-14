@@ -47,7 +47,7 @@ public class CompManagerStoreRuntimeBtnActionListener implements ActionListener 
 			seconds = new Integer(rte_gui.sec.getText());
 		}
 		catch (Exception e) {
-			
+			;
 		}
 		
 		try {

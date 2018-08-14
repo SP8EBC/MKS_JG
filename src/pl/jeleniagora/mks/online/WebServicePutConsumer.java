@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.swing.JOptionPane;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.HttpClientErrorException;
@@ -16,9 +17,12 @@ import org.springframework.web.client.RestTemplate;
 
 import pl.jeleniagora.mks.events.AfterWebServiceContact;
 import pl.jeleniagora.mks.online.renderers.CompetitionDataRenderer;
+import pl.jeleniagora.mks.online.renderers.CompetitionsDefinitionRenderer;
 import pl.jeleniagora.mks.online.renderers.SingleCompetitionDefinitionRenderer;
 import pl.jeleniagora.mks.types.Competition;
+import pl.jeleniagora.mks.types.Competitions;
 import pl.jeleniagora.mks.types.online.CompetitionData;
+import pl.jeleniagora.mks.types.online.CompetitionsDefinition;
 import pl.jeleniagora.mks.types.online.SingleCompetitionDefinition;
 
 /**
@@ -29,7 +33,6 @@ import pl.jeleniagora.mks.types.online.SingleCompetitionDefinition;
  */
 public class WebServicePutConsumer {
 
-	final String uri = "http://localhost:8080/MKS_JG_ONLINE/updateCmpData/{id}";
 	
 	AfterWebServiceContact callback;
 	
@@ -37,11 +40,58 @@ public class WebServicePutConsumer {
 		callback = cbk;
 	}
 	
+	public void competitionsUpdater(Competitions competitions) {
+		@SuppressWarnings("unused")
+		final String uri = "http://localhost:8080/MKS_JG_ONLINE/updateComps";
+		
+		CompetitionsDefinitionRenderer rndr = new CompetitionsDefinitionRenderer();
+		CompetitionsDefinition defs = rndr.render(competitions);
+		
+		List<HttpMessageConverter<?>> list = new ArrayList<HttpMessageConverter<?>>();
+		list.add(new MappingJackson2HttpMessageConverter());
+		
+		RestTemplate template = new RestTemplate();
+		
+		// uruchamianie zapytania do web-serwisu w osobnym wątku żeby nie blokowac GUI
+		new Runnable() {
+
+			@Override
+			public void run() {
+				Thread.currentThread().setName("competitionsCreator");
+				try {
+					template.put(uri, defs);
+					return;
+				}
+				catch(ResourceAccessException e) {
+					// wyjątek rzucany jeżeli nie można ustanowić komunikacji z serwerem
+					System.out.println(e);
+					JOptionPane.showMessageDialog(null, "Wystąpił błąd poczas komunikacji z serwerem luge.pl");
+				}
+				catch(HttpClientErrorException | HttpServerErrorException e) {
+//					if (e.getStatusCode().equals(HttpStatus.CONFLICT)) {
+//						if (e.getResponseBodyAsString().equals("ALREADY_CREATED")) {
+//							JOptionPane.showMessageDialog(null, "Zawody o tej nazwie znajdują się już w systemie online. Baza danych nie została zmodyfikowana");
+//							
+//						}
+//					}
+					// wyjątek rzucany jeżeli serwer zwrócił jakiś kod błędu
+					System.out.println(e.getResponseBodyAsString());
+				}
+			}
+		
+		}.run();
+		
+		
+	}
+	
 	/**
 	 * Klient web serwisu wywoływany po każdym użyciu przycisku zapisz czas zawodnika
 	 * @param competition
 	 */
 	public void competitionDataUpdater(Competition competition) {
+		final String uri = "http://localhost:8080/MKS_JG_ONLINE/updateCmpData/{id}";
+
+		
 		//SingleCompetitionDefinitionRenderer rndr = new SingleCompetitionDefinitionRenderer();
 		//SingleCompetitionDefinition def = rndr.render(competition);
 		CompetitionData data = CompetitionDataRenderer.renderer(competition);

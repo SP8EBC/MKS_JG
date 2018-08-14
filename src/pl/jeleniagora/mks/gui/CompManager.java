@@ -30,6 +30,7 @@ import pl.jeleniagora.mks.factories.StartListFactory;
 import pl.jeleniagora.mks.files.xml.XmlLoader;
 import pl.jeleniagora.mks.files.xml.XmlSaver;
 import pl.jeleniagora.mks.online.WebServicePostConsumer;
+import pl.jeleniagora.mks.online.WebServicePutConsumer;
 import pl.jeleniagora.mks.rte.RTE;
 import pl.jeleniagora.mks.rte.RTE_COM;
 import pl.jeleniagora.mks.rte.RTE_COM_DISP;
@@ -766,20 +767,26 @@ public class CompManager extends JFrame {
 		JMenuItem mntmDodajaktualizujWywietlanKonkurencje = new JMenuItem("Dodaj/aktualizuj wyświetlaną konkurencje");
 		mntmDodajaktualizujWywietlanKonkurencje.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				WebServicePostConsumer consumer = new WebServicePostConsumer();
-				consumer.competitionAdder(rte_gui.competitionBeingShown);
+				WebServicePutConsumer consumer = new WebServicePutConsumer(null);
+				consumer.competitionDataUpdater(rte_gui.competitionBeingShown);
 			}
 		});
 		
-		JMenuItem mntmUsuBieceZawody = new JMenuItem("Usuń bieżące zawody z systemu");
+		JMenuItem mntmUsuBieceZawody = new JMenuItem("Aktualizuj bieżące zawody");
+		mntmUsuBieceZawody.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				WebServicePutConsumer consumer = new WebServicePutConsumer(null);
+				consumer.competitionsUpdater(st.competitions);	
+			}
+		});
 		mnLugepl.add(mntmUsuBieceZawody);
 		mnLugepl.add(mntmDodajaktualizujWywietlanKonkurencje);
 		
 		JMenuItem mntmDodajaktualizujRozgrywanKonkurencje = new JMenuItem("Dodaj/aktualizuj rozgrywaną konkurencje");
 		mntmDodajaktualizujRozgrywanKonkurencje.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				WebServicePostConsumer consumer = new WebServicePostConsumer();
-				consumer.competitionAdder(st.currentCompetition);
+				WebServicePutConsumer consumer = new WebServicePutConsumer(null);
+				consumer.competitionDataUpdater(st.currentCompetition);
 			}
 		});
 		mnLugepl.add(mntmDodajaktualizujRozgrywanKonkurencje);
