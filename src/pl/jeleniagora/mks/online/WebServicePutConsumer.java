@@ -17,12 +17,14 @@ import org.springframework.web.client.RestTemplate;
 
 import pl.jeleniagora.mks.events.AfterWebServiceContact;
 import pl.jeleniagora.mks.online.renderers.CompetitionDataRenderer;
+import pl.jeleniagora.mks.online.renderers.CompetitionMappingRenderer;
 import pl.jeleniagora.mks.online.renderers.CompetitionsDefinitionRenderer;
 import pl.jeleniagora.mks.online.renderers.SingleCompetitionDefinitionRenderer;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.Competitions;
 import pl.jeleniagora.mks.types.online.CompetitionData;
 import pl.jeleniagora.mks.types.online.CompetitionsDefinition;
+import pl.jeleniagora.mks.types.online.CompetitionsToCompetitionMapping;
 import pl.jeleniagora.mks.types.online.SingleCompetitionDefinition;
 
 /**
@@ -40,6 +42,10 @@ public class WebServicePutConsumer {
 		callback = cbk;
 	}
 	
+	/**
+	 * Metoda aktualizująca dane o zawodach
+	 * @param competitions
+	 */
 	public void competitionsUpdater(Competitions competitions) {
 		@SuppressWarnings("unused")
 		final String uri = "http://localhost:8080/MKS_JG_ONLINE/updateComps";
@@ -85,7 +91,93 @@ public class WebServicePutConsumer {
 	}
 	
 	/**
-	 * Klient web serwisu wywoływany po każdym użyciu przycisku zapisz czas zawodnika
+	 * Metoda dodająca/aktualizująca mappingi pomiędzy zawodami a konkurencjami
+	 * @param competitions
+	 */
+	public void mappingsUpdater(Competitions competitions) {
+		@SuppressWarnings("unused")
+		final String uri = "http://localhost:8080/MKS_JG_ONLINE/updateMappings";
+		
+		CompetitionsToCompetitionMapping mapping = CompetitionMappingRenderer.render(competitions);
+		
+		List<HttpMessageConverter<?>> list = new ArrayList<HttpMessageConverter<?>>();
+		list.add(new MappingJackson2HttpMessageConverter());
+		
+		RestTemplate template = new RestTemplate();
+		
+		// uruchamianie zapytania do web-serwisu w osobnym wątku żeby nie blokowac GUI
+		new Runnable() {
+
+			@Override
+			public void run() {
+				Thread.currentThread().setName("competitionMappingsUpdater");
+				try {
+					template.put(uri, mapping);
+					return;
+				}
+				catch(ResourceAccessException e) {
+					// wyjątek rzucany jeżeli nie można ustanowić komunikacji z serwerem
+					System.out.println(e);
+					JOptionPane.showMessageDialog(null, "Wystąpił błąd poczas komunikacji z serwerem luge.pl");
+				}
+				catch(HttpClientErrorException | HttpServerErrorException e) {
+//					if (e.getStatusCode().equals(HttpStatus.CONFLICT)) {
+//						if (e.getResponseBodyAsString().equals("ALREADY_CREATED")) {
+//							JOptionPane.showMessageDialog(null, "Zawody o tej nazwie znajdują się już w systemie online. Baza danych nie została zmodyfikowana");
+//							
+//						}
+//					}
+					// wyjątek rzucany jeżeli serwer zwrócił jakiś kod błędu
+					System.out.println(e.getResponseBodyAsString());
+				}
+			}
+		
+		}.run();
+		
+/*		
+		CompetitionsDefinitionRenderer rndr = new CompetitionsDefinitionRenderer();
+		CompetitionsDefinition defs = rndr.render(competitions);
+		
+		List<HttpMessageConverter<?>> list = new ArrayList<HttpMessageConverter<?>>();
+		list.add(new MappingJackson2HttpMessageConverter());
+		
+		RestTemplate template = new RestTemplate();
+		
+		// uruchamianie zapytania do web-serwisu w osobnym wątku żeby nie blokowac GUI
+		new Runnable() {
+
+			@Override
+			public void run() {
+				Thread.currentThread().setName("competitionsCreator");
+				try {
+					template.put(uri, defs);
+					return;
+				}
+				catch(ResourceAccessException e) {
+					// wyjątek rzucany jeżeli nie można ustanowić komunikacji z serwerem
+					System.out.println(e);
+					JOptionPane.showMessageDialog(null, "Wystąpił błąd poczas komunikacji z serwerem luge.pl");
+				}
+				catch(HttpClientErrorException | HttpServerErrorException e) {
+//					if (e.getStatusCode().equals(HttpStatus.CONFLICT)) {
+//						if (e.getResponseBodyAsString().equals("ALREADY_CREATED")) {
+//							JOptionPane.showMessageDialog(null, "Zawody o tej nazwie znajdują się już w systemie online. Baza danych nie została zmodyfikowana");
+//							
+//						}
+//					}
+					// wyjątek rzucany jeżeli serwer zwrócił jakiś kod błędu
+					System.out.println(e.getResponseBodyAsString());
+				}
+			}
+		
+		}.run();
+		
+	*/	
+	}
+	
+	/**
+	 * Klient web serwisu wywoływany po każdym użyciu przycisku zapisz czas zawodnika, do aktualizowania 
+	 * 
 	 * @param competition
 	 */
 	public void competitionDataUpdater(Competition competition) {
