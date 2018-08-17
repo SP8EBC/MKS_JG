@@ -755,16 +755,16 @@ public class CompManager extends JFrame {
 		JMenuItem mntmSprawdKomunikacjzSerwerem = new JMenuItem("Sprawdź komunikację z serwerem");
 		mnLugepl.add(mntmSprawdKomunikacjzSerwerem);
 		
-		JMenuItem mntmDodajBierzceZawody = new JMenuItem("Dodaj bieżące zawody do systemu");
+		JMenuItem mntmDodajBierzceZawody = new JMenuItem("Dodaj/aktualizuj informację o zawodach do systemu");
 		mntmDodajBierzceZawody.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				WebServicePostConsumer consumer = new WebServicePostConsumer();
-				consumer.competitionsCreator(st.competitions);
+				WebServicePutConsumer consumer = new WebServicePutConsumer(null);
+				consumer.competitionsUpdater(st.competitions);
 			}
 		});
 		mnLugepl.add(mntmDodajBierzceZawody);
 		
-		JMenuItem mntmDodajaktualizujWywietlanKonkurencje = new JMenuItem("Dodaj/aktualizuj wyświetlaną konkurencje");
+		JMenuItem mntmDodajaktualizujWywietlanKonkurencje = new JMenuItem("Aktualizuj czasy wyświetlanej konkurencji");
 		mntmDodajaktualizujWywietlanKonkurencje.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				WebServicePutConsumer consumer = new WebServicePutConsumer(null);
@@ -772,17 +772,17 @@ public class CompManager extends JFrame {
 			}
 		});
 		
-		JMenuItem mntmUsuBieceZawody = new JMenuItem("Aktualizuj bieżące zawody");
+		JMenuItem mntmUsuBieceZawody = new JMenuItem("Dodaj wszystkie konkurencję z zawodów");
 		mntmUsuBieceZawody.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				WebServicePutConsumer consumer = new WebServicePutConsumer(null);
-				consumer.competitionsUpdater(st.competitions);	
+				consumer.mappingsUpdater(st.competitions);
 			}
 		});
 		mnLugepl.add(mntmUsuBieceZawody);
 		mnLugepl.add(mntmDodajaktualizujWywietlanKonkurencje);
 		
-		JMenuItem mntmDodajaktualizujRozgrywanKonkurencje = new JMenuItem("Dodaj/aktualizuj rozgrywaną konkurencje");
+		JMenuItem mntmDodajaktualizujRozgrywanKonkurencje = new JMenuItem("Aktualizuj czasy rozgrywanej konkurencji");
 		mntmDodajaktualizujRozgrywanKonkurencje.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				WebServicePutConsumer consumer = new WebServicePutConsumer(null);
