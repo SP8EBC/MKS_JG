@@ -65,6 +65,7 @@ public class CompManagerNewFileListener implements ActionListener {
 			rte_st.currentRun = null;
 			rte_st.actuallyOnTrack = null;
 			rte_st.nextOnTrack = null;
+			rte_st.currentCompetition = null;
 			selectorUpdater.updateSelectorContent(empty);
 			
 			rte_gui.competitionBeingShown = null;

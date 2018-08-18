@@ -767,6 +767,10 @@ public class CompManager extends JFrame {
 		JMenuItem mntmDodajaktualizujWywietlanKonkurencje = new JMenuItem("Aktualizuj czasy wyświetlanej konkurencji");
 		mntmDodajaktualizujWywietlanKonkurencje.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if (rte_gui.competitionBeingShown == null) {
+					JOptionPane.showMessageDialog(frame, "Nie zdefinowano żadnej konkurencji!");
+					return;
+				}
 				WebServicePutConsumer consumer = new WebServicePutConsumer(null);
 				consumer.competitionDataUpdater(rte_gui.competitionBeingShown);
 			}
@@ -785,6 +789,11 @@ public class CompManager extends JFrame {
 		JMenuItem mntmDodajaktualizujRozgrywanKonkurencje = new JMenuItem("Aktualizuj czasy rozgrywanej konkurencji");
 		mntmDodajaktualizujRozgrywanKonkurencje.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (st.currentCompetition == null) {
+					JOptionPane.showMessageDialog(frame, "Nie zdefinowano żadnej konkurencji!");
+					return;
+				}
+				
 				WebServicePutConsumer consumer = new WebServicePutConsumer(null);
 				consumer.competitionDataUpdater(st.currentCompetition);
 			}

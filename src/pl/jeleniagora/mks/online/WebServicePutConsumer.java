@@ -98,6 +98,11 @@ public class WebServicePutConsumer {
 		@SuppressWarnings("unused")
 		final String uri = "http://localhost:8080/MKS_JG_ONLINE/updateMappings";
 		
+		if (competitions.competitions == null || competitions.competitions.size() == 0) {
+			JOptionPane.showMessageDialog(null, "Nie zdefiniowano żadnej konkurencji!");
+			return;
+		}
+		
 		CompetitionsToCompetitionMapping mapping = CompetitionMappingRenderer.render(competitions);
 		
 		List<HttpMessageConverter<?>> list = new ArrayList<HttpMessageConverter<?>>();

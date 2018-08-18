@@ -81,6 +81,7 @@ public class WebServicePostConsumer {
 		}.run();
 	}
 	
+	@Deprecated
 	public void competitionsCreator(Competitions cmps) {
 		
 		final String uri = "http://localhost:8080/MKS_JG_ONLINE/addComps";
