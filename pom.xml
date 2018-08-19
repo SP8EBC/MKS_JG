@@ -101,6 +101,28 @@
   		<groupId>javax.xml.bind</groupId>
   		<artifactId>jaxb-api</artifactId>
   	</dependency>
+	<!-- https://mvnrepository.com/artifact/com.itextpdf/kernel -->
+	<dependency>
+	    <groupId>com.itextpdf</groupId>
+	    <artifactId>kernel</artifactId>
+	    <version>7.1.2</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/com.itextpdf/layout -->
+	<dependency>
+	    <groupId>com.itextpdf</groupId>
+	    <artifactId>layout</artifactId>
+	    <version>7.1.2</version>
+	</dependency>
+		<!-- https://mvnrepository.com/artifact/com.itextpdf/io -->
+	<dependency>
+	    <groupId>com.itextpdf</groupId>
+	    <artifactId>io</artifactId>
+	    <version>7.1.2</version>
+	</dependency>
+	
+
+
+  	
   	<dependency>
     	<groupId>log4j</groupId>
     	<artifactId>log4j</artifactId>

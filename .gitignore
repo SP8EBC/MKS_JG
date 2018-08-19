@@ -18,6 +18,8 @@ proba.xml
 
 zlota_mysl.jpg
 
+*.pdf
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
