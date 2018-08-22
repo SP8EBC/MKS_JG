@@ -3,6 +3,7 @@ package pl.jeleniagora.mks.reports;
 import java.io.IOException;
 
 import com.itextpdf.io.font.FontConstants;
+import com.itextpdf.io.font.PdfEncodings;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.events.Event;
@@ -34,11 +35,30 @@ public class TestReport {
 	public static String bielsko = "./res/BB_logo.jpg";
 	public static String mks = "./res/mks_logo_small.jpg";
 	
-	public Cell getCell(String text, TextAlignment alignment) {
-	    Cell cell = new Cell().add(new Paragraph(text));
+	PdfFont font;
+	PdfFont bold;
+	
+	public Cell getCell(String text, TextAlignment alignment, PdfFont font) {
+	    Cell cell = new Cell().add(new Paragraph(text).setFont(font));
 	    cell.setPadding(0);
 	    cell.setTextAlignment(alignment);
 	    cell.setBorder(Border.NO_BORDER);
+	    cell.setBorderBottom(Border.NO_BORDER);
+	    cell.setBorderLeft(Border.NO_BORDER);
+	    cell.setBorderTop(Border.NO_BORDER);
+	    cell.setBorderRight(Border.NO_BORDER);
+	    return cell;
+	}
+	
+	public Cell getCell(String text, TextAlignment alignment, PdfFont font, float fontSize) {
+	    Cell cell = new Cell().add(new Paragraph(text).setFont(font).setFontSize(fontSize));
+	    cell.setPadding(0);
+	    cell.setTextAlignment(alignment);
+	    cell.setBorder(Border.NO_BORDER);
+	    cell.setBorderBottom(Border.NO_BORDER);
+	    cell.setBorderLeft(Border.NO_BORDER);
+	    cell.setBorderTop(Border.NO_BORDER);
+	    cell.setBorderRight(Border.NO_BORDER);
 	    return cell;
 	}
 	
@@ -55,7 +75,9 @@ public class TestReport {
         
         PdfExtGState gs1 = new PdfExtGState();
         gs1.setFillOpacity(0.3f);
-        
+   
+		font = PdfFontFactory.createFont("./res/DejaVuSans.ttf", PdfEncodings.IDENTITY_H, true);
+		bold = PdfFontFactory.createFont("./res/Uni_Sans_Heavy.otf", PdfEncodings.IDENTITY_H, true);
         
         
 		Image bielskoImage = new Image(ImageDataFactory.create(bielsko), 0, 450, 200);
@@ -63,20 +85,19 @@ public class TestReport {
         
 		Table titleTable = new Table(1);
 		titleTable.setWidth(new UnitValue(UnitValue.PERCENT, 100));
-		titleTable.addCell(getCell("Raport końcowy z zawodów: test testttt", TextAlignment.CENTER));
+		titleTable.addCell(getCell("Raport końcowy z zawodów: test testttt", TextAlignment.CENTER, bold, 18.0f));
 		
 		Table contestTable = new Table(1);
 		contestTable.setWidth(new UnitValue(UnitValue.PERCENT, 100));
-		contestTable.addCell(getCell("Konkurencja: Jedynki Męskie", TextAlignment.CENTER));
+		contestTable.addCell(getCell("Konkurencja: Jedynki Męskie", TextAlignment.CENTER, bold));
 //		titleTable.addCell("test").setTextAlignment(TextAlignment.CENTER).setBorderBottom(Border.NO_BORDER);
 		
-		PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
-		PdfFont bold = PdfFontFactory.createFont(FontConstants.TIMES_BOLD);
 		Text author = new Text("Robert Louis Stevenson").setFont(font);
-		document.add(titleTable);
-		document.add(contestTable);
 		document.add(bielskoImage);
 		document.add(karpaczImage);
+		
+		Paragraph p = new Paragraph();
+		p.setMultipliedLeading(2.0f);
 		
 		over = new PdfCanvas(pdf.getFirstPage());
         over.saveState();
@@ -86,7 +107,9 @@ public class TestReport {
         float y = (pdf.getFirstPage().getPageSizeWithRotation().getTop() + pdf.getFirstPage().getPageSizeWithRotation().getBottom()) / 2;
         over.addImage(img, img.getWidth(), 0, 0, img.getHeight(), x - (img.getWidth() / 2), y - (img.getHeight() / 2), false);
 
-        over.restoreState();		
+        over.restoreState();	
+		document.add(titleTable);
+		document.add(contestTable);
 		document.close();
 		
 
