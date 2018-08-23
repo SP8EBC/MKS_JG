@@ -85,19 +85,29 @@ public class TestReport {
         
 		Table titleTable = new Table(1);
 		titleTable.setWidth(new UnitValue(UnitValue.PERCENT, 100));
-		titleTable.addCell(getCell("Raport końcowy z zawodów: test testttt", TextAlignment.CENTER, bold, 18.0f));
+		titleTable.addCell(getCell("Raport końcowy z konkurencji", TextAlignment.CENTER, bold, 18.0f));
 		
 		Table contestTable = new Table(1);
 		contestTable.setWidth(new UnitValue(UnitValue.PERCENT, 100));
-		contestTable.addCell(getCell("Konkurencja: Jedynki Męskie", TextAlignment.CENTER, bold));
+		contestTable.addCell(getCell("Jedynki Męskie", TextAlignment.CENTER, bold));
+		contestTable.addCell(getCell("", TextAlignment.CENTER, font));
+		contestTable.addCell(getCell("Memoriał Mariusza Warzyboka", TextAlignment.CENTER, font));
+		contestTable.addCell(getCell("15 września 2018", TextAlignment.CENTER, font));
+		
+		Table scoreTable = new Table(5);
+		scoreTable.setWidth(new UnitValue(UnitValue.PERCENT, 100));
+		scoreTable.addCell(getCell("Numer Startowy", TextAlignment.CENTER, font));
+		scoreTable.addCell(getCell("Lokata", TextAlignment.CENTER, font));
+		scoreTable.addCell(getCell("Imię i Nazwisko", TextAlignment.CENTER, font));
+		scoreTable.addCell(getCell("Klub", TextAlignment.CENTER, font));
+		scoreTable.addCell(getCell("Czas", TextAlignment.CENTER, font));
+	
+		
 //		titleTable.addCell("test").setTextAlignment(TextAlignment.CENTER).setBorderBottom(Border.NO_BORDER);
 		
-		Text author = new Text("Robert Louis Stevenson").setFont(font);
 		document.add(bielskoImage);
 		document.add(karpaczImage);
-		
-		Paragraph p = new Paragraph();
-		p.setMultipliedLeading(2.0f);
+	
 		
 		over = new PdfCanvas(pdf.getFirstPage());
         over.saveState();
@@ -110,6 +120,16 @@ public class TestReport {
         over.restoreState();	
 		document.add(titleTable);
 		document.add(contestTable);
+		
+		Paragraph p = new Paragraph();
+		p.setMultipliedLeading(2.0f);
+		p.add(new Text("  ").setFontSize(20.0f));
+		document.add(p);
+		document.add(p);
+		document.add(p);
+
+		
+		document.add(scoreTable);
 		document.close();
 		
 
