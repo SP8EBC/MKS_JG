@@ -1,32 +1,19 @@
 package pl.jeleniagora.mks.reports;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-
-import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.io.font.PdfEncodings;
-import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
-import com.itextpdf.kernel.colors.Color;
 import com.itextpdf.kernel.colors.ColorConstants;
-import com.itextpdf.kernel.events.Event;
-import com.itextpdf.kernel.events.IEventHandler;
 import com.itextpdf.kernel.events.PdfDocumentEvent;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
-import com.itextpdf.kernel.geom.Rectangle;
 import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfName;
-import com.itextpdf.kernel.pdf.PdfNumber;
 import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.kernel.pdf.extgstate.PdfExtGState;
-import com.itextpdf.kernel.pdf.xobject.PdfFormXObject;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.borders.Border;
 import com.itextpdf.layout.borders.SolidBorder;
-import com.itextpdf.layout.element.AreaBreak;
 import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
@@ -56,7 +43,6 @@ public class TestReport {
 	    cell.setPadding(0);
 	    cell.setTextAlignment(alignment);
 	    cell.setVerticalAlignment(VerticalAlignment.MIDDLE);
-//	    cell.setBorder(Border.NO_BORDER);
 	    if (bottomBorder)
 	    	cell.setBorderBottom(new SolidBorder(ColorConstants.BLACK, 1.0f));
 	    else
@@ -159,8 +145,6 @@ public class TestReport {
 		//        PageRotationEventHandler eventHandler = new PageRotationEventHandler();
 		
         // image watermark
-        ImageData img = ImageDataFactory.create(mks);
-        PdfCanvas over;
         
         PdfExtGState gs1 = new PdfExtGState();
         gs1.setFillOpacity(0.3f);
