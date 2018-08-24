@@ -1,6 +1,7 @@
 package pl.jeleniagora.mks.reports;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 
 import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.io.font.PdfEncodings;
@@ -14,12 +15,14 @@ import com.itextpdf.kernel.events.PdfDocumentEvent;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.geom.Rectangle;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfName;
 import com.itextpdf.kernel.pdf.PdfNumber;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.kernel.pdf.extgstate.PdfExtGState;
+import com.itextpdf.kernel.pdf.xobject.PdfFormXObject;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.borders.Border;
 import com.itextpdf.layout.borders.SolidBorder;
@@ -42,8 +45,14 @@ public class TestReport {
 	PdfFont font;
 	PdfFont bold;
 	
+	String contestName;
+	String competitionName;
+	String date;
+	
+	float tableHeaderFontSize;
+	
 	public Cell getCell(String text, TextAlignment alignment, PdfFont font, int rowspan, int colspan,  boolean sideBorder, boolean bottomBorder) {
-	    Cell cell = new Cell(rowspan, colspan).add(new Paragraph(text).setFont(font));
+	    Cell cell = new Cell(rowspan, colspan).add(new Paragraph(text).setFont(font).setFontSize(tableHeaderFontSize));
 	    cell.setPadding(0);
 	    cell.setTextAlignment(alignment);
 	    cell.setVerticalAlignment(VerticalAlignment.MIDDLE);
@@ -57,7 +66,10 @@ public class TestReport {
 	    else
 	    	cell.setBorderLeft(Border.NO_BORDER);
 	    cell.setBorderTop(Border.NO_BORDER);
-	    cell.setBorderRight(Border.NO_BORDER);
+	    if (sideBorder)
+	    	 cell.setBorderRight(new SolidBorder(ColorConstants.BLACK, 1.0f));
+	    else
+	    	 cell.setBorderRight(Border.NO_BORDER);	    
 	    return cell;
 	}
 	
@@ -76,7 +88,10 @@ public class TestReport {
 	    else
 	    	cell.setBorderLeft(Border.NO_BORDER);
 	    cell.setBorderTop(Border.NO_BORDER);
-	    cell.setBorderRight(Border.NO_BORDER);
+	    if (sideBorder)
+	    	 cell.setBorderRight(new SolidBorder(ColorConstants.BLACK, 1.0f));
+	    else
+	    	 cell.setBorderRight(Border.NO_BORDER);	    
 	    return cell;
 	}
 	
@@ -95,7 +110,11 @@ public class TestReport {
 	    else
 	    	cell.setBorderLeft(Border.NO_BORDER);
 	    cell.setBorderTop(Border.NO_BORDER);
-	    cell.setBorderRight(Border.NO_BORDER);
+	    if (sideBorder)
+	    	 cell.setBorderRight(new SolidBorder(ColorConstants.BLACK, 1.0f));
+	    else
+	    	 cell.setBorderRight(Border.NO_BORDER);
+	    //cell.setBorderRight(Border.NO_BORDER);
 	    return cell;
 	}
 	
@@ -107,18 +126,24 @@ public class TestReport {
 		scoreTable.addHeaderCell(getCell("Czasy ślizgów", TextAlignment.CENTER, font, 1, runsNumber, true, true).setBorderTop(new SolidBorder(ColorConstants.BLACK, 1.0f)));
 		scoreTable.startNewRow();
 		for (int i = 0; i < runsNumber; i++)
-			scoreTable.addHeaderCell(getCell("Pkt 2", TextAlignment.CENTER, font, true, true));
+			scoreTable.addHeaderCell(getCell("Pkt 2", TextAlignment.CENTER, font, tableHeaderFontSize,  true, true));
 	}
 	
 	public void test() throws IOException {
 		
 		int runsNumber = 6;
+		contestName = "Memoriał Mariusza Warzyboka";
+		competitionName = "Jedynki Męskie";
+		date = "15 września 2018";
+		
+		float fontSize = 10.0f;
+		tableHeaderFontSize = 10.0f;
 
 		float[] columnsWidth = new float[runsNumber + 4];
-		columnsWidth[0] = 1;
+		columnsWidth[0] = 2;
 		columnsWidth[1] = 1;
 		columnsWidth[2] = 4;
-		columnsWidth[3] = 4;
+		columnsWidth[3] = 6;
 		
 		for (int i = 4; i < runsNumber + 4; i++)
 			columnsWidth[i] = 2;
@@ -129,8 +154,9 @@ public class TestReport {
 		PdfDocument pdf = new PdfDocument(new PdfWriter("test.pdf"));
 		Document document = new Document(pdf);
 		pdf.setDefaultPageSize(PageSize.A4.rotate());
-		pdf.addEventHandler(PdfDocumentEvent.INSERT_PAGE, new FooterHandler(document, font));
-//        PageRotationEventHandler eventHandler = new PageRotationEventHandler();
+		pdf.addEventHandler(PdfDocumentEvent.END_PAGE, new FooterHandler(document, font, competitionName + " " + contestName));
+		pdf.addEventHandler(PdfDocumentEvent.START_PAGE, new BackgroundHandler());
+		//        PageRotationEventHandler eventHandler = new PageRotationEventHandler();
 		
         // image watermark
         ImageData img = ImageDataFactory.create(mks);
@@ -149,10 +175,10 @@ public class TestReport {
 		
 		Table contestTable = new Table(1);
 		contestTable.setWidth(new UnitValue(UnitValue.PERCENT, 100));
-		contestTable.addCell(getCell("Jedynki Męskie", TextAlignment.CENTER, bold, false, false));
-		contestTable.addCell(getCell("", TextAlignment.CENTER, font, false, false));
-		contestTable.addCell(getCell("Memoriał Mariusza Warzyboka", TextAlignment.CENTER, font, false, false));
-		contestTable.addCell(getCell("15 września 2018", TextAlignment.CENTER, font, false, false));
+		contestTable.addCell(getCell(competitionName, TextAlignment.CENTER, bold, 16.0f, false, false));
+		contestTable.addCell(getCell("", TextAlignment.CENTER, font, 14.0f, false, false));
+		contestTable.addCell(getCell(contestName, TextAlignment.CENTER, font, 14.0f, false, false));
+		contestTable.addCell(getCell(date, TextAlignment.CENTER, font, 14.0f, false, false));
 		
 		Table scoreTable = new Table(columnsWidth);
 		scoreTable.setWidth(new UnitValue(UnitValue.PERCENT, 100));
@@ -160,35 +186,45 @@ public class TestReport {
 		
 		scoreTable.startNewRow();
 //		scoreTable.startNewRow();
-		scoreTable.addCell(getCell("1", TextAlignment.CENTER, font, true, false));
-		scoreTable.addCell(getCell("1", TextAlignment.CENTER, font, true, false));
-		scoreTable.addCell(getCell("Testowy TEst", TextAlignment.CENTER, font, true, false));
-		scoreTable.addCell(getCell("MKS Karkonosze Sporty Zimowe", TextAlignment.CENTER, font, true, false));
+		scoreTable.addCell(getCell("1", TextAlignment.CENTER, font, fontSize, true, false));
+		scoreTable.addCell(getCell("1", TextAlignment.CENTER, font, fontSize, true, false));
+		scoreTable.addCell(getCell("Testowy TEst", TextAlignment.CENTER, font, fontSize, true, false));
+		scoreTable.addCell(getCell("MKS Karkonosze Sporty Zimowe", TextAlignment.CENTER, font, fontSize, true, false));
 		for (int i = 0; i < runsNumber; i++)
-			scoreTable.addCell(getCell("0:44.875", TextAlignment.CENTER, font, true, false));
+			scoreTable.addCell(getCell("0:44.875", TextAlignment.CENTER, font, fontSize, true, false));
 
 		scoreTable.startNewRow();
-		scoreTable.addCell(getCell("2", TextAlignment.CENTER, font, true, false));
-		scoreTable.addCell(getCell("2", TextAlignment.CENTER, font, true, false));
-		scoreTable.addCell(getCell("Testowy Tst", TextAlignment.CENTER, font, true, false));
-		scoreTable.addCell(getCell("KS Śnieżka Karpacz", TextAlignment.CENTER, font, true, false));
+		scoreTable.addCell(getCell("2", TextAlignment.CENTER, font, fontSize, true, false));
+		scoreTable.addCell(getCell("2", TextAlignment.CENTER, font, fontSize, true, false));
+		scoreTable.addCell(getCell("Grzegorz Brzęczyszczykiewicz", TextAlignment.CENTER, font, fontSize, true, false));
+		scoreTable.addCell(getCell("KS Śnieżka Karpacz", TextAlignment.CENTER, font, fontSize, true, false));
 		for (int i = 0; i < runsNumber; i++)
-			scoreTable.addCell(getCell("0:49.275", TextAlignment.CENTER, font, true, false));		
+			scoreTable.addCell(getCell("0:49.275", TextAlignment.CENTER, font, fontSize, true, false));		
 
 		scoreTable.startNewRow();
-		scoreTable.addCell(getCell("3", TextAlignment.CENTER, font, true, false));
-		scoreTable.addCell(getCell("3", TextAlignment.CENTER, font, true, false));
-		scoreTable.addCell(getCell("Testowy Tst", TextAlignment.CENTER, font, true, false));
-		scoreTable.addCell(getCell("MKS Karkonosze Sporty Zimowe", TextAlignment.CENTER, font, true, false));
+		scoreTable.addCell(getCell("3", TextAlignment.CENTER, font, fontSize, true, false));
+		scoreTable.addCell(getCell("3", TextAlignment.CENTER, font, fontSize, true, false));
+		scoreTable.addCell(getCell("Testowy Tst", TextAlignment.CENTER, font, fontSize, true, false));
+		scoreTable.addCell(getCell("MKS Karkonosze Sporty Zimowe", TextAlignment.CENTER, font, fontSize, true, false));
 		for (int i = 0; i < runsNumber; i++)
-			scoreTable.addCell(getCell("0:49.275", TextAlignment.CENTER, font, true, false));	
+			scoreTable.addCell(getCell("0:49.275", TextAlignment.CENTER, font, fontSize, true, false));	
+		
+		for (int j = 0; j < 25; j++) {
+			scoreTable.startNewRow();
+			scoreTable.addCell(getCell(new Integer(4+j).toString(), TextAlignment.CENTER, font,fontSize,  true, false));
+			scoreTable.addCell(getCell("4", TextAlignment.CENTER, font, fontSize, true, false));
+			scoreTable.addCell(getCell("Testowy" + j, TextAlignment.CENTER, font, fontSize, true, false));
+			scoreTable.addCell(getCell("MKS Karkonosze Sporty Zimowe", TextAlignment.CENTER, font, fontSize, true, false));
+			for (int i = 0; i < runsNumber; i++)
+				scoreTable.addCell(getCell("0:49.275", TextAlignment.CENTER, font, fontSize, true, false));	
+		}
 		
 //		titleTable.addCell("test").setTextAlignment(TextAlignment.CENTER).setBorderBottom(Border.NO_BORDER);
 		
 		document.add(bielskoImage);
 		document.add(karpaczImage);
 	
-		
+/*		
 		over = new PdfCanvas(pdf.getFirstPage());
         over.saveState();
         over.setExtGState(gs1);
@@ -198,6 +234,8 @@ public class TestReport {
         over.addImage(img, img.getWidth(), 0, 0, img.getHeight(), x - (img.getWidth() / 2), y - (img.getHeight() / 2), false);
 
         over.restoreState();	
+        */
+		AddBackgroundWatermark.addBackgroundWatermark(pdf, 1);
 		document.add(titleTable);
 		document.add(contestTable);
 		
@@ -207,9 +245,13 @@ public class TestReport {
 		document.add(p);
 		document.add(p);
 		document.add(p);
+		
+//		PdfFormXObject template = new PdfFormXObject(new Rectangle(803, 550, 30, 30));
+//	    PdfCanvas canvas = new PdfCanvas(template, pdf);
 
 		
 		document.add(scoreTable);
+
 		document.close();
 		
 
