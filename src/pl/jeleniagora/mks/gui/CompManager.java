@@ -31,6 +31,7 @@ import pl.jeleniagora.mks.files.xml.XmlLoader;
 import pl.jeleniagora.mks.files.xml.XmlSaver;
 import pl.jeleniagora.mks.online.WebServicePostConsumer;
 import pl.jeleniagora.mks.online.WebServicePutConsumer;
+import pl.jeleniagora.mks.reports.CompetitionReportGenerator;
 import pl.jeleniagora.mks.rte.RTE;
 import pl.jeleniagora.mks.rte.RTE_COM;
 import pl.jeleniagora.mks.rte.RTE_COM_DISP;
@@ -696,6 +697,32 @@ public class CompManager extends JFrame {
 		
 		JMenu mnGenerujRaport = new JMenu("Generuj raport");
 		mnRaporty.add(mnGenerujRaport);
+		
+		JMenuItem mntmZAktualnieRozgrywanej = new JMenuItem("Z aktualnie rozgrywanej konkurencji");
+		mntmZAktualnieRozgrywanej.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				CompetitionReportGenerator gen = new CompetitionReportGenerator(st.currentCompetition, st.competitions, "./");
+				try {
+					gen.generate();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		mnGenerujRaport.add(mntmZAktualnieRozgrywanej);
+		
+		JMenuItem mntmZAktualnieWywietlanej = new JMenuItem("Z aktualnie wyświetlanej konkurencji");
+		mntmZAktualnieWywietlanej.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CompetitionReportGenerator gen = new CompetitionReportGenerator(rte_gui.competitionBeingShown, st.competitions, "./");
+				try {
+					gen.generate();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		mnGenerujRaport.add(mntmZAktualnieWywietlanej);
 		
 		JMenu mnChronometr = new JMenu("Chronometr");
 		menuBar.add(mnChronometr);

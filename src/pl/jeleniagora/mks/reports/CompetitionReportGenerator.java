@@ -212,7 +212,7 @@ public class CompetitionReportGenerator {
 		}
 		else {
 			fn = baseDir + "/" + competitionToGenerateFrom.toString().replaceAll(" ", "_").toLowerCase() 
-					+ "_czesciowy_po_" + lastDone.toString() + "_" + competitions.toString().replaceAll(" ", "_").toLowerCase() + ".pdf";
+					+ "_czesciowy_po_" + lastDone.toString().replaceAll(" ", "_") + "_" + competitions.toString().replaceAll(" ", "_").toLowerCase() + ".pdf";
 		}
 		
 		PdfDocument pdf = new PdfDocument(new PdfWriter(fn));
@@ -319,6 +319,9 @@ public class CompetitionReportGenerator {
 		document.add(p);
 		document.add(p);
 		document.add(p);
+		
+		document.close();
+
 	}
 		
 }
