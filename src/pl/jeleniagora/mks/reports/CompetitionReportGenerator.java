@@ -150,10 +150,10 @@ public class CompetitionReportGenerator {
 		scoreTable.addHeaderCell(getCell("Klub", TextAlignment.CENTER, font, 2, 1, true, true).setBorderTop(new SolidBorder(ColorConstants.BLACK, 1.0f)));
 		scoreTable.addHeaderCell(getCell("Czasy ślizgów", TextAlignment.CENTER, font, 1, runsNumber, true, true).setBorderTop(new SolidBorder(ColorConstants.BLACK, 1.0f)));
 		scoreTable.startNewRow();
-		for (int i = 0; i < trainingRunsCount; i++)
-			scoreTable.addHeaderCell(getCell("Tr " + i + 1, TextAlignment.CENTER, font, tableFontSize,  true, true));
-		for (int i = 0; i < trainingRunsCount; i++)
-			scoreTable.addHeaderCell(getCell("Pkt " + i + 1, TextAlignment.CENTER, font, tableFontSize,  true, true));
+		for (int i = 1; i <= trainingRunsCount; i++)
+			scoreTable.addHeaderCell(getCell("Tr " + i, TextAlignment.CENTER, font, tableFontSize,  true, true));
+		for (int i = 1; i <= scoredRunsCount; i++)
+			scoreTable.addHeaderCell(getCell("Pkt " + i, TextAlignment.CENTER, font, tableFontSize,  true, true));
 	}
 	
 	/**
@@ -173,11 +173,16 @@ public class CompetitionReportGenerator {
 		// ustawiane na true jeżeli aktualna konkurencja nie jest jeszcze w pełni zakończona
 		boolean partialOrComplete = false;
 		
+		// ustawiane na true w sytuacji generowania listy startowej aby w cześci na czasy rysowć wszystkie krawędzie
+		boolean bottomBorder = false;
+		
 		// referencja na ostatni w pełni zakończoy ślizg
 		Run lastDone = null;
 		
 		// nazwa wyjściowego pliku PDF
-		String fn;
+		String fn = null;
+		
+		LocalTime zero = LocalTime.of(0, 0, 0, 0);
 
 		float[] columnsWidth = new float[runsNumber + 4];
 		columnsWidth[0] = 2;
@@ -205,12 +210,19 @@ public class CompetitionReportGenerator {
 			lastDone = r;
 		}
 		
+		// sprawdzanie czy użytkownik nie wywoław generatora dla jeszcze nie rozpoczętej konkurencji
+		if (lastDone == null) {
+			fn = baseDir + "/" + competitionToGenerateFrom.toString().replaceAll(" ", "_").toLowerCase() 
+					 + "_lista_startowa_" + competitions.toString().replaceAll(" ", "_").toLowerCase() + ".pdf";	
+			bottomBorder = true;
+		}
+		
 		// generowanie nazwy pliku PDF w którym będzie raport
-		if (partialOrComplete) {
+		if (fn == null && partialOrComplete) {
 			fn = baseDir + "/" + competitionToGenerateFrom.toString().replaceAll(" ", "_").toLowerCase() 
 					+  "_koncowy_" + competitions.toString().replaceAll(" ", "_").toLowerCase() + ".pdf";
 		}
-		else {
+		else if (fn == null && !partialOrComplete) {
 			fn = baseDir + "/" + competitionToGenerateFrom.toString().replaceAll(" ", "_").toLowerCase() 
 					+ "_czesciowy_po_" + lastDone.toString().replaceAll(" ", "_") + "_" + competitions.toString().replaceAll(" ", "_").toLowerCase() + ".pdf";
 		}
@@ -230,10 +242,12 @@ public class CompetitionReportGenerator {
 		// tableta tytułowa pomiędzy logotypami na pierwszej stronie
 		Table titleTable = new Table(1);
 		titleTable.setWidth(new UnitValue(UnitValue.PERCENT, 100));
-		if (partialOrComplete)
+		if (partialOrComplete && lastDone != null)
 			titleTable.addCell(getCell("Raport końcowy z konkurencji", TextAlignment.CENTER, bold, headerFontSize + 4.0f, false, false));
-		else
+		else if (!partialOrComplete && lastDone != null)
 			titleTable.addCell(getCell("Raport częściowy z konkurencji", TextAlignment.CENTER, bold, headerFontSize + 4.0f, false, false));	
+		else 
+			titleTable.addCell(getCell("Lista startowa", TextAlignment.CENTER, bold, headerFontSize + 4.0f, false, false));	
 		
 		// kolejna część tytułowa pomiędzy logotypami
 		Table contestTable = new Table(1);
@@ -288,9 +302,32 @@ public class CompetitionReportGenerator {
 		// dodawanie pozycji to tabeli w raporcie
 		for (Entry<LugerCompetitor, Short> e : ranksVct) {
 			
+			// dodawanie ostatniego wiersza z krawędzią a dole
+			if (ranksVct.lastElement().equals(e)) {
+				// e.getValue().toString()
+				scoreTable.startNewRow();
+				scoreTable.addCell(getCell(e.getValue().toString(), TextAlignment.CENTER, font,this.tableFontSize,  true, false).setBorderBottom(new SolidBorder(ColorConstants.BLACK, 1.0f)));
+				scoreTable.addCell(getCell(new Short(e.getKey().getStartNumber()).toString(), TextAlignment.CENTER, font, this.tableFontSize, true, false).setBorderBottom(new SolidBorder(ColorConstants.BLACK, 1.0f)));
+				scoreTable.addCell(getCell(e.getKey().toString(), TextAlignment.CENTER, font, this.tableFontSize, true, false).setBorderBottom(new SolidBorder(ColorConstants.BLACK, 1.0f)));
+				scoreTable.addCell(getCell(e.getKey().clubToString(), TextAlignment.CENTER, font, this.tableFontSize, true, false).setBorderBottom(new SolidBorder(ColorConstants.BLACK, 1.0f)));
+				
+				// dodawnie kolejnych czasów ślizgu/zjazdu
+				for (Run r : competitionToGenerateFrom.runsTimes) {
+					// wyciąganie czasu w kolejnych ślizgach
+					LocalTime timeToAdd = r.totalTimes.get(e.getKey());
+					
+					// jeżeli czas ślizgu jest zerowy to wyświetl puste pole
+					if (timeToAdd.equals(zero))
+						scoreTable.addCell(getCell(" ", TextAlignment.CENTER, font, this.tableFontSize, true, bottomBorder));
+					else
+						scoreTable.addCell(getCell(timeToAdd.toString(), TextAlignment.CENTER, font, this.tableFontSize, true, bottomBorder));				}
+				break;
+			}
+			
+			// e.getValue().toString()
 			scoreTable.startNewRow();
-			scoreTable.addCell(getCell(new Short(e.getKey().getStartNumber()).toString(), TextAlignment.CENTER, font,this.tableFontSize,  true, false));
-			scoreTable.addCell(getCell(e.getValue().toString(), TextAlignment.CENTER, font, this.tableFontSize, true, false));
+			scoreTable.addCell(getCell(e.getValue().toString(), TextAlignment.CENTER, font,this.tableFontSize,  true, false));
+			scoreTable.addCell(getCell(new Short(e.getKey().getStartNumber()).toString(), TextAlignment.CENTER, font, this.tableFontSize, true, false));
 			scoreTable.addCell(getCell(e.getKey().toString(), TextAlignment.CENTER, font, this.tableFontSize, true, false));
 			scoreTable.addCell(getCell(e.getKey().clubToString(), TextAlignment.CENTER, font, this.tableFontSize, true, false));
 			
@@ -298,11 +335,15 @@ public class CompetitionReportGenerator {
 			for (Run r : competitionToGenerateFrom.runsTimes) {
 				// wyciąganie czasu w kolejnych ślizgach
 				LocalTime timeToAdd = r.totalTimes.get(e.getKey());
-				scoreTable.addCell(getCell(timeToAdd.toString(), TextAlignment.CENTER, font, this.tableFontSize, true, false));
+				
+				// jeżeli czas ślizgu jest zerowy to wyświetl puste pole
+				if (timeToAdd.equals(zero))
+					scoreTable.addCell(getCell(" ", TextAlignment.CENTER, font, this.tableFontSize, true, bottomBorder));
+				else
+					scoreTable.addCell(getCell(timeToAdd.toString(), TextAlignment.CENTER, font, this.tableFontSize, true, bottomBorder));
 			}
 			
-			//for (int i = 0; i < runsNumber; i++)
-			//	scoreTable.addCell(getCell("0:49.275", TextAlignment.CENTER, font, this.tableFontSize, true, false));	
+
 		}
 		
 		document.add(bielskoImage);
@@ -319,6 +360,8 @@ public class CompetitionReportGenerator {
 		document.add(p);
 		document.add(p);
 		document.add(p);
+		
+		document.add(scoreTable);
 		
 		document.close();
 
