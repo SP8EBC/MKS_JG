@@ -7,6 +7,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextField;
 import java.awt.Font;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -68,6 +69,8 @@ public class CompManagerWindowNameAndDate {
 	 */
 	@SuppressWarnings("deprecation")
 	private void initialize() {
+		Date date = Date.from(Instant.now());
+		
 		RTE_ST rte_st = (RTE_ST)context.getBean("RTE_ST");
 		ZoneId zone = ZoneId.systemDefault();
 		selectedDate = rte_st.competitions.date;
@@ -84,7 +87,11 @@ public class CompManagerWindowNameAndDate {
 		
 		JCalendar calendar = new JCalendar();
 		calendar.addPropertyChangeListener(new CompManagerNameAndDateCalndrListener(this));
-		Date date = Date.from(selectedDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		if (selectedDate != null)
+			date = Date.from(selectedDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		else {
+			;
+		}
 //		long epoch = selectedDate.toEpochDay();	// TODO: poprawić na epoch sekundy!!
 //		date.setTime(epoch);
 		calendar.setDate(date);

@@ -272,6 +272,7 @@ public class Competition {
 		
 		// Dodawanie do mapy (listy) wyników -> wiadomo że zero bo nie dodaje się po konkurencji
 		ranks.put(comptr, new Short((short)0));
+		partialRanks.put(comptr, new Short((short)0));
 		
 		competitorsCount++;
 		
@@ -291,11 +292,13 @@ public class Competition {
 	public boolean removeFromCompetition(LugerCompetitor comptr) {
 		int startNumber = comptr.getStartNumber();
 		
-		
 		if (ranks.remove(comptr) == null) {
 			return false;	// sprawdzanie czy taki saneczkarz w ogóle został do tej konkurencji dodany
 		}
 		startList.remove(comptr);
+		if (partialRanks != null && partialRanks.containsKey(comptr))
+			partialRanks.remove(comptr);
+		
 		if (startNumber > 0)
 			invertedStartList.remove((short)startNumber);
 		
@@ -312,6 +315,8 @@ public class Competition {
 		this.competitionType = CompetitionTypes.UNINITIALIZED_COMP;
 		this.numberOfAllRuns = 0;
 		this.numberOfTrainingRuns = 0;
+		this.partialRanks = new HashMap<LugerCompetitor, Short>();
+		this.ranks = new HashMap<LugerCompetitor, Short>();
 		
 		//
 	}

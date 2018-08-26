@@ -84,7 +84,7 @@ public class CompManagerWindowAddLuger extends JFrame {
 		this.window = this;
 		
 		setTitle("Dodaj nowego saneczkarza do programu");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 706, 362);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -149,7 +149,7 @@ public class CompManagerWindowAddLuger extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String _name = textField.getText();
-				String _surname = textField.getText();
+				String _surname = textField_1.getText();
 
 				@SuppressWarnings("unused")
 				String _email = textField_2.getText();
@@ -193,7 +193,7 @@ public class CompManagerWindowAddLuger extends JFrame {
 		btnZapiszIDodaj.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String _name = textField.getText();
-				String _surname = textField.getText();
+				String _surname = textField_1.getText();
 
 				@SuppressWarnings("unused")
 				String _email = textField_2.getText();

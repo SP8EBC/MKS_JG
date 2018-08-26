@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 
 import java.awt.Color;
 import net.miginfocom.swing.MigLayout;
+import pl.jeleniagora.mks.exceptions.MissingCompetitionEx;
 import pl.jeleniagora.mks.exceptions.UninitializedCompEx;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
@@ -109,7 +110,7 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 	 * Pole ustawiane przez checkbox poniżej listy zawodników. Po zaznaczeniu lewy panel ma pokazywać
 	 * tylko tych sankarzy którzy nie są jeszcze przypisani do żadnej konkurencji
 	 */
-	boolean showOnlyNotAddedLugers;
+	boolean showOnlyNotAddedLugers = true;
 	
 	/**
 	 * Launch the application.
@@ -127,11 +128,16 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 		});
 	}
 	
-	public void updateContent() {
+	public void updateContent() throws MissingCompetitionEx {
 		searchTable.setModel(leftModel); 	// W momencie wywołania konstruktora obiekt leftModel jest jeszcze przed
 											// autowiringiem przez co JTable jest tworzona z nullowym modelem.
 		leftModel.updateContent(true);	// aktualizowanie modelu danych do tabeli po lewej stronie
 		comboBox.removeAllItems(); 	// wyciepywanie wszystkich aktualnie istniejących elementów checkboxa
+		
+		if (rte_st.competitions.competitions == null) {
+			throw new MissingCompetitionEx();
+		}
+		
 		for (Competition c : rte_st.competitions.competitions) {
 			if (c.competitionType != CompetitionTypes.MEN_SINGLE &&
 					c.competitionType != CompetitionTypes.WOMAN_SINGLE)
@@ -183,12 +189,17 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 				
 				LugerSingle toAdd = new LugerSingle(gender);
 				toAdd.single = selectedInSearchTable;
+				toAdd.single.hasBeenAdded = true;
 				selected.addToCompetition(toAdd);
 				rte_st.competitions.listOfAllCompetingLugersInThisComps.add(toAdd);
 				
 				rightModel = new CompManagerWindowAddLugerSingleRTableModel(selected);
 				competitionTable.setModel(rightModel);
 				rightModel.fireTableDataChanged();
+				
+				leftModel.updateContent(showOnlyNotAddedLugers);
+				leftModel.fireTableStructureChanged();
+				leftModel.fireTableDataChanged();
 			}
 		});
 		
@@ -201,7 +212,7 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 				// sprawdzanie czy użytkownik nie próbuje usunąć zawodnika z aktualnie rozgrywanej konkurencji.
 				// działanie takie jest niedozwolone gdyż z definicji wymagało by ponownego wylosowania nrów startowych
 				// co kompletnie rozwaliło by logikę aplikacji, a przede wszystkim poważnie zaburzyło kolejność startową
-				if (rte_st.currentCompetition.equals(selected)) {
+				if (rte_st.currentCompetition != null && rte_st.currentCompetition.equals(selected)) {
 					JOptionPane.showMessageDialog(window, "Nie możesz usunąć zawodika z aktualnie rozgrywanej konkurencji!!");
 					return;
 				}
@@ -220,7 +231,8 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 					}
 					
 					rte_st.competitions.listOfAllCompetingLugersInThisComps.remove(selectedInCompetitionTable);
-										
+					selectedInCompetitionTable.single.hasBeenAdded = false;
+					
 					// regenrowanie modelu danych do prawej tabeli aby uwzględnić zmiany w konkrencji
 					rightModel = new CompManagerWindowAddLugerSingleRTableModel(selected);
 					competitionTable.setModel(rightModel);

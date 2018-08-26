@@ -25,6 +25,7 @@ import pl.jeleniagora.mks.events.LandedStateReached;
 import pl.jeleniagora.mks.events.SaveRuntime;
 import pl.jeleniagora.mks.events.UpdateCurrentAndNextLuger;
 import pl.jeleniagora.mks.exceptions.FailedOpenSerialPortEx;
+import pl.jeleniagora.mks.exceptions.MissingCompetitionEx;
 import pl.jeleniagora.mks.exceptions.UninitializedCompEx;
 import pl.jeleniagora.mks.factories.StartListFactory;
 import pl.jeleniagora.mks.files.xml.XmlLoader;
@@ -542,7 +543,13 @@ public class CompManager extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				///
 				CompManagerWindowAddLugerSingle window = (CompManagerWindowAddLugerSingle)ctx.getBean(CompManagerWindowAddLugerSingle.class);
-				window.updateContent();
+				try {
+					window.updateContent();
+				} catch (MissingCompetitionEx e) {
+					JOptionPane.showMessageDialog(frame, "Nie zdefiniowano żadanej konkurencji!");
+					window.dispose();
+					return;
+				}
 				window.setVisible(true);
 			}
 		});

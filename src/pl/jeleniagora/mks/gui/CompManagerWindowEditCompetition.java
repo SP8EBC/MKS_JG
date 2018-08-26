@@ -277,6 +277,7 @@ public class CompManagerWindowEditCompetition extends JFrame {
 		btnZapiszIZamknij.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				short j = 0;
+				short k = 0;
 				
 				if (comboBox.getSelectedItem().equals("Zawody - tylko po punktowanych")) {
 					chosenCompetition.trainingOrContest = true;
@@ -309,6 +310,7 @@ public class CompManagerWindowEditCompetition extends JFrame {
 							// poprawianie numerów kolejnych ślizgów tj pola Run.number
 							for (Run r : c.runsTimes) {
 								r.number = j++;
+								r.numberInScoredOrTrainingRuns = k++;
 							}
 							
 							trainingRunsForChosen = (int)spinnerTrainingRuns.getValue();		// numberOfTrainingsRuns
@@ -334,7 +336,7 @@ public class CompManagerWindowEditCompetition extends JFrame {
 						// wyciąganie aktualnej liczby wszystkich ślizgów/zjazdów 
 						int runsCount = c.runsTimes.size();
 						
-						// znajdywanie pierwszego indeksu ślizgu do usunięcia (punktowane są zawsze po treningach)
+						// znajdywanie pierwszego indeksu ślizgu punktowanego do usunięcia (punktowane są zawsze po treningach)
 						int firstScoredToRemove = runsCount - (scoredRunsForChosen - (int)spinnerScoredRuns.getValue());
 						
 						if (firstScoredToRemove < runsCount) {
@@ -343,9 +345,11 @@ public class CompManagerWindowEditCompetition extends JFrame {
 							}
 							
 							j = 0;
+							k = 0;
 							// poprawianie numerów kolejnych ślizgów tj pola Run.number
 							for (Run r : c.runsTimes) {
 								r.number = j++;
+								r.numberInScoredOrTrainingRuns = k++;
 							}
 							
 							scoredRunsForChosen = (int)spinnerScoredRuns.getValue();

@@ -197,10 +197,12 @@ public class CompManagerWindowAddCompetition extends JFrame {
 				c.runsTimes = new Vector<Run>();
 				for (int i = 0; i < c.numberOfTrainingRuns; i++) {
 					Run run = new Run(c.startList, (byte)0);
+					run.numberInScoredOrTrainingRuns = (short) i;
 					c.runsTimes.add(run);
 				}
 				for (int i = 0; i < (c.numberOfAllRuns - c.numberOfTrainingRuns); i++) {
 					Run run = new Run(c.startList, (byte)1);
+					run.numberInScoredOrTrainingRuns = (short) i;
 					c.runsTimes.add(run);					
 				}
 				

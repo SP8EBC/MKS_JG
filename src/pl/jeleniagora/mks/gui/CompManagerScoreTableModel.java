@@ -279,9 +279,14 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 						String surname = s.single.surname;
 						String lugeClub = s.single.club.name;
 						int startNum = currLuger.getValue();	// numer startowy
-						
+						short rank = 0;
+						if (competition.ranks.containsKey(s))
+							rank = (short)competition.ranks.get(s);
+						else
+							rank = 0;
+					
 						l[0] = (short)startNum;	// numer startowy
-						l[1] = (short)competition.ranks.get(s); // miejsce
+						l[1] = rank; // miejsce
 						if (competition.partialRanks != null && 
 							competition.partialRanks.containsKey(s))
 							l[2] = (short)competition.partialRanks.get(s); // miejsce w ślizgu

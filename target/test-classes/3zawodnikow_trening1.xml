@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<competitions>
+    <dataStructureVersion>-2147483644</dataStructureVersion>
+    <name xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+    <organizer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+    <judge1st xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+    <judge2nd xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+    <judge3rd xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+    <lugers>
+        <luger>
+            <systemId>5555890211245703034</systemId>
+            <name>Mateusz</name>
+            <surname>Lubecki</surname>
+            <birthDate>1990-09-12</birthDate>
+            <club>
+                <name>nil</name>
+            </club>
+            <email>mateusz.lubecki@psp.org.pl</email>
+            <hasBeenAdded>true</hasBeenAdded>
+        </luger>
+        <luger>
+            <systemId>1398842816904825772</systemId>
+            <name>Przemysław</name>
+            <surname>Pochłód</surname>
+            <birthDate>1984-09-12</birthDate>
+            <club>
+                <name>SMS Karpacz</name>
+            </club>
+            <email>ppp@onet.pl</email>
+            <hasBeenAdded>true</hasBeenAdded>
+        </luger>
+        <luger>
+            <systemId>6843209864345522800</systemId>
+            <name>Tomasz</name>
+            <surname>Koćmierowski</surname>
+            <birthDate>1979-09-12</birthDate>
+            <club>
+                <name>SMS Karpacz</name>
+            </club>
+            <email>kkk@onet.pl</email>
+            <hasBeenAdded>true</hasBeenAdded>
+        </luger>
+    </lugers>
+    <competitors>
+        <competitor>
+            <singleLugerSystemId>5555890211245703034</singleLugerSystemId>
+            <lowerLugerSystemId xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            <upperLugerSystemId xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            <maleLugerSystemId xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            <femaleLugerSystemId xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            <lugerCompetitorType>MEN_SINGLE</lugerCompetitorType>
+            <lugerCompetitorSystemId>1034633764278867553</lugerCompetitorSystemId>
+        </competitor>
+        <competitor>
+            <singleLugerSystemId>1398842816904825772</singleLugerSystemId>
+            <lowerLugerSystemId xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            <upperLugerSystemId xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            <maleLugerSystemId xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            <femaleLugerSystemId xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            <lugerCompetitorType>MEN_SINGLE</lugerCompetitorType>
+            <lugerCompetitorSystemId>628089991643691179</lugerCompetitorSystemId>
+        </competitor>
+        <competitor>
+            <singleLugerSystemId>6843209864345522800</singleLugerSystemId>
+            <lowerLugerSystemId xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            <upperLugerSystemId xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            <maleLugerSystemId xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            <femaleLugerSystemId xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            <lugerCompetitorType>MEN_SINGLE</lugerCompetitorType>
+            <lugerCompetitorSystemId>6737436289294516853</lugerCompetitorSystemId>
+        </competitor>
+    </competitors>
+    <competition>
+        <id>0</id>
+        <serialNum>6909267976703849713</serialNum>
+        <name>Jedynki męskie</name>
+        <trainingOrContest>true</trainingOrContest>
+        <competitionType>MEN_SINGLE</competitionType>
+        <numberOfAllRuns>3</numberOfAllRuns>
+        <numberOfTrainingRuns>1</numberOfTrainingRuns>
+        <isCurrentRunFirstScored>true</isCurrentRunFirstScored>
+        <isCurrentRunTraining>true</isCurrentRunTraining>
+        <startList>
+            <startListEntry>
+                <lugerCompetitorSystemId>6737436289294516853</lugerCompetitorSystemId>
+                <startNumber>3</startNumber>
+            </startListEntry>
+            <startListEntry>
+                <lugerCompetitorSystemId>1034633764278867553</lugerCompetitorSystemId>
+                <startNumber>1</startNumber>
+            </startListEntry>
+            <startListEntry>
+                <lugerCompetitorSystemId>628089991643691179</lugerCompetitorSystemId>
+                <startNumber>2</startNumber>
+            </startListEntry>
+        </startList>
+        <startOrder>FIL_ORDER</startOrder>
+        <startOrderToChange>FIL_ORDER</startOrderToChange>
+        <invertedStartList>
+            <ivertedStartListEntry>
+                <startNumber>1</startNumber>
+                <lugerCompetitorSystemId>1034633764278867553</lugerCompetitorSystemId>
+            </ivertedStartListEntry>
+            <ivertedStartListEntry>
+                <startNumber>2</startNumber>
+                <lugerCompetitorSystemId>628089991643691179</lugerCompetitorSystemId>
+            </ivertedStartListEntry>
+            <ivertedStartListEntry>
+                <startNumber>3</startNumber>
+                <lugerCompetitorSystemId>6737436289294516853</lugerCompetitorSystemId>
+            </ivertedStartListEntry>
+        </invertedStartList>
+        <ranks>
+            <adaptedRank>
+                <lugerCompetitorSystemId>6737436289294516853</lugerCompetitorSystemId>
+                <rank>0</rank>
+            </adaptedRank>
+            <adaptedRank>
+                <lugerCompetitorSystemId>1034633764278867553</lugerCompetitorSystemId>
+                <rank>0</rank>
+            </adaptedRank>
+            <adaptedRank>
+                <lugerCompetitorSystemId>628089991643691179</lugerCompetitorSystemId>
+                <rank>0</rank>
+            </adaptedRank>
+        </ranks>
+        <runs>
+            <runsData>
+                <run>
+                    <number>0</number>
+                    <serialNumber>4624696055932060482</serialNumber>
+                    <numberInScoredOrTrainingRuns>0</numberInScoredOrTrainingRuns>
+                    <done>false</done>
+                    <trainingOrScored>false</trainingOrScored>
+                    <totalTimes>
+                        <runTimeInMicrotime>
+                            <lugerCompetitorSystemId>6737436289294516853</lugerCompetitorSystemId>
+                            <microTime>0</microTime>
+                        </runTimeInMicrotime>
+                        <runTimeInMicrotime>
+                            <lugerCompetitorSystemId>1034633764278867553</lugerCompetitorSystemId>
+                            <microTime>0</microTime>
+                        </runTimeInMicrotime>
+                        <runTimeInMicrotime>
+                            <lugerCompetitorSystemId>628089991643691179</lugerCompetitorSystemId>
+                            <microTime>0</microTime>
+                        </runTimeInMicrotime>
+                    </totalTimes>
+                </run>
+                <run>
+                    <number>0</number>
+                    <serialNumber>8497618351432998198</serialNumber>
+                    <numberInScoredOrTrainingRuns>0</numberInScoredOrTrainingRuns>
+                    <done>false</done>
+                    <trainingOrScored>true</trainingOrScored>
+                    <totalTimes>
+                        <runTimeInMicrotime>
+                            <lugerCompetitorSystemId>6737436289294516853</lugerCompetitorSystemId>
+                            <microTime>0</microTime>
+                        </runTimeInMicrotime>
+                        <runTimeInMicrotime>
+                            <lugerCompetitorSystemId>1034633764278867553</lugerCompetitorSystemId>
+                            <microTime>0</microTime>
+                        </runTimeInMicrotime>
+                        <runTimeInMicrotime>
+                            <lugerCompetitorSystemId>628089991643691179</lugerCompetitorSystemId>
+                            <microTime>0</microTime>
+                        </runTimeInMicrotime>
+                    </totalTimes>
+                </run>
+                <run>
+                    <number>0</number>
+                    <serialNumber>842099007456412201</serialNumber>
+                    <numberInScoredOrTrainingRuns>0</numberInScoredOrTrainingRuns>
+                    <done>false</done>
+                    <trainingOrScored>true</trainingOrScored>
+                    <totalTimes>
+                        <runTimeInMicrotime>
+                            <lugerCompetitorSystemId>6737436289294516853</lugerCompetitorSystemId>
+                            <microTime>0</microTime>
+                        </runTimeInMicrotime>
+                        <runTimeInMicrotime>
+                            <lugerCompetitorSystemId>1034633764278867553</lugerCompetitorSystemId>
+                            <microTime>0</microTime>
+                        </runTimeInMicrotime>
+                        <runTimeInMicrotime>
+                            <lugerCompetitorSystemId>628089991643691179</lugerCompetitorSystemId>
+                            <microTime>0</microTime>
+                        </runTimeInMicrotime>
+                    </totalTimes>
+                </run>
+            </runsData>
+        </runs>
+        <competitorsCount>3</competitorsCount>
+    </competition>
+    <programState>
+        <currentCompetition>0</currentCompetition>
+        <currentCompetitionSerial>6909267976703849713</currentCompetitionSerial>
+        <actuallyOnTrack>1034633764278867553</actuallyOnTrack>
+        <nextOnTrack>628089991643691179</nextOnTrack>
+        <returnCmptr>0</returnCmptr>
+        <currentRun>0</currentRun>
+        <currentRunSerial>4624696055932060482</currentRunSerial>
+    </programState>
+</competitions>
