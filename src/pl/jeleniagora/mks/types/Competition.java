@@ -299,6 +299,12 @@ public class Competition {
 		if (partialRanks != null && partialRanks.containsKey(comptr))
 			partialRanks.remove(comptr);
 		
+		for (Run r : runsTimes) {
+			r.totalTimes.remove(comptr);
+			if (r.intermediateRunTimes != null)
+				r.intermediateRunTimes.remove(comptr);
+		}
+		
 		if (startNumber > 0)
 			invertedStartList.remove((short)startNumber);
 		
