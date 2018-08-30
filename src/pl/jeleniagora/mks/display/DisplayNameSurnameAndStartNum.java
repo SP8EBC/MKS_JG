@@ -30,6 +30,7 @@ public class DisplayNameSurnameAndStartNum {
 			name = d.upper.surname;
 			surname = d.lower.surname;
 		}
+		else return;
 		
 		String dispStr = "Numer " + cmptr.getStartNumber() + "\r\n" + name + " \r\n" + surname + " ";;
 		

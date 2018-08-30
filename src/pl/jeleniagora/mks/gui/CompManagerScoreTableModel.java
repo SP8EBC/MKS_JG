@@ -336,6 +336,9 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 	public void updateTableHeading(Competition competition, boolean intermediateTiming) throws Reserve {
 		boolean isDouble = false;
 		
+		if (competition == null || competition.numberOfAllRuns == 0)
+			return;
+		
 		int allRuns = competition.numberOfAllRuns;
 		int trainingRuns = competition.numberOfTrainingRuns;
 		

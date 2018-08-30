@@ -109,7 +109,7 @@ public class XmlLoader {
 		}
 		rte_st.currentRunCnt = (short) state.currentRunCnt;
 				
-		if (rte_gui.actuallyOnTrack != null)
+		if (rte_gui.actuallyOnTrack != null && rte_st.actuallyOnTrack != null)
 			rte_gui.actuallyOnTrack.setText(rte_st.actuallyOnTrack.toString());
 		else 
 			rte_gui.actuallyOnTrack.setText("---");
@@ -128,7 +128,10 @@ public class XmlLoader {
 		rte_gui.model.updateTableData(rte_st.currentCompetition, false);
 		
 		rte_gui.model.fireTableStructureChanged();
-		rte_gui.currentCompetition.setText(rte_st.currentCompetition.toString());
+		if (rte_st.currentCompetition != null)
+			rte_gui.currentCompetition.setText(rte_st.currentCompetition.toString());
+		else 
+			rte_gui.currentCompetition.setText("");
 		
 		rte_gui.competitorClickedInTable = rte_st.actuallyOnTrack;
 		rte_gui.competitorPreviouslyClicked = rte_st.actuallyOnTrack;
