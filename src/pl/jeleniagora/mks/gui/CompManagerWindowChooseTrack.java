@@ -164,6 +164,7 @@ public class CompManagerWindowChooseTrack extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				rte_st.competitions.track = selected;
+				frame.dispose();
 			}
 			
 		});

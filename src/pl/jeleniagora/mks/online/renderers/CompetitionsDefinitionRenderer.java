@@ -24,6 +24,17 @@ public class CompetitionsDefinitionRenderer {
 			throw new CompetitionDefinitionRenderEx();
 
 		}
+		
+		if (competitions.name == null || competitions.name.equals("")) {
+			JOptionPane.showMessageDialog(null, "Nie wprowadziłeś nazwy zawodów/treningu, która jest wymagana aby dodać je do systemu internetowego");
+			throw new CompetitionDefinitionRenderEx();			
+		}
+
+		if (competitions.date == null) {
+			JOptionPane.showMessageDialog(null, "Nie wprowadziłeś daty rozgrywania zawodów, która jest wymagana aby dodać je do systemu internetowego");
+			throw new CompetitionDefinitionRenderEx();			
+		}
+		
 		out.competitionsDate = competitions.date;
 		out.competitionsName = competitions.name;
 		if (competitions.track != null)
