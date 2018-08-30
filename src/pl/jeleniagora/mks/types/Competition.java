@@ -324,6 +324,9 @@ public class Competition {
 		this.partialRanks = new HashMap<LugerCompetitor, Short>();
 		this.ranks = new HashMap<LugerCompetitor, Short>();
 		
+		this.scoredRunsDone = new Vector<Integer>();
+		this.trainingRunsDone = new Vector<Integer>();
+		
 		//
 	}
 	
@@ -342,6 +345,9 @@ public class Competition {
 		this.numberOfTrainingRuns = trainingRuns;
 		
 		this.competitorsCount = in.size();
+		
+		this.scoredRunsDone = new Vector<Integer>();
+		this.trainingRunsDone = new Vector<Integer>();
 		
 		/*
 		 * W tym momencie saneczkarze nie mają przypisanych numerów startowych, dlatego konstruktor

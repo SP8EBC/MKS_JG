@@ -83,9 +83,22 @@ public class XmlLoader {
 		if (rte_st == null || rte_gui == null)
 			throw new RteIsNullEx();
 		
-		rte_st.currentCompetition = competitions.competitions.get(state._currentCompetition);
-		rte_st.currentRun = competitions.competitions.get(state._currentCompetition).runsTimes.get(state.currentRunCnt);
-		rte_st.actuallyOnTrack = competitions.findLugerCompetitorBySystemId(state._actuallyOnTrack);
+		if (state._currentCompetition != 0) {
+			rte_st.currentCompetition = competitions.competitions.get(state._currentCompetition);
+			rte_st.currentRun = competitions.competitions.get(state._currentCompetition).runsTimes.get(state.currentRunCnt);
+		}
+		else {
+			rte_st.currentCompetition = null;
+			rte_st.currentRun = null;
+		}
+
+		if (state._actuallyOnTrack != 0) {
+			rte_st.actuallyOnTrack = competitions.findLugerCompetitorBySystemId(state._actuallyOnTrack);
+		}
+		else {
+			rte_st.actuallyOnTrack = null;
+		}
+		
 		if (state._nextOnTrack != 0)
 			rte_st.nextOnTrack = competitions.findLugerCompetitorBySystemId(state._nextOnTrack);
 		else {
@@ -96,7 +109,10 @@ public class XmlLoader {
 		}
 		rte_st.currentRunCnt = (short) state.currentRunCnt;
 				
-		rte_gui.actuallyOnTrack.setText(rte_st.actuallyOnTrack.toString());
+		if (rte_gui.actuallyOnTrack != null)
+			rte_gui.actuallyOnTrack.setText(rte_st.actuallyOnTrack.toString());
+		else 
+			rte_gui.actuallyOnTrack.setText("---");
 		
 		if (rte_st.nextOnTrack != null) {
 			str = rte_st.nextOnTrack.toString();

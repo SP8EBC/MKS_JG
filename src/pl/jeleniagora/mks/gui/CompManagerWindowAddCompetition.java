@@ -206,6 +206,11 @@ public class CompManagerWindowAddCompetition extends JFrame {
 					c.runsTimes.add(run);					
 				}
 				
+				short i = 0;
+				for(Run r : c.runsTimes) {
+					r.number = i++;
+				}
+				
 				
 				
 				rte_st.competitions.competitions.add(c);

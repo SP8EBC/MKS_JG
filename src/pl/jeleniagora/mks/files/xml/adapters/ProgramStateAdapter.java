@@ -44,9 +44,22 @@ public class ProgramStateAdapter extends XmlAdapter<ProgramStateAdapter.AdaptedP
 	public AdaptedProgramState marshal(ProgramState arg0) throws Exception {
 		AdaptedProgramState out = new AdaptedProgramState();
 		
-		out.currentCompetition = arg0.currentCompetition.id;
-		out.currentCompetitionSerial = arg0.currentCompetition.serialNum;
-		out.actuallyOnTrack = arg0.actuallyOnTrack.getSystemId();
+		if (arg0.currentCompetition != null) {
+			out.currentCompetition = arg0.currentCompetition.id;
+			out.currentCompetitionSerial = arg0.currentCompetition.serialNum;
+		}
+		else {
+			out.currentCompetition = 0;
+			out.currentCompetitionSerial = 0;
+		}
+		
+		if (arg0.actuallyOnTrack != null) {
+			out.actuallyOnTrack = arg0.actuallyOnTrack.getSystemId();
+		}
+		else {
+			out.actuallyOnTrack = 0;
+		}
+		
 		if (arg0.nextOnTrack != null)
 			out.nextOnTrack = arg0.nextOnTrack.getSystemId();
 		else
@@ -58,7 +71,13 @@ public class ProgramStateAdapter extends XmlAdapter<ProgramStateAdapter.AdaptedP
 			out.returnCmptr = 0;
 		
 		out.currentRun = arg0.currentRunCnt;
-		out.currentRunSerial = arg0.currentRun.serialNumber;
+		
+		if (arg0.currentRun != null) {
+			out.currentRunSerial = arg0.currentRun.serialNumber;
+		}
+		else {
+			out.currentRunSerial = 0;
+		}
 		
 		return out;
 		

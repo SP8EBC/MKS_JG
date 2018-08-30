@@ -72,7 +72,7 @@ public class Competitions {
 	 * Tor na którym odbywają się zawody
 	 */
 	@XmlJavaTypeAdapter(value = TrackAdapter.class)
-	@XmlElement(name="trackName")
+	@XmlElement(name="trackName", required = true, nillable = true)
 	public Track track;
 	
 	/**

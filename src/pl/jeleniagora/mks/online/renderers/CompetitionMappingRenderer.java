@@ -20,6 +20,7 @@ public class CompetitionMappingRenderer {
 			
 			e.competitionsName = name;
 			e.competitionSerialNumber = elem.serialNum;
+			e.competitionTypeName = elem.toString();
 			
 			out.entries.add(e);
 		}

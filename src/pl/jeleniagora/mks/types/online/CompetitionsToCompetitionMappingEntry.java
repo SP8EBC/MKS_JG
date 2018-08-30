@@ -4,4 +4,6 @@ public class CompetitionsToCompetitionMappingEntry {
 	public String competitionsName;
 	
 	public Long competitionSerialNumber;
+	
+	public String competitionTypeName;
 }
