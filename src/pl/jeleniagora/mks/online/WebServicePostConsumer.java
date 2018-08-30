@@ -16,6 +16,7 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
+import pl.jeleniagora.mks.exceptions.CompetitionDefinitionRenderEx;
 import pl.jeleniagora.mks.online.renderers.CompetitionsDefinitionRenderer;
 import pl.jeleniagora.mks.online.renderers.SingleCompetitionDefinitionRenderer;
 import pl.jeleniagora.mks.types.Competition;
@@ -87,7 +88,14 @@ public class WebServicePostConsumer {
 		final String uri = "http://localhost:8080/MKS_JG_ONLINE/addComps";
 
 		CompetitionsDefinitionRenderer rndr = new CompetitionsDefinitionRenderer();
-		CompetitionsDefinition defs = rndr.render(cmps);
+		CompetitionsDefinition defs;
+		
+		try {
+			defs = rndr.render(cmps);
+		} catch (CompetitionDefinitionRenderEx e1) {
+			e1.printStackTrace();
+			return;
+		}
 		
 		List<HttpMessageConverter<?>> list = new ArrayList<HttpMessageConverter<?>>();
 		list.add(new MappingJackson2HttpMessageConverter());

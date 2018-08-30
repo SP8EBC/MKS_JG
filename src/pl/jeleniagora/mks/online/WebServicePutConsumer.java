@@ -16,6 +16,7 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import pl.jeleniagora.mks.events.AfterWebServiceContact;
+import pl.jeleniagora.mks.exceptions.CompetitionDefinitionRenderEx;
 import pl.jeleniagora.mks.online.renderers.CompetitionDataRenderer;
 import pl.jeleniagora.mks.online.renderers.CompetitionMappingRenderer;
 import pl.jeleniagora.mks.online.renderers.CompetitionsDefinitionRenderer;
@@ -51,7 +52,14 @@ public class WebServicePutConsumer {
 		final String uri = "http://localhost:8080/MKS_JG_ONLINE/updateComps";
 		
 		CompetitionsDefinitionRenderer rndr = new CompetitionsDefinitionRenderer();
-		CompetitionsDefinition defs = rndr.render(competitions);
+		CompetitionsDefinition defs;
+		
+		try {
+			defs = rndr.render(competitions);
+		} catch (CompetitionDefinitionRenderEx e1) {
+			e1.printStackTrace();
+			return;
+		}
 		
 		List<HttpMessageConverter<?>> list = new ArrayList<HttpMessageConverter<?>>();
 		list.add(new MappingJackson2HttpMessageConverter());

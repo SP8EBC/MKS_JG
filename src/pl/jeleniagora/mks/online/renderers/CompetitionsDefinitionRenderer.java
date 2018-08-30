@@ -1,5 +1,8 @@
 package pl.jeleniagora.mks.online.renderers;
 
+import javax.swing.JOptionPane;
+
+import pl.jeleniagora.mks.exceptions.CompetitionDefinitionRenderEx;
 import pl.jeleniagora.mks.types.Competitions;
 import pl.jeleniagora.mks.types.online.CompetitionsDefinition;
 
@@ -10,14 +13,26 @@ import pl.jeleniagora.mks.types.online.CompetitionsDefinition;
  */
 public class CompetitionsDefinitionRenderer {
 
-	public static CompetitionsDefinition render(Competitions competitions) {
+	public static CompetitionsDefinition render(Competitions competitions) throws CompetitionDefinitionRenderEx {
 		
 		CompetitionsDefinition out = new CompetitionsDefinition();
 		
-		out.compCount = competitions.competitions.size();
+		if (competitions != null && competitions.competitions != null)
+			out.compCount = competitions.competitions.size();
+		else {
+			JOptionPane.showMessageDialog(null, "Nie można dodać zawodów do systemu z powodu ich złej inicjalizacji. Załaduj plik XML jeszcze raz..");
+			throw new CompetitionDefinitionRenderEx();
+
+		}
 		out.competitionsDate = competitions.date;
 		out.competitionsName = competitions.name;
-		out.trackName = competitions.track.toString();
+		if (competitions.track != null)
+			out.trackName = competitions.track.toString();
+		else {
+			JOptionPane.showMessageDialog(null, "Aby dodać zawody do systemu internetowego musisz wybrać tor na którym są rozgrywane");
+			throw new CompetitionDefinitionRenderEx();
+			//return;
+		}
 		
 		out.location = competitions.track.location;
 		
