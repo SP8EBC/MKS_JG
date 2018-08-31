@@ -7,7 +7,7 @@
     <judge2nd xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
     <judge3rd xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
     <date>2018-08-31</date>
-    <trackName>Smržovka</trackName>
+    <trackName xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
     <lugers>
         <luger>
             <systemId>3112243245924047495</systemId>
@@ -84,32 +84,45 @@
         <isCurrentRunTraining>false</isCurrentRunTraining>
         <startList>
             <startListEntry>
-                <lugerCompetitorSystemId>5473511064352310013</lugerCompetitorSystemId>
-                <startNumber>0</startNumber>
-            </startListEntry>
-            <startListEntry>
                 <lugerCompetitorSystemId>248912147232647842</lugerCompetitorSystemId>
-                <startNumber>0</startNumber>
+                <startNumber>1</startNumber>
             </startListEntry>
             <startListEntry>
                 <lugerCompetitorSystemId>478414942321157774</lugerCompetitorSystemId>
-                <startNumber>0</startNumber>
+                <startNumber>3</startNumber>
+            </startListEntry>
+            <startListEntry>
+                <lugerCompetitorSystemId>5473511064352310013</lugerCompetitorSystemId>
+                <startNumber>2</startNumber>
             </startListEntry>
         </startList>
         <startOrder>FIL_ORDER</startOrder>
         <startOrderToChange>FIL_ORDER</startOrderToChange>
-        <invertedStartList/>
-        <ranks>
-            <adaptedRank>
+        <invertedStartList>
+            <ivertedStartListEntry>
+                <startNumber>1</startNumber>
+                <lugerCompetitorSystemId>248912147232647842</lugerCompetitorSystemId>
+            </ivertedStartListEntry>
+            <ivertedStartListEntry>
+                <startNumber>2</startNumber>
                 <lugerCompetitorSystemId>5473511064352310013</lugerCompetitorSystemId>
-                <rank>0</rank>
-            </adaptedRank>
+            </ivertedStartListEntry>
+            <ivertedStartListEntry>
+                <startNumber>3</startNumber>
+                <lugerCompetitorSystemId>478414942321157774</lugerCompetitorSystemId>
+            </ivertedStartListEntry>
+        </invertedStartList>
+        <ranks>
             <adaptedRank>
                 <lugerCompetitorSystemId>248912147232647842</lugerCompetitorSystemId>
                 <rank>0</rank>
             </adaptedRank>
             <adaptedRank>
                 <lugerCompetitorSystemId>478414942321157774</lugerCompetitorSystemId>
+                <rank>0</rank>
+            </adaptedRank>
+            <adaptedRank>
+                <lugerCompetitorSystemId>5473511064352310013</lugerCompetitorSystemId>
                 <rank>0</rank>
             </adaptedRank>
         </ranks>
@@ -123,15 +136,15 @@
                     <trainingOrScored>true</trainingOrScored>
                     <totalTimes>
                         <runTimeInMicrotime>
-                            <lugerCompetitorSystemId>5473511064352310013</lugerCompetitorSystemId>
-                            <microTime>0</microTime>
-                        </runTimeInMicrotime>
-                        <runTimeInMicrotime>
                             <lugerCompetitorSystemId>248912147232647842</lugerCompetitorSystemId>
                             <microTime>0</microTime>
                         </runTimeInMicrotime>
                         <runTimeInMicrotime>
                             <lugerCompetitorSystemId>478414942321157774</lugerCompetitorSystemId>
+                            <microTime>0</microTime>
+                        </runTimeInMicrotime>
+                        <runTimeInMicrotime>
+                            <lugerCompetitorSystemId>5473511064352310013</lugerCompetitorSystemId>
                             <microTime>0</microTime>
                         </runTimeInMicrotime>
                     </totalTimes>
@@ -144,15 +157,15 @@
                     <trainingOrScored>true</trainingOrScored>
                     <totalTimes>
                         <runTimeInMicrotime>
-                            <lugerCompetitorSystemId>5473511064352310013</lugerCompetitorSystemId>
-                            <microTime>0</microTime>
-                        </runTimeInMicrotime>
-                        <runTimeInMicrotime>
                             <lugerCompetitorSystemId>248912147232647842</lugerCompetitorSystemId>
                             <microTime>0</microTime>
                         </runTimeInMicrotime>
                         <runTimeInMicrotime>
                             <lugerCompetitorSystemId>478414942321157774</lugerCompetitorSystemId>
+                            <microTime>0</microTime>
+                        </runTimeInMicrotime>
+                        <runTimeInMicrotime>
+                            <lugerCompetitorSystemId>5473511064352310013</lugerCompetitorSystemId>
                             <microTime>0</microTime>
                         </runTimeInMicrotime>
                     </totalTimes>
@@ -165,15 +178,15 @@
                     <trainingOrScored>true</trainingOrScored>
                     <totalTimes>
                         <runTimeInMicrotime>
-                            <lugerCompetitorSystemId>5473511064352310013</lugerCompetitorSystemId>
-                            <microTime>0</microTime>
-                        </runTimeInMicrotime>
-                        <runTimeInMicrotime>
                             <lugerCompetitorSystemId>248912147232647842</lugerCompetitorSystemId>
                             <microTime>0</microTime>
                         </runTimeInMicrotime>
                         <runTimeInMicrotime>
                             <lugerCompetitorSystemId>478414942321157774</lugerCompetitorSystemId>
+                            <microTime>0</microTime>
+                        </runTimeInMicrotime>
+                        <runTimeInMicrotime>
+                            <lugerCompetitorSystemId>5473511064352310013</lugerCompetitorSystemId>
                             <microTime>0</microTime>
                         </runTimeInMicrotime>
                     </totalTimes>

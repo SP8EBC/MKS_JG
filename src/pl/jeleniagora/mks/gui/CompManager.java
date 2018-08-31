@@ -805,6 +805,11 @@ public class CompManager extends JFrame {
 					JOptionPane.showMessageDialog(frame, "Nie zdefinowano żadnej konkurencji!");
 					return;
 				}
+				
+				if (rte_gui.competitionBeingShown.invertedStartList.size() <= 1) {
+					JOptionPane.showMessageDialog(frame, "Nie możesz dodać konkurencji bez wygenerowanych numerów startowych");
+					return;					
+				}
 				WebServicePutConsumer consumer = new WebServicePutConsumer(null);
 				consumer.competitionDataUpdater(rte_gui.competitionBeingShown);
 			}
@@ -826,6 +831,11 @@ public class CompManager extends JFrame {
 				if (st.currentCompetition == null) {
 					JOptionPane.showMessageDialog(frame, "Nie zdefinowano żadnej konkurencji!");
 					return;
+				}
+				
+				if (st.currentCompetition.invertedStartList.size() <= 1) {
+					JOptionPane.showMessageDialog(frame, "Nie możesz dodać konkurencji bez wygenerowanych numerów startowych");
+					return;					
 				}
 				
 				WebServicePutConsumer consumer = new WebServicePutConsumer(null);
