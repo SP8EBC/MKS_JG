@@ -605,6 +605,17 @@ public class CompManager extends JFrame {
 		});
 		mnSaneczkarze.add(mntmLosujNumeryStartowe);
 		
+		JMenuItem mntmEdytujRcznieNumer = new JMenuItem("Edytuj ręcznie numer wskazanego zawodnika");
+		mntmEdytujRcznieNumer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CompManagerWindowEditStartNum editor = new CompManagerWindowEditStartNum(rte_gui.competitorClickedInTable,
+																						rte_gui.competitionBeingShown,
+																						rte_gui.model);
+				editor.setVisible(true);
+			}
+		});
+		mnSaneczkarze.add(mntmEdytujRcznieNumer);
+		
 		JMenu mnRaporty = new JMenu("Raporty");
 		menuBar.add(mnRaporty);
 		
