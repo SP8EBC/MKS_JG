@@ -13,6 +13,7 @@ import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.serial.TypesConverters;
 import pl.jeleniagora.mks.settings.DisplayS;
+import pl.jeleniagora.mks.types.LugerCompetitor;
 
 /**
  * Listener wyzwalany w momencie kliknięcia przez użytkonika na jakąś komórkę głównej tabeli z wynikami ślizgów
@@ -56,9 +57,7 @@ public class CompManagerScoreTableSelectListener implements ListSelectionListene
 		 */
 		Integer r = t.getSelectedRow();
 		Integer c = t.getSelectedColumn();
-		
-//		rte_gui.runtimeFromChrono = false;
-		
+				
 		/*
 		 * Translacja współrzędnych wiersza i kolumny z widoku na pozycję w modelu, czyli w tablicy przechowywującej
 		 * dane wyświetlane przez JList
@@ -69,10 +68,21 @@ public class CompManagerScoreTableSelectListener implements ListSelectionListene
 		}
 		
 		short startNum = (Short)rte_gui.model.getValueAt(modelRow, 0);
-		rte_gui.competitorClickedInTable = rte_gui.competitionBeingShown.invertedStartList.get(startNum);
+		String name = (String)rte_gui.model.getValueAt(modelRow, 3);
+		String surname = (String)rte_gui.model.getValueAt(modelRow, 3);
 		
-//		System.out.println("Clicked start number: " + startNum + " from: " + rte_gui.competitionBeingShown.toString());
-		
+		/*
+		 * Przed wygenerowaniem numerów startowych invertedStartList jest całkowicie pusta i nie można
+		 * jej używać do wyciągania klikniętego sankarza. Zamiast tego należy przeszukać po Imieniu i Nazwisku
+		 */
+		if (rte_gui.competitionBeingShown.invertedStartList.containsKey(startNum)) {
+			rte_gui.competitorClickedInTable = rte_gui.competitionBeingShown.invertedStartList.get(startNum);
+		}
+		else {
+			LugerCompetitor clicked = rte_gui.competitionBeingShown.findByNameAndSurname(name, surname);
+			rte_gui.competitorClickedInTable = clicked;
+		}
+				
 		if (modelColumn > DisplayS.columnOffset - 1) {
 			/*
 			 * Jeżeli kliknięto kolumne z czasem

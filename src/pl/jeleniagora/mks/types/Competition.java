@@ -4,6 +4,7 @@ import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.Vector;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -190,6 +191,26 @@ public class Competition {
 		return (short) (returnVal );
 	}
 	
+	public LugerCompetitor findByNameAndSurname(String name, String surname) {
+		
+		final LugerCompetitor out;
+		
+		Set<Entry<LugerCompetitor, Short>> set = startList.entrySet();
+		Vector<Entry<LugerCompetitor, Short>> vctSet = new Vector<Entry<LugerCompetitor, Short>>(set);
+		
+		for (int i = 0; i < vctSet.size(); i++) {
+			String cmptrStr = vctSet.get(i).getKey().toString();
+			
+			if (cmptrStr.contains(surname) && cmptrStr.contains(name)) {
+				out = vctSet.get(i).getKey();
+				return out;
+			}
+		}
+		out = null;
+		
+		return out;
+	}
+	
 	/**
 	 * Metoda zwraca wszystkich zawodników ex-aequo na danym miejscu, lub null jeżeli nikt takiej lokaty nie ma
 	 * @param rank
@@ -314,7 +335,7 @@ public class Competition {
 	}
 	
 	public void generateNewSerialNumber() {
-		this.serialNum = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
+		this.serialNum = ThreadLocalRandom.current().nextLong(1, Long.MAX_VALUE);
 	}
 	
 	public Competition() {

@@ -71,14 +71,15 @@ public class CompManagerWindowEditStartNum extends JFrame {
 		spinner = new JSpinner();
 		spinner.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
 		spinner.setFont(new Font("Dialog", Font.BOLD, 14));
-		spinner.setValue(cmptr.getStartNumber());
+		if (cmptr.getStartNumber() > 0)
+			spinner.setValue(cmptr.getStartNumber());
 		contentPane.add(spinner, "cell 1 1");
 		
 		JButton btnZapiszIWyjd = new JButton("Zapisz i wyjdź");
 		btnZapiszIWyjd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Short oldStartNumber = edited.getStartNumber();
-				Short newStartNumber = ((Integer)spinner.getValue()).shortValue();
+				Short newStartNumber = (((Integer)spinner.getValue()).shortValue());
 				
 				// sprawdzanie czy pod nowym numerze startowym nie ma żadnego zawodnika
 				if (invertedStartList.containsKey(newStartNumber)) {
@@ -93,6 +94,9 @@ public class CompManagerWindowEditStartNum extends JFrame {
 						startList.remove(edited);
 						startList.put(toSwap, oldStartNumber);
 						startList.put(edited, newStartNumber);
+						
+						edited.setStartNumber(newStartNumber);
+						toSwap.setStartNumber(oldStartNumber);
 						
 						invertedStartList.remove(oldStartNumber);
 						invertedStartList.remove(newStartNumber);
@@ -112,8 +116,15 @@ public class CompManagerWindowEditStartNum extends JFrame {
 					}
 				}
 				else {
+					edited.setStartNumber(newStartNumber);
 					startList.put(edited, newStartNumber);
 					invertedStartList.put(newStartNumber, edited);
+
+					try {
+						model.updateTableData(competition, false);
+					} catch (UninitializedCompEx e) {
+						e.printStackTrace();
+					}
 					
 					model.fireTableDataChanged();
 					window.dispose();
