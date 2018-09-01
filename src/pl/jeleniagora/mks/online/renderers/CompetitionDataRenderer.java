@@ -43,10 +43,11 @@ public class CompetitionDataRenderer {
 			for (Run r : competition.runsTimes) {
 				if (r.trainingOrScored) {
 					entry.scoredRunsTimesStr.add(r.totalTimes.get(v).toString());
-				}
-				else {
 					Duration toAdd = Duration.between(LocalTime.MIDNIGHT, r.totalTimes.get(v));
 					totalScoredTime.plus(toAdd);
+				}
+				else {
+
 					entry.trainingRunsTimesStr.add(r.totalTimes.get(v).toString());					
 				}
 				

@@ -29,8 +29,11 @@ import com.itextpdf.layout.property.UnitValue;
 import com.itextpdf.layout.property.VerticalAlignment;
 
 import pl.jeleniagora.mks.types.Competition;
+import pl.jeleniagora.mks.types.CompetitionTypes;
 import pl.jeleniagora.mks.types.Competitions;
 import pl.jeleniagora.mks.types.LugerCompetitor;
+import pl.jeleniagora.mks.types.LugerDouble;
+import pl.jeleniagora.mks.types.LugerSingle;
 import pl.jeleniagora.mks.types.Run;
 
 /**
@@ -148,7 +151,10 @@ public class CompetitionReportGenerator {
 		scoreTable.addHeaderCell(getCell("Numer Startowy", TextAlignment.CENTER, font, 2, 1, true, true).setBorderTop(new SolidBorder(ColorConstants.BLACK, 1.0f)));
 		scoreTable.addHeaderCell(getCell("Imię i Nazwisko", TextAlignment.CENTER, font, 2, 1, true, true).setBorderTop(new SolidBorder(ColorConstants.BLACK, 1.0f)));
 		scoreTable.addHeaderCell(getCell("Klub", TextAlignment.CENTER, font, 2, 1, true, true).setBorderTop(new SolidBorder(ColorConstants.BLACK, 1.0f)));
+		scoreTable.addHeaderCell(getCell("Rok Urodzenia", TextAlignment.CENTER, font, 2, 1, true, true).setBorderTop(new SolidBorder(ColorConstants.BLACK, 1.0f)));
 		scoreTable.addHeaderCell(getCell("Czasy ślizgów", TextAlignment.CENTER, font, 1, runsNumber, true, true).setBorderTop(new SolidBorder(ColorConstants.BLACK, 1.0f)));
+		scoreTable.addHeaderCell(getCell("Łączny czas", TextAlignment.CENTER, font, 1, runsNumber, true, true).setBorderTop(new SolidBorder(ColorConstants.BLACK, 1.0f)));
+
 		scoreTable.startNewRow();
 		for (int i = 1; i <= trainingRunsCount; i++)
 			scoreTable.addHeaderCell(getCell("Tr " + i, TextAlignment.CENTER, font, tableFontSize,  true, true));
@@ -184,13 +190,16 @@ public class CompetitionReportGenerator {
 		
 		LocalTime zero = LocalTime.of(0, 0, 0, 0);
 
-		float[] columnsWidth = new float[runsNumber + 4];
+		float[] columnsWidth = new float[runsNumber + 6];
 		columnsWidth[0] = 2;
 		columnsWidth[1] = 1;
 		columnsWidth[2] = 4;
 		columnsWidth[3] = 6;
+		columnsWidth[4] = 4;
 		
-		for (int i = 4; i < runsNumber + 4; i++)
+		columnsWidth[runsNumber + 6 - 1] = 2;
+		
+		for (int i = 5; i < runsNumber + 4; i++)
 			columnsWidth[i] = 2;
 		
 		font = PdfFontFactory.createFont("./res/DejaVuSans.ttf", PdfEncodings.IDENTITY_H, true);
@@ -311,6 +320,32 @@ public class CompetitionReportGenerator {
 				scoreTable.addCell(getCell(e.getKey().toString(), TextAlignment.CENTER, font, this.tableFontSize, true, false).setBorderBottom(new SolidBorder(ColorConstants.BLACK, 1.0f)));
 				scoreTable.addCell(getCell(e.getKey().clubToString(), TextAlignment.CENTER, font, this.tableFontSize, true, false).setBorderBottom(new SolidBorder(ColorConstants.BLACK, 1.0f)));
 				
+				// dodawanie roku urodzenia
+				CompetitionTypes type = e.getKey().getCompetitorType();
+				if (type.equals(CompetitionTypes.MEN_SINGLE) ||
+					type.equals(CompetitionTypes.WOMAN_SINGLE)) 
+				{
+					LugerSingle single = (LugerSingle)e.getKey();
+					
+					scoreTable.addCell(getCell(new Integer(single.single.birthDate.getYear()).toString(), TextAlignment.CENTER, font, this.tableFontSize, true, false).setBorderBottom(new SolidBorder(ColorConstants.BLACK, 1.0f)));
+
+				}
+				else if (type.equals(CompetitionTypes.DOUBLE) ||
+						type.equals(CompetitionTypes.DOUBLE_MEN_ONLY) ||
+						type.equals(CompetitionTypes.DOUBLE_MIXED) ||
+						type.equals(CompetitionTypes.DOUBLE_WOMAN_ONLY) ||
+						type.equals(CompetitionTypes.MARRIED_COUPLE)) 
+				{
+					LugerDouble d = (LugerDouble)e.getKey();
+					String upYear = new Integer(d.upper.birthDate.getYear()).toString();
+					String downYear = new Integer(d.lower.birthDate.getYear()).toString();
+					
+					scoreTable.addCell(getCell(upYear + " / " + downYear, TextAlignment.CENTER, font, this.tableFontSize, true, false).setBorderBottom(new SolidBorder(ColorConstants.BLACK, 1.0f)));
+
+				}
+				else 
+					scoreTable.addCell(getCell("n/a", TextAlignment.CENTER, font, this.tableFontSize, true, false).setBorderBottom(new SolidBorder(ColorConstants.BLACK, 1.0f)));
+				
 				// dodawnie kolejnych czasów ślizgu/zjazdu
 				for (Run r : competitionToGenerateFrom.runsTimes) {
 					// wyciąganie czasu w kolejnych ślizgach
@@ -331,10 +366,41 @@ public class CompetitionReportGenerator {
 			scoreTable.addCell(getCell(e.getKey().toString(), TextAlignment.CENTER, font, this.tableFontSize, true, false));
 			scoreTable.addCell(getCell(e.getKey().clubToString(), TextAlignment.CENTER, font, this.tableFontSize, true, false));
 			
+			// dodawanie roku urodzenia
+			CompetitionTypes type = e.getKey().getCompetitorType();
+			if (type.equals(CompetitionTypes.MEN_SINGLE) ||
+				type.equals(CompetitionTypes.WOMAN_SINGLE)) 
+			{
+				LugerSingle single = (LugerSingle)e.getKey();
+				
+				scoreTable.addCell(getCell(new Integer(single.single.birthDate.getYear()).toString(), TextAlignment.CENTER, font, this.tableFontSize, true, false).setBorderBottom(new SolidBorder(ColorConstants.BLACK, 1.0f)));
+
+			}
+			else if (type.equals(CompetitionTypes.DOUBLE) ||
+					type.equals(CompetitionTypes.DOUBLE_MEN_ONLY) ||
+					type.equals(CompetitionTypes.DOUBLE_MIXED) ||
+					type.equals(CompetitionTypes.DOUBLE_WOMAN_ONLY) ||
+					type.equals(CompetitionTypes.MARRIED_COUPLE)) 
+			{
+				LugerDouble d = (LugerDouble)e.getKey();
+				String upYear = new Integer(d.upper.birthDate.getYear()).toString();
+				String downYear = new Integer(d.lower.birthDate.getYear()).toString();
+				
+				scoreTable.addCell(getCell(upYear + " / " + downYear, TextAlignment.CENTER, font, this.tableFontSize, true, false).setBorderBottom(new SolidBorder(ColorConstants.BLACK, 1.0f)));
+
+			}
+			else 
+				scoreTable.addCell(getCell("n/a", TextAlignment.CENTER, font, this.tableFontSize, true, false).setBorderBottom(new SolidBorder(ColorConstants.BLACK, 1.0f)));
+			
+			LocalTime totalScoredTime = LocalTime.of(0, 0, 0, 0);
 			// dodawnie kolejnych czasów ślizgu/zjazdu
 			for (Run r : competitionToGenerateFrom.runsTimes) {
 				// wyciąganie czasu w kolejnych ślizgach
 				LocalTime timeToAdd = r.totalTimes.get(e.getKey());
+				
+				if (r.trainingOrScored) {
+					
+				}
 				
 				// jeżeli czas ślizgu jest zerowy to wyświetl puste pole
 				if (timeToAdd.equals(zero))
