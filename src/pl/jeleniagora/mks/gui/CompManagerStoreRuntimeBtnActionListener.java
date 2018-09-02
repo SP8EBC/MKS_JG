@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import pl.jeleniagora.mks.display.DisplayRuntimeAndRank;
 import pl.jeleniagora.mks.events.EndOfRun;
 import pl.jeleniagora.mks.events.SaveRuntime;
 import pl.jeleniagora.mks.events.UpdateCurrentAndNextLuger;
@@ -16,8 +17,12 @@ import pl.jeleniagora.mks.exceptions.EndOfCompEx;
 import pl.jeleniagora.mks.exceptions.EndOfRunEx;
 import pl.jeleniagora.mks.exceptions.StartOrderNotChoosenEx;
 import pl.jeleniagora.mks.exceptions.UninitializedCompEx;
+import pl.jeleniagora.mks.rte.RTE;
+import pl.jeleniagora.mks.rte.RTE_DISP;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
+import pl.jeleniagora.mks.scoring.CalculatePartialRanks;
+import pl.jeleniagora.mks.settings.GeneralS;
 
 public class CompManagerStoreRuntimeBtnActionListener implements ActionListener {
 
@@ -35,6 +40,10 @@ public class CompManagerStoreRuntimeBtnActionListener implements ActionListener 
 		
 		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
+		RTE_DISP rte_disp = (RTE_DISP)ctx.getBean("RTE_DISP");
+		
+		CalculatePartialRanks partialRanks = new CalculatePartialRanks();
+		DisplayRuntimeAndRank display = new DisplayRuntimeAndRank(RTE.getRte_disp_interface(), rte_disp.displayRuntimeAndRankDelayAfterSaving);
 		
 		try {
 			minutes = new Integer(rte_gui.min.getText());
@@ -71,13 +80,15 @@ public class CompManagerStoreRuntimeBtnActionListener implements ActionListener 
 		System.out.println("Saving runtime: " + runTime.toString() + " for comptr '" + rte_gui.competitorClickedInTable.toString() + "' in run "
 				+ rte_gui.runClickedInTable);
 		
-		boolean ret = SaveRuntime.saveRuntimeForMarkedCmptr(runTime);
+		boolean ret = SaveRuntime.saveRuntimeForMarkedCmptr(runTime);	// funkcja oblicza również partial ranks
 				
 		if (ret) {
+			
 			/*
 			 * Jeżeli zapisuje się przy użyciu przycisku czas dla zawodnika aktualie na torze to go wyświetl
 			 */
-			SaveRuntime.displayRuntimeOnDisplay(runTime, rte_st.actuallyOnTrack);
+			display.showScoreAfterRun(runTime, rte_st.actuallyOnTrack, rte_st.currentCompetition.partialRanks.get(rte_st.actuallyOnTrack));
+//			SaveRuntime.displayRuntimeOnDisplay(runTime, rte_st.actuallyOnTrack);		// podtrzymanie domyślnie przez 9 sekund
 			
 			try {
 				UpdateCurrentAndNextLuger.moveForwardNormally();

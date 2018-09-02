@@ -100,26 +100,99 @@ public class CalculatePartialRanks {
 	}
 	
 	public Map<LugerCompetitor, Short> calculatePartialRanks(Competition comps, Run currentRun)	{
-		if (comps.isCurrentRunTraining && comps.trainingOrContest)
-			return new HashMap<LugerCompetitor, Short>();
+		if (comps.isCurrentRunTraining && comps.trainingOrContest) {
+			Map<LugerCompetitor, LocalTime> total = calculateTotalRuntimeInTraining(comps, currentRun);
+			Map<LugerCompetitor, Short> out = calculateRanksFromMap(total);
+
+			comps.partialRanks = out;
+			return out;
+
+		}
+		else {
+			Map<LugerCompetitor, LocalTime> total = calculateTotalRuntimeInScored(comps, currentRun);
+			Map<LugerCompetitor, Short> out = calculateRanksFromMap(total);
+			
+			comps.partialRanks = out;
+			return out;
+		}
+
+	}
+	
+	/**
+	 * Metoda podobna do calculateTotalRuntimeInScored ale operująca wyłącznie na ślizgach / zjazdach
+	 * treningowych
+	 * @param comp
+	 * @param currentRun
+	 * @return
+	 */
+	private Map<LugerCompetitor, LocalTime> calculateTotalRuntimeInTraining(Competition comp, Run currentRun) {
+
+		/*
+		 * Map łącząca numer startowy saneczkarza z jego łącznym czasem przejazdu od pierwszego do aktualnego ślizgu 
+		 */
+		Map<LugerCompetitor, LocalTime> totalTimes = new HashMap<LugerCompetitor, LocalTime>();
 		
-		Map<LugerCompetitor, LocalTime> total = calculateTotalRuntime(comps, currentRun);
-		Map<LugerCompetitor, Short> out = calculateRanksFromMap(total);
+		for (Run r : comp.runsTimes) {
+				
+			if (!r.trainingOrScored) {
+				/*
+				 * Obliczanie czasów tylko dla ślizgów treningowych bez względu na tryb zawodów
+				 */
+				
+				Set<Entry<LugerCompetitor, LocalTime>> set = r.totalTimes.entrySet();	// entry set z czasami aktualnie przetwarzanego ślizgu
+				
+				Iterator<Entry<LugerCompetitor, LocalTime>> it = set.iterator(); 
+								
+				do {
+					/*
+					 * Entry set z mapy nie gwarantuje zachowania kolejności zgodnej z kolejnością
+					 * dodawania elementów do mapy ale akurat tutaj nie jest to problem
+					 */
+					Entry<LugerCompetitor, LocalTime> e = it.next();
+
+					LugerCompetitor k = e.getKey();	// wyciąganie saneczkarza
+					LocalTime v = e.getValue();		// i jego czasu przejazdu
+					
+					if (v.equals(LocalTime.of(0, 0, 0, 0)) || v == null)
+						v = DNS.getValue().plusMinutes(1); // jeżeli saneczkarz jeszcze nie jechał
+											// to tymczasowo dopisz DNS
+						
+					/*
+					 * Sprawdzanie czy wyjściowa mapa ma już klucz odpowiadający temu zawodnikowi
+					 */
+					if (totalTimes.containsKey(k)) {
+						LocalTime t = totalTimes.get(k);	// wyciąganie już zapisanego czasu ślizgu
+						long toAdd = v.toNanoOfDay();
+						LocalTime sum = t.plusNanos(toAdd);			// dodawanie czasu z tego ślizgu
+						
+						totalTimes.put(k, sum);		// zapisywanie na nowo w wyjściowej mapie
+					}
+					else {
+						totalTimes.put(k, v);
+					}
+				} while (it.hasNext());
+			}
+			
+			if (r.equals(currentRun)) {
+				// zakończ przetwarzanie na aktualnym ślizgu
+				break;
+			}
+		}
 		
-		comps.partialRanks = out;
-		return out;
+		return totalTimes;
+		
 	}
 	
 	
 	/**
-	 * Metoda sumująca czasy ślizgu zdolna to operowania na niepełnych ślizgach. Dla zawodników
-	 * którzy jeszcze nie jechali przyjmuje DNS. Dzięki temu zawodnicy którzy jeszcze nie jechali
-	 * będa mieli "wirtualne czasy" zawsze gorsze od tych, którzy już ukończyli zjazd/ślizg co 
-	 * pozwoli zachowac poprawną kolejność
+	 * Metoda sumująca czasy ślizgu w punktowanych zdolna to operowania na niepełnych ślizgach. 
+	 * Dla zawodników którzy jeszcze nie jechali przyjmuje DNS. Dzięki temu zawodnicy którzy 
+	 * jeszcze nie jechali będa mieli "wirtualne czasy" zawsze gorsze od tych, którzy już 
+	 * ukończyli zjazd/ślizg co pozwoli zachowac poprawną kolejność
 	 * @param comp
 	 * @return
 	 */
-	private Map<LugerCompetitor, LocalTime> calculateTotalRuntime(Competition comp, Run currentRun) {
+	private Map<LugerCompetitor, LocalTime> calculateTotalRuntimeInScored(Competition comp, Run currentRun) {
 
 		/*
 		 * Map łącząca numer startowy saneczkarza z jego łącznym czasem przejazdu od pierwszego do aktualnego ślizgu 

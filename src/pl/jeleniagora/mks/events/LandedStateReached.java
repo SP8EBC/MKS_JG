@@ -9,6 +9,7 @@ import pl.jeleniagora.mks.display.DisplayRuntimeAndStartNum;
 import pl.jeleniagora.mks.exceptions.AppContextUninitializedEx;
 import pl.jeleniagora.mks.exceptions.UninitializedCompEx;
 import pl.jeleniagora.mks.rte.RTE;
+import pl.jeleniagora.mks.rte.RTE_DISP;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.serial.TypesConverters;
@@ -41,11 +42,13 @@ public class LandedStateReached {
 		
 		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
+		RTE_DISP rte_disp = (RTE_DISP)ctx.getBean("RTE_DISP");
 				
 		rte_gui.compManager.markConreteRun(rte_st.actuallyOnTrack.getStartNumber(), rte_st.currentRunCnt);
 		
 		LandedStateReached.updateTextFieldsInCM(runtime);
-		LandedStateReached.displayRuntimeOnDisplay(runtime, rte_st.actuallyOnTrack);
+		if (rte_disp.autoShowRuntimeAfterLanding)
+			LandedStateReached.displayRuntimeOnDisplay(runtime, rte_st.actuallyOnTrack);
 		
 		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("mm:ss.nnn");
 		rte_gui.lblTimeFromChrono.setText(runtime.format(fmt));
@@ -76,10 +79,12 @@ public class LandedStateReached {
 	static void displayRuntimeOnDisplay(LocalTime runTime, LugerCompetitor whoFinished) {
 		DisplayRuntimeAndStartNum d = new DisplayRuntimeAndStartNum(RTE.getRte_disp_interface());
 		
+		RTE_DISP rte_disp = (RTE_DISP)ctx.getBean("RTE_DISP");
+		
 		/*
 		 * Przetrzymanie treści na wyświetlaczu wynosi 2500 bo po 3 sekundach nastąpi autozapis
 		 */
-		d.showScoreAfterRunAndDelay(runTime, whoFinished, 2500);
+		d.showScoreAfterRunAndDelay(runTime, whoFinished, rte_disp.displayRuntimeDelayAfterLanded);
 	}
 	
 	/**

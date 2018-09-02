@@ -752,13 +752,41 @@ public class CompManager extends JFrame {
 		mntmWyczyZawarto.addActionListener(new Clear(RTE.getRte_disp_interface()));
 		mnWywietlacz.add(mntmWyczyZawarto);
 		
-		JMenuItem mntmEkranStartowy = new JMenuItem("Ekran Startowy");
-		mntmEkranStartowy.addActionListener(new DisplayStartScreen(RTE.getRte_disp_interface()));
-//		mntmEkranStartowy.setAction(action);
-		mnWywietlacz.add(mntmEkranStartowy);
-		
 		JMenuItem mntmTest = new JMenuItem("Test 1");
 		mntmTest.addActionListener(new DisplayRuntimeAndStartNum(RTE.getRte_disp_interface()));
+		
+		JMenu mnWywietl = new JMenu("Wyświetl");
+		mnWywietlacz.add(mnWywietl);
+		
+		JMenuItem mntmAktualnieNaTorze = new JMenuItem("Aktualnie na torze");
+		mntmAktualnieNaTorze.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+			}
+		});
+		mnWywietl.add(mntmAktualnieNaTorze);
+		
+		JMenuItem mntmEkranStartowy = new JMenuItem("Ekran Startowy");
+		mnWywietl.add(mntmEkranStartowy);
+		mntmEkranStartowy.addActionListener(new DisplayStartScreen(RTE.getRte_disp_interface()));
+		
+		JMenu mnUstawienia = new JMenu("Ustawienia");
+		mnWywietlacz.add(mnUstawienia);
+		
+		JMenu mnJasno = new JMenu("Jasność");
+		mnUstawienia.add(mnJasno);
+		
+		JRadioButtonMenuItem rdbtnmntmMinimalna = new JRadioButtonMenuItem("Minimalna");
+		mnJasno.add(rdbtnmntmMinimalna);
+		
+		JRadioButtonMenuItem rdbtnmntmrednia = new JRadioButtonMenuItem("Średnia");
+		mnJasno.add(rdbtnmntmrednia);
+		
+		JRadioButtonMenuItem rdbtnmntmJasna = new JRadioButtonMenuItem("Duża");
+		mnJasno.add(rdbtnmntmJasna);
+		
+		JRadioButtonMenuItem rdbtnmntmMaksymalna = new JRadioButtonMenuItem("Maksymalna");
+		mnJasno.add(rdbtnmntmMaksymalna);
 		mnWywietlacz.add(mntmTest);
 		
 		JMenuItem mntmTest_1 = new JMenuItem("Symulacja Chrono 1");
@@ -772,9 +800,6 @@ public class CompManager extends JFrame {
 		
 		JMenuItem mntmSymulacjaChrono = new JMenuItem("Symulacja Chrono 2");
 		mnWywietlacz.add(mntmSymulacjaChrono);
-		
-		JMenu mnUstawienia = new JMenu("Ustawienia");
-		menuBar.add(mnUstawienia);
 		
 		JMenu mnLugepl = new JMenu("Luge.pl");
 		menuBar.add(mnLugepl);

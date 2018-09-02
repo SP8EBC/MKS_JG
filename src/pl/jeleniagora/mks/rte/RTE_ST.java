@@ -73,4 +73,5 @@ public class RTE_ST {
 	 */
 	public boolean enableOnlineScoring = false;
 	
+	
 }

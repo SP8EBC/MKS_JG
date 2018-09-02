@@ -24,7 +24,7 @@ public class DisplayNameSurnameAndStartNum {
 			surname = s.single.surname;
 		}
 		
-		if (cmptr instanceof LugerDouble) {
+		else if (cmptr instanceof LugerDouble) {
 			LugerDouble d = (LugerDouble)cmptr;
 			
 			name = d.upper.surname;

@@ -4,11 +4,13 @@ import java.time.LocalTime;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import pl.jeleniagora.mks.display.Clear;
 import pl.jeleniagora.mks.display.DisplayNameSurnameAndStartNum;
 import pl.jeleniagora.mks.exceptions.AppContextUninitializedEx;
 import pl.jeleniagora.mks.exceptions.EndOfRunEx;
 import pl.jeleniagora.mks.exceptions.StartOrderNotChoosenEx;
 import pl.jeleniagora.mks.rte.RTE;
+import pl.jeleniagora.mks.rte.RTE_DISP;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.start.order.StartOrderInterface;
@@ -189,6 +191,7 @@ public class UpdateCurrentAndNextLuger {
 	public static void setActualFromStartNumberAndNext(short startNumber) throws StartOrderNotChoosenEx {
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
+		RTE_DISP rte_disp = (RTE_DISP)ctx.getBean("RTE_DISP");
 		
 		LocalTime zero = LocalTime.of(0, 0, 0, 0);
 		
@@ -217,8 +220,13 @@ public class UpdateCurrentAndNextLuger {
 		else
 			rte_gui.nextOnTrack.setText("----");	// jeżeli aktualnie na torze jest ostatnim
 		
+		// TODO: Dorobić opcję nie pokzywanie automatycznie następnego
 		DisplayNameSurnameAndStartNum d = new DisplayNameSurnameAndStartNum(RTE.getRte_disp_interface());
-		d.showBefore(rte_st.actuallyOnTrack);
+		Clear c = new Clear(RTE.getRte_disp_interface());
+		if (rte_disp.autoShowNextLuger)
+			d.showBefore(rte_st.actuallyOnTrack);
+		else
+			c.actionPerformed(null);
 		
 		/*
 		Vector<LocalTime> vctRunTimes = rte_st.currentRun.getVectorWithRuntimes(rte_st.currentCompetition.invertedStartList);
@@ -248,14 +256,21 @@ public class UpdateCurrentAndNextLuger {
 	public static void setActualFromStartNumber(short startNumber) {
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
+		RTE_DISP rte_disp = (RTE_DISP)ctx.getBean("RTE_DISP");
 		
 		rte_st.returnComptr = rte_st.actuallyOnTrack;
 		
 		rte_st.actuallyOnTrack = rte_st.currentCompetition.invertedStartList.get((short)startNumber);
 		rte_gui.actuallyOnTrack.setText(rte_st.actuallyOnTrack.toString());
 		
+		// TODO: Dorobić opcję nie pokzywanie automatycznie następnego
 		DisplayNameSurnameAndStartNum d = new DisplayNameSurnameAndStartNum(RTE.getRte_disp_interface());
-		d.showBefore(rte_st.actuallyOnTrack);
+		Clear c = new Clear(RTE.getRte_disp_interface());
+
+		if (rte_disp.autoShowNextLuger)
+			d.showBefore(rte_st.actuallyOnTrack);
+		else
+			c.actionPerformed(null);
 	}
 	
 	/**
@@ -283,6 +298,7 @@ public class UpdateCurrentAndNextLuger {
 		
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
+		RTE_DISP rte_disp = (RTE_DISP)ctx.getBean("RTE_DISP");
 		
 		rte_st.actuallyOnTrack = rte_st.currentCompetition.startOrder.getFirst(rte_st.currentCompetition);
 		rte_st.nextOnTrack = rte_st.currentCompetition.startOrder.getSecond(rte_st.currentCompetition);
@@ -294,8 +310,13 @@ public class UpdateCurrentAndNextLuger {
 		rte_gui.competitorClickedInTable = rte_st.actuallyOnTrack;
 		rte_gui.compManager.markConreteRun(rte_st.actuallyOnTrack.getStartNumber(),	rte_st.currentRunCnt);
 		
+		// TODO: Dorobić opcję nie pokzywanie automatycznie następnego
+		Clear c = new Clear(RTE.getRte_disp_interface());
 		DisplayNameSurnameAndStartNum d = new DisplayNameSurnameAndStartNum(RTE.getRte_disp_interface());
-		d.showBefore(rte_st.actuallyOnTrack);
+		if(rte_disp.autoShowNextLuger)
+			d.showBefore(rte_st.actuallyOnTrack);
+		else
+			c.actionPerformed(null);
 	}
 	
 	/**
@@ -310,6 +331,7 @@ public class UpdateCurrentAndNextLuger {
 		
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
+		RTE_DISP rte_disp = (RTE_DISP)ctx.getBean("RTE_DISP");
 		
 		StartOrderInterface order = rte_st.currentCompetition.startOrder;
 		if (order == null)
@@ -427,8 +449,13 @@ public class UpdateCurrentAndNextLuger {
 		/*
 		 * Wyświetlanie na wyświetlaczu
 		 */
+		// TODO: Dorobić opcję nie pokzywanie automatycznie następnego
+		Clear c = new Clear(RTE.getRte_disp_interface());
 		DisplayNameSurnameAndStartNum d = new DisplayNameSurnameAndStartNum(RTE.getRte_disp_interface());
-		d.showBefore(rte_st.actuallyOnTrack);
+		if (rte_disp.autoShowNextLuger)
+			d.showBefore(rte_st.actuallyOnTrack);
+		else
+			c.actionPerformed(null);
 		
 		try {
 			/*

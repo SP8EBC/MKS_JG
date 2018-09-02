@@ -6,11 +6,14 @@ import javax.swing.JOptionPane;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import pl.jeleniagora.mks.display.DisplayRuntimeAndRank;
 import pl.jeleniagora.mks.exceptions.AppContextUninitializedEx;
 import pl.jeleniagora.mks.exceptions.EndOfCompEx;
 import pl.jeleniagora.mks.exceptions.EndOfRunEx;
 import pl.jeleniagora.mks.exceptions.NoMoreCompetitionsEx;
 import pl.jeleniagora.mks.exceptions.StartOrderNotChoosenEx;
+import pl.jeleniagora.mks.rte.RTE;
+import pl.jeleniagora.mks.rte.RTE_DISP;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.scoring.CalculatePartialRanks;
@@ -46,14 +49,16 @@ public class SaveRuntimeDelayThread implements Runnable {
 	public void run() {
 		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
+		RTE_DISP rte_disp = (RTE_DISP)ctx.getBean("RTE_DISP");
 		
 		System.out.println("SaveRuntimeDelayThread started");
 		
 		boolean compHasToBeChanged = false;
 		CalculatePartialRanks partialRanks = new CalculatePartialRanks();
+		DisplayRuntimeAndRank display = new DisplayRuntimeAndRank(RTE.getRte_disp_interface(), rte_disp.displayRuntimeAndRankDelayAfterSaving);
 		
 		/*
-		 * Czekanie 5 sekund
+		 * Czekanie 3 sekundy
 		 */
 		try {
 			Thread.sleep(3000, 0);
@@ -66,15 +71,16 @@ public class SaveRuntimeDelayThread implements Runnable {
 		 */
 		if (rte_gui.runtimeFromChrono) {
 			SaveRuntime.saveRuntimeForCurrentCmptr(rt);
-			SaveRuntime.displayRuntimeOnDisplay(rt, rte_st.actuallyOnTrack);
+//			SaveRuntime.displayRuntimeOnDisplay(rt, rte_st.actuallyOnTrack);
 			if (GeneralS.isPartialRanksRunOnly())
 				partialRanks.calculatePartialRanksInRun(rte_st.currentCompetition, rte_st.currentRun);
 			else
 				partialRanks.calculatePartialRanks(rte_st.currentCompetition, rte_st.currentRun);
-			rte_gui.updater.updateCurrentCompetition();
+			rte_gui.updater.updateCurrentCompetition();		// sktualizowanie modelu wyświetlającego aktualną konkurencje
+			display.showScoreAfterRun(rt, rte_st.actuallyOnTrack, rte_st.currentCompetition.partialRanks.get(rte_st.actuallyOnTrack));
 			
 			try {
-				UpdateCurrentAndNextLuger.moveForwardNormally();
+				UpdateCurrentAndNextLuger.moveForwardNormally();		// tu wyświetla na wyświetlaczu LED kolejnego zawodnika
 			} catch (EndOfRunEx e) {
 				
 				if (!inhibitMsg)

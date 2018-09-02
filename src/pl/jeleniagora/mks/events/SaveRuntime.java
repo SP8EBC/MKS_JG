@@ -9,12 +9,18 @@ import pl.jeleniagora.mks.exceptions.UninitializedCompEx;
 import pl.jeleniagora.mks.online.WebServicePutConsumer;
 import pl.jeleniagora.mks.online.renderers.CompetitionDataRenderer;
 import pl.jeleniagora.mks.rte.RTE;
+import pl.jeleniagora.mks.rte.RTE_DISP;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.scoring.CalculatePartialRanks;
 import pl.jeleniagora.mks.settings.GeneralS;
 import pl.jeleniagora.mks.types.LugerCompetitor;
 
+/**
+ * Klasa używana przez CompManagerStoreRuntimeBtnActionListener oraz SaveRuntimeDelayThread
+ * @author mateusz
+ *
+ */
 public class SaveRuntime {
 
 
@@ -34,12 +40,11 @@ public class SaveRuntime {
 	}
 	
 	public static void displayRuntimeOnDisplay(LocalTime runTime, LugerCompetitor whoFinished) {
-		DisplayRuntimeAndStartNum d = new DisplayRuntimeAndStartNum(RTE.getRte_disp_interface());
+		RTE_DISP rte_disp = (RTE_DISP)ctx.getBean("RTE_DISP");
 		
-		/*
-		 * Przetrzymanie treści na wyświetlaczu wynosi 2500 bo po 3 sekundach nastąpi autozapis
-		 */
-		d.showScoreAfterRunAndDelay(runTime, whoFinished, 9000);
+		DisplayRuntimeAndStartNum d = new DisplayRuntimeAndStartNum(RTE.getRte_disp_interface());
+
+		d.showScoreAfterRunAndDelay(runTime, whoFinished, rte_disp.displayRuntimeAndRankDelayAfterSaving);
 	}
 	
 	/**
