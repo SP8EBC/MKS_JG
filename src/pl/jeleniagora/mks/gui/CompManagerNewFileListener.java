@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import pl.jeleniagora.mks.display.DisplayStartScreen;
 import pl.jeleniagora.mks.rte.RTE;
+import pl.jeleniagora.mks.rte.RTE_DISP;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.types.Competition;
@@ -28,6 +29,9 @@ public class CompManagerNewFileListener implements ActionListener {
 	RTE_ST rte_st;
 	
 	RTE_GUI rte_gui;
+	
+	@Autowired
+	RTE_DISP rte_disp;
 	
 	@Autowired
 	CompManagerCSelectorUpdater selectorUpdater;
@@ -79,7 +83,7 @@ public class CompManagerNewFileListener implements ActionListener {
 			rte_gui.actuallyOnTrack.setText("----");
 			rte_gui.currentCompetition.setText("----");
 
-			DisplayStartScreen start = new DisplayStartScreen(RTE.getRte_disp_interface());
+			DisplayStartScreen start = new DisplayStartScreen(RTE.getRte_disp_interface(), rte_disp.brightness);
 			start.showStartScreen();
 			
 		}

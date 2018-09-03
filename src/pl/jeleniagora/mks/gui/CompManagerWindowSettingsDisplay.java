@@ -18,6 +18,10 @@ import javax.swing.JCheckBox;
 
 public class CompManagerWindowSettingsDisplay extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8585369990723358551L;
 	private JPanel contentPane;
 
 	/**

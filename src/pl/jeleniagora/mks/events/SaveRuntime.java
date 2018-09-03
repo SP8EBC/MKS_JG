@@ -42,7 +42,7 @@ public class SaveRuntime {
 	public static void displayRuntimeOnDisplay(LocalTime runTime, LugerCompetitor whoFinished) {
 		RTE_DISP rte_disp = (RTE_DISP)ctx.getBean("RTE_DISP");
 		
-		DisplayRuntimeAndStartNum d = new DisplayRuntimeAndStartNum(RTE.getRte_disp_interface());
+		DisplayRuntimeAndStartNum d = new DisplayRuntimeAndStartNum(RTE.getRte_disp_interface(), rte_disp.brightness);
 
 		d.showScoreAfterRunAndDelay(runTime, whoFinished, rte_disp.displayRuntimeAndRankDelayAfterSaving);
 	}

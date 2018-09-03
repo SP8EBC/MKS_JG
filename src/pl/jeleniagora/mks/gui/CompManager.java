@@ -12,6 +12,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import pl.jeleniagora.mks.chrono.Chrono;
 import pl.jeleniagora.mks.chrono.SimulateChrono;
 import pl.jeleniagora.mks.display.Clear;
+import pl.jeleniagora.mks.display.DisplayNameSurnameAndStartNum;
 import pl.jeleniagora.mks.display.DisplayRuntimeAndStartNum;
 import pl.jeleniagora.mks.display.DisplayStartScreen;
 import pl.jeleniagora.mks.display.SectroBigRasterDisplay;
@@ -36,6 +37,7 @@ import pl.jeleniagora.mks.reports.CompetitionReportGenerator;
 import pl.jeleniagora.mks.rte.RTE;
 import pl.jeleniagora.mks.rte.RTE_COM;
 import pl.jeleniagora.mks.rte.RTE_COM_DISP;
+import pl.jeleniagora.mks.rte.RTE_DISP;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.serial.CommThread;
@@ -314,6 +316,7 @@ public class CompManager extends JFrame {
 				
 //		RTE_GUI rte_gui = ctx.getBean(RTE_GUI.class);
 		RTE_GUI rte_gui = RTE.getGUI();
+		RTE_DISP rte_disp = (RTE_DISP)ctx.getBean("RTE_DISP");
 		
 		// inicjalizacja tablicy pod nazwy kolumn
 		this.columnNamesForTable = new String[9];
@@ -753,7 +756,7 @@ public class CompManager extends JFrame {
 		mnWywietlacz.add(mntmWyczyZawarto);
 		
 		JMenuItem mntmTest = new JMenuItem("Test 1");
-		mntmTest.addActionListener(new DisplayRuntimeAndStartNum(RTE.getRte_disp_interface()));
+		mntmTest.addActionListener(new DisplayRuntimeAndStartNum(RTE.getRte_disp_interface(), rte_disp.brightness));
 		
 		JMenu mnWywietl = new JMenu("Wyświetl");
 		mnWywietlacz.add(mnWywietl);
@@ -761,14 +764,15 @@ public class CompManager extends JFrame {
 		JMenuItem mntmAktualnieNaTorze = new JMenuItem("Aktualnie na torze");
 		mntmAktualnieNaTorze.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				DisplayNameSurnameAndStartNum disp = new DisplayNameSurnameAndStartNum(RTE.getRte_disp_interface(), rte_disp.brightness);
+				disp.showBefore(st.actuallyOnTrack);
 			}
 		});
 		mnWywietl.add(mntmAktualnieNaTorze);
 		
 		JMenuItem mntmEkranStartowy = new JMenuItem("Ekran Startowy");
 		mnWywietl.add(mntmEkranStartowy);
-		mntmEkranStartowy.addActionListener(new DisplayStartScreen(RTE.getRte_disp_interface()));
+		mntmEkranStartowy.addActionListener(new DisplayStartScreen(RTE.getRte_disp_interface(), rte_disp.brightness));
 		
 		JMenu mnUstawienia = new JMenu("Ustawienia");
 		mnWywietlacz.add(mnUstawienia);

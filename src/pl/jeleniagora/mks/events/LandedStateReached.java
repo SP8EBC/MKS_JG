@@ -77,10 +77,10 @@ public class LandedStateReached {
 	 * @param runTime
 	 */
 	static void displayRuntimeOnDisplay(LocalTime runTime, LugerCompetitor whoFinished) {
-		DisplayRuntimeAndStartNum d = new DisplayRuntimeAndStartNum(RTE.getRte_disp_interface());
-		
 		RTE_DISP rte_disp = (RTE_DISP)ctx.getBean("RTE_DISP");
-		
+
+		DisplayRuntimeAndStartNum d = new DisplayRuntimeAndStartNum(RTE.getRte_disp_interface(), rte_disp.brightness);
+				
 		/*
 		 * Przetrzymanie treści na wyświetlaczu wynosi 2500 bo po 3 sekundach nastąpi autozapis
 		 */

@@ -221,7 +221,7 @@ public class UpdateCurrentAndNextLuger {
 			rte_gui.nextOnTrack.setText("----");	// jeżeli aktualnie na torze jest ostatnim
 		
 		// TODO: Dorobić opcję nie pokzywanie automatycznie następnego
-		DisplayNameSurnameAndStartNum d = new DisplayNameSurnameAndStartNum(RTE.getRte_disp_interface());
+		DisplayNameSurnameAndStartNum d = new DisplayNameSurnameAndStartNum(RTE.getRte_disp_interface(), rte_disp.brightness);
 		Clear c = new Clear(RTE.getRte_disp_interface());
 		if (rte_disp.autoShowNextLuger)
 			d.showBefore(rte_st.actuallyOnTrack);
@@ -264,7 +264,7 @@ public class UpdateCurrentAndNextLuger {
 		rte_gui.actuallyOnTrack.setText(rte_st.actuallyOnTrack.toString());
 		
 		// TODO: Dorobić opcję nie pokzywanie automatycznie następnego
-		DisplayNameSurnameAndStartNum d = new DisplayNameSurnameAndStartNum(RTE.getRte_disp_interface());
+		DisplayNameSurnameAndStartNum d = new DisplayNameSurnameAndStartNum(RTE.getRte_disp_interface(), rte_disp.brightness);
 		Clear c = new Clear(RTE.getRte_disp_interface());
 
 		if (rte_disp.autoShowNextLuger)
@@ -312,7 +312,7 @@ public class UpdateCurrentAndNextLuger {
 		
 		// TODO: Dorobić opcję nie pokzywanie automatycznie następnego
 		Clear c = new Clear(RTE.getRte_disp_interface());
-		DisplayNameSurnameAndStartNum d = new DisplayNameSurnameAndStartNum(RTE.getRte_disp_interface());
+		DisplayNameSurnameAndStartNum d = new DisplayNameSurnameAndStartNum(RTE.getRte_disp_interface(), rte_disp.brightness);
 		if(rte_disp.autoShowNextLuger)
 			d.showBefore(rte_st.actuallyOnTrack);
 		else
@@ -437,7 +437,7 @@ public class UpdateCurrentAndNextLuger {
 			//throw new EndOfRunEx();
 		}
 		
-		/*
+		/*requiredType
 		 * Podświetlanie zawodnika w menadżerze zawodów
 		 */
 		rte_gui.runClickedInTable = rte_st.currentRun;
@@ -451,7 +451,7 @@ public class UpdateCurrentAndNextLuger {
 		 */
 		// TODO: Dorobić opcję nie pokzywanie automatycznie następnego
 		Clear c = new Clear(RTE.getRte_disp_interface());
-		DisplayNameSurnameAndStartNum d = new DisplayNameSurnameAndStartNum(RTE.getRte_disp_interface());
+		DisplayNameSurnameAndStartNum d = new DisplayNameSurnameAndStartNum(RTE.getRte_disp_interface(), rte_disp.brightness);
 		if (rte_disp.autoShowNextLuger)
 			d.showBefore(rte_st.actuallyOnTrack);
 		else

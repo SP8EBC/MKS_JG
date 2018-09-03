@@ -16,15 +16,19 @@ public class DisplayRuntimeAndStartNum implements ActionListener {
 
 	TextDisplayInterface disp;
 	
+	short bright;
+	
 	int delay = 0;
 	
-	public DisplayRuntimeAndStartNum(TextDisplayInterface interf) {
+	public DisplayRuntimeAndStartNum(TextDisplayInterface interf, short brightness) {
 		disp = interf;
+		bright = brightness;
 	}
 	
 	public void showScoreAfterRunAndDelay(LocalTime runtime, LugerCompetitor cmptr, int delay) {
 		this.delay = delay;
 		this.showScoreAfterRun(runtime, cmptr);
+
 	}
 	
 	public void showScoreAfterRun(LocalTime runtime, LugerCompetitor cmptr) {

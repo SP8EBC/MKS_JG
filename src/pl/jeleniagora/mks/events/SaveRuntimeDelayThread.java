@@ -55,7 +55,7 @@ public class SaveRuntimeDelayThread implements Runnable {
 		
 		boolean compHasToBeChanged = false;
 		CalculatePartialRanks partialRanks = new CalculatePartialRanks();
-		DisplayRuntimeAndRank display = new DisplayRuntimeAndRank(RTE.getRte_disp_interface(), rte_disp.displayRuntimeAndRankDelayAfterSaving);
+		DisplayRuntimeAndRank display = new DisplayRuntimeAndRank(RTE.getRte_disp_interface(), rte_disp.displayRuntimeAndRankDelayAfterSaving, rte_disp.brightness);
 		
 		/*
 		 * Czekanie 3 sekundy

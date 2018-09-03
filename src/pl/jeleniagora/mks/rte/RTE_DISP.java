@@ -12,7 +12,7 @@ public class RTE_DISP {
 	 * Ustawienie na true powoduje, że program będzie automatycznie wyświetlał kolejnego zawodnika po 
 	 * zakończonym ślizgu poprzedniego. Ustawienie na false spowoduje że ekran będzie wygaszany
 	 */
-	public boolean autoShowNextLuger = true;
+	public boolean autoShowNextLuger = false;
 	
 	public boolean autoShowRuntimeAfterLanding = true;
 	
@@ -25,4 +25,6 @@ public class RTE_DISP {
 	 * Podtrzymanie wyświetlania czasu ślizgu po dojechaniu zawodnika do mety
 	 */
 	public short displayRuntimeDelayAfterLanded = 2500;
+	
+	public short brightness = 16;
 }

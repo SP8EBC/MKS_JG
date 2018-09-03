@@ -14,12 +14,16 @@ import pl.jeleniagora.mks.types.LugerCompetitor;
 public class DisplayRuntimeAndRank {
 	
 	TextDisplayInterface display;
+	
+	short bright;
 		
 	int delay = 0;
 	
-	public DisplayRuntimeAndRank(TextDisplayInterface interf, int delay_msecs) {
+	public DisplayRuntimeAndRank(TextDisplayInterface interf, int delay_msecs, short brightness) {
 		display = interf;
 		delay = delay_msecs;
+		bright = brightness;
+
 	}
 	
 	public void showScoreAfterRun(LocalTime runtime, LugerCompetitor cmptr, int rank) {

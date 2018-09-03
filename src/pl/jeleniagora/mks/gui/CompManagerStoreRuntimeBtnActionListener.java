@@ -43,7 +43,7 @@ public class CompManagerStoreRuntimeBtnActionListener implements ActionListener 
 		RTE_DISP rte_disp = (RTE_DISP)ctx.getBean("RTE_DISP");
 		
 		CalculatePartialRanks partialRanks = new CalculatePartialRanks();
-		DisplayRuntimeAndRank display = new DisplayRuntimeAndRank(RTE.getRte_disp_interface(), rte_disp.displayRuntimeAndRankDelayAfterSaving);
+		DisplayRuntimeAndRank display = new DisplayRuntimeAndRank(RTE.getRte_disp_interface(), rte_disp.displayRuntimeAndRankDelayAfterSaving, rte_disp.brightness);
 		
 		try {
 			minutes = new Integer(rte_gui.min.getText());

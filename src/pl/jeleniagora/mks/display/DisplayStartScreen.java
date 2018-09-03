@@ -7,11 +7,13 @@ import pl.jeleniagora.mks.exceptions.DisplayFunctionNotSupportedEx;
 
 public class DisplayStartScreen implements ActionListener {
 
-	
 	TextDisplayInterface disp;
+	
+	short bright;
 
-	public DisplayStartScreen(TextDisplayInterface interf) {
+	public DisplayStartScreen(TextDisplayInterface interf, short brightness) {
 		disp = interf;
+		bright = brightness;
 	}
 	
 	public void showStartScreen() {

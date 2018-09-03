@@ -8,9 +8,13 @@ import pl.jeleniagora.mks.types.LugerSingle;
 public class DisplayNameSurnameAndStartNum {
 
 	TextDisplayInterface disp;
+	
+	short bright;
 
-	public DisplayNameSurnameAndStartNum(TextDisplayInterface interf) {
+	public DisplayNameSurnameAndStartNum(TextDisplayInterface interf, short brightness) {
 		disp = interf;
+		
+		bright = brightness;
 	}
 	
 	public void showBefore(LugerCompetitor cmptr) {

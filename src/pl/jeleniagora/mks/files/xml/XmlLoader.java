@@ -14,6 +14,7 @@ import pl.jeleniagora.mks.display.SectroBigRasterDisplay;
 import pl.jeleniagora.mks.exceptions.RteIsNullEx;
 import pl.jeleniagora.mks.exceptions.UninitializedCompEx;
 import pl.jeleniagora.mks.rte.RTE;
+import pl.jeleniagora.mks.rte.RTE_DISP;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.types.Competitions;
@@ -25,6 +26,7 @@ public class XmlLoader {
 
 	RTE_ST rte_st;
 	RTE_GUI rte_gui;
+	RTE_DISP rte_disp;
 	
 	String filename;
 	File file;
@@ -42,6 +44,11 @@ public class XmlLoader {
 	@Autowired
 	void setRTEGUI(RTE_GUI gui) {
 		rte_gui = gui;
+	}
+	
+	@Autowired
+	void setRTEDISP(RTE_DISP disp) {
+		rte_disp = disp;
 	}
 	
 	public void setFilename(String fn) {
@@ -68,7 +75,7 @@ public class XmlLoader {
 		restoreProgramState(competitions, competitions.programState);
 		restoreUserInterface(competitions);
 		if (updateLedDisplay) {
-			DisplayNameSurnameAndStartNum disp = new DisplayNameSurnameAndStartNum(RTE.getRte_disp_interface());
+			DisplayNameSurnameAndStartNum disp = new DisplayNameSurnameAndStartNum(RTE.getRte_disp_interface(), rte_disp.brightness);
 			disp.showBefore(rte_st.actuallyOnTrack);
 			
 		}

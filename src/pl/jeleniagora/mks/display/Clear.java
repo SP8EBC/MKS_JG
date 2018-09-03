@@ -28,7 +28,9 @@ public class Clear implements ActionListener {
 		
 		@Override
 		public void run() {
+			disp.waitForDisplay();
 			disp.clearDisplay();
+			disp.releaseDisplay();
 		}
 		
 	}
