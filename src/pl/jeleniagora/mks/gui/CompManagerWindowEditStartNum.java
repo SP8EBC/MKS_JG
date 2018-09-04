@@ -117,7 +117,10 @@ public class CompManagerWindowEditStartNum extends JFrame {
 				}
 				else {
 					edited.setStartNumber(newStartNumber);
+					
+					startList.remove(edited);
 					startList.put(edited, newStartNumber);
+					invertedStartList.remove(oldStartNumber);
 					invertedStartList.put(newStartNumber, edited);
 
 					try {
