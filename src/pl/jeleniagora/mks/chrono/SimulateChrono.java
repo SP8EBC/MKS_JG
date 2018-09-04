@@ -54,10 +54,17 @@ public class SimulateChrono {
 			case 2:
 				first = two_sec_200msec_1;
 				second = two_sec_200msec_2;
+				break;
 				
 			case 3:
 				first = two_sec_201msec_1;
 				second = two_sec_201msec_2;
+				break;
+				
+			case 11:
+				first = two_sec_201msec_1;
+				second = two_sec_201msec_2;
+				break;
 			}
 			
 			rte_com.rxBuffer = first;
@@ -78,8 +85,10 @@ public class SimulateChrono {
 				e.printStackTrace();
 			}
 			
-			rte_com.rxBuffer = second;
-			rte_com.rxDataAvaliable = true;	
+			if (w < 10) {
+				rte_com.rxBuffer = second;
+				rte_com.rxDataAvaliable = true;	
+			}
 		}
 		
 	}

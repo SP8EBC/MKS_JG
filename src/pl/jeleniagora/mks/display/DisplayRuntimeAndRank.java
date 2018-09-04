@@ -54,7 +54,7 @@ public class DisplayRuntimeAndRank {
 			display.clearDisplay();
 			try {
 				display.setScrolling(false);
-				display.setBrightness(16);
+				display.setBrightness(bright);
 			} catch (DisplayFunctionNotSupportedEx e) {
 				e.printStackTrace();
 			}

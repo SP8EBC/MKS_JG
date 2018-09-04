@@ -55,7 +55,7 @@ public class DisplayNameSurnameAndStartNum {
 			disp.clearDisplay();
 			try {
 				disp.setScrolling(false);
-				disp.setBrightness(16);
+				disp.setBrightness(bright);
 			} catch (DisplayFunctionNotSupportedEx e) {
 				e.printStackTrace();
 			}

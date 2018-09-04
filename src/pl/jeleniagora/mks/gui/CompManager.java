@@ -35,6 +35,7 @@ import pl.jeleniagora.mks.online.WebServicePostConsumer;
 import pl.jeleniagora.mks.online.WebServicePutConsumer;
 import pl.jeleniagora.mks.reports.CompetitionReportGenerator;
 import pl.jeleniagora.mks.rte.RTE;
+import pl.jeleniagora.mks.rte.RTE_CHRONO;
 import pl.jeleniagora.mks.rte.RTE_COM;
 import pl.jeleniagora.mks.rte.RTE_COM_DISP;
 import pl.jeleniagora.mks.rte.RTE_DISP;
@@ -317,6 +318,7 @@ public class CompManager extends JFrame {
 //		RTE_GUI rte_gui = ctx.getBean(RTE_GUI.class);
 		RTE_GUI rte_gui = RTE.getGUI();
 		RTE_DISP rte_disp = (RTE_DISP)ctx.getBean("RTE_DISP");
+		RTE_CHRONO rte_chrono = (RTE_CHRONO)ctx.getBean("RTE_CHRONO");
 		
 		// inicjalizacja tablicy pod nazwy kolumn
 		this.columnNamesForTable = new String[9];
@@ -748,6 +750,45 @@ public class CompManager extends JFrame {
 		JMenu mnChronometr = new JMenu("Chronometr");
 		menuBar.add(mnChronometr);
 		
+		JMenuItem mntmResetujMaszynStanw = new JMenuItem("Resetuj maszynę stanów");
+		mntmResetujMaszynStanw.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				rte_chrono.resetStateMachine = true;
+			}
+		});
+		mnChronometr.add(mntmResetujMaszynStanw);
+		
+		JSeparator separator_5 = new JSeparator();
+		mnChronometr.add(separator_5);
+		
+		JMenu mnSymulacje = new JMenu("Symulacje");
+		mnChronometr.add(mnSymulacje);
+		
+		JMenuItem mntmTest_1 = new JMenuItem("Symulacja Chrono 1");
+		mnSymulacje.add(mntmTest_1);
+		
+		JMenuItem mntmSymulacjaChrono = new JMenuItem("Symulacja Chrono 2");
+		mnSymulacje.add(mntmSymulacjaChrono);
+		
+		JMenuItem mntmSymulacjaZTimeout = new JMenuItem("Symulacja z timeout");
+		mntmSymulacjaZTimeout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				simul.simulate(11);
+			}
+		});
+		mnSymulacje.add(mntmSymulacjaZTimeout);
+		mntmSymulacjaChrono.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				simul.simulate(2);
+			}
+		});
+		mntmTest_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//SimulateChrono simul = (SimulateChrono)ctx.getBean("SimulateChrono");
+				simul.simulate(1);
+			}
+		});
+		
 		JMenu mnWywietlacz = new JMenu("Wyświetlacz");
 		menuBar.add(mnWywietlacz);
 		
@@ -774,36 +815,17 @@ public class CompManager extends JFrame {
 		mnWywietl.add(mntmEkranStartowy);
 		mntmEkranStartowy.addActionListener(new DisplayStartScreen(RTE.getRte_disp_interface(), rte_disp.brightness));
 		
-		JMenu mnUstawienia = new JMenu("Ustawienia");
-		mnWywietlacz.add(mnUstawienia);
-		
-		JMenu mnJasno = new JMenu("Jasność");
-		mnUstawienia.add(mnJasno);
-		
-		JRadioButtonMenuItem rdbtnmntmMinimalna = new JRadioButtonMenuItem("Minimalna");
-		mnJasno.add(rdbtnmntmMinimalna);
-		
-		JRadioButtonMenuItem rdbtnmntmrednia = new JRadioButtonMenuItem("Średnia");
-		mnJasno.add(rdbtnmntmrednia);
-		
-		JRadioButtonMenuItem rdbtnmntmJasna = new JRadioButtonMenuItem("Duża");
-		mnJasno.add(rdbtnmntmJasna);
-		
-		JRadioButtonMenuItem rdbtnmntmMaksymalna = new JRadioButtonMenuItem("Maksymalna");
-		mnJasno.add(rdbtnmntmMaksymalna);
-		mnWywietlacz.add(mntmTest);
-		
-		JMenuItem mntmTest_1 = new JMenuItem("Symulacja Chrono 1");
-		mntmTest_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				//SimulateChrono simul = (SimulateChrono)ctx.getBean("SimulateChrono");
-				simul.simulate(1);
+		JMenuItem mntmUstawienia = new JMenuItem("Ustawienia");
+		mntmUstawienia.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				/// ustawienia wyświetlacza
+				CompManagerWindowSettingsDisplay window = (CompManagerWindowSettingsDisplay)ctx.getBean(CompManagerWindowSettingsDisplay.class);
+				window.updateToCurrentSettings(RTE.getRte_disp_interface());
+				window.setVisible(true);
 			}
 		});
-		mnWywietlacz.add(mntmTest_1);
-		
-		JMenuItem mntmSymulacjaChrono = new JMenuItem("Symulacja Chrono 2");
-		mnWywietlacz.add(mntmSymulacjaChrono);
+		mnWywietlacz.add(mntmUstawienia);
+		mnWywietlacz.add(mntmTest);
 		
 		JMenu mnLugepl = new JMenu("Luge.pl");
 		menuBar.add(mnLugepl);

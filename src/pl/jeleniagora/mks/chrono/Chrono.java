@@ -71,6 +71,8 @@ public class Chrono implements Runnable {
 				timeMeasurementState = ChronoStateMachine.IDLE; 
 				
 				rte_chrono.resetStateMachine = false;
+				
+				System.out.println("-- swtiched to IDLE ");
 			}
 			/*
 			 * Sprawdzanie czy z portu szeregowego przyszły jakieś nowe dane
