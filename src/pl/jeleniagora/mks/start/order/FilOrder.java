@@ -302,7 +302,7 @@ public class FilOrder  extends StartOrderInterface {
 		else {
 			int firstToCheck = this.getFirst(currentCompetition).getStartNumber(); 
 			
-			for (int i = firstToCheck + 1; i <= currentCompetition.invertedStartList.size(); i++) {
+			for (int i = firstToCheck + 1; i <= currentCompetition.getLastStartNumber(); i++) {
 				// próba wyciągnięcia sankarza o tym numerze startowym
 				LugerCompetitor v = currentCompetition.invertedStartList.get((short)i);
 				
