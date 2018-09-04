@@ -20,6 +20,7 @@ public class RTE_CHRONO {
 		this.syncState = new Object();
 		this.syncRuntime = new Object();
 		this.syncError = new Object();
+		this.terminateChronoThread = false;
 	}
 	
 	public Object syncState;
@@ -35,4 +36,6 @@ public class RTE_CHRONO {
 	public boolean failToParseData;
 	
 	public boolean resetStateMachine;
+	
+	public boolean terminateChronoThread;
 }

@@ -50,7 +50,7 @@ public class LandedStateReached {
 		if (rte_disp.autoShowRuntimeAfterLanding)
 			LandedStateReached.displayRuntimeOnDisplay(runtime, rte_st.actuallyOnTrack);
 		
-		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("mm:ss.nnn");
+		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("mm:ss.SSS");
 		rte_gui.lblTimeFromChrono.setText(runtime.format(fmt));
 		
 		if (ChronometerS.autosave) {

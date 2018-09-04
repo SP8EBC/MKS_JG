@@ -758,6 +758,26 @@ public class CompManager extends JFrame {
 		});
 		mnChronometr.add(mntmResetujMaszynStanw);
 		
+		JMenuItem mntmReinicjalizujPodsystemPomiaru = new JMenuItem("Reinicjalizuj pomiar czasu");
+		mntmReinicjalizujPodsystemPomiaru.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int answer = JOptionPane.showConfirmDialog(null, "Czy na pewno chcesz zamknąć i ponownie uruchomić wątek obsługi chronometru?", "Pozor!", JOptionPane.YES_NO_OPTION);
+				
+				if (answer == JOptionPane.YES_OPTION) {
+					rte_chrono.terminateChronoThread = true;
+					try {
+						Thread.sleep(15);
+					} catch (InterruptedException e1) {
+						e1.printStackTrace();
+					}
+					rte_chrono.terminateChronoThread = false;
+					new Thread(new Chrono(ctx)).start();
+				}
+				else return;
+			}
+		});
+		mnChronometr.add(mntmReinicjalizujPodsystemPomiaru);
+		
 		JSeparator separator_5 = new JSeparator();
 		mnChronometr.add(separator_5);
 		

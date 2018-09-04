@@ -58,11 +58,17 @@ public class Chrono implements Runnable {
 		RTE_CHRONO rte_chrono = ctx.getBean(RTE_CHRONO.class);
 
 		Thread.currentThread().setName("Chrono");
+		System.out.println("Chrono started");
 		
 		/*
 		 * Wątek chodzi w nieskończonej pętli ze sleep na końcu, co zabezpiecza przed CPU load 100%
 		 */
 		for (;;) {
+			
+			if (rte_chrono.terminateChronoThread) {
+				rte_chrono.terminateChronoThread = false;
+				return;
+			}
 			
 			/*
 			 * Sprawdzenie czy nie wystawiono flagi resetującej maszynę stanu
