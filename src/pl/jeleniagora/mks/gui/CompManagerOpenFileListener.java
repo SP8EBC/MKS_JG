@@ -15,6 +15,7 @@ import pl.jeleniagora.mks.exceptions.RteIsNullEx;
 import pl.jeleniagora.mks.exceptions.UninitializedCompEx;
 import pl.jeleniagora.mks.files.DialogXmlFileFilter;
 import pl.jeleniagora.mks.files.xml.XmlLoader;
+import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.types.Competitions;
 import pl.jeleniagora.mks.types.Reserve;
 
@@ -26,6 +27,9 @@ public class CompManagerOpenFileListener implements ActionListener {
 	
 	@Autowired
 	CompManagerCSelectorUpdater selectorUpdater;
+	
+	@Autowired
+	RTE_ST rte_st;
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
@@ -45,6 +49,12 @@ public class CompManagerOpenFileListener implements ActionListener {
 			if (ret == JFileChooser.APPROVE_OPTION) {
 				File file = fc.getSelectedFile();
 				
+				String filePath = fc.getSelectedFile().getPath();
+				String fileNameStr = fc.getSelectedFile().getName();
+				
+				int filenameIndex = filePath.indexOf(fileNameStr);
+				String path = filePath.substring(0, filenameIndex);
+				
 				loader.setFile(file);
 				try {
 					competitions = loader.loadFromXml(true);
@@ -57,6 +67,9 @@ public class CompManagerOpenFileListener implements ActionListener {
 				} catch (Reserve e) {
 					e.printStackTrace();
 				}
+				
+				rte_st.filename = fileNameStr;
+				rte_st.filePath = path;
 				
 				selectorUpdater.updateSelectorContent(competitions.competitions);
 

@@ -73,5 +73,15 @@ public class RTE_ST {
 	 */
 	public boolean enableOnlineScoring = false;
 	
+	/**
+	 * Nazwa otwartego bądź zapisanego pliku
+	 */
+	public String filename = null;
+	
+	/**
+	 * Ścieżka katalogu w którym znajduje się otwaty bądź zapisany plik
+	 */
+	public String filePath = null;
+	
 	
 }

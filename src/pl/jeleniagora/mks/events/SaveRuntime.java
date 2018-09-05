@@ -7,7 +7,6 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import pl.jeleniagora.mks.display.DisplayRuntimeAndStartNum;
 import pl.jeleniagora.mks.exceptions.UninitializedCompEx;
 import pl.jeleniagora.mks.online.WebServicePutConsumer;
-import pl.jeleniagora.mks.online.renderers.CompetitionDataRenderer;
 import pl.jeleniagora.mks.rte.RTE;
 import pl.jeleniagora.mks.rte.RTE_DISP;
 import pl.jeleniagora.mks.rte.RTE_GUI;
@@ -49,7 +48,7 @@ public class SaveRuntime {
 	
 	/**
 	 * Metoda służy do zapisywania czasu ślizgu dla zawodnika i ślizgu klikniętego w tabeli wyników w CompManager.
-	 * Metoda używana w momencie naciśnięcia przez użytkownika przycisku
+	 * Metoda używana w momencie naciśnięcia przez użytkownika przycisku. Wywoływana przez CompManagerStoreRuntimeBtnActionListener
 	 * @param runTime
 	 * 
 	 */
@@ -57,6 +56,7 @@ public class SaveRuntime {
 		
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
+		//XmlSaver saver = (XmlSaver)ctx.getBean(XmlSaver.class);
 		
 		boolean returnVal = false;
 		CalculatePartialRanks partialRanks = new CalculatePartialRanks();
@@ -87,6 +87,10 @@ public class SaveRuntime {
 
 		}
 		rte_gui.model.fireTableDataChanged();
+		
+		if (returnVal) {
+			;
+		}
 		
 		WebServicePutConsumer ws = new WebServicePutConsumer((AfterWebServiceContact) ctx.getBean("afterWebServiceContact"));
 		ws.competitionDataUpdater(rte_gui.competitionBeingShown);

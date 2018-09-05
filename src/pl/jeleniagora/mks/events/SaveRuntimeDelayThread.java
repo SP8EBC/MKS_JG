@@ -17,12 +17,14 @@ import pl.jeleniagora.mks.rte.RTE_DISP;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.scoring.CalculatePartialRanks;
+import pl.jeleniagora.mks.settings.ChronometerS;
 import pl.jeleniagora.mks.settings.GeneralS;
 
 /**
  * Klasa służy do zapisu czasu ślizgu z poziomu dodatkowego wątku, który będzie opóźniał to o kilka sekund na potrzeby opcji 
  * "Autozapis czasu ślizgu"
  * 
+ * Używana w klasie LandedStateReached jeżeli ChronometerS.autosave jest ustawione na true
  * 
  * @author mateusz
  *

@@ -32,6 +32,12 @@ public class CompManagerSaveFileAsListener implements ActionListener {
 		int ret = fc.showSaveDialog(null);
 		
 		if (ret == JFileChooser.APPROVE_OPTION) {
+			String filePath = fc.getSelectedFile().getPath();
+			String file = fc.getSelectedFile().getName();
+			
+			int filenameIndex = filePath.indexOf(file);
+			String path = filePath.substring(0, filenameIndex);
+			
 			saver.setFile(fc.getSelectedFile());
 			try {
 				saver.saveToXml(rte_st.competitions);
@@ -40,6 +46,9 @@ public class CompManagerSaveFileAsListener implements ActionListener {
 			} catch (RteIsNullEx e) {
 				e.printStackTrace();
 			}
+			
+			rte_st.filename = file;
+			rte_st.filePath = path;
 		}
 		else {
 			;
