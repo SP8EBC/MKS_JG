@@ -50,10 +50,18 @@ public class ListOfAllLugersAdapter extends XmlAdapter<ListOfAllLugersAdapter.Ad
 		public Club club;
 		
 		@XmlElement(required = false, nillable = true )
+		public String sportingLicense;
+		
+		@XmlElement(required = false, nillable = true )
 		public String email;
+		
+		public long telephoneNumber;
 		
 		@XmlElement(required = true, nillable = true )
 		public boolean hasBeenAdded;
+		
+		@XmlElement(required = false, nillable = true )
+		public String nationality;
 
 	}
 
@@ -72,6 +80,9 @@ public class ListOfAllLugersAdapter extends XmlAdapter<ListOfAllLugersAdapter.Ad
 			entry.surname = e.surname;
 			entry.systemId = e.getSystemId();
 			entry.hasBeenAdded = e.hasBeenAdded;
+			entry.sportingLicense = e.sportingLicense;
+			entry.telephoneNumber = e.telephoneNumber;
+			entry.nationality = e.nationality;
 			
 			out.adapted.add(entry);
 		}
@@ -94,6 +105,9 @@ public class ListOfAllLugersAdapter extends XmlAdapter<ListOfAllLugersAdapter.Ad
 			n.name = e.name;
 			n.setSystemId(e.systemId);
 			n.hasBeenAdded = e.hasBeenAdded;
+			n.sportingLicense = e.sportingLicense;
+			n.telephoneNumber = e.telephoneNumber;
+			n.nationality = e.nationality;
 			
 			out.add(n);
 			

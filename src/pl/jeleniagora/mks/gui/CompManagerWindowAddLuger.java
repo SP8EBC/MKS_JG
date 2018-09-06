@@ -48,6 +48,7 @@ public class CompManagerWindowAddLuger extends JFrame {
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
+	private JLabel lblOstatnioDodany;
 
 	@Autowired
 	RTE_ST rte_st;
@@ -55,6 +56,7 @@ public class CompManagerWindowAddLuger extends JFrame {
 	JLabel lblAktualnieWProgramie;
 	
 	CompManagerWindowAddLuger window;
+	private JTextField textField_sportingLic;
 	
 	/**
 	 * Launch the application.
@@ -85,17 +87,18 @@ public class CompManagerWindowAddLuger extends JFrame {
 		
 		setTitle("Dodaj nowego saneczkarza do programu");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 706, 362);
+		setBounds(100, 100, 706, 360);
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBorder(new EmptyBorder(0, 5, 0, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[][300px:n:900px,grow][220px:n:220px]", "[][][][][][][][]"));
+		contentPane.setLayout(new MigLayout("", "[][330px:n:330px][220px:n:220px]", "[][][][][][][][][]"));
 		
-		JLabel lblWprowadDaneZawodnika = new JLabel("<html><body style='width=600px'>'<p align=center>Wprowadź kolejno dane każdego zawodnika, którego chcesz dodać do programu. Miej na uwadzę, że nie zostaną oni automatycznie dodani do jakiejkolwiek konkurencji. Po dodaniu do programu należy przypisać ich do właściwych konkurencji, lub np. sparować w dwójkę sankową i dodać do konkurencji dwójkowej </p></body></html>");
-		contentPane.add(lblWprowadDaneZawodnika, "cell 0 0 3 1");
+		JLabel lblWprowadDaneZawodnika = new JLabel("<html><body style='width=600px'><p align=center>Wprowadź kolejno dane każdego zawodnika, którego chcesz dodać do programu. Miej na uwadzę, że nie zostaną oni automatycznie dodani do jakiejkolwiek konkurencji. Po dodaniu do programu należy przypisać ich do właściwych konkurencji, lub np. sparować w dwójkę sankową i dodać do konkurencji dwójkowej </p></body></html>");
+		lblWprowadDaneZawodnika.setVerticalAlignment(SwingConstants.TOP);
+		contentPane.add(lblWprowadDaneZawodnika, "cell 0 0 3 1,aligny top");
 		
 		JPanel buttonPanel = new JPanel();
-		contentPane.add(buttonPanel, "cell 2 1 1 7,grow");
+		contentPane.add(buttonPanel, "cell 2 1 1 8,grow");
 		
 		
 		JLabel lblImi = new JLabel("Imię:");
@@ -135,15 +138,6 @@ public class CompManagerWindowAddLuger extends JFrame {
 		textField_3.setFont(new Font("Dialog", Font.BOLD, 14));
 		contentPane.add(textField_3, "cell 1 5,growx");
 		textField_3.setColumns(10);
-		
-		lblAktualnieWProgramie = new JLabel("Aktualnie w programie zdefiniowano %d saneczkarzy");
-		lblAktualnieWProgramie.setHorizontalAlignment(SwingConstants.CENTER);
-		contentPane.add(lblAktualnieWProgramie, "cell 0 6 2 1");
-		
-		JLabel lblOstatnioDodany = new JLabel("<html><body style='width=300px'><p align = center>Obowiązkowo należy podać wszystkie dane za wyjątkiem adresu e-mail, ktory w zamierzeniu ma służyć do automatycznego wysyłania raportów wyników do zawodnków.</p></body></html>");
-		lblOstatnioDodany.setForeground(Color.RED);
-		lblOstatnioDodany.setHorizontalAlignment(SwingConstants.CENTER);
-		contentPane.add(lblOstatnioDodany, "cell 0 7 2 1");
 		
 		JButton btnNewButton = new JButton("Zapisz i wyjdź");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -199,6 +193,8 @@ public class CompManagerWindowAddLuger extends JFrame {
 				String _email = textField_2.getText();
 				String _club = textField_3.getText();
 				
+				String _license = textField_sportingLic.getText();
+				
 				Date _date = dateChooser.getDate();
 				
 				if (_name == null || _surname == null || _date == null || _club == null) {
@@ -215,6 +211,7 @@ public class CompManagerWindowAddLuger extends JFrame {
 				l.email = _email;
 				l.club = ClubsFactory.createNewFromName(_club);
 				l.hasBeenAdded = false;
+				l.sportingLicense = _license;
 
 				int sizeBeforeAdd = rte_st.competitions.listOfAllLugersInThisCompetitions.size();
 				
@@ -235,6 +232,7 @@ public class CompManagerWindowAddLuger extends JFrame {
 				textField_1.setText("");
 				textField_2.setText("");
 				textField_3.setText("");
+				textField_sportingLic.setText("");
 				
 			}
 		});
@@ -253,8 +251,8 @@ public class CompManagerWindowAddLuger extends JFrame {
 					.addGroup(gl_buttonPanel.createParallelGroup(Alignment.TRAILING, false)
 						.addComponent(btnWyjdBezZapisywania, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(btnZapiszIDodaj, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btnNewButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addGap(422))
+						.addComponent(btnNewButton, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 222, GroupLayout.PREFERRED_SIZE))
+					.addGap(408))
 		);
 		gl_buttonPanel.setVerticalGroup(
 			gl_buttonPanel.createParallelGroup(Alignment.LEADING)
@@ -267,6 +265,23 @@ public class CompManagerWindowAddLuger extends JFrame {
 					.addContainerGap())
 		);
 		buttonPanel.setLayout(gl_buttonPanel);
+		
+		JLabel lblNrLicencji = new JLabel("Nr licencji:");
+		contentPane.add(lblNrLicencji, "cell 0 6,alignx trailing");
+		
+		textField_sportingLic = new JTextField();
+		textField_sportingLic.setFont(new Font("Dialog", Font.BOLD, 14));
+		contentPane.add(textField_sportingLic, "cell 1 6,growx");
+		textField_sportingLic.setColumns(10);
+		
+		lblAktualnieWProgramie = new JLabel("Aktualnie w programie zdefiniowano %d saneczkarzy");
+		lblAktualnieWProgramie.setHorizontalAlignment(SwingConstants.CENTER);
+		contentPane.add(lblAktualnieWProgramie, "cell 0 7 2 1");
+		
+		lblOstatnioDodany = new JLabel("<html><body style='width=300px'><p align = center>Obowiązkowo należy podać wszystkie dane za wyjątkiem adresu e-mail, ktory w zamierzeniu ma służyć do automatycznego wysyłania raportów wyników do zawodnków.</p></body></html>");
+		lblOstatnioDodany.setForeground(Color.RED);
+		lblOstatnioDodany.setHorizontalAlignment(SwingConstants.CENTER);
+		contentPane.add(lblOstatnioDodany, "cell 0 8 2 1");
 	
 	}
 }

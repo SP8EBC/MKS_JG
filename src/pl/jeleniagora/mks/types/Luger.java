@@ -54,6 +54,10 @@ public class Luger {
 	
 	public long telephoneNumber;
 	
+	public String sportingLicense;
+	
+	public String nationality;
+	
 	/**
 	 * Flaga ustawiana na true jeżeli ten saneczkarz został przypisany do co najmniej jednej konkurencji
 	 */
