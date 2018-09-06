@@ -146,7 +146,7 @@ public class CompetitionReportGenerator {
 	    return cell;
 	}
 	
-	private void createHeader(Table scoreTable, int runsNumber) {
+	private void createHeader(Table scoreTable, int runsNumber, boolean totalTime) {
 		scoreTable.addHeaderCell(getCell("Lokata", TextAlignment.CENTER, font, 2, 1, true, true).setBorderTop(new SolidBorder(ColorConstants.BLACK, 1.0f)));
 		scoreTable.addHeaderCell(getCell("Numer Startowy", TextAlignment.CENTER, font, 2, 1, true, true).setBorderTop(new SolidBorder(ColorConstants.BLACK, 1.0f)));
 		scoreTable.addHeaderCell(getCell("Imię i Nazwisko", TextAlignment.CENTER, font, 2, 1, true, true).setBorderTop(new SolidBorder(ColorConstants.BLACK, 1.0f)));
@@ -154,13 +154,22 @@ public class CompetitionReportGenerator {
 		scoreTable.addHeaderCell(getCell("Licencja sportowa", TextAlignment.CENTER, font, 2, 1, true, true).setBorderTop(new SolidBorder(ColorConstants.BLACK, 1.0f)));
 		scoreTable.addHeaderCell(getCell("Rok Urodzenia", TextAlignment.CENTER, font, 2, 1, true, true).setBorderTop(new SolidBorder(ColorConstants.BLACK, 1.0f)));
 		scoreTable.addHeaderCell(getCell("Czasy ślizgów", TextAlignment.CENTER, font, 1, runsNumber, true, true).setBorderTop(new SolidBorder(ColorConstants.BLACK, 1.0f)));
-		scoreTable.addHeaderCell(getCell("Łączny czas", TextAlignment.CENTER, font, 2, 1, true, true).setBorderTop(new SolidBorder(ColorConstants.BLACK, 1.0f)));
+		if (totalTime)
+			scoreTable.addHeaderCell(getCell("Łączny czas", TextAlignment.CENTER, font, 2, 1, true, true).setBorderTop(new SolidBorder(ColorConstants.BLACK, 1.0f)));
 
 		scoreTable.startNewRow();
-		for (int i = 1; i <= trainingRunsCount; i++)
-			scoreTable.addHeaderCell(getCell("Tr " + i, TextAlignment.CENTER, font, tableFontSize,  true, true));
-		for (int i = 1; i <= scoredRunsCount; i++)
-			scoreTable.addHeaderCell(getCell("Pkt " + i, TextAlignment.CENTER, font, tableFontSize,  true, true));
+		if (totalTime) {
+			for (int i = 1; i <= trainingRunsCount; i++)
+				scoreTable.addHeaderCell(getCell("Tr " + i, TextAlignment.CENTER, font, tableFontSize,  true, true));
+			for (int i = 1; i <= scoredRunsCount; i++)
+				scoreTable.addHeaderCell(getCell("Pkt " + i, TextAlignment.CENTER, font, tableFontSize,  true, true));
+		}
+		else {
+			for (int i = 1; i <= trainingRunsCount; i++)
+				scoreTable.addHeaderCell(getCell("Trening " + i, TextAlignment.CENTER, font, tableFontSize,  true, true));
+			for (int i = 1; i <= scoredRunsCount; i++)
+				scoreTable.addHeaderCell(getCell("Punktowany " + i, TextAlignment.CENTER, font, tableFontSize,  true, true));
+		}
 	}
 	
 	/**
@@ -175,13 +184,22 @@ public class CompetitionReportGenerator {
 		
 		String contestName = competitions.name;
 		String competitionName = competitionToGenerateFrom.toString();
-		String date = competitions.date.toString();
+		
+		String date;
+		if (competitions.date != null)
+			date = competitions.date.toString();
+		else
+			date = "";
 		
 		// ustawiane na true jeżeli aktualna konkurencja nie jest jeszcze w pełni zakończona
 		boolean partialOrComplete = false;
 		
 		// ustawiane na true w sytuacji generowania listy startowej aby w cześci na czasy rysowć wszystkie krawędzie
 		boolean bottomBorder = false;
+		
+		boolean startList = false;
+		
+		int colShift;
 		
 		// referencja na ostatni w pełni zakończoy ślizg
 		Run lastDone = null;
@@ -191,25 +209,6 @@ public class CompetitionReportGenerator {
 		
 		LocalTime zero = LocalTime.of(0, 0, 0, 0);
 
-		float[] columnsWidth = new float[runsNumber + 7];
-		columnsWidth[0] = 1; // lokata
-		columnsWidth[1] = 1; // numer startowy
-		columnsWidth[2] = 6; // imie nazwisko
-		columnsWidth[3] = 2; // klub
-		columnsWidth[4] = 2; // licencja sportowa
-		columnsWidth[5] = 1; // rok urodzenia
-		
-		columnsWidth[runsNumber + 7 - 1] = 2;
-		
-		for (int i = 6; i < runsNumber + 7; i++)
-			columnsWidth[i] = 2;
-		
-		font = PdfFontFactory.createFont("./res/DejaVuSans.ttf", PdfEncodings.IDENTITY_H, true);
-		bold = PdfFontFactory.createFont("./res/Uni_Sans_Heavy.otf", PdfEncodings.IDENTITY_H, true);
-		
-		Image bielskoImage = new Image(ImageDataFactory.create(bielsko), 0, 450, 200);	// lewy górny róg
-		Image karpaczImage = new Image(ImageDataFactory.create(karpacz), 720, 475, 100);	// prawy górny róg
-		
 		/*
 		 * Pętla jedzie po wszystkich ślizgach aby sprawdzić czy konkurencja jest już zakończona czy nie
 		 */
@@ -220,6 +219,34 @@ public class CompetitionReportGenerator {
 			// ostatni raz to przypisanie zostanie zrobione dla ostatnio zakończonego ślizgu/zjazdu
 			lastDone = r;
 		}
+		
+		if (lastDone == null) {
+			startList = true;
+			colShift = 6;
+		}
+		else {
+			startList = false;
+			colShift = 7;
+		}
+		
+		float[] columnsWidth = new float[runsNumber + colShift];
+		columnsWidth[0] = 1; // lokata
+		columnsWidth[1] = 1; // numer startowy
+		columnsWidth[2] = 6; // imie nazwisko
+		columnsWidth[3] = 2; // klub
+		columnsWidth[4] = 2; // licencja sportowa
+		columnsWidth[5] = 1; // rok urodzenia
+		
+		columnsWidth[runsNumber + colShift - 1] = 2;
+		
+		for (int i = 6; i < runsNumber + colShift; i++)
+			columnsWidth[i] = 2;
+		
+		font = PdfFontFactory.createFont("./res/DejaVuSans.ttf", PdfEncodings.IDENTITY_H, true);
+		bold = PdfFontFactory.createFont("./res/Uni_Sans_Heavy.otf", PdfEncodings.IDENTITY_H, true);
+		
+		Image bielskoImage = new Image(ImageDataFactory.create(bielsko), 0, 450, 200);	// lewy górny róg
+		Image karpaczImage = new Image(ImageDataFactory.create(karpacz), 720, 475, 100);	// prawy górny róg
 		
 		// sprawdzanie czy użytkownik nie wywoław generatora dla jeszcze nie rozpoczętej konkurencji
 		if (lastDone == null) {
@@ -257,9 +284,11 @@ public class CompetitionReportGenerator {
 			titleTable.addCell(getCell("Raport końcowy z konkurencji", TextAlignment.CENTER, bold, headerFontSize + 4.0f, false, false));
 		else if (!partialOrComplete && lastDone != null)
 			titleTable.addCell(getCell("Raport częściowy z konkurencji", TextAlignment.CENTER, bold, headerFontSize + 4.0f, false, false));	
-		else 
+		else {
 			titleTable.addCell(getCell("Lista startowa", TextAlignment.CENTER, bold, headerFontSize + 4.0f, false, false));	
-		
+			startList = true;
+		}
+			
 		// kolejna część tytułowa pomiędzy logotypami
 		Table contestTable = new Table(1);
 		contestTable.setWidth(new UnitValue(UnitValue.PERCENT, 100));
@@ -273,7 +302,7 @@ public class CompetitionReportGenerator {
 		scoreTable.setWidth(new UnitValue(UnitValue.PERCENT, 100));
 		
 		// generownie nagłówka tabeli z wynikami, będzie on automatycznie powielany na każdej kolejnej stronie
-		this.createHeader(scoreTable, runsNumber);
+		this.createHeader(scoreTable, runsNumber, !startList);
 		
 		// public Map<LugerCompetitor, Short> ranks;
 		// entry set z wynikami
@@ -342,7 +371,7 @@ public class CompetitionReportGenerator {
 						
 					
 					// dodawanie roku urodzenia
-					scoreTable.addCell(getCell(new Integer(single.single.birthDate.getYear()).toString(), TextAlignment.CENTER, font, this.tableFontSize, true, false).setBorderBottom(new SolidBorder(ColorConstants.BLACK, 1.0f)));
+					scoreTable.addCell(getCell(new Integer(single.single.birthDate.getYear()).toString(), TextAlignment.CENTER, font, this.tableFontSize, true, true));
 
 				}
 				else if (type.equals(CompetitionTypes.DOUBLE) ||
@@ -375,12 +404,15 @@ public class CompetitionReportGenerator {
 					
 					// jeżeli czas ślizgu jest zerowy to wyświetl puste pole
 					if (timeToAdd.equals(zero))
-						scoreTable.addCell(getCell("        ", TextAlignment.CENTER, font, this.tableFontSize, true, bottomBorder));
+						scoreTable.addCell(getCell("        ", TextAlignment.CENTER, font, this.tableFontSize, true, true));
 					else
-						scoreTable.addCell(getCell(timeToAdd.toString(), TextAlignment.CENTER, font, this.tableFontSize, true, bottomBorder));	
+						scoreTable.addCell(getCell(timeToAdd.toString(), TextAlignment.CENTER, font, this.tableFontSize, true, true));	
 				}
-				// dodawanie łącznego czasu				
-				scoreTable.addCell(getCell("0:00.000", TextAlignment.CENTER, font, this.tableFontSize, true, bottomBorder));
+				
+				if (!startList) {
+					// dodawanie łącznego czasu				
+					scoreTable.addCell(getCell("0:00.000", TextAlignment.CENTER, font, this.tableFontSize, true, true));
+				}
 				
 				break;
 			}
@@ -410,7 +442,7 @@ public class CompetitionReportGenerator {
 				else
 					scoreTable.addCell(getCell("//brak", TextAlignment.CENTER, font, this.tableFontSize, true, false));
 				
-				scoreTable.addCell(getCell(new Integer(single.single.birthDate.getYear()).toString(), TextAlignment.CENTER, font, this.tableFontSize, true, false).setBorderBottom(new SolidBorder(ColorConstants.BLACK, 1.0f)));
+				scoreTable.addCell(getCell(new Integer(single.single.birthDate.getYear()).toString(), TextAlignment.CENTER, font, this.tableFontSize, true, false));
 
 			}
 			else if (type.equals(CompetitionTypes.DOUBLE) ||
@@ -452,9 +484,11 @@ public class CompetitionReportGenerator {
 					scoreTable.addCell(getCell(timeToAdd.toString(), TextAlignment.CENTER, font, this.tableFontSize, true, bottomBorder));
 			}
 			
-			// dodawanie łącznego czasu				
-			scoreTable.addCell(getCell("0:00.000", TextAlignment.CENTER, font, this.tableFontSize, true, bottomBorder));
-
+			if (!startList) {
+				// dodawanie łącznego czasu				
+				scoreTable.addCell(getCell("0:00.000", TextAlignment.CENTER, font, this.tableFontSize, true, bottomBorder));
+			}
+			
 		}
 		
 		document.add(bielskoImage);
