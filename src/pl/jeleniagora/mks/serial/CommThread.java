@@ -153,6 +153,15 @@ public class CommThread  {
 				 */
 				for (;;) {
 					
+					if (rte_com.terminate) {
+						rte_com.terminate = false;
+						rx.close();
+						tx.close();
+						port.closePort();
+						rte_com.isPortOpen = false;
+						return;
+					}
+					
 					/*
 					 * Sprawdzanie zmiennej RTE określającej czy odbiór danych w ogóle został włączony czy nie
 					 */
@@ -513,6 +522,12 @@ public class CommThread  {
 			System.out.println("--- SerialTransmitter started");
 			
 			for (;;) {
+				
+				if (rte_com.terminate) {
+					rte_com.terminate = false;
+					return;
+				}
+				
 				if (rte_com.activateTx) {					
 					/*
 					 * Jeżeli zlecono nadanie jakichś danych po porcie szeregowym

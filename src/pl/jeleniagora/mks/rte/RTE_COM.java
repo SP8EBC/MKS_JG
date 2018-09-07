@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.fazecast.jSerialComm.SerialPort;
 
+import pl.jeleniagora.mks.serial.CommThread;
 import pl.jeleniagora.mks.serial.RxCommType;
 
 /**
@@ -20,8 +21,12 @@ import pl.jeleniagora.mks.serial.RxCommType;
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class RTE_COM {
+	public CommThread thread;
+	
 	public SerialPort port;
 	public Boolean isPortOpen;
+	
+	public Boolean terminate = false;
 	
 	/**
 	 * Ustawiane na true przez użytkownika aby rozpocząć odbiór danych z portu szeregowego. Kasowane przez CommThread

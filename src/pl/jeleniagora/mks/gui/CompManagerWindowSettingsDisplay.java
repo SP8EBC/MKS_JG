@@ -9,9 +9,13 @@ import javax.swing.border.EmptyBorder;
 import net.miginfocom.swing.MigLayout;
 import pl.jeleniagora.mks.display.SectroBigRasterDisplay;
 import pl.jeleniagora.mks.exceptions.DisplayFunctionNotSupportedEx;
+import pl.jeleniagora.mks.exceptions.FailedOpenSerialPortEx;
+import pl.jeleniagora.mks.rte.RTE_COM_DISP;
 import pl.jeleniagora.mks.rte.RTE_DISP;
+import pl.jeleniagora.mks.serial.CommThread;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
@@ -19,11 +23,13 @@ import javax.swing.JSlider;
 import javax.swing.border.LineBorder;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.awt.Color;
 import javax.swing.JCheckBox;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 @Component
@@ -36,6 +42,7 @@ public class CompManagerWindowSettingsDisplay extends JFrame {
 	private JPanel contentPane;
 	
 	JFrame window;
+	JComboBox<String> comboBox;
 
 	JSlider sliderBrightness;
 	JCheckBox chckbxAutomatycznieWywietlajKolejnego;
@@ -44,6 +51,10 @@ public class CompManagerWindowSettingsDisplay extends JFrame {
 	
 	@Autowired
 	RTE_DISP rte_disp;
+	
+	@Autowired
+	@Qualifier("comDispBean")
+	RTE_COM_DISP rte_com_disp;
 	
 	void updateToCurrentSettings(SectroBigRasterDisplay disp) {
 		display = disp;
@@ -110,13 +121,43 @@ public class CompManagerWindowSettingsDisplay extends JFrame {
 		JLabel lblPortSzeregowy = new JLabel("Port szeregowy:");
 		contentPane.add(lblPortSzeregowy, "cell 0 0,alignx trailing");
 		
-		JComboBox comboBox = new JComboBox();
+		comboBox = new JComboBox<String>();
 		contentPane.add(comboBox, "cell 1 0 3 1,growx");
+		comboBox.addItem("/dev/ttyS0");
+		comboBox.addItem("/dev/ttyUSB0");
+		comboBox.addItem("/dev/ttyUSB1");
+		comboBox.addItem("/dev/ttyUSB485");
 		
 		JButton btnOtwrzPort = new JButton("Otwórz port");
+		btnOtwrzPort.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String port = (String)comboBox.getSelectedItem();
+				
+				try {
+					rte_com_disp.thread = new CommThread(port, rte_com_disp, false);
+					rte_com_disp.thread.startThreads();
+				} catch (IOException | FailedOpenSerialPortEx e1) {
+					JOptionPane.showMessageDialog(null, "Wystąpił błąd podczas otwierania portu " + port);
+					return;
+				}
+				JOptionPane.showMessageDialog(null, "Poprawnie otwarto port " + port);
+			}
+		});
 		contentPane.add(btnOtwrzPort, "cell 0 1 2 1,growx");
 		
 		JButton btnZamknijPort = new JButton("Zamknij port");
+		btnZamknijPort.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int a = JOptionPane.showConfirmDialog(null, "Czy na pewno chcesz zamknąć port komunikacji z wyświetlaczem?", "Pozor!", JOptionPane.YES_NO_OPTION);
+			
+				if (a == JOptionPane.NO_OPTION) {
+					return;
+				}
+				else if (a == JOptionPane.YES_OPTION) {
+					rte_com_disp.terminate = true;
+				}
+			}
+		});
 		contentPane.add(btnZamknijPort, "cell 2 1 2 1,growx");
 		
 		JPanel panel = new JPanel();

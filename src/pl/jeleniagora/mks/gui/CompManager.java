@@ -94,7 +94,7 @@ public class CompManager extends JFrame {
 	private JPanel contentPane;
 	private JTable table;
 	
-	private static CommThread com, comDisplay;
+//	private static CommThread com, comDisplay;
 	
 	private static RTE_ST st;
 	
@@ -199,7 +199,7 @@ public class CompManager extends JFrame {
 		rte_gui.updater = updater;
 		
 		try {
-			com = new CommThread("/dev/ttyUSB232i", rte_com, true);		// konwerter z izolacją meratronik
+			rte_com.thread = new CommThread("/dev/ttyUSB232i", rte_com, true);		// konwerter z izolacją meratronik
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		} catch (FailedOpenSerialPortEx e1) {
@@ -208,7 +208,7 @@ public class CompManager extends JFrame {
 		}
 		
 		try {
-			comDisplay = new CommThread("/dev/ttyUSB485", rte_com_disp, false); // konwerter do wyświetlacza od razu na 485
+			rte_com_disp.thread = new CommThread("/dev/ttyUSB485", rte_com_disp, false); // konwerter do wyświetlacza od razu na 485
 		} catch (IOException | FailedOpenSerialPortEx e1) {
 			System.out.println("Failed opening port /dev/ttyUSB485");
 
@@ -218,11 +218,11 @@ public class CompManager extends JFrame {
 		
 		new Thread(new Chrono(ctx)).start();
 
-		if (com != null) {
-			com.startThreads();
+		if (rte_com.thread != null) {
+			rte_com.thread.startThreads();
 		}
-		if (comDisplay != null) {
-			comDisplay.startThreads();
+		if (rte_com_disp.thread != null) {
+			rte_com_disp.thread.startThreads();
 		}
 		Runtime.getRuntime().addShutdownHook(new Thread(new CommThreadTermHook(ctx)));
 		
