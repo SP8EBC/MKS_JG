@@ -21,6 +21,9 @@ public class RTE_CHRONO {
 		this.syncRuntime = new Object();
 		this.syncError = new Object();
 		this.terminateChronoThread = false;
+		
+		startSignalId = new Integer(1);
+		endSignalId = new Integer(3);
 	}
 	
 	public Object syncState;
@@ -38,4 +41,13 @@ public class RTE_CHRONO {
 	public boolean resetStateMachine;
 	
 	public boolean terminateChronoThread;
+	
+	/**
+	 * Ustawienie na true powoduje że każde przecięcie fotoceli startu będzie powodowało 
+	 */
+	public boolean restartOnEachStartSignal;
+	
+	public Integer startSignalId;
+	
+	public Integer endSignalId;
 }

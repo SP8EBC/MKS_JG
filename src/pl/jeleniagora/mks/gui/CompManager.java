@@ -125,6 +125,8 @@ public class CompManager extends JFrame {
 	JLabel label;	// czas mety z chronometru
 	JButton btnWybierzZaznaczonegoW;
 	
+	JRadioButton rdbtnNaPodstawiePoprzednich;	// sposób obliczania lokat częściowych
+	
 	private final Action action = new SwingAction();
 	
 	private static SimulateChrono simul;
@@ -248,6 +250,7 @@ public class CompManager extends JFrame {
 				
 				try {
 					DisplayS.setShowAllTimeDigits(true);
+					GeneralS.setPartialRanksRunOnly(false);
 					
 					/* 
 					 * Obiekt klasy Competitions musi być stworzony przed wczytaniem XMLa bo adaptery typów zapisują
@@ -438,9 +441,10 @@ public class CompManager extends JFrame {
 		//
 		ButtonGroup partialRanksButtonGroup = new ButtonGroup();
 		
-		JRadioButton rdbtnNaPodstawiePoprzednich = new JRadioButton("Na podstawie poprzednich i aktualnego ślizgu");
+		rdbtnNaPodstawiePoprzednich = new JRadioButton("Na podstawie poprzednich i aktualnego ślizgu");
 		mnSposbObliczaniaLokaty.add(rdbtnNaPodstawiePoprzednich);
 		partialRanksButtonGroup.add(rdbtnNaPodstawiePoprzednich);
+		rdbtnNaPodstawiePoprzednich.setSelected(true);
 		rdbtnNaPodstawiePoprzednich.addActionListener(new ActionListener() {
 
 			@Override
@@ -777,6 +781,17 @@ public class CompManager extends JFrame {
 			}
 		});
 		mnChronometr.add(mntmReinicjalizujPodsystemPomiaru);
+		
+		JMenuItem mntmUstawienia_1 = new JMenuItem("Ustawienia");
+		mntmUstawienia_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				/// ustawienia chronometru
+				CompManagerWindowSettingsChrono window = (CompManagerWindowSettingsChrono)ctx.getBean(CompManagerWindowSettingsChrono.class);
+				window.updateToCurrentSettings();
+				window.setVisible(true);
+			}
+		});
+		mnChronometr.add(mntmUstawienia_1);
 		
 		JSeparator separator_5 = new JSeparator();
 		mnChronometr.add(separator_5);

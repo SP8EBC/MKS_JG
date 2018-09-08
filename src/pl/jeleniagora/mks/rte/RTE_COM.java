@@ -26,7 +26,8 @@ public class RTE_COM {
 	public SerialPort port;
 	public Boolean isPortOpen;
 	
-	public Boolean terminate = false;
+	public Boolean terminateRx = false;
+	public Boolean terminateTx = false;
 	
 	/**
 	 * Ustawiane na true przez użytkownika aby rozpocząć odbiór danych z portu szeregowego. Kasowane przez CommThread

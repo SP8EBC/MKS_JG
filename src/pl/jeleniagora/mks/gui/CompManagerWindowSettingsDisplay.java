@@ -154,7 +154,17 @@ public class CompManagerWindowSettingsDisplay extends JFrame {
 					return;
 				}
 				else if (a == JOptionPane.YES_OPTION) {
-					rte_com_disp.terminate = true;
+					rte_com_disp.terminateRx = true;
+					rte_com_disp.terminateTx = true;
+					
+					// czekanie na zamknięcie wątków obsługujących zapis i odczyt. Wątki działają cyklicznie
+					// ze sleep 1msec
+					try {
+						Thread.sleep(10);
+					} catch (InterruptedException e1) {
+						e1.printStackTrace();
+					}
+					rte_com_disp.thread.closePort();
 				}
 			}
 		});

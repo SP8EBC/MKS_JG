@@ -96,6 +96,10 @@ public class CommThread  {
 			port.closePort();
 	}
 	
+	public void closePort() {
+		port.closePort();
+	}
+	
 	public void startThreads() {
 		try {
 			new Thread(new Receiver(rx, rxBuffer, rte_com)).start();
@@ -153,12 +157,14 @@ public class CommThread  {
 				 */
 				for (;;) {
 					
-					if (rte_com.terminate) {
-						rte_com.terminate = false;
+					if (rte_com.terminateRx) {
+						rte_com.activateRx = false;
+						rte_com.rxDataAvaliable = false;
+						rte_com.terminateRx = false;
 						rx.close();
-						tx.close();
 						port.closePort();
 						rte_com.isPortOpen = false;
+						System.out.println("--- SerialReceived stopped");
 						return;
 					}
 					
@@ -503,9 +509,7 @@ public class CommThread  {
 		private byte[] txData;
 		
 		String portName;
-		
-//		private AnnotationConfigApplicationContext ctxInt;
-		
+				
 		public Transmitter(OutputStream s, RTE_COM rte, String port) {
 			str = s;
 			//ctxInt = context;
@@ -523,8 +527,16 @@ public class CommThread  {
 			
 			for (;;) {
 				
-				if (rte_com.terminate) {
-					rte_com.terminate = false;
+				if (rte_com.terminateTx) {
+					System.out.println("--- SerialTransmitter closed");
+					try {
+						tx.flush();
+						tx.close();
+						rte_com.activateTx = false;
+						rte_com.terminateTx = false;
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 					return;
 				}
 				
