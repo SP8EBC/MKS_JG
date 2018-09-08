@@ -37,6 +37,8 @@ public class WebServicePostConsumer {
 		@SuppressWarnings("unused")
 		final String uri = "http://localhost:8080/MKS_JG_ONLINE/addCmp";
 		
+		String username = Secret.user, password = Secret.pass;
+		
 		SingleCompetitionDefinitionRenderer rndr = new SingleCompetitionDefinitionRenderer();
 		SingleCompetitionDefinition def = rndr.render(comp);
 		
@@ -53,7 +55,8 @@ public class WebServicePostConsumer {
 			public void run() {
 				Thread.currentThread().setName("competitionAdder");
 				try {
-					HttpEntity<SingleCompetitionDefinition> entityRequest = new HttpEntity<>(def);
+					HttpEntity<?> entityRequest = new HttpEntity<>(def, HttpSimpleAuthHeader.create(username, password));
+					
 					
 					// metoda zwraca ResponseEntity w którym jest np od razu zwrócony HTTP return code
 					ResponseEntity<AddSingleCompetitionReturn> responseStr = template.exchange(uri, HttpMethod.POST, entityRequest, AddSingleCompetitionReturn.class);

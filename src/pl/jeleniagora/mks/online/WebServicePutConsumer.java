@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.swing.JOptionPane;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -51,6 +53,7 @@ public class WebServicePutConsumer {
 		@SuppressWarnings("unused")
 		final String uri = "http://localhost:8080/MKS_JG_ONLINE/updateComps";
 		
+		String username = Secret.user, password = Secret.pass;
 		CompetitionsDefinitionRenderer rndr = new CompetitionsDefinitionRenderer();
 		CompetitionsDefinition defs;
 		
@@ -72,8 +75,12 @@ public class WebServicePutConsumer {
 			@Override
 			public void run() {
 				Thread.currentThread().setName("competitionsCreator");
+				
+				HttpEntity<?> entityRequest = new HttpEntity<>(defs, HttpSimpleAuthHeader.create(username, password));
+				
 				try {
-					template.put(uri, defs);
+					template.exchange(uri, HttpMethod.PUT, entityRequest, String.class);
+					//template.put(uri, defs);
 					return;
 				}
 				catch(ResourceAccessException e) {
