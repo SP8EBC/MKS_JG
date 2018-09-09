@@ -58,6 +58,7 @@ public class UpdateCurrentAndNextLuger {
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 				
 		LocalTime zero = LocalTime.of(0, 0, 0, 0);
+		LocalTime m = LocalTime.of(0, 59);
 		
 		LugerCompetitor returnVal = null;
 		int j = 0;
@@ -83,6 +84,12 @@ public class UpdateCurrentAndNextLuger {
 			LugerCompetitor k = rte_st.currentCompetition.invertedStartList.get(start_num);	// saneczkarz o tym numerze startowym
 			LocalTime v = rte_st.currentRun.totalTimes.get(k);	// i jego czas przejazdu w aktualnym ślizgu
 			
+			// DNF,DNS,DSQ jest szczególnym przypadkiem bo ma zapisany jakiś czas (> 1 godzina) ale nie może jechać i trzeb
+			// go przeskoczyć
+			if (v != null && v.isAfter(m)) {
+				continue;
+			}
+			
 			if (v != null && v.equals(zero)) {
 				// domyślnie czasy ślizgu są inicjowane zerami. Zero oznacza że zawodnik jeszcze nie jechał
 				returnVal = k;
@@ -90,6 +97,9 @@ public class UpdateCurrentAndNextLuger {
 			}
 			
 			j++;
+			
+			// jeżeli w konkurencji nie ma DNS/DSQ/DNF to w zasadzie nigdy nie dojdzie do tego miejsca a pętla skończy się wczesniej
+			// bo albo kolejny będzie miał zapisany czas zero albo będzie ostatni to wyjdzie wczesniej
 		} while (!order.checkIfLastInRun(start_num, rte_st.currentCompetition));
 		/*
 		Vector<LocalTime> vctRunTimes = rte_st.currentRun.getVectorWithRuntimes(rte_st.currentCompetition.invertedStartList);

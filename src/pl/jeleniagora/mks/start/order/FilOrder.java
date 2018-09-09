@@ -363,7 +363,10 @@ public class FilOrder  extends StartOrderInterface {
 		short startNumberToCheck = startNum;
 		boolean returnValue = true;
 		LocalTime zero = LocalTime.of(0, 0, 0, 0);
+		LocalTime m = LocalTime.of(0, 59);
 		Run currentRun = null;
+		
+		Short nextStartNumToCheck;
 		
 		// ustawiane na true jeżeli aktualnie leci ślizg w którym należy stosować kolejność FIL
 		boolean applyFilOrder = false;
@@ -383,13 +386,17 @@ public class FilOrder  extends StartOrderInterface {
 					currentRun = r;
 			}
 			
+			// określanie kolejnego numeru startowego po sprawdzanym
+			nextStartNumToCheck = this.nextStartNumber(startNumberToCheck, currentCompetition);
+			
 			// pętla chodzi po wszystkich zawodnikach przed aktualnie sprawdzanym i sprawdza ich czas ślizgu
-			while (this.nextStartNumber(startNumberToCheck, currentCompetition) != null) {
-				LugerCompetitor in = currentCompetition.invertedStartList.get(startNumberToCheck);
+			// jeżeli kolejny po sprawdzanym numerze nie ma żadnego kolejnego to znaczy że to koniec konkurencji
+			while (nextStartNumToCheck != null) {
+				LugerCompetitor in = currentCompetition.invertedStartList.get(nextStartNumToCheck);
 				LocalTime timeToCheck = currentRun.totalTimes.get(in);	// czas ślizgu/przejazdu do sprawdzenia
 				
-				returnValue = false;
-				
+				// TODO: ?
+				//returnValue = false;
 				
 				if (timeToCheck.equals(zero)) {
 					// jeżeli czas ślizgu/przejazdu jakiegokolwiek zawodnika przed aktualie sprawdzanm jest
@@ -397,6 +404,9 @@ public class FilOrder  extends StartOrderInterface {
 					returnValue = false;
 					break;
 				}
+				
+				// wyciąganie kolejnego do sprawdzenia
+				nextStartNumToCheck = this.nextStartNumber(nextStartNumToCheck, currentCompetition);
 				
 			}
 		}
