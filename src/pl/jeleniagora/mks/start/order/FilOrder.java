@@ -198,6 +198,11 @@ public class FilOrder  extends StartOrderInterface {
 			
 			// określanie jaka jest ostatnia lokata
 			for (Entry <LugerCompetitor, Short> e : currentCompetition.ranks.entrySet()) {
+				// pomijaj w analizie wszytkie lokaty 999, czyli zawodników DNF/DSQ/DNS
+				if (e.getValue().equals(new Short((short) 999))) {
+					continue;
+				}
+				
 				// jeżeli miejsce (lokata) aktualnie sprawdzanego sankarza jest niższe niż ostatnie najniższe
 				// to zaktalizuj odpowiednią zmienną
 				if (e.getValue() > lowestRank)
@@ -253,6 +258,11 @@ public class FilOrder  extends StartOrderInterface {
 			
 			// określanie jaka jest ostatnia lokata
 			for (Entry <LugerCompetitor, Short> e : currentCompetition.ranks.entrySet()) {
+				// pomijaj w analizie wszytkie lokaty 999, czyli zawodników DNF/DSQ/DNS
+				if (e.getValue().equals(new Short((short) 999))) {
+					continue;
+				}
+				
 				// jeżeli miejsce (lokata) aktualnie sprawdzanego sankarza jest niższe niż ostatnie najniższe
 				// to zaktalizuj odpowiednią zmienną
 				if (e.getValue() > lowestRank)

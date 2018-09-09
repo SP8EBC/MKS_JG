@@ -85,6 +85,16 @@ public class CompManagerStoreRuntimeBtnActionListener implements ActionListener 
 			return;
 		}
 		
+		if (rte_st.currentCompetition == null) {
+			JOptionPane.showMessageDialog(null, "Nie ustawiono aktualnie rozgrywanej konkurencji");
+			return;			
+		}
+		
+		if (rte_gui.competitorClickedInTable == null) {
+			JOptionPane.showMessageDialog(null, "Należy wybrać saneczkarza dla którego czas ma zostać zapisany");
+			return;
+		}
+		
 		Integer nanos = milis * CompManagerScoreTableTimeRenderer.nanoToMilisecScaling;
 		LocalTime runTime = LocalTime.of(0, minutes, seconds, nanos);
 

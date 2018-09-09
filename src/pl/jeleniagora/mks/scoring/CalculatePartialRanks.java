@@ -27,6 +27,7 @@ public class CalculatePartialRanks {
 		
 		short rank = 0, lastRank = 1;
 		short shift = 0;
+		LocalTime m = LocalTime.of(0, 59);
 				
 		LocalTime zero = LocalTime.of(0, 0, 0, 0);
 		
@@ -48,6 +49,12 @@ public class CalculatePartialRanks {
 				previous = list.get(i-1);
 			else
 				previous = null;
+			
+			if (current.getValue().isAfter(m)) {
+				// DNS DSQ DNF
+				out.put(current.getKey(), new Short((short) 999));
+				continue;
+			}
 			
 			/*
 			 * Sprawdzanie czy następny saneczkarz nie ma takiego samego czasu przejazdu
@@ -132,6 +139,8 @@ public class CalculatePartialRanks {
 		 */
 		Map<LugerCompetitor, LocalTime> totalTimes = new HashMap<LugerCompetitor, LocalTime>();
 		
+		LocalTime m = LocalTime.of(0, 59);
+		
 		for (Run r : comp.runsTimes) {
 				
 			if (!r.trainingOrScored) {
@@ -152,11 +161,17 @@ public class CalculatePartialRanks {
 
 					LugerCompetitor k = e.getKey();	// wyciąganie saneczkarza
 					LocalTime v = e.getValue();		// i jego czasu przejazdu
-					
-					if (v.equals(LocalTime.of(0, 0, 0, 0)) || v == null)
+										
+					if (v == null || v.equals(LocalTime.of(0, 0, 0, 0)) )
 						v = DNS.getValue().plusMinutes(1); // jeżeli saneczkarz jeszcze nie jechał
 											// to tymczasowo dopisz DNS
-						
+					
+					if (v.isAfter(m)) {
+						// zawodnicy z zapisanymi DNS/DSQ/DNF
+						v = v.plusHours(1);
+					}
+
+					
 					/*
 					 * Sprawdzanie czy wyjściowa mapa ma już klucz odpowiadający temu zawodnikowi
 					 */
@@ -281,6 +296,7 @@ public class CalculatePartialRanks {
 				previous = list.get(i-1);
 			else
 				previous = null;
+			
 			
 			if (current.getValue().isAfter(DNS.getValue())) {
 				continue;

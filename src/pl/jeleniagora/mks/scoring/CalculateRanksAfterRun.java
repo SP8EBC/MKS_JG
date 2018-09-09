@@ -87,6 +87,7 @@ public class CalculateRanksAfterRun {
 		
 		short rank = 1, lastRank = 1;
 		short shift = 0;
+		LocalTime m = LocalTime.of(0, 59);
 		
 		Map<LugerCompetitor, Short> out = new HashMap<LugerCompetitor, Short>();
 		
@@ -108,6 +109,12 @@ public class CalculateRanksAfterRun {
 				previous = list.get(i-1);
 			else
 				previous = null;
+			
+			if (current.getValue().isAfter(m)) {
+				// DNS DSQ DNF
+				out.put(current.getKey(), new Short((short) 999));
+				continue;
+			}
 			
 			/*
 			 * Sprawdzanie czy następny saneczkarz nie ma takiego samego czasu przejazdu
