@@ -113,6 +113,8 @@ public class WebServicePutConsumer {
 		@SuppressWarnings("unused")
 		final String uri = "http://localhost:8080/MKS_JG_ONLINE/updateMappings";
 		
+		String username = Secret.user, password = Secret.pass;
+		
 		if (competitions.competitions == null || competitions.competitions.size() == 0) {
 			JOptionPane.showMessageDialog(null, "Nie zdefiniowano żadnej konkurencji!");
 			return;
@@ -125,6 +127,8 @@ public class WebServicePutConsumer {
 		
 		RestTemplate template = new RestTemplate();
 		
+		HttpEntity<?> entityRequest = new HttpEntity<>(mapping, HttpSimpleAuthHeader.create(username, password));
+		
 		// uruchamianie zapytania do web-serwisu w osobnym wątku żeby nie blokowac GUI
 		new Runnable() {
 
@@ -132,7 +136,8 @@ public class WebServicePutConsumer {
 			public void run() {
 				Thread.currentThread().setName("competitionMappingsUpdater");
 				try {
-					template.put(uri, mapping);
+					//template.put(uri, mapping);
+					template.exchange(uri, HttpMethod.PUT, entityRequest, String.class);
 					return;
 				}
 				catch(ResourceAccessException e) {
@@ -203,6 +208,7 @@ public class WebServicePutConsumer {
 	public void competitionDataUpdater(Competition competition) {
 		final String uri = "http://localhost:8080/MKS_JG_ONLINE/updateCmpData/{id}";
 
+		String username = Secret.user, password = Secret.pass;
 		
 		//SingleCompetitionDefinitionRenderer rndr = new SingleCompetitionDefinitionRenderer();
 		//SingleCompetitionDefinition def = rndr.render(competition);
@@ -216,13 +222,16 @@ public class WebServicePutConsumer {
 		
 		RestTemplate template = new RestTemplate();
 		
+		HttpEntity<?> entityRequest = new HttpEntity<>(data, HttpSimpleAuthHeader.create(username, password));
+		
 		new Runnable() {
 
 			@Override
 			public void run() {
 				Thread.currentThread().setName("competitionDataUpdater");
 				try {
-					template.put(uri, data, params);
+					template.exchange(uri, HttpMethod.PUT, entityRequest, String.class, params);
+					//template.put(uri, data, params);
 				}
 				catch(ResourceAccessException e) {
 					// wyjątek rzucany jeżeli nie można ustanowić komunikacji z serwerem
