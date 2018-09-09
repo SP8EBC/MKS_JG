@@ -86,6 +86,10 @@ public class SimpleOrder extends StartOrderInterface {
 		for (int i = 1; i <= numberOfLugers; i++) {
 			returnValue =  currentCompetition.invertedStartList.get((short)i);
 			
+			if (currentCompetition.ranks.get(returnValue).equals(new Short((short) 999))) {
+				continue;
+			}
+			
 			// jeżeli wyciągnięty po tym numerze startowym istnieje to nalezy go zwrócić
 			// jako pierwszego znalezionego
 			if (returnValue != null)
@@ -105,6 +109,10 @@ public class SimpleOrder extends StartOrderInterface {
 		// pętla zaczyna od zawodnika który ma numer startowy o jeden większ niż pierwszy
 		for (short i = (short) (this.getFirst(currentCompetition).getStartNumber() + 1); i <= currentCompetition.getLastStartNumber(); i++) {
 			returnValue =  currentCompetition.invertedStartList.get((short)i);
+			
+			if (currentCompetition.ranks.get(returnValue).equals(new Short((short) 999))) {
+				continue;
+			}
 			
 			// jeżeli wyciągnięty po tym numerze startowym istnieje to nalezy go zwrócić
 			// jako pierwszego znalezionego
