@@ -9,6 +9,8 @@ public class GeneralS {
 	private static boolean showDiffDoubles;
 	
 	private static boolean partialRanksRunOnly = false;
+	
+	private static String webServiceHostAddr = "http://luge.pl:8080/MKS_JG_ONLINE";
 
 	public static boolean isShowDiffDoubles() {
 		return showDiffDoubles;
@@ -24,6 +26,14 @@ public class GeneralS {
 
 	public static void setPartialRanksRunOnly(boolean partialRanksRunOnly) {
 		GeneralS.partialRanksRunOnly = partialRanksRunOnly;
+	}
+
+	public static String getWebServiceHostAddr() {
+		return webServiceHostAddr;
+	}
+
+	public static void setWebServiceHostAddr(String webServiceHostAddr) {
+		GeneralS.webServiceHostAddr = webServiceHostAddr;
 	}
 	
 }

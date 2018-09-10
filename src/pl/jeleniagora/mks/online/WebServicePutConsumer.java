@@ -23,6 +23,7 @@ import pl.jeleniagora.mks.online.renderers.CompetitionDataRenderer;
 import pl.jeleniagora.mks.online.renderers.CompetitionMappingRenderer;
 import pl.jeleniagora.mks.online.renderers.CompetitionsDefinitionRenderer;
 import pl.jeleniagora.mks.online.renderers.SingleCompetitionDefinitionRenderer;
+import pl.jeleniagora.mks.settings.GeneralS;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.Competitions;
 import pl.jeleniagora.mks.types.online.CompetitionData;
@@ -51,7 +52,7 @@ public class WebServicePutConsumer {
 	 */
 	public void competitionsUpdater(Competitions competitions) {
 		@SuppressWarnings("unused")
-		final String uri = "http://localhost:8080/MKS_JG_ONLINE/updateComps";
+		final String uri = GeneralS.getWebServiceHostAddr() + "/updateComps";
 		
 		String username = Secret.user, password = Secret.pass;
 		CompetitionsDefinitionRenderer rndr = new CompetitionsDefinitionRenderer();
@@ -111,7 +112,7 @@ public class WebServicePutConsumer {
 	 */
 	public void mappingsUpdater(Competitions competitions) {
 		@SuppressWarnings("unused")
-		final String uri = "http://localhost:8080/MKS_JG_ONLINE/updateMappings";
+		final String uri = GeneralS.getWebServiceHostAddr() + "/updateMappings";
 		
 		String username = Secret.user, password = Secret.pass;
 		
@@ -206,7 +207,7 @@ public class WebServicePutConsumer {
 	 * @param competition
 	 */
 	public void competitionDataUpdater(Competition competition) {
-		final String uri = "http://localhost:8080/MKS_JG_ONLINE/updateCmpData/{id}";
+		final String uri = GeneralS.getWebServiceHostAddr() + "/updateCmpData/{id}";
 
 		String username = Secret.user, password = Secret.pass;
 		

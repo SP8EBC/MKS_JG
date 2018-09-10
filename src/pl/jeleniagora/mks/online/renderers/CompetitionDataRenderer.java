@@ -2,7 +2,10 @@ package pl.jeleniagora.mks.online.renderers;
 
 import java.time.Duration;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map.Entry;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.CompetitionTypes;
@@ -16,6 +19,7 @@ public class CompetitionDataRenderer {
 
 	public static CompetitionData renderer(Competition competition) {
 
+		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("m:ss.SSS");
 		
 		CompetitionData out = new CompetitionData();
 		
@@ -42,18 +46,18 @@ public class CompetitionDataRenderer {
 			
 			for (Run r : competition.runsTimes) {
 				if (r.trainingOrScored) {
-					entry.scoredRunsTimesStr.add(r.totalTimes.get(v).toString());
+					entry.scoredRunsTimesStr.add(r.totalTimes.get(v).format(fmt));
 					Duration toAdd = Duration.between(LocalTime.MIDNIGHT, r.totalTimes.get(v));
-					totalScoredTime.plus(toAdd);
+					totalScoredTime = totalScoredTime.plus(toAdd);
 				}
 				else {
 
-					entry.trainingRunsTimesStr.add(r.totalTimes.get(v).toString());					
+					entry.trainingRunsTimesStr.add(r.totalTimes.get(v).format(fmt));					
 				}
 				
 				
 			}
-			entry.totalScoredTimeStr = totalScoredTime.toString();
+			entry.totalScoredTimeStr = totalScoredTime.format(fmt);
 			
 			// wyciaganie typu tego zawodnika (jedynki, dwójki itp)
 			CompetitionTypes comptrType = v.getCompetitorType();

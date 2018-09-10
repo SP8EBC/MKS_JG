@@ -287,6 +287,13 @@ public class CompManagerWindowEditCompetition extends JFrame {
 				}
 				else;
 				
+				if (textFieldName.getText().length() > 0) {
+					chosenCompetition.name = textFieldName.getText();
+				}
+				else {
+					chosenCompetition.name = chosenCompetition.toString();
+				}
+				
 				// sprawdzanie czy użytkownik nie próbuje zmniejszyć ilości ślizgów
 				if(	(int)spinnerScoredRuns.getValue() < scoredRunsForChosen ||
 					(int)spinnerTrainingRuns.getValue() < trainingRunsForChosen) {

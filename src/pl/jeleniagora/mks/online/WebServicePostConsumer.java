@@ -19,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 import pl.jeleniagora.mks.exceptions.CompetitionDefinitionRenderEx;
 import pl.jeleniagora.mks.online.renderers.CompetitionsDefinitionRenderer;
 import pl.jeleniagora.mks.online.renderers.SingleCompetitionDefinitionRenderer;
+import pl.jeleniagora.mks.settings.GeneralS;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.Competitions;
 import pl.jeleniagora.mks.types.online.AddSingleCompetitionReturn;
@@ -35,7 +36,7 @@ public class WebServicePostConsumer {
 	public void competitionAdder(Competition comp) {
 		
 		@SuppressWarnings("unused")
-		final String uri = "http://localhost:8080/MKS_JG_ONLINE/addCmp";
+		final String uri = GeneralS.getWebServiceHostAddr() + "/addCmp";
 		
 		String username = Secret.user, password = Secret.pass;
 		
@@ -88,7 +89,7 @@ public class WebServicePostConsumer {
 	@Deprecated
 	public void competitionsCreator(Competitions cmps) {
 		
-		final String uri = "http://localhost:8080/MKS_JG_ONLINE/addComps";
+		final String uri = GeneralS.getWebServiceHostAddr() + "/addComps";
 
 		CompetitionsDefinitionRenderer rndr = new CompetitionsDefinitionRenderer();
 		CompetitionsDefinition defs;
