@@ -111,7 +111,11 @@ public class CompManagerStoreRuntimeBtnActionListener implements ActionListener 
 			/*
 			 * Jeżeli zapisuje się przy użyciu przycisku czas dla zawodnika aktualie na torze to go wyświetl na wyśw LED
 			 */
-			display.showScoreAfterRun(runTime, rte_st.actuallyOnTrack, rte_st.currentCompetition.partialRanks.get(rte_st.actuallyOnTrack));
+			
+			Short partialRank = rte_st.currentCompetition.partialRanks.get(rte_st.actuallyOnTrack);
+			
+			if (partialRank != null)
+				display.showScoreAfterRun(runTime, rte_st.actuallyOnTrack, partialRank);
 //			SaveRuntime.displayRuntimeOnDisplay(runTime, rte_st.actuallyOnTrack);		// podtrzymanie domyślnie przez 9 sekund
 			
 			try {

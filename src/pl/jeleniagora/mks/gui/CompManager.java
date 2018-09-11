@@ -18,6 +18,7 @@ import pl.jeleniagora.mks.display.DisplayStartScreen;
 import pl.jeleniagora.mks.display.SectroBigRasterDisplay;
 import pl.jeleniagora.mks.events.AfterStartListGeneration;
 import pl.jeleniagora.mks.events.ChangeCompetition;
+import pl.jeleniagora.mks.events.ChangeRunManually;
 import pl.jeleniagora.mks.events.DidNotFinished;
 import pl.jeleniagora.mks.events.DidNotStart;
 import pl.jeleniagora.mks.events.Disqualification;
@@ -25,6 +26,7 @@ import pl.jeleniagora.mks.events.EndOfRun;
 import pl.jeleniagora.mks.events.LandedStateReached;
 import pl.jeleniagora.mks.events.SaveRuntime;
 import pl.jeleniagora.mks.events.UpdateCurrentAndNextLuger;
+import pl.jeleniagora.mks.exceptions.EndOfCompEx;
 import pl.jeleniagora.mks.exceptions.FailedOpenSerialPortEx;
 import pl.jeleniagora.mks.exceptions.MissingCompetitionEx;
 import pl.jeleniagora.mks.exceptions.UninitializedCompEx;
@@ -51,13 +53,20 @@ import pl.jeleniagora.mks.settings.SpringS;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.CompetitionEncapsulationForSelector;
 import pl.jeleniagora.mks.types.Competitions;
+import pl.jeleniagora.mks.types.DNS;
+import pl.jeleniagora.mks.types.LugerCompetitor;
 import pl.jeleniagora.mks.types.Reserve;
+import pl.jeleniagora.mks.types.Run;
 
 import javax.swing.JMenuBar;
 
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Vector;
 import javax.swing.JMenu;
 import javax.swing.JComboBox;
@@ -77,6 +86,7 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JCheckBoxMenuItem;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.time.LocalTime;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -528,8 +538,93 @@ public class CompManager extends JFrame {
 		JSeparator separator = new JSeparator();
 		mnKonkurencje.add(separator);
 		
-		JMenuItem mntmPrzypiszBramkiStartowe = new JMenuItem("Przypisz bramki startowe");
-		mnKonkurencje.add(mntmPrzypiszBramkiStartowe);
+		JMenuItem mntmZakoczAktualnylizg = new JMenuItem("Zakończ aktualny ślizg");
+		mntmZakoczAktualnylizg.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int a = JOptionPane.showConfirmDialog(null, "Zakończenie ślizgu spowoduje automatyczne zapisanie DNS wszystkim zawodnikom którzy jeszcze nie jechali!", "Pozor!", JOptionPane.YES_NO_OPTION);
+			
+				LocalTime zero = LocalTime.of(0, 0, 0, 0);
+				
+				if (a == JOptionPane.YES_OPTION) {
+					Map<LugerCompetitor, LocalTime> times = st.currentRun.totalTimes;
+					
+					for (Entry<LugerCompetitor, LocalTime> entry : times.entrySet()) {
+						LocalTime t = entry.getValue();
+						
+						// jeżeli ten zawodnik jeszcze nie jechał
+						if (t == null || t.equals(zero)) {
+							// zapisz mu DNS w aktualnym ślizgu
+							times.put(entry.getKey(), DNS.getValue());
+							
+							if (st.currentRun.trainingOrScored && st.currentCompetition.trainingOrContest) {
+								for (Run r : st.currentCompetition.runsTimes) {
+									// zapisywanie DNS dla wszystkich kolejnych ślizgów punktowanych
+									if (!r.trainingOrScored)
+										continue;
+									
+									if (r.done)
+										continue;
+									
+									r.totalTimes.put(entry.getKey(), DNS.getValue());
+								}
+							}
+						}
+					}
+					try {
+						EndOfRun.process();
+					} catch (EndOfCompEx e1) {
+						e1.printStackTrace();
+					}
+					
+					try {
+						rte_gui.model.updateTableData(rte_gui.competitionBeingShown, false);
+					} catch (UninitializedCompEx e1) {
+
+					}
+					rte_gui.model.fireTableDataChanged();
+				}
+				else return;
+			}
+		});
+		mnKonkurencje.add(mntmZakoczAktualnylizg);
+		
+		JMenu mnZmielizg = new JMenu("Zmień ślizg");
+		mnKonkurencje.add(mnZmielizg);
+		
+		JMenuItem mntmOJedenDo = new JMenuItem("O jeden do przodu");
+		mntmOJedenDo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int a = JOptionPane.showConfirmDialog(null, "Manualna zmiana ślizgu jest opcją testową, która nie powinna być używana bez wyraźnej potrzeby. Czy na pewno?", "Pozor!", JOptionPane.YES_NO_OPTION);
+				
+				if (a == JOptionPane.YES_OPTION) {
+					ChangeRunManually change = (ChangeRunManually)ctx.getBean(ChangeRunManually.class);
+					try {
+						change.forward();
+					} catch (EndOfCompEx e1) {
+						e1.printStackTrace();
+					}
+
+				}
+				else return;
+			}
+		});
+		mnZmielizg.add(mntmOJedenDo);
+		
+		JMenuItem mntmOJedenDo_1 = new JMenuItem("O jeden do tyłu");
+		mntmOJedenDo_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int a = JOptionPane.showConfirmDialog(null, "Manualna zmiana ślizgu jest opcją testową, która nie powinna być używana bez wyraźnej potrzeby. Czy na pewno?", "Pozor!", JOptionPane.YES_NO_OPTION);
+				
+				if (a == JOptionPane.YES_OPTION) {
+					ChangeRunManually change = (ChangeRunManually)ctx.getBean(ChangeRunManually.class);
+					
+						change.reverse();
+
+				}
+				else return;
+			}
+		});
+		mnZmielizg.add(mntmOJedenDo_1);
 		
 		JMenu mnSaneczkarze = new JMenu("Saneczkarze");
 		menuBar.add(mnSaneczkarze);

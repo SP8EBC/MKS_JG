@@ -122,7 +122,7 @@ public class EndOfRun {
 		
 		rte_st.currentRun.done = true;
 		
-		if (rte_st.currentRunCnt < numberOfRuns) {
+		if (rte_st.currentRunCnt + 1 < numberOfRuns) {
 			/*
 			 * Jeżeli w tej konkurencji jest jeszcze jakiś ślizg
 			 */

@@ -30,8 +30,12 @@ public class DisplayRuntimeAndRank {
 		
 		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("m:ss.SSS");
 		String timeString = fmt.format(runtime);
+		String dispString;
 		
-		String dispString = cmptr.toString() + " \r\n" + timeString + " \r\nMiejsce " + rank;
+		if (rank < 10)
+			dispString = cmptr.toString() + " \r\n" + timeString + " \r\nMiejsce " + rank;
+		else
+			dispString = cmptr.toString() + " \r\n" + timeString + " \r\nMiejsc " + rank;
 		
 		// wysłanie danych do wyświetlacza idzie w osobnym wątku aby nie blokowac UI
 		new Thread(new ShowScoreAndRankAfterRun(dispString, delay)).start();
