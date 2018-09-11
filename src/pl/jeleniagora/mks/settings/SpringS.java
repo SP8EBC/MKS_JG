@@ -18,6 +18,7 @@ import pl.jeleniagora.mks.rte.RTE_COM_DISP;
 		+ "pl.jeleniagora.mks.types, "
 		+ "pl.jeleniagora.mks.files.xml.adapters, "
 		+ "pl.jeleniagora.mks.files.xml, "
+		+ "pl.jeleniagora.mks.files, "
 		+ "pl.jeleniagora.mks.gui,"
 		+ "pl.jeleniagora.mks.display,"
 		+ "pl.jeleniagora.mks.events,"

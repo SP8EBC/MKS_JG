@@ -544,6 +544,10 @@ public class CompManager extends JFrame {
 		});
 		mnSaneczkarze.add(mntmDodajDoKonkurencji);
 		
+		JMenuItem mntmImportujZPliku = new JMenuItem("Importuj z pliku CSV do bazy programu");
+		mntmImportujZPliku.addActionListener((CompManagerImportCsvFileListener)ctx.getBean(CompManagerImportCsvFileListener.class));
+		mnSaneczkarze.add(mntmImportujZPliku);
+		
 		JSeparator separator_2 = new JSeparator();
 		mnSaneczkarze.add(separator_2);
 		

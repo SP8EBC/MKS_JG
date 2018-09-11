@@ -7,6 +7,8 @@ import java.io.Reader;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import javax.swing.JOptionPane;
+
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +32,15 @@ public class LugersDefinitionCsvImporter {
 	
 	public void parseFile(String fn) throws FileNotFoundException, IOException  {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+		int i = 0;
 		
 		Reader in = new FileReader(fn);
 		Iterable<CSVRecord> records = CSVFormat.EXCEL.parse(in);
 		for (CSVRecord record : records) {
-		    String name = record.get(0);
-		    String surname = record.get(1);
-		    String birthDate = record.get(2);
-		    String club = record.get(3);
+		    String name = record.get(0).trim();
+		    String surname = record.get(1).trim();
+		    String birthDate = record.get(2).trim();
+		    String club = record.get(3).trim();
 		    
 		    // pomijanie nagłówka
 		    if (name.toLowerCase().equals("imię") ||
@@ -49,18 +52,23 @@ public class LugersDefinitionCsvImporter {
 		    
 		    LocalDate birth;
 		    
-		    if (birthDate.contains(".")) {
-		    	// jeżeli bithDate zawiera kropkę to oznacza że podana tam jest pełna data
-		    	birth = LocalDate.parse(birthDate, formatter);
+		    try {
+			    if (birthDate.contains(".")) {
+			    	// jeżeli bithDate zawiera kropkę to oznacza że podana tam jest pełna data
+			    	birth = LocalDate.parse(birthDate, formatter);
+			    }
+			    if (birthDate.contains("-")) {
+			    	birth = LocalDate.parse(birthDate);
+			    }
+			    else {
+			    	// jeżeli nie ma tam kropki to przyjmij że to na pewno tylko rok urodzenia
+			    	Integer y = Integer.decode(birthDate);
+			    	
+			    	birth  = LocalDate.of(y, 1, 1);
+			    }
 		    }
-		    if (birthDate.contains("-")) {
-		    	birth = LocalDate.parse(birthDate);
-		    }
-		    else {
-		    	// jeżeli nie ma tam kropki to przyjmij że to na pewno tylko rok urodzenia
-		    	Integer y = Integer.decode(birthDate);
-		    	
-		    	birth  = LocalDate.of(y, 1, 1);
+		    catch (NumberFormatException e) {
+		    	birth = LocalDate.of(1990, 9, 12);
 		    }
 		    
 			Luger l = new Luger();
@@ -73,6 +81,11 @@ public class LugersDefinitionCsvImporter {
 		    
 			rte_st.competitions.listOfAllLugersInThisCompetitions.add(l);
 			
+			i++;
+			System.out.println("--- CSV importer: " + name + " " + surname + " , " + club + ", " + birth);
+			
 		}
+		
+		JOptionPane.showMessageDialog(null, "Zaimportowano " + i + " zawodników");
 	}
 }
