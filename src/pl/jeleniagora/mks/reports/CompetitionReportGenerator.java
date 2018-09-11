@@ -1,7 +1,9 @@
 package pl.jeleniagora.mks.reports;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -177,6 +179,8 @@ public class CompetitionReportGenerator {
 	 * @throws IOException
 	 */
 	public void generate() throws IOException {
+		
+		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("m:ss.SSS");
 		
 		trainingRunsCount = competitionToGenerateFrom.numberOfTrainingRuns;
 		scoredRunsCount = competitionToGenerateFrom.numberOfAllRuns - trainingRunsCount;
@@ -367,7 +371,7 @@ public class CompetitionReportGenerator {
 					if (single.single.sportingLicense != null)
 						scoreTable.addCell(getCell(single.single.sportingLicense, TextAlignment.CENTER, font, this.tableFontSize, true, false).setBorderBottom(new SolidBorder(ColorConstants.BLACK, 1.0f)));
 					else
-						scoreTable.addCell(getCell("//brak", TextAlignment.CENTER, font, this.tableFontSize, true, false).setBorderBottom(new SolidBorder(ColorConstants.BLACK, 1.0f)));
+						scoreTable.addCell(getCell("brak danych", TextAlignment.CENTER, font, this.tableFontSize, true, false).setBorderBottom(new SolidBorder(ColorConstants.BLACK, 1.0f)));
 						
 					
 					// dodawanie roku urodzenia
@@ -388,7 +392,7 @@ public class CompetitionReportGenerator {
 					if (d.upper.sportingLicense != null)
 						scoreTable.addCell(getCell(d.upper.sportingLicense, TextAlignment.CENTER, font, this.tableFontSize, true, false).setBorderBottom(new SolidBorder(ColorConstants.BLACK, 1.0f)));
 					else
-						scoreTable.addCell(getCell("//brak", TextAlignment.CENTER, font, this.tableFontSize, true, false).setBorderBottom(new SolidBorder(ColorConstants.BLACK, 1.0f)));
+						scoreTable.addCell(getCell("brak danych", TextAlignment.CENTER, font, this.tableFontSize, true, false).setBorderBottom(new SolidBorder(ColorConstants.BLACK, 1.0f)));
 	
 					
 					scoreTable.addCell(getCell(upYear + " / " + downYear, TextAlignment.CENTER, font, this.tableFontSize, true, false).setBorderBottom(new SolidBorder(ColorConstants.BLACK, 1.0f)));
@@ -406,7 +410,7 @@ public class CompetitionReportGenerator {
 					if (timeToAdd.equals(zero))
 						scoreTable.addCell(getCell("        ", TextAlignment.CENTER, font, this.tableFontSize, true, true));
 					else
-						scoreTable.addCell(getCell(timeToAdd.toString(), TextAlignment.CENTER, font, this.tableFontSize, true, true));	
+						scoreTable.addCell(getCell(timeToAdd.format(fmt), TextAlignment.CENTER, font, this.tableFontSize, true, true));	
 				}
 				
 				if (!startList) {
@@ -459,7 +463,7 @@ public class CompetitionReportGenerator {
 				if (d.upper.sportingLicense != null)
 					scoreTable.addCell(getCell(d.upper.sportingLicense, TextAlignment.CENTER, font, this.tableFontSize, true, false).setBorderBottom(new SolidBorder(ColorConstants.BLACK, 1.0f)));
 				else
-					scoreTable.addCell(getCell("//brak", TextAlignment.CENTER, font, this.tableFontSize, true, false).setBorderBottom(new SolidBorder(ColorConstants.BLACK, 1.0f)));
+					scoreTable.addCell(getCell("brak danych", TextAlignment.CENTER, font, this.tableFontSize, true, false).setBorderBottom(new SolidBorder(ColorConstants.BLACK, 1.0f)));
 				
 				scoreTable.addCell(getCell(upYear + " / " + downYear, TextAlignment.CENTER, font, this.tableFontSize, true, false).setBorderBottom(new SolidBorder(ColorConstants.BLACK, 1.0f)));
 
@@ -474,19 +478,20 @@ public class CompetitionReportGenerator {
 				LocalTime timeToAdd = r.totalTimes.get(e.getKey());
 				
 				if (r.trainingOrScored) {
-					
+					Duration toAdd = Duration.between(LocalTime.MIDNIGHT, timeToAdd);
+					totalScoredTime = totalScoredTime.plus(toAdd);
 				}
 				
 				// jeżeli czas ślizgu jest zerowy to wyświetl puste pole
 				if (timeToAdd.equals(zero))
 					scoreTable.addCell(getCell("        ", TextAlignment.CENTER, font, this.tableFontSize, true, bottomBorder));
 				else
-					scoreTable.addCell(getCell(timeToAdd.toString(), TextAlignment.CENTER, font, this.tableFontSize, true, bottomBorder));
+					scoreTable.addCell(getCell(timeToAdd.format(fmt), TextAlignment.CENTER, font, this.tableFontSize, true, bottomBorder));
 			}
 			
 			if (!startList) {
 				// dodawanie łącznego czasu				
-				scoreTable.addCell(getCell("0:00.000", TextAlignment.CENTER, font, this.tableFontSize, true, bottomBorder));
+				scoreTable.addCell(getCell(totalScoredTime.format(fmt), TextAlignment.CENTER, font, this.tableFontSize, true, bottomBorder));
 			}
 			
 		}
