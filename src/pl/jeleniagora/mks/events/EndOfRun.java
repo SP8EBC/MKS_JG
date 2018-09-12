@@ -52,7 +52,13 @@ public class EndOfRun {
 				
 		saveTableToCsv();
 		
-		switchToNextRun();
+		try {
+			switchToNextRun();
+		}
+		catch (EndOfCompEx e) {
+			generateFinalReport();			
+			throw e;
+		}
 		
 		generatePartialReport();
 	}
@@ -63,6 +69,14 @@ public class EndOfRun {
 		
 		if (rte_st.filePath == null)
 			return;
+		
+		Path path = Paths.get(rte_st.filePath + "pliki_csv/");
+		
+		// sprawdzanie czy istnieje katalog na kopie zapasowe (autozapis)
+		if (!Files.exists(path)) {
+			// jeżeli nie istnieje to należy go utworzyć
+			new File(rte_st.filePath + "pliki_csv/").mkdirs();
+		}
 		
 		String fn = rte_st.competitions.toString() + "___" + rte_st.currentCompetition.toString().replaceAll(" ", "_");
 		fn += ("__po_zakoczeniu__" + rte_st.currentRun.toString().replaceAll(" ", "_") + ".csv");
@@ -89,7 +103,27 @@ public class EndOfRun {
 		}
 		
 		try {
-			gen.generate();
+			gen.generate(false);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	static void generateFinalReport() {
+		RTE_ST st = (RTE_ST)ctx.getBean("RTE_ST");
+		
+		CompetitionReportGenerator gen = new CompetitionReportGenerator(st.currentCompetition, st.competitions, st.filePath + "raporty/");
+		
+		Path path = Paths.get(st.filePath + "raporty_czesciowe/");
+		
+		// sprawdzanie czy istnieje katalog na kopie zapasowe (autozapis)
+		if (!Files.exists(path)) {
+			// jeżeli nie istnieje to należy go utworzyć
+			new File(st.filePath + "raporty/").mkdirs();
+		}
+		
+		try {
+			gen.generate(false);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -172,6 +206,13 @@ public class EndOfRun {
 			 * Jeżeli nie to znaczy że to koniec konkurencji
 			 */
 			rte_st.returnComptr = null;
+			rte_st.currentRun = null;
+			rte_st.nextOnTrack = null;
+			rte_st.actuallyOnTrack = null;
+			
+			rte_gui.actuallyOnTrack.setText("---");
+			rte_gui.nextOnTrack.setText("---");
+			
 			JOptionPane.showMessageDialog(null, "Konkurencja zakończyła się");
 			throw new EndOfCompEx();
 		}

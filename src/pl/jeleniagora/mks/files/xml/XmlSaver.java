@@ -50,6 +50,12 @@ public class XmlSaver {
 		file = f;
 	}
 	
+	/**
+	 * Metoda używana przez opcję w menu i przycisk do zapisania czasu ślizgu
+	 * @param competitions
+	 * @throws JAXBException
+	 * @throws RteIsNullEx
+	 */
 	public void saveToXml(Competitions competitions) throws JAXBException, RteIsNullEx {
 		if (rte_st == null)
 			throw new RteIsNullEx();

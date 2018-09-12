@@ -1,11 +1,17 @@
 package pl.jeleniagora.mks.events;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalTime;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import pl.jeleniagora.mks.display.DisplayRuntimeAndStartNum;
 import pl.jeleniagora.mks.exceptions.UninitializedCompEx;
+import pl.jeleniagora.mks.files.ScoreTableCsvSaver;
 import pl.jeleniagora.mks.online.WebServicePutConsumer;
 import pl.jeleniagora.mks.rte.RTE;
 import pl.jeleniagora.mks.rte.RTE_DISP;
@@ -60,7 +66,8 @@ public class SaveRuntime {
 		
 		boolean returnVal = false;
 		CalculatePartialRanks partialRanks = new CalculatePartialRanks();
-
+		LugerCompetitor savedCmptr = rte_st.actuallyOnTrack;
+		
 		
 		if (rte_gui.competitorClickedInTable == rte_st.actuallyOnTrack) {
 			returnVal = true;
@@ -87,6 +94,30 @@ public class SaveRuntime {
 
 		}
 		rte_gui.model.fireTableDataChanged();
+		
+		// autozapis pliku CSV
+		if (rte_st.filePath != null) {
+		
+			Path path = Paths.get(rte_st.filePath + "pliki_csv/");
+			
+			// sprawdzanie czy istnieje katalog na kopie zapasowe (autozapis)
+			if (!Files.exists(path)) {
+				// jeżeli nie istnieje to należy go utworzyć
+				new File(rte_st.filePath + "pliki_csv/").mkdirs();
+			}
+			
+			String fn = rte_st.competitions.toString() + "___" + rte_st.currentCompetition.toString().replaceAll(" ", "_") +
+					"___" + rte_st.currentRun.toString().replaceAll(" ", "_") + "___po_zawodniku_" + savedCmptr.toString().replaceAll(" ", "_").replaceAll("/", "_")
+					+ ".csv";
+			
+			ScoreTableCsvSaver csv = new ScoreTableCsvSaver(rte_st.filePath + "pliki_csv/" + fn);
+			try {
+				csv.saveTableToFile(rte_gui.model.getColumnNames(), rte_gui.model.getTableData(), rte_gui.model.getTypes());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		// --- Koniec autozapisu CSV
 		
 		if (returnVal) {
 			;

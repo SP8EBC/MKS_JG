@@ -829,7 +829,7 @@ public class CompManager extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				CompetitionReportGenerator gen = new CompetitionReportGenerator(st.currentCompetition, st.competitions, "./");
 				try {
-					gen.generate();
+					gen.generate(false);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -842,7 +842,7 @@ public class CompManager extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				CompetitionReportGenerator gen = new CompetitionReportGenerator(rte_gui.competitionBeingShown, st.competitions, "./");
 				try {
-					gen.generate();
+					gen.generate(false);
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
