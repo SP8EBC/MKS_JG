@@ -297,7 +297,7 @@
                 <startNumber>5</startNumber>
             </startListEntry>
         </startList>
-        <startOrder>SIMPLE_ORDER</startOrder>
+        <startOrder>FIL_ORDER</startOrder>
         <invertedStartList>
             <ivertedStartListEntry>
                 <startNumber>1</startNumber>

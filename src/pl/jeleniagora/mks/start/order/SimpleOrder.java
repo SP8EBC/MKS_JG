@@ -86,7 +86,7 @@ public class SimpleOrder extends StartOrderInterface {
 		for (int i = 1; i <= numberOfLugers; i++) {
 			returnValue =  currentCompetition.invertedStartList.get((short)i);
 			
-			if (currentCompetition.ranks.get(returnValue).equals(new Short((short) 999))) {
+			if (returnValue != null && currentCompetition.ranks.get(returnValue).equals(new Short((short) 999))) {
 				continue;
 			}
 			
@@ -110,7 +110,7 @@ public class SimpleOrder extends StartOrderInterface {
 		for (short i = (short) (this.getFirst(currentCompetition).getStartNumber() + 1); i <= currentCompetition.getLastStartNumber(); i++) {
 			returnValue =  currentCompetition.invertedStartList.get((short)i);
 			
-			if (currentCompetition.ranks.get(returnValue).equals(new Short((short) 999))) {
+			if (returnValue != null && currentCompetition.ranks.get(returnValue).equals(new Short((short) 999))) {
 				continue;
 			}
 			
@@ -121,7 +121,7 @@ public class SimpleOrder extends StartOrderInterface {
 			
 		}
 		
-		return currentCompetition.invertedStartList.get((short)(2));
+		return returnValue;
 	}
 
 	@Override
