@@ -209,7 +209,9 @@ public class EndOfRun {
 			rte_st.currentRun = null;
 			rte_st.nextOnTrack = null;
 			rte_st.actuallyOnTrack = null;
+			rte_st.currentCompetition = null;
 			
+			rte_gui.currentCompetition.setText("---");
 			rte_gui.actuallyOnTrack.setText("---");
 			rte_gui.nextOnTrack.setText("---");
 			
