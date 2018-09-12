@@ -101,7 +101,7 @@ public class CompManagerStoreRuntimeBtnActionListener implements ActionListener 
 		System.out.println("Saving runtime: " + runTime.toString() + " for comptr '" + rte_gui.competitorClickedInTable.toString() + "' in run "
 				+ rte_gui.runClickedInTable);
 		
-		boolean ret = SaveRuntime.saveRuntimeForMarkedCmptr(runTime);	// funkcja oblicza również partial ranks
+		boolean ret = SaveRuntime.saveRuntimeForMarkedCmptr(runTime);	// funkcja oblicza również partial ranks i zapisuje CSV
 				
 		if (ret) {
 			LugerCompetitor savedCmptr = rte_st.actuallyOnTrack;	// referencja na saneczkarza któremu czas zapisano
