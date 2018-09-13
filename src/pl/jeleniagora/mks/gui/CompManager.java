@@ -13,6 +13,7 @@ import pl.jeleniagora.mks.chrono.Chrono;
 import pl.jeleniagora.mks.chrono.SimulateChrono;
 import pl.jeleniagora.mks.display.Clear;
 import pl.jeleniagora.mks.display.DisplayNameSurnameAndStartNum;
+import pl.jeleniagora.mks.display.DisplayRuntimeAndRank;
 import pl.jeleniagora.mks.display.DisplayRuntimeAndStartNum;
 import pl.jeleniagora.mks.display.DisplayStartScreen;
 import pl.jeleniagora.mks.display.SectroBigRasterDisplay;
@@ -278,16 +279,16 @@ public class CompManager extends JFrame {
 					rte_gui.compManager = frame;
 					rte_gui.compManagerScoreModel = mdl;
 					
-					XmlLoader loader = (XmlLoader)ctx.getBean(XmlLoader.class);
-					loader.setFilename("out_test.xml");
-					competitions = loader.loadFromXml(false);
+//					XmlLoader loader = (XmlLoader)ctx.getBean(XmlLoader.class);
+//					loader.setFilename("out_test.xml");
+//					competitions = loader.loadFromXml(false);
 					
-					selectorUpdater.updateSelectorContent(competitions.competitions);
+//					selectorUpdater.updateSelectorContent(competitions.competitions);
 					
 					///////
-					XmlSaver saver = (XmlSaver)ctx.getBean(XmlSaver.class);	
-					saver.setFilename("out_test2.xml");
-					saver.saveToXml(competitions);
+//					XmlSaver saver = (XmlSaver)ctx.getBean(XmlSaver.class);	
+//					saver.setFilename("out_test2.xml");
+//					saver.saveToXml(competitions);
 					
 					//////
 					
@@ -311,13 +312,13 @@ public class CompManager extends JFrame {
 //				catch (Reserve r) {
 //					r.printStackTrace();
 //				}
-				catch (UninitializedCompEx e) {
+//				catch (UninitializedCompEx e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				} catch (Reserve e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (Reserve e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+//					e.printStackTrace();
+//				}
 
 			}
 		});
@@ -947,6 +948,19 @@ public class CompManager extends JFrame {
 		
 		JMenuItem mntmEkranStartowy = new JMenuItem("Ekran Startowy");
 		mnWywietl.add(mntmEkranStartowy);
+		
+		JMenuItem mntmWskazanyWTabeli = new JMenuItem("Wskazany w tabeli czas");
+		mntmWskazanyWTabeli.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LugerCompetitor lugerToDisplay = rte_gui.competitorClickedInTable;
+				Short rankToDisplay = rte_gui.competitionBeingShown.ranks.get(lugerToDisplay);
+				LocalTime timeToDisplay = rte_gui.runClickedInTable.totalTimes.get(lugerToDisplay);
+				
+				DisplayRuntimeAndRank disp = new DisplayRuntimeAndRank(RTE.getRte_disp_interface(), rte_disp.brightness, (short)1000);
+				disp.showScoreAfterRun(timeToDisplay, lugerToDisplay, rankToDisplay);
+			}
+		});
+		mnWywietl.add(mntmWskazanyWTabeli);
 		mntmEkranStartowy.addActionListener(new DisplayStartScreen(RTE.getRte_disp_interface(), rte_disp.brightness));
 		
 		JMenuItem mntmUstawienia = new JMenuItem("Ustawienia");

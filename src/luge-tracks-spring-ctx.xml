@@ -30,5 +30,18 @@
 
 	
 	</bean>   
+
+	<bean class="pl.jeleniagora.mks.factories.TrackFactoryBean" id ="sobieszów">
+		<property name="name" value="Trasa nartorolkowa TCTA"></property>
+		<property name="location" value="Jelenia Góra Sobieszów"></property>
+		<property name="lat" value="0.0"></property>
+		<property name="lon" value="0.0"></property>
+		<property name="gateNum" value="1"></property>
+		<property name="curvesTotal" value="8"></property>
+		<property name="lnTotal" value="300"></property>
+		<property name="hasArtificalRefrigeration" value="false"></property>
+
+	
+	</bean>   
    
 </beans>

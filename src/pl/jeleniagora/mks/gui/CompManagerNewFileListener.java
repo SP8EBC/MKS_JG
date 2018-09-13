@@ -54,16 +54,19 @@ public class CompManagerNewFileListener implements ActionListener {
 		if (answer == JOptionPane.YES_OPTION) {
 			Vector<Competition> empty = new Vector<Competition>();
 			
-			for (Competition c : rte_st.competitions.competitions) {
-				c.runsTimes.clear();
-				c.startList.clear();
-				c.invertedStartList.clear();
+			if (rte_st.competitions != null && rte_st.competitions.competitions != null) {
+				for (Competition c : rte_st.competitions.competitions) {
+					c.runsTimes.clear();
+					c.startList.clear();
+					c.invertedStartList.clear();
+				}
+				
+				rte_st.competitions.competitions.clear();
 			}
-			
-			rte_st.competitions.competitions.clear();
-			
-			rte_st.competitions.listOfAllCompetingLugersInThisComps.clear();
-			rte_st.competitions.listOfAllLugersInThisCompetitions.clear();
+			if (rte_st.competitions.listOfAllCompetingLugersInThisComps != null && rte_st.competitions.listOfAllLugersInThisCompetitions != null) {
+				rte_st.competitions.listOfAllCompetingLugersInThisComps.clear();
+				rte_st.competitions.listOfAllLugersInThisCompetitions.clear();
+			}
 			
 			rte_st.competitions = new Competitions();
 			rte_st.currentRun = null;
