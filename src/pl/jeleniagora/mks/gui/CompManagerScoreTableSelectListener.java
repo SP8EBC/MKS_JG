@@ -69,7 +69,7 @@ public class CompManagerScoreTableSelectListener implements ListSelectionListene
 		
 		short startNum = (Short)rte_gui.model.getValueAt(modelRow, 0);
 		String name = (String)rte_gui.model.getValueAt(modelRow, 3);
-		String surname = (String)rte_gui.model.getValueAt(modelRow, 3);
+		String surname = (String)rte_gui.model.getValueAt(modelRow, 4);
 		
 		/*
 		 * Przed wygenerowaniem numerów startowych invertedStartList jest całkowicie pusta i nie można
