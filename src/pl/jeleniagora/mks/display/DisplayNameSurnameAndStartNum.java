@@ -20,6 +20,7 @@ public class DisplayNameSurnameAndStartNum {
 	public void showBefore(LugerCompetitor cmptr) {
 		String name = " ";	// imię a w przypadku dwójek nazwisko tego co jest na górze
 		String surname = " ";	// nazwisko a w przypadku dwójek nazwisko tego co na dole
+		String dispStr;
 		
 		if (cmptr instanceof LugerSingle) {
 			LugerSingle s = (LugerSingle)cmptr;
@@ -36,7 +37,12 @@ public class DisplayNameSurnameAndStartNum {
 		}
 		else return;
 		
-		String dispStr = "Numer " + cmptr.getStartNumber() + "\r\n" + name + " \r\n" + surname + " ";;
+		if (cmptr.getStartNumber() < 20)
+			dispStr = "Numer " + cmptr.getStartNumber() + "\r\n" + name + " \r\n" + surname + " ";
+		else if (cmptr.getStartNumber() >= 20 && cmptr.getStartNumber() < 100)
+			dispStr = "Numer " + cmptr.getStartNumber() + "\r\n" + name + " \r\n" + surname + " ";
+		else
+			dispStr = "Nume" + cmptr.getStartNumber() + "\r\n" + name + " \r\n" + surname + " ";			
 		
 		new Thread(new ShowAfterRun(dispStr)).start();
 	}

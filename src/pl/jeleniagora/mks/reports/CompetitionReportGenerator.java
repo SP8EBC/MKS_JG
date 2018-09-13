@@ -225,7 +225,7 @@ public class CompetitionReportGenerator {
 			lastDone = r;
 		}
 		
-		if (lastDone.equals(competitionToGenerateFrom.runsTimes.lastElement())) {
+		if (lastDone != null && lastDone.equals(competitionToGenerateFrom.runsTimes.lastElement())) {
 			partialOrComplete = true;
 		}
 		
