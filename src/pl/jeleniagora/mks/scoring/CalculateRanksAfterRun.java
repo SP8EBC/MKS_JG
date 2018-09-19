@@ -57,6 +57,9 @@ public class CalculateRanksAfterRun {
 					LugerCompetitor k = e.getKey();
 					LocalTime v = e.getValue();
 					
+					if (k == null)
+						continue;
+					
 					if (!v.equals(LocalTime.of(0, 0, 0, 0)))
 						gotAtLeastOne = true;
 					
@@ -104,6 +107,9 @@ public class CalculateRanksAfterRun {
 		for (int i = 0; i < list.size(); i++) {
 			Entry<LugerCompetitor, LocalTime> current = list.get(i);
 			Entry<LugerCompetitor, LocalTime> previous;
+			
+			if (current.getKey() == null)
+				continue;
 			
 			if (i > 0)
 				previous = list.get(i-1);

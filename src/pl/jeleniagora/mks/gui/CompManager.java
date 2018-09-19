@@ -44,6 +44,7 @@ import pl.jeleniagora.mks.rte.RTE_COM_DISP;
 import pl.jeleniagora.mks.rte.RTE_DISP;
 import pl.jeleniagora.mks.rte.RTE_GUI;
 import pl.jeleniagora.mks.rte.RTE_ST;
+import pl.jeleniagora.mks.scoring.CalculateRanksAfterRun;
 import pl.jeleniagora.mks.serial.CommThread;
 import pl.jeleniagora.mks.serial.CommThreadTermHook;
 import pl.jeleniagora.mks.serial.RxCommType;
@@ -626,6 +627,33 @@ public class CompManager extends JFrame {
 			}
 		});
 		mnZmielizg.add(mntmOJedenDo_1);
+		
+		JMenu mnPrzeliczMiejscalokaty = new JMenu("Przelicz miejsca (lokaty)");
+		mnKonkurencje.add(mnPrzeliczMiejscalokaty);
+		
+		JMenuItem mntmDlaWywietlanejKonkurencji = new JMenuItem("Dla wyświetlanej konkurencji");
+		mntmDlaWywietlanejKonkurencji.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				CalculateRanksAfterRun calc = new CalculateRanksAfterRun();
+				
+				Map<LugerCompetitor, LocalTime> totalTimes = calc.calculateTotalRuntime(rte_gui.competitionBeingShown);
+				if (totalTimes == null)
+					return;
+				
+				Map<LugerCompetitor, Short> ranks = calc.calculateRanksFromTotalRuntimes(totalTimes);
+				
+				rte_gui.competitionBeingShown.ranks = ranks;
+				try {
+					rte_gui.compManagerScoreModel.updateTableData(rte_gui.competitionBeingShown, false);
+				} catch (UninitializedCompEx e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		mnPrzeliczMiejscalokaty.add(mntmDlaWywietlanejKonkurencji);
+		
+		JMenuItem mntmDlaAktualnieRozgrywanej = new JMenuItem("Dla aktualnie rozgrywanej konkurencji");
+		mnPrzeliczMiejscalokaty.add(mntmDlaAktualnieRozgrywanej);
 		
 		JMenu mnSaneczkarze = new JMenu("Saneczkarze");
 		menuBar.add(mnSaneczkarze);
