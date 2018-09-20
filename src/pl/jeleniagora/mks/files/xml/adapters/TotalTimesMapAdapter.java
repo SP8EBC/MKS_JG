@@ -51,9 +51,17 @@ public class TotalTimesMapAdapter extends XmlAdapter<TotalTimesMapAdapter.Adapte
 		for (Entry<LugerCompetitor, LocalTime> e : v.entrySet()) {
 			TimeMapEntry te = new TimeMapEntry();
 			
-			te.lugerCompetitorSystemId = e.getKey().getSystemId();
-			te.microTime = ConvertMicrotime.fromLocalTime(e.getValue());
+			// bugfix (ok, rather workaround) to fix crash when there is some garbage left after removed competitor 
+			if (e.getKey() == null || e.getValue() == null) 
+				continue;
 			
+			try {
+				te.lugerCompetitorSystemId = e.getKey().getSystemId();
+				te.microTime = ConvertMicrotime.fromLocalTime(e.getValue());
+			}
+			catch (NullPointerException ee) {
+				ee.printStackTrace();
+			}
 			out.runTimeInMicrotime.add(te);
 		}
 		

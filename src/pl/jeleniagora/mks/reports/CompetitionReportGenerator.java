@@ -33,16 +33,20 @@ import com.itextpdf.layout.property.VerticalAlignment;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.CompetitionTypes;
 import pl.jeleniagora.mks.types.Competitions;
+import pl.jeleniagora.mks.types.DNF;
+import pl.jeleniagora.mks.types.DNS;
 import pl.jeleniagora.mks.types.LugerCompetitor;
 import pl.jeleniagora.mks.types.LugerDouble;
 import pl.jeleniagora.mks.types.LugerSingle;
+import pl.jeleniagora.mks.types.PK;
 import pl.jeleniagora.mks.types.Run;
 
 /**
  * Klasa służąca do generowania raportów końcowych i częściowych z konkurencji
  * @author mateusz
  *
- */
+ */	
+
 public class CompetitionReportGenerator {
 
 	final static String karpacz = "./res/karpacz_zawsze_gora.jpg";
@@ -359,6 +363,10 @@ public class CompetitionReportGenerator {
 		// dodawanie pozycji to tabeli w raporcie
 		for (Entry<LugerCompetitor, Short> e : ranksVct) {
 			
+			boolean isDNS = false;
+			boolean isDNF = false;
+			boolean isPK = false;
+			
 			// dodawanie ostatniego wiersza z krawędzią a dole
 			if (ranksVct.lastElement().equals(e)) {
 				CompetitionTypes type = e.getKey().getCompetitorType();
@@ -429,12 +437,34 @@ public class CompetitionReportGenerator {
 					// jeżeli czas ślizgu jest zerowy to wyświetl puste pole
 					if (timeToAdd.equals(zero))
 						scoreTable.addCell(getCell("        ", TextAlignment.CENTER, font, this.tableFontSize, true, true));
+					else if (timeToAdd.equals(DNS.getValue())) {
+						scoreTable.addCell(getCell("DNS", TextAlignment.CENTER, font, this.tableFontSize, true, true));	
+						isDNS = true;
+					}
+					else if (timeToAdd.equals(DNF.getValue())) {
+						scoreTable.addCell(getCell("DNF", TextAlignment.CENTER, font, this.tableFontSize, true, true));		
+						isDNF = true;
+					}
+					else if (timeToAdd.equals(PK.getValue())) {
+						scoreTable.addCell(getCell("PK", TextAlignment.CENTER, font, this.tableFontSize, true, true));		
+						isPK = true;
+					}
 					else
 						scoreTable.addCell(getCell(timeToAdd.format(fmt), TextAlignment.CENTER, font, this.tableFontSize, true, true));	
 				}
 				
 				if (!startList) {
 					// dodawanie łącznego czasu				
+					if (isDNS) {
+						scoreTable.addCell(getCell("DNS", TextAlignment.CENTER, font, this.tableFontSize, true, true));
+					}
+					else if (isDNF ) {
+						scoreTable.addCell(getCell("DNF", TextAlignment.CENTER, font, this.tableFontSize, true, true));					
+					}
+					else if (isPK) {
+						scoreTable.addCell(getCell("PK", TextAlignment.CENTER, font, this.tableFontSize, true, true));
+					}
+					else
 					scoreTable.addCell(getCell(totalScoredTime.format(fmt), TextAlignment.CENTER, font, this.tableFontSize, true, true));
 				}
 				
@@ -442,6 +472,8 @@ public class CompetitionReportGenerator {
 			}
 			// ----- koniec dodawania ostatniego wiersza
 			
+			
+			// ----- dowolny, nie ostatni wiersz
 			// e.getValue().toString()
 			scoreTable.startNewRow();
 			
@@ -508,16 +540,39 @@ public class CompetitionReportGenerator {
 				// jeżeli czas ślizgu jest zerowy to wyświetl puste pole
 				if (timeToAdd.equals(zero))
 					scoreTable.addCell(getCell("        ", TextAlignment.CENTER, font, this.tableFontSize, true, bottomBorder));
+				else if (timeToAdd.equals(DNS.getValue())) {
+					scoreTable.addCell(getCell("DNS", TextAlignment.CENTER, font, this.tableFontSize, true, bottomBorder));	
+					isDNS = true;
+				}
+				else if (timeToAdd.equals(DNF.getValue())) {
+					scoreTable.addCell(getCell("DNF", TextAlignment.CENTER, font, this.tableFontSize, true, bottomBorder));		
+					isDNF = true;
+				}
+				else if (timeToAdd.equals(PK.getValue())) {
+					scoreTable.addCell(getCell("PK", TextAlignment.CENTER, font, this.tableFontSize, true, bottomBorder));		
+					isPK = true;
+				}
 				else
 					scoreTable.addCell(getCell(timeToAdd.format(fmt), TextAlignment.CENTER, font, this.tableFontSize, true, bottomBorder));
 			}
 			
 			if (!startList) {
-				// dodawanie łącznego czasu				
-				scoreTable.addCell(getCell(totalScoredTime.format(fmt), TextAlignment.CENTER, font, this.tableFontSize, true, bottomBorder));
+				// dodawanie łącznego czasu	
+				if (isDNS) {
+					scoreTable.addCell(getCell("DNS", TextAlignment.CENTER, font, this.tableFontSize, true, bottomBorder));
+				}
+				else if (isDNF ) {
+					scoreTable.addCell(getCell("DNF", TextAlignment.CENTER, font, this.tableFontSize, true, bottomBorder));					
+				}
+				else if (isPK) {
+					scoreTable.addCell(getCell("PK", TextAlignment.CENTER, font, this.tableFontSize, true, bottomBorder));
+				}
+				else
+					scoreTable.addCell(getCell(totalScoredTime.format(fmt), TextAlignment.CENTER, font, this.tableFontSize, true, bottomBorder));
 			}
+			// --- dodawanie nieostatniego wiersza
 			
-		}
+		}// -- koniec budowanie tabeli
 		
 		document.add(bielskoImage);
 		document.add(karpaczImage);

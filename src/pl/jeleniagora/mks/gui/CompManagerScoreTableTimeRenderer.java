@@ -20,6 +20,7 @@ import pl.jeleniagora.mks.settings.DisplayS;
 import pl.jeleniagora.mks.types.DNF;
 import pl.jeleniagora.mks.types.DNS;
 import pl.jeleniagora.mks.types.DSQ;
+import pl.jeleniagora.mks.types.PK;
 
 /**
  * Klasa używana do renderowania czasu na liście z wynikami. Ponieważ czas ślizgu jest zapisywany jako wielokrotność 
@@ -71,6 +72,10 @@ public class CompManagerScoreTableTimeRenderer extends DefaultTableCellRenderer 
 		
 		if (lt.equals(DSQ.getValue())) {
 			return new String("DSQ");
+		}
+		
+		if (lt.equals(PK.getValue())) {
+			return new String("PK");
 		}
 		
 		/* W tabeli wyników czas jest wyświetlany tylko z rozdzielczością 1 milisekundy*/
