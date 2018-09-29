@@ -332,7 +332,10 @@ public class FilOrder  extends StartOrderInterface {
 	public boolean checkIfLastInRun(LugerCompetitor in, Competition currentCompetition, Run currentRun) {
 		short startNumberToCheck = in.getStartNumber();
 		boolean returnValue = true;
-		LocalTime zero = LocalTime.of(0, 0, 0, 0);
+		LocalTime zero = LocalTime.of(0, 0, 0, 0); ///////
+		
+		Short lowestRank = this.lowestRankWithZeroRuntime(currentCompetition, currentRun);
+		Short highestRank = this.highestRankWithZeroRuntime(currentCompetition, currentRun);
 		
 		// ustawiane na true jeżeli aktualnie leci ślizg w którym należy stosować kolejność FIL
 		boolean applyFilOrder = false;
@@ -345,18 +348,31 @@ public class FilOrder  extends StartOrderInterface {
 		
 		// jeżeli jest to ślizg/zjazd w którym należy zastosować kolejność FIL
 		if (applyFilOrder) { 
-		
+			Short startnum = startNumberToCheck;
+			boolean loopBreak = true;
+			
 			// pętla chodzi po wszystkich zawodnikach przed aktualnie sprawdzanym i sprawdza ich czas ślizgu
-			while (this.nextStartNumber(startNumberToCheck, currentCompetition) != null) {
-				LocalTime timeToCheck = currentRun.totalTimes.get(in);	// czas ślizgu/przejazdu do sprawdzenia
+			do {
+				startnum = this.nextStartNumber(startnum, currentCompetition);
 				
-				if (timeToCheck.equals(zero)) {
-					// jeżeli czas ślizgu/przejazdu jakiegokolwiek zawodnika przed aktualie sprawdzanm jest
-					// równy zero, to oznacza to, że ten sprawdzany nie jest ostatni
-					returnValue = false;
-					break;
+				if (startnum != null) {
+				
+					LugerCompetitor cmptr = currentCompetition.invertedStartList.get(startnum);
+					
+					LocalTime timeToCheck = currentRun.totalTimes.get(cmptr);	// czas ślizgu/przejazdu do sprawdzenia
+					
+					if (timeToCheck.equals(zero)) {
+						// jeżeli czas ślizgu/przejazdu jakiegokolwiek zawodnika przed aktualie sprawdzanm jest
+						// równy zero, to oznacza to, że ten sprawdzany nie jest ostatni
+						returnValue = false;
+						loopBreak = false;
+					}
+				
 				}
-			}
+				else {
+					loopBreak = false;
+				}
+			} while (loopBreak);
 		}
 		else {
 			SimpleOrder simple = new SimpleOrder();
@@ -376,7 +392,7 @@ public class FilOrder  extends StartOrderInterface {
 		LocalTime m = LocalTime.of(0, 59);
 		Run currentRun = null;
 		
-		Short nextStartNumToCheck;
+		Short nextStartNumToCheck;	
 		
 		// ustawiane na true jeżeli aktualnie leci ślizg w którym należy stosować kolejność FIL
 		boolean applyFilOrder = false;
@@ -434,6 +450,90 @@ public class FilOrder  extends StartOrderInterface {
 	@Override
 	public String toString() {
 		return "FIL_ORDER";
+	}
+
+	@Override
+	public Short highestRankWithZeroRuntime(Competition currentCompetition, Run currentRun) {
+
+		LocalTime zero = LocalTime.of(0, 0, 0, 0);
+		
+		// Przyjmuje się najniższą możliwą rangę i idzie w górę 
+		Short out = 256; 
+		Set<Entry<LugerCompetitor, Short>> ranksSet = currentCompetition.ranks.entrySet();
+		
+		for (Entry<LugerCompetitor, Short> e : ranksSet) {
+			// saneczkarz do sprawdzenia
+			LugerCompetitor k = e.getKey();
+			
+			// wyciąganie czasu ślizgu w aktualnym ślizgu dla tego saneczkarza
+			LocalTime runtime = currentRun.totalTimes.get(k);
+			
+			// sprawdzanie czy obecnie sprawdzany saneczkarz jechał w tym ślizgu..
+			if (runtime == null || runtime.equals(zero)) {
+				
+				// jeżeli nie jechał to sprawdź jego lokatę
+				if (e.getValue() < out) {
+					// jeżeli jest niższa (bliższa 	1) niż ostatnio sprawdzan
+					// to podmień ostatnio sprawdzaną
+					out = e.getValue();
+				}
+				else {
+					// jeżeli nie jest mniejsza to nic nie rób
+					;
+				}
+			}
+			
+			
+		}
+		
+		// jeżeli nie znaleziono nikogo to zwróć null co sugeruje że w aktualnie przeszukiwanym ślizgu
+		// wszyscy już jechali
+		if (out == 256)
+			return null;
+		else
+			return out;
+	}
+
+	@Override
+	public Short lowestRankWithZeroRuntime(Competition currentCompetition, Run currentRun) {
+
+		LocalTime zero = LocalTime.of(0, 0, 0, 0);
+		
+		// Przyjmuje się zero
+		Short out = 0; 
+		Set<Entry<LugerCompetitor, Short>> ranksSet = currentCompetition.ranks.entrySet();
+		
+		for (Entry<LugerCompetitor, Short> e : ranksSet) {
+			// saneczkarz do sprawdzenia
+			LugerCompetitor k = e.getKey();
+			
+			// wyciąganie czasu ślizgu w aktualnym ślizgu dla tego saneczkarza
+			LocalTime runtime = currentRun.totalTimes.get(k);
+			
+			// sprawdzanie czy obecnie sprawdzany saneczkarz jechał w tym ślizgu..
+			if (runtime == null || runtime.equals(zero)) {
+				
+				// jeżeli nie jechał to sprawdź jego lokatę
+				if (e.getValue() > out) {
+					// jeżeli jest wyższa (gorsza - dalsza od 1) niż ostatnio sprawzdzona
+					// to podmień
+					out = e.getValue();
+				}
+				else {
+					// jeżeli nie jest mniejsza to nic nie rób
+					;
+				}
+			}
+			
+			
+		}
+		
+		// jeżeli nie znaleziono nikogo to zwróć null co sugeruje że w aktualnie przeszukiwanym ślizgu
+		// wszyscy już jechali
+		if (out == 256)
+			return null;
+		else
+			return out;
 	}
 
 }

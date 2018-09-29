@@ -161,5 +161,17 @@ public class SimpleOrder extends StartOrderInterface {
 		
 		return false;
 	}
+
+	@Override
+	public Short highestRankWithZeroRuntime(Competition currentCompetition, Run currentRun) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Short lowestRankWithZeroRuntime(Competition currentCompetition, Run currentRun) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

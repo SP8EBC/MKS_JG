@@ -45,6 +45,25 @@ public abstract class StartOrderInterface {
 	public abstract LugerCompetitor getSecond(Competition currentCompetition);
 	
 	/**
+	 * Metoda ma zwracać najwyższą (najbliższą jedynki) lokatę przeliczoną po zakończeniu ostatniego
+	 * ślizgu punktowanego w konkurencji, którą to lokate ma przynajmniej jeden nie jadący jeszcze zawodnik. 
+	 * Metoda jest potrzebna jeżeli w drugim i kolejnych ślizgów punktowanych używało się przycisku "Omiń aktualnego" 
+	 * i jest taka sytuacja że osoba o najwyższej lokacie już jechała.
+	 * @param currentCompetition
+	 * @param currentRun
+	 * @return
+	 */
+	public abstract Short highestRankWithZeroRuntime(Competition currentCompetition, Run currentRun);
+	
+	/**
+	 * Analogicznie do highestRankWithZeroRuntime ale najniższa lokata
+	 * @param currentCompetition
+	 * @param currentRun
+	 * @return
+	 */
+	public abstract Short lowestRankWithZeroRuntime(Competition currentCompetition, Run currentRun);
+	
+	/**
 	 * Metoda ma zwracać true jeżeli wskazany saneczkarz jest ostatni w kolejce startowej i za nim
 	 * nie ma już nikogo w aktualnym ślizgu. Ta metoda NIE MA zawijać na początek ślizgu jeżeli nie znajdzie
 	 * nikogo od wskazanego numer startowego do ostatniego (najwyższego) w konkurencji. Metoda jest potrzebna
