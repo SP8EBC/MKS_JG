@@ -11,6 +11,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.junit.Assert;
+
+import pl.jeleniagora.mks.exceptions.LugerDoesntExist;
 import pl.jeleniagora.mks.gui.CompManagerScoreTableModel;
 import pl.jeleniagora.mks.start.order.FilOrder;
 import pl.jeleniagora.mks.types.Competition;
@@ -65,27 +67,30 @@ class FilStartOrderTest {
 		competition.ranks.put(l1, (short) 1);
 		
 		FilOrder order = new FilOrder();
-		
-		actual = order.nextStartNumber((short) 5, competition);
-		Assert.assertEquals(new Short((short) 4), actual);
-		
-		actual = order.nextStartNumber((short) 4, competition);
-		Assert.assertEquals(new Short((short) 3), actual);
-
-		actual = order.nextStartNumber((short) 3, competition);
-		Assert.assertEquals(new Short((short) 2), actual);
-		
-		actual = order.nextStartNumber((short) 2, competition);
-		Assert.assertEquals(new Short((short) 1), actual);
-		
-		actual = order.nextStartNumber((short) 1, competition);
-		Assert.assertEquals(null, actual);
-		//fail("Not yet implemented");
+		try {
+			actual = order.nextStartNumber((short) 5, competition);
+			Assert.assertEquals(new Short((short) 4), actual);
+			
+			actual = order.nextStartNumber((short) 4, competition);
+			Assert.assertEquals(new Short((short) 3), actual);
+	
+			actual = order.nextStartNumber((short) 3, competition);
+			Assert.assertEquals(new Short((short) 2), actual);
+			
+			actual = order.nextStartNumber((short) 2, competition);
+			Assert.assertEquals(new Short((short) 1), actual);
+			
+			actual = order.nextStartNumber((short) 1, competition);
+			Assert.assertEquals(null, actual);
+		}
+		catch (LugerDoesntExist e) {
+			
+		}
 	}
 	
 	// pierwszy test ex-aequo
 	@Test
-	void testNextStartNumberShortCompetition_exa1() {
+	void testNextStartNumberShortCompetition_exa1() throws LugerDoesntExist {
 		
 		Short actual;
 		
@@ -109,7 +114,7 @@ class FilStartOrderTest {
 		competition.ranks.put(l1, (short) 1);
 		
 		FilOrder order = new FilOrder();
-		
+	
 		actual = order.nextStartNumber((short) 5, competition);
 		Assert.assertEquals(new Short((short) 4), actual);
 		
@@ -129,7 +134,7 @@ class FilStartOrderTest {
 	
 	// drugi test ex-aequo
 	@Test
-	void testNextStartNumberShortCompetition_exa2() {
+	void testNextStartNumberShortCompetition_exa2() throws LugerDoesntExist {
 		
 		Short actual;
 		
@@ -173,7 +178,7 @@ class FilStartOrderTest {
 	
 	// trzeci test ex-aequo
 	@Test
-	void testNextStartNumberShortCompetition_exa3() {
+	void testNextStartNumberShortCompetition_exa3() throws LugerDoesntExist {
 		
 		Short actual;
 		

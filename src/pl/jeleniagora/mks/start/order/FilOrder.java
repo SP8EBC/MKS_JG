@@ -5,6 +5,7 @@ import java.time.LocalTime;
 import java.util.Set;
 import java.util.Vector;
 
+import pl.jeleniagora.mks.exceptions.LugerDoesntExist;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.LugerCompetitor;
 import pl.jeleniagora.mks.types.Run;
@@ -23,7 +24,7 @@ import pl.jeleniagora.mks.types.Run;
 public class FilOrder  extends StartOrderInterface {
 	
 	@Override
-	public Short nextStartNumber(short currentStartNumber, Competition currentCompetition) {
+	public Short nextStartNumber(short currentStartNumber, Competition currentCompetition) throws LugerDoesntExist {
 		
 		Short returnValue = null;
 		
@@ -48,6 +49,13 @@ public class FilOrder  extends StartOrderInterface {
 			
 			// obiekt klasy LugerCompetitor dla aktualnego numeru startowego - wyciąganie sankarza 
 			LugerCompetitor competitorForCurrentStartNum = currentCompetition.invertedStartList.get(currentStartNumber);
+			
+			// jeżeli z odwróconej start listy zwrócono null oznacza to, że do metody przekazano numer startowy
+			// który nie istnieje 
+			if (competitorForCurrentStartNum == null) {
+				throw new LugerDoesntExist();
+			}
+			
 			short rankOfCurrentStartNum = currentCompetition.ranks.get(competitorForCurrentStartNum);
 
 			// wyciąganie wszystkich sankarzy z numerem startowym przekazanym do metody jako aktualny (sprawdzenie ex-aequo)
@@ -165,14 +173,25 @@ public class FilOrder  extends StartOrderInterface {
 	public Short nextStartNumber(LugerCompetitor currentStartNumber, Competition currentCompetition) {
 		short sn = currentStartNumber.getStartNumber();
 		
-		return this.nextStartNumber(sn, currentCompetition);
+		try {
+			return this.nextStartNumber(sn, currentCompetition);
+		} catch (LugerDoesntExist e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override
 	public LugerCompetitor nextStartLuger(LugerCompetitor currentStartNumber, Competition currentCompetition) {
 		short sn = currentStartNumber.getStartNumber();
 
-		short nextSn = this.nextStartNumber(sn, currentCompetition);
+		short nextSn = 0;
+		try {
+			nextSn = this.nextStartNumber(sn, currentCompetition);
+		} catch (LugerDoesntExist e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		return currentCompetition.invertedStartList.get(nextSn);
 	}
@@ -353,7 +372,11 @@ public class FilOrder  extends StartOrderInterface {
 			
 			// pętla chodzi po wszystkich zawodnikach przed aktualnie sprawdzanym i sprawdza ich czas ślizgu
 			do {
-				startnum = this.nextStartNumber(startnum, currentCompetition);
+				try {
+					startnum = this.nextStartNumber(startnum, currentCompetition);
+				} catch (LugerDoesntExist e) {
+					e.printStackTrace();
+				}
 				
 				if (startnum != null) {
 				
@@ -413,7 +436,12 @@ public class FilOrder  extends StartOrderInterface {
 			}
 			
 			// określanie kolejnego numeru startowego po sprawdzanym
-			nextStartNumToCheck = this.nextStartNumber(startNumberToCheck, currentCompetition);
+			try {
+				nextStartNumToCheck = this.nextStartNumber(startNumberToCheck, currentCompetition);
+			} catch (LugerDoesntExist e) {
+				e.printStackTrace();
+				nextStartNumToCheck = null;
+			}
 			
 			// pętla chodzi po wszystkich zawodnikach przed aktualnie sprawdzanym i sprawdza ich czas ślizgu
 			// jeżeli kolejny po sprawdzanym numerze nie ma żadnego kolejnego to znaczy że to koniec konkurencji
@@ -432,7 +460,11 @@ public class FilOrder  extends StartOrderInterface {
 				}
 				
 				// wyciąganie kolejnego do sprawdzenia
-				nextStartNumToCheck = this.nextStartNumber(nextStartNumToCheck, currentCompetition);
+				try {
+					nextStartNumToCheck = this.nextStartNumber(nextStartNumToCheck, currentCompetition);
+				} catch (LugerDoesntExist e) {
+					e.printStackTrace();
+				}
 				
 			}
 		}

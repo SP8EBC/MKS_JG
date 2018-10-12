@@ -3,6 +3,7 @@ package pl.jeleniagora.mks.start.order;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import pl.jeleniagora.mks.exceptions.LugerDoesntExist;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.LugerCompetitor;
 import pl.jeleniagora.mks.types.Run;
@@ -26,8 +27,8 @@ public abstract class StartOrderInterface {
 	 * @param currentCompetition
 	 * @return
 	 */
-	public abstract Short nextStartNumber(short currentStartNumber, Competition currentCompetition);
-	public abstract Short nextStartNumber(LugerCompetitor currentStartNumber, Competition currentCompetition);
+	public abstract Short nextStartNumber(short currentStartNumber, Competition currentCompetition) throws LugerDoesntExist;
+	public abstract Short nextStartNumber(LugerCompetitor currentStartNumber, Competition currentCompetition) throws LugerDoesntExist;
 	public abstract LugerCompetitor nextStartLuger(LugerCompetitor currentStartNumber, Competition currentCompetition);
 	
 	/**

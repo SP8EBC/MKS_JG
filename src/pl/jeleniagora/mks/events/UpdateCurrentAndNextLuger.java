@@ -8,6 +8,7 @@ import pl.jeleniagora.mks.display.Clear;
 import pl.jeleniagora.mks.display.DisplayNameSurnameAndStartNum;
 import pl.jeleniagora.mks.exceptions.AppContextUninitializedEx;
 import pl.jeleniagora.mks.exceptions.EndOfRunEx;
+import pl.jeleniagora.mks.exceptions.LugerDoesntExist;
 import pl.jeleniagora.mks.exceptions.StartOrderNotChoosenEx;
 import pl.jeleniagora.mks.rte.RTE;
 import pl.jeleniagora.mks.rte.RTE_DISP;
@@ -74,7 +75,11 @@ public class UpdateCurrentAndNextLuger {
 		do {
 			// pętla wykonuje się do momentu aż nie sprawdzi się wszystkich elementów w mapie
 			
-			start_num = order.nextStartNumber(start_num, rte_st.currentCompetition);	// numer startowy do sprawdzenia
+			try {
+				start_num = order.nextStartNumber(start_num, rte_st.currentCompetition);
+			} catch (LugerDoesntExist e) {
+				e.printStackTrace();
+			}	// numer startowy do sprawdzenia
 			
 			if (start_num == null) {
 				// jeżeli start_num równa się null oznacza to że doszło się do końca konkurencji
@@ -146,11 +151,17 @@ public class UpdateCurrentAndNextLuger {
 		do {
 			// pętla wykonuje się do momentu aż nie sprawdzi się wszystkich elementów w mapie
 			
-			start_num = order.nextStartNumber(start_num, rte_st.currentCompetition);	// numer startowy do sprawdzenia
+			try {
+				start_num = order.nextStartNumber(start_num, rte_st.currentCompetition);
+			} catch (LugerDoesntExist e) {
+				// TODO poprawić sytuacja z https://github.com/SP8EBC/MKS_JG/issues/2
+				e.printStackTrace();
+			}	// numer startowy do sprawdzenia
 			
 			if (start_num == null) {
 				// jeżeli start_num równa się null oznacza to że doszło się do końca konkurencji
 				return null;
+				//continue;
 			}
 			
 			LugerCompetitor k = rte_st.currentCompetition.invertedStartList.get(start_num);
@@ -397,7 +408,11 @@ public class UpdateCurrentAndNextLuger {
 			 * że po kilkukrotnym użyciu funkcji "Ustaw zaznaczonego w tabeli (...)" kolejność całkiem się przemiesza i np. co drugi już pojechał
 			 * a co drugi jeszcze nie.
 			 */
-			next = rte_st.currentCompetition.invertedStartList.get((short)(order.nextStartNumber(nextStartNumber, currentCompetition)));
+			try {
+				next = rte_st.currentCompetition.invertedStartList.get((short)(order.nextStartNumber(nextStartNumber, currentCompetition)));
+			} catch (LugerDoesntExist e) {
+				e.printStackTrace();
+			}
 			Integer runtimeForNextCmptr = rte_st.currentRun.getRunTimeForCompetitor(next);
 			
 			if (runtimeForNextCmptr == 0) 
