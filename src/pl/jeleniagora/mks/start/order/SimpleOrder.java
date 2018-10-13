@@ -83,9 +83,10 @@ public class SimpleOrder extends StartOrderInterface {
 		int numberOfLugers = currentCompetition.invertedStartList.size();
 		
 		// pętla zaczyna od pierwszego numeru startowego (numer 1) i idzie w góre
-		for (int i = 1; i <= numberOfLugers; i++) {
+		for (int i = 1; i <= currentCompetition.getLastStartNumber(); i++) {	// tu powinien być najwyższy numer statowy jako warunek końca pętli
 			returnValue =  currentCompetition.invertedStartList.get((short)i);
 			
+			// pomijanie wszystkich DNS/DNF/DSQ
 			if (returnValue != null && currentCompetition.ranks.get(returnValue).equals(new Short((short) 999))) {
 				continue;
 			}
@@ -106,8 +107,11 @@ public class SimpleOrder extends StartOrderInterface {
 		LugerCompetitor returnValue = null;
 		//int numberOfLugers = currentCompetition.invertedStartList.size();
 
+		int loopStartValue = this.getFirst(currentCompetition).getStartNumber();
+		loopStartValue++;
+		
 		// pętla zaczyna od zawodnika który ma numer startowy o jeden większ niż pierwszy
-		for (short i = (short) (this.getFirst(currentCompetition).getStartNumber() + 1); i <= currentCompetition.getLastStartNumber(); i++) {
+		for (short i = (short) loopStartValue; i <= currentCompetition.getLastStartNumber(); i++) {
 			returnValue =  currentCompetition.invertedStartList.get((short)i);
 			
 			if (returnValue != null && currentCompetition.ranks.get(returnValue).equals(new Short((short) 999))) {
