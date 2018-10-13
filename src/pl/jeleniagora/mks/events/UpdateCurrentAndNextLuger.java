@@ -427,7 +427,15 @@ public class UpdateCurrentAndNextLuger {
 				
 				System.out.println("Candidate to nextOnTrack has non zero runtime");
 				
-				next = findFirstWithoutTime((short) (nextStartNumber + 1));
+				short nextLugerAfterNextOnTrack = 0;
+				
+				try {
+					nextLugerAfterNextOnTrack = order.nextStartNumber(nextStartNumber, rte_st.currentCompetition);
+				} catch (LugerDoesntExist e) {
+					e.printStackTrace();
+				}
+				
+				next = findFirstWithoutTime((short) (nextLugerAfterNextOnTrack));
 				if (next != null) {
 					rte_st.nextOnTrack = next;
 				}
