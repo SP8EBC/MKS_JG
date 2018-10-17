@@ -33,6 +33,13 @@ public class CompManagerWindowAddLugerDoubleRTableModel extends AbstractTableMod
 		displayVct = new Vector<LugerCompetitor>();
 		
 		for (Entry<LugerCompetitor, Short> e : chosenCompetition.startList.entrySet()) {
+			if (e.getKey() == null || e.getValue() == null) {
+				// sprawdzenie to jest zabezpieczeniem przed anormalną sytuacją gdyby z jakiegoś powodu w start liście znajdował się
+				// klucz albo wartość null. HashMap zezwala przechowywanie i mapowanie nulli ale gdyby próbować to dodać do modelu spowoduje
+				// to NullPointerException gdyż nie da się nulla w żaden sposób wyświetlić
+				// 
+				continue;
+			}
 			LugerCompetitor k = e.getKey();
 			displayVct.addElement(k);
 		}
@@ -47,8 +54,8 @@ public class CompManagerWindowAddLugerDoubleRTableModel extends AbstractTableMod
 
 	@Override
 	public int getRowCount() {
-		// TODO Auto-generated method stub
-		return chosenCompetition.competitorsCount;
+		// zamienione na zwracanie rozmiaru tego wektora a nie ilości elementów w start liście
+		return displayVct.size();
 	}
 	
 	@Override
@@ -70,9 +77,13 @@ public class CompManagerWindowAddLugerDoubleRTableModel extends AbstractTableMod
 		try {
 			k = displayVct.elementAt(arg0);
 		}
+		// wyjątek może zostać rzucony teoretycznie wtedy gdyby Swing próbował wyświetlić element leżący poza wektorem
 		catch (Exception e) {
 			System.out.println(e.getMessage());
-			return null;
+			// metoda nie może zwrócić null gdyż spowodouje wysypanie się to rutyn Swinga odpowiadających za 
+			// wyświetlanie JTable
+			//return null;
+			return "";
 		}
 		LugerDouble d = (LugerDouble)k;
 		

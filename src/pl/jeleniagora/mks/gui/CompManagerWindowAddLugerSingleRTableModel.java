@@ -32,6 +32,14 @@ public class CompManagerWindowAddLugerSingleRTableModel extends AbstractTableMod
 		displayVct = new Vector<LugerCompetitor>();
 		
 		for (Entry<LugerCompetitor, Short> e : chosenCompetition.startList.entrySet()) {
+			if (e.getKey() == null || e.getValue() == null) {
+				// sprawdzenie to jest zabezpieczeniem przed anormalną sytuacją gdyby z jakiegoś powodu w start liście znajdował się
+				// klucz albo wartość null. HashMap zezwala przechowywanie i mapowanie nulli ale gdyby próbować to dodać do modelu spowoduje
+				// to NullPointerException gdyż nie da się nulla w żaden sposób wyświetlić
+				// 
+				continue;
+			}
+			
 			LugerCompetitor k = e.getKey();
 			displayVct.addElement(k);
 		}
@@ -47,7 +55,7 @@ public class CompManagerWindowAddLugerSingleRTableModel extends AbstractTableMod
 	@Override
 	public int getRowCount() {
 		// TODO Auto-generated method stub
-		return chosenCompetition.competitorsCount;
+		return displayVct.size();
 	}
 	
 	@Override
@@ -71,7 +79,7 @@ public class CompManagerWindowAddLugerSingleRTableModel extends AbstractTableMod
 		}
 		catch (Exception e) {
 			System.out.println(e.getMessage());
-			return null;
+			return "";
 		}
 		LugerSingle s = (LugerSingle)k;
 		
