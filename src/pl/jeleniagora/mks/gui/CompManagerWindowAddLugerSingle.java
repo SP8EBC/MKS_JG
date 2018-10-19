@@ -31,6 +31,7 @@ import pl.jeleniagora.mks.rte.RTE_ST;
 import pl.jeleniagora.mks.types.Competition;
 import pl.jeleniagora.mks.types.CompetitionTypes;
 import pl.jeleniagora.mks.types.Luger;
+import pl.jeleniagora.mks.types.LugerCompetitor;
 import pl.jeleniagora.mks.types.LugerSingle;
 
 import javax.swing.JButton;
@@ -209,6 +210,8 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 		btnUsuZKonkurencji.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
+				LugerSingle toBeDeleted = selectedInCompetitionTable;
+				
 				// sprawdzanie czy użytkownik nie próbuje usunąć zawodnika z aktualnie rozgrywanej konkurencji.
 				// działanie takie jest niedozwolone gdyż z definicji wymagało by ponownego wylosowania nrów startowych
 				// co kompletnie rozwaliło by logikę aplikacji, a przede wszystkim poważnie zaburzyło kolejność startową
@@ -218,9 +221,9 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 				}
 				
 				// sprawdzanie czy użytkownik przed użyciem przycisku usuń wybrał jakiegokolwiek zawodnika
-				if (selectedInCompetitionTable != null) {
+				if (toBeDeleted != null) {
 					
-					boolean result = selected.removeFromCompetition(selectedInCompetitionTable);
+					boolean result = selected.removeFromCompetition(toBeDeleted);
 					
 					if (!result) {
 						// result może być równy false jeżeli z jakichś powodów próbowano usunąć zawodnika który np. nie znajdował się
@@ -231,7 +234,7 @@ public class CompManagerWindowAddLugerSingle extends JFrame {
 					}
 					
 					rte_st.competitions.listOfAllCompetingLugersInThisComps.remove(selectedInCompetitionTable);
-					selectedInCompetitionTable.single.hasBeenAdded = false;
+					toBeDeleted.single.hasBeenAdded = false;
 					
 					// regenrowanie modelu danych do prawej tabeli aby uwzględnić zmiany w konkrencji
 					rightModel = new CompManagerWindowAddLugerSingleRTableModel(selected);
