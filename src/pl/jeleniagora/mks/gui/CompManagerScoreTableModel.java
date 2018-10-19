@@ -179,7 +179,9 @@ public class CompManagerScoreTableModel extends AbstractTableModel {
 	 */
 	public int getModelIndexFromStartNumber(int startNumber) {
 		
-		for (int i = 0; i < this.numberOfLugers; i++) {
+		int siz = this.tableData.length;
+		
+		for (int i = 0; i < siz; i++) {
 			short startNumToChk = (short)(this.tableData[i][0]);
 			if (startNumToChk == startNumber) {
 				return i;

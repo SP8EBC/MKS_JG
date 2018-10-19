@@ -43,12 +43,16 @@ public class LandedStateReached {
 		RTE_GUI rte_gui = (RTE_GUI)ctx.getBean("RTE_GUI");
 		RTE_ST rte_st = (RTE_ST)ctx.getBean("RTE_ST");
 		RTE_DISP rte_disp = (RTE_DISP)ctx.getBean("RTE_DISP");
-				
-		rte_gui.compManager.markConreteRun(rte_st.actuallyOnTrack.getStartNumber(), rte_st.currentRunCnt);
 		
 		LandedStateReached.updateTextFieldsInCM(runtime);
-		if (rte_disp.autoShowRuntimeAfterLanding)
-			LandedStateReached.displayRuntimeOnDisplay(runtime, rte_st.actuallyOnTrack);
+			
+		// poprawiono ewentualny null access
+		if (rte_st.actuallyOnTrack != null) {
+			rte_gui.compManager.markConreteRun(rte_st.actuallyOnTrack.getStartNumber(), rte_st.currentRunCnt);
+			
+			if (rte_disp.autoShowRuntimeAfterLanding)
+				LandedStateReached.displayRuntimeOnDisplay(runtime, rte_st.actuallyOnTrack);
+		}
 		
 		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("mm:ss.SSS");
 		rte_gui.lblTimeFromChrono.setText(runtime.format(fmt));
